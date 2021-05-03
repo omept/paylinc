@@ -51,7 +51,6 @@ class AuthenticationBloc
     if (user == null) {
       user = User.empty;
     }
-    const empty_user = User.empty;
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return Unauthenticated(user: user);
