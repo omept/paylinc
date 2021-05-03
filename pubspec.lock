@@ -35,7 +35,7 @@ packages:
       path: "packages/authentication_repository"
       relative: true
     source: path
-    version: "0.0.0"
+    version: "1.0.0"
   bloc:
     dependency: transitive
     description:
@@ -215,7 +215,7 @@ packages:
     source: hosted
     version: "0.12.10"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
@@ -407,7 +407,7 @@ packages:
       path: "packages/user_repository"
       relative: true
     source: path
-    version: "0.0.0"
+    version: "0.0.1"
   uuid:
     dependency: transitive
     description:
