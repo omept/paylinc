@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'authentication/screens/app.dart';
+import 'app.dart';
 
 void main() {
   runApp(Paylinc());

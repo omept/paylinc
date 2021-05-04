@@ -11,7 +11,7 @@ class UserRepository {
     if (_user != null) return _user;
     return Future.delayed(
       const Duration(milliseconds: 300),
-      () => _user = User(const Uuid().v4(), 'Gem', 'Ade', 'ff'),
+      () => _user = User('1', const Uuid().v4(), 'Gem', 'Ade', 'ff'),
     );
   }
 }
