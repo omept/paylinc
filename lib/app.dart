@@ -3,6 +3,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/home/home.dart';
+import 'package:paylinc/login/login.dart';
 import 'package:paylinc/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -66,7 +68,7 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage().route(),
+      onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }

@@ -4,7 +4,7 @@ class SplashPage extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => SplashPage(), settings: routeSettings);
   }
-  static final RouteSettings routeSettings = RouteSettings(name: "/splash");
+  static final RouteSettings routeSettings = RouteSettings(name: "/");
 
   @override
   Widget build(BuildContext context) {
