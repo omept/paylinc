@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/home/home.dart';
+import 'package:paylinc/sign_up/sign_up.dart';
 import 'package:paylinc/login/login.dart';
 import 'package:paylinc/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
@@ -49,7 +50,13 @@ class _AppViewState extends State<AppView> {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
-              case AuthenticationStatus.authenticated:
+              case AuthenticationStatus.unknown:
+                _navigator.pushAndRemoveUntil<void>(
+                  SignUpPage.route(),
+                  (route) => false,
+                );
+                break;
+               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   HomePage.route(),
                   (route) => false,

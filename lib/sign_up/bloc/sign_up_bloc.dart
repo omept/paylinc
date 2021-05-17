@@ -6,33 +6,33 @@ import 'package:equatable/equatable.dart';
 import 'package:paylinc/models/models.dart';
 import 'package:formz/formz.dart';
 
-part 'login_event.dart';
-part 'login_state.dart';
+part 'sign_up_event.dart';
+part 'sign_up_state.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc({
+class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
+  SignUpBloc({
     required AuthenticationRepository authenticationRepository,
   })   : _authenticationRepository = authenticationRepository,
-        super(const LoginState());
+        super(const SignUpState());
 
   final AuthenticationRepository _authenticationRepository;
 
   @override
-  Stream<LoginState> mapEventToState(
-    LoginEvent event,
+  Stream<SignUpState> mapEventToState(
+    SignUpEvent event,
   ) async* {
-    if (event is LoginUsernameChanged) {
+    if (event is SignUpUsernameChanged) {
       yield _mapUsernameChangedToState(event, state);
-    } else if (event is LoginPasswordChanged) {
+    } else if (event is SignUpPasswordChanged) {
       yield _mapPasswordChangedToState(event, state);
-    } else if (event is LoginSubmitted) {
-      yield* _mapLoginSubmittedToState(event, state);
+    } else if (event is SignUpSubmitted) {
+      yield* _mapSignUpSubmittedToState(event, state);
     }
   }
 
-  LoginState _mapUsernameChangedToState(
-    LoginUsernameChanged event,
-    LoginState state,
+  SignUpState _mapUsernameChangedToState(
+    SignUpUsernameChanged event,
+    SignUpState state,
   ) {
     final username = Username.dirty(event.username);
     return state.copyWith(
@@ -41,9 +41,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  LoginState _mapPasswordChangedToState(
-    LoginPasswordChanged event,
-    LoginState state,
+  SignUpState _mapPasswordChangedToState(
+    SignUpPasswordChanged event,
+    SignUpState state,
   ) {
     final password = Password.dirty(event.password);
     return state.copyWith(
@@ -52,9 +52,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  Stream<LoginState> _mapLoginSubmittedToState(
-    LoginSubmitted event,
-    LoginState state,
+  Stream<SignUpState> _mapSignUpSubmittedToState(
+    SignUpSubmitted event,
+    SignUpState state,
   ) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
