@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/home/home.dart';
+import 'package:paylinc/onboarding/view/onboarding_page.dart';
 import 'package:paylinc/sign_up/sign_up.dart';
 import 'package:paylinc/login/login.dart';
 import 'package:paylinc/splash/splash.dart';
@@ -52,11 +53,17 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthenticationStatus.unknown:
                 _navigator.pushAndRemoveUntil<void>(
+                  OnboardingPage.route(),
+                  (route) => false,
+                );
+                break;
+              case AuthenticationStatus.signup:
+                _navigator.pushAndRemoveUntil<void>(
                   SignUpPage.route(),
                   (route) => false,
                 );
                 break;
-               case AuthenticationStatus.authenticated:
+              case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   HomePage.route(),
                   (route) => false,

@@ -21,6 +21,14 @@ class UnknownAuth extends AuthenticationState {
           user: user,
       );
 }
+class SignUpAuth extends AuthenticationState {
+  SignUpAuth({
+    required User user,
+  }) : super(
+          status: AuthenticationStatus.signup,
+          user: user,
+      );
+}
 class Authenticated extends AuthenticationState {
   Authenticated({
     required User user,

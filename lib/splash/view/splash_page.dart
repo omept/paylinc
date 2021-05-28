@@ -8,6 +8,8 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // const Duration(milliseconds: 8000);
+    
     return const Scaffold(
       // body: Center(child: CircularProgressIndicator()),
       body: Center(child: Text('Splash page')),

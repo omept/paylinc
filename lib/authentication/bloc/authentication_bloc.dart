@@ -56,6 +56,8 @@ class AuthenticationBloc
         return Unauthenticated(user: user);
       case AuthenticationStatus.authenticated:
         return Authenticated(user: user);
+      case AuthenticationStatus.signup:
+        return SignUpAuth(user: user);
       default:
         return UnknownAuth(user: user);
     }

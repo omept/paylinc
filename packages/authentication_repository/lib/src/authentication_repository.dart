@@ -1,6 +1,6 @@
 import 'dart:async';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated }
+enum AuthenticationStatus { unknown, signup, forgotPassword, authenticated, unauthenticated }
 /// Thrown if during the sign up process if a failure occurs.
 class SignUpFailure implements Exception {}
 
@@ -34,6 +34,14 @@ class AuthenticationRepository {
 
   void logOut() {
     _controller.add(AuthenticationStatus.unauthenticated);
+  }
+
+  void onboardingReqLogin() {
+    this.logOut();
+  }
+
+  void onboardingReqSignUp() {
+    _controller.add(AuthenticationStatus.signup);
   }
 
   void dispose() => _controller.close();
