@@ -18,9 +18,11 @@ class AuthenticationRepository {
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
-    yield AuthenticationStatus.unknown;
+    AuthenticationStatus cAS = this.currentAuthenticationState();
+    yield cAS;
     yield* _controller.stream;
   }
+
 
   Future<void> logIn({
     required String username,
@@ -30,6 +32,10 @@ class AuthenticationRepository {
       const Duration(milliseconds: 300),
       () => _controller.add(AuthenticationStatus.authenticated),
     );
+  }
+
+   currentAuthenticationState() {
+    return AuthenticationStatus.signup;
   }
 
   void logOut() {
