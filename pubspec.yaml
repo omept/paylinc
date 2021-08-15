@@ -23,10 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^7.1.0
   cupertino_icons: ^1.0.2
   formz: ^0.4.0
-  equatable: ^2.0.0
+  equatable: ^2.0.3
   meta: ^1.3.0
   authentication_repository:
     path: packages/authentication_repository
@@ -37,7 +37,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.16.0
-  bloc_test: ^8.0.0
+  bloc_test: ^8.1.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
