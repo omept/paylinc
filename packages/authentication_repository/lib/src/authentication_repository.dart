@@ -35,7 +35,7 @@ class AuthenticationRepository {
   }
 
    currentAuthenticationState() {
-    return AuthenticationStatus.signup;
+    return AuthenticationStatus.unknown;
   }
 
   void logOut() {

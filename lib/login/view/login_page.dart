@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => LoginPage());
+    return MaterialPageRoute<void>(builder: (_) => LoginPage(), settings: routeSettings);
   }
+  static final RouteSettings routeSettings = RouteSettings(name: "/login");
 
   @override
   Widget build(BuildContext context) {

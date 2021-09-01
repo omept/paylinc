@@ -4,8 +4,9 @@ import 'package:paylinc/authentication/authentication.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
+    return MaterialPageRoute<void>(builder: (_) => HomePage(), settings: routeSettings);
   }
+  static final RouteSettings routeSettings = RouteSettings(name: "/home");
 
   @override
   Widget build(BuildContext context) {

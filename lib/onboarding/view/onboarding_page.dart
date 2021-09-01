@@ -6,9 +6,9 @@ import 'package:paylinc/onboarding/view/onboarding_form.dart';
 
 class OnboardingPage extends StatelessWidget {
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => OnboardingPage());
+    return MaterialPageRoute<void>(builder: (_) => OnboardingPage(), settings: routeSettings);
   }
-
+  static final RouteSettings routeSettings = RouteSettings(name: "/welcome");
 
    @override
   Widget build(BuildContext context) {

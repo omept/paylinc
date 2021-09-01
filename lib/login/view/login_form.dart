@@ -1,6 +1,8 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paylinc/authentication/authentication.dart';
 import 'package:paylinc/login/login.dart';
 
 class LoginForm extends StatelessWidget {
@@ -26,6 +28,8 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _NewAcctButton(),
           ],
         ),
       ),
@@ -90,6 +94,23 @@ class _LoginButton extends StatelessWidget {
                         context.read<LoginBloc>().add(const LoginSubmitted());
                       }
                     : null,
+              );
+      },
+    );
+  }
+}
+class _NewAcctButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        return ElevatedButton(
+                key: const Key('loginForm_linktosignup_raisedButton'),
+                child: const Text('new account?'),
+                onPressed: () {
+                        context.read<AuthenticationBloc>().add(AuthenticationStatusChanged(AuthenticationStatus.signup));
+                      }
+                    ,
               );
       },
     );
