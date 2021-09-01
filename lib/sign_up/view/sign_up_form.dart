@@ -1,6 +1,8 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/sign_up/sign_up.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -26,6 +28,8 @@ class SignUpForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _SignUpButton(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _PrevAcctButton(),
           ],
         ),
       ),
@@ -90,6 +94,23 @@ class _SignUpButton extends StatelessWidget {
                         context.read<SignUpBloc>().add(const SignUpSubmitted());
                       }
                     : null,
+              );
+      },
+    );
+  }
+}
+class _PrevAcctButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        return ElevatedButton(
+                key: const Key('signupForm_linktologin_raisedButton'),
+                child: const Text('old account?'),
+                onPressed: () {
+                        context.read<AuthenticationBloc>().add(AuthenticationStatusChanged(AuthenticationStatus.unauthenticated));
+                      }
+                    ,
               );
       },
     );
