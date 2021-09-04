@@ -46,3 +46,27 @@ class Unauthenticated extends AuthenticationState {
           user: user,
       );
 }
+class ValidateOtp extends AuthenticationState {
+  ValidateOtp({
+    required User user,
+  }) : super(
+          status: AuthenticationStatus.validate_otp,
+          user: user,
+      );
+}
+class ValidateEmail extends AuthenticationState {
+  ValidateEmail({
+    required User user,
+  }) : super(
+          status: AuthenticationStatus.validate_email,
+          user: user,
+      );
+}
+class ForgotPassword extends AuthenticationState {
+  ForgotPassword({
+    required User user,
+  }) : super(
+          status: AuthenticationStatus.forgot_password,
+          user: user,
+      );
+}

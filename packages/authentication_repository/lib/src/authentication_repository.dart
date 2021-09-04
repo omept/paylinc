@@ -1,6 +1,6 @@
 import 'dart:async';
 
-enum AuthenticationStatus { unknown, signup, forgotPassword, authenticated, unauthenticated }
+enum AuthenticationStatus { unknown, signup, forgotPassword, authenticated, unauthenticated, validate_otp, forgot_password, validate_email }
 /// Thrown if during the sign up process if a failure occurs.
 class SignUpFailure implements Exception {}
 

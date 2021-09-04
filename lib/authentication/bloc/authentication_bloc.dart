@@ -58,6 +58,12 @@ class AuthenticationBloc
         return Authenticated(user: user);
       case AuthenticationStatus.signup:
         return SignUpAuth(user: user);
+      case AuthenticationStatus.validate_otp:
+        return ValidateOtp(user: user);
+      case AuthenticationStatus.forgot_password:
+        return ForgotPassword(user: user);
+      case AuthenticationStatus.validate_email:
+        return ValidateEmail(user: user);
       default:
         return UnknownAuth(user: user);
     }
