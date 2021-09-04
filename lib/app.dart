@@ -3,6 +3,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/forgot_password/view/forgot_password_page.dart';
 import 'package:paylinc/home/home.dart';
 import 'package:paylinc/onboarding/view/onboarding_page.dart';
 import 'package:paylinc/sign_up/sign_up.dart';
@@ -72,6 +73,12 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
+                  (route) => false,
+                );
+                break;
+              case AuthenticationStatus.forgot_password:
+                _navigator.pushAndRemoveUntil<void>(
+                  ForgotPasswordPage.route(),
                   (route) => false,
                 );
                 break;

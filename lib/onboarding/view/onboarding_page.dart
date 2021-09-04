@@ -24,7 +24,7 @@ class OnboardingPage extends StatelessWidget {
             );
           },
           child: OnboardingForm(),
-        ),
+        ), 
       ),
     );
   }
