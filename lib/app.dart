@@ -14,7 +14,9 @@ import 'package:user_repository/user_repository.dart';
 class Paylinc extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
+  static const providers = [
 
+  ];
   const Paylinc({Key? key, required this.authenticationRepository, required this.userRepository}) : super(key: key);
   // This widget is the root of your application.
   @override
@@ -22,13 +24,18 @@ class Paylinc extends StatelessWidget {
 
     return RepositoryProvider.value(
       value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
-        ),
-        child: AppView(),
-      ),
+      // global access blocs list
+       child: MultiBlocProvider(
+         providers: [
+          BlocProvider(
+              create: (_) => AuthenticationBloc(
+                authenticationRepository: authenticationRepository,
+                userRepository: userRepository,
+              ),
+          ),
+       ],
+       child: AppView()
+       )
     );
   }
 }
