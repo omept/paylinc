@@ -6,7 +6,7 @@ import 'package:paylinc/models/email.dart';
 part 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  ForgotPasswordCubit() : super(ForgotPasswordState(emailI: EmailInput.dirty('')));
+  ForgotPasswordCubit() : super(ForgotPasswordState(emailI: EmailInput.pure()));
 
   void submit() {
     emit(ForgotPasswordState(emailI: state.emailI));
