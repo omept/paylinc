@@ -1,4 +1,3 @@
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,32 +13,29 @@ import 'package:user_repository/user_repository.dart';
 class Paylinc extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
-  static const providers = [
 
-  ];
-  const Paylinc({Key? key, required this.authenticationRepository, required this.userRepository}) : super(key: key);
+  const Paylinc(
+      {Key? key,
+      required this.authenticationRepository,
+      required this.userRepository})
+      : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      // global access blocs list
-       child: MultiBlocProvider(
-         providers: [
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider.value(value: authenticationRepository),
+        ],
+        child: MultiBlocProvider(providers: [
           BlocProvider(
-              create: (_) => AuthenticationBloc(
-                authenticationRepository: authenticationRepository,
-                userRepository: userRepository,
-              ),
+            create: (_) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+              userRepository: userRepository,
+            ),
           ),
-       ],
-       child: AppView()
-       )
-    );
+        ], child: AppView()));
   }
 }
-
 
 class AppView extends StatefulWidget {
   @override
