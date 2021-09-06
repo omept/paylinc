@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:paylinc/models/models.dart';
+import 'package:paylinc/form_inputs/models.dart';
 import 'package:formz/formz.dart';
 
 part 'login_event.dart';

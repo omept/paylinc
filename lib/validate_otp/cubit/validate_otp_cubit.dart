@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:paylinc/models/otp.dart';
+import 'package:paylinc/form_inputs/otp.dart';
 
 part 'validate_otp_state.dart';
 

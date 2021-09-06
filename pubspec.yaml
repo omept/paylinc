@@ -33,12 +33,17 @@ dependencies:
     path: packages/authentication_repository
   user_repository:
     path: packages/user_repository
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  path_provider: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.16.0
   bloc_test: ^8.1.0
+  hive_generator: ^1.1.0
+  build_runner: ^2.1.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

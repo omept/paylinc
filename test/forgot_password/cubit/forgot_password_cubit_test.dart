@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:paylinc/forgot_password/forgot_password.dart';
-import 'package:paylinc/models/email.dart';
+import 'package:paylinc/form_inputs/email.dart';
 void main() {
   group(ForgotPasswordCubit, () {
 
