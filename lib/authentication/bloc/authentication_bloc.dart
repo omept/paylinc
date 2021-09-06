@@ -10,6 +10,11 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  final AuthenticationRepository _authenticationRepository;
+  final UserRepository _userRepository;
+  late StreamSubscription<AuthenticationStatus>
+      _authenticationStatusSubscription;
+
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository userRepository,
@@ -20,11 +25,6 @@ class AuthenticationBloc
       (status) => add(AuthenticationStatusChanged(status)),
     );
   }
-
-  final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
-  late StreamSubscription<AuthenticationStatus>
-      _authenticationStatusSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(

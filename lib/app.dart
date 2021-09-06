@@ -8,6 +8,7 @@ import 'package:paylinc/onboarding/view/onboarding_page.dart';
 import 'package:paylinc/sign_up/sign_up.dart';
 import 'package:paylinc/login/login.dart';
 import 'package:paylinc/splash/splash.dart';
+import 'package:paylinc/validate_otp/view/validate_otp_page.dart';
 import 'package:user_repository/user_repository.dart';
 
 class Paylinc extends StatelessWidget {
@@ -82,6 +83,12 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.forgot_password:
                 _navigator.pushAndRemoveUntil<void>(
                   ForgotPasswordPage.route(),
+                  (route) => false,
+                );
+                break;
+              case AuthenticationStatus.validate_otp:
+                _navigator.pushAndRemoveUntil<void>(
+                  ValidateOtpPage.route(),
                   (route) => false,
                 );
                 break;

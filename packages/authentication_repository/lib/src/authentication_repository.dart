@@ -35,6 +35,7 @@ class AuthenticationRepository {
   }
 
    currentAuthenticationState() {
+     // TOD O :  check if user exists in hive storage and determine their anthentication status.
     return AuthenticationStatus.unknown;
   }
 
