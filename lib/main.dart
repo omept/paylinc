@@ -6,8 +6,9 @@ import 'package:user_repository/user_repository.dart';
 import 'app.dart';
 
 void main() async {
+  // Init Hive
   await Hive.initFlutter();
-  await Hive.openBox('settings');
+  // Start App
   runApp(Paylinc(
       authenticationRepository: AuthenticationRepository(),
       userRepository: UserRepository()));
