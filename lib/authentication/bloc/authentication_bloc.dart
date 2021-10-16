@@ -14,11 +14,12 @@ class AuthenticationBloc
   final UserRepository _userRepository;
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
+  // User authBlocUser = User.empty;
 
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository userRepository,
-  })   : _authenticationRepository = authenticationRepository,
+  })  : _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
         super(UnknownAuth(user: User.empty)) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
@@ -47,10 +48,9 @@ class AuthenticationBloc
   Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
     AuthenticationStatusChanged event,
   ) async {
-    var user = await _tryGetUser();
-    if (user == null) {
-      user = User.empty;
-    }
+    var user = await _fetchUser();
+    _authenticationRepository.saveAuthStatus(event.status);
+
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return Unauthenticated(user: user);
@@ -69,12 +69,15 @@ class AuthenticationBloc
     }
   }
 
-  Future<User?> _tryGetUser() async {
+  Future<User> _fetchUser() async {
     try {
-      final user = await _userRepository.getUser();
+      var user = await _userRepository.getUser();
+      if (user == null) {
+        user = User.empty;
+      }
       return user;
     } on Exception {
-      return null;
+      return User.empty;
     }
   }
 }

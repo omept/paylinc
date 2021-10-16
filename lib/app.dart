@@ -26,6 +26,7 @@ class Paylinc extends StatelessWidget {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider.value(value: authenticationRepository),
+          RepositoryProvider.value(value: userRepository),
         ],
         child: MultiBlocProvider(providers: [
           BlocProvider(
