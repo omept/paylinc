@@ -74,11 +74,7 @@ class _AppViewState extends State<AppView> {
                 );
                 break;
               case AuthenticationStatus.authenticated:
-                Get.offNamed(Routes.wallets);
-                // _navigator.pushAndRemoveUntil<void>(
-                //   HomePage.route(),
-                //   (route) => false,
-                // );
+                Get.offNamed(Routes.dashboard);
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
@@ -105,7 +101,6 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      // onGenerateRoute: (_) => SplashPage.route(),
       theme: AppTheme.basic,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,

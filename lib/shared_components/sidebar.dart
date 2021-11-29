@@ -12,10 +12,12 @@ import 'package:paylinc/shared_components/upgrade_premium_card.dart';
 class Sidebar extends StatelessWidget {
   const Sidebar({
     required this.data,
+    required this.initialSelected,
     Key? key,
   }) : super(key: key);
 
   final ProjectCardData data;
+  final int initialSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class Sidebar extends StatelessWidget {
             ),
             const Divider(thickness: 1),
             SelectionButton(
+              initialSelected: initialSelected,
               data: [
                 SelectionButtonData(
                   activeIcon: EvaIcons.grid,
@@ -40,38 +43,37 @@ class Sidebar extends StatelessWidget {
                   label: "Dashboard",
                 ),
                 SelectionButtonData(
+                  activeIcon: EvaIcons.grid,
+                  icon: EvaIcons.gridOutline,
+                  label: "Admin Dashboard",
+                ),
+                SelectionButtonData(
                   activeIcon: EvaIcons.archive,
                   icon: EvaIcons.archiveOutline,
-                  label: "Reports",
+                  label: "Wallets",
                 ),
                 SelectionButtonData(
                   activeIcon: EvaIcons.calendar,
                   icon: EvaIcons.calendarOutline,
-                  label: "Calendar",
+                  label: "User Alert",
+                  totalNotif: 20,
                 ),
                 SelectionButtonData(
                   activeIcon: EvaIcons.email,
                   icon: EvaIcons.emailOutline,
-                  label: "Email",
-                  totalNotif: 20,
+                  label: "Transactions",
                 ),
                 SelectionButtonData(
                   activeIcon: EvaIcons.person,
                   icon: EvaIcons.personOutline,
-                  label: "Profil",
-                ),
-                SelectionButtonData(
-                  activeIcon: EvaIcons.settings,
-                  icon: EvaIcons.settingsOutline,
-                  label: "Setting",
-                ),
+                  label: "Settings",
+                )
               ],
               onSelected: (index, value) {
-                if (index == 0) {
-                  Get.offAndToNamed(Routes.dashboard);
-                }
-                if (index == 1) {
-                  Get.offAndToNamed(Routes.wallets);
+                if (value.label == "Dashboard") {
+                  Get.offNamed(Routes.dashboard);
+                } else if (value.label == "Wallets") {
+                  Get.offNamed(Routes.wallets);
                 }
                 log("index : $index | label : ${value.label}");
               },

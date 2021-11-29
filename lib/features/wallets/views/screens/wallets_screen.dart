@@ -50,7 +50,10 @@ class WalletsScreen extends GetView<WalletsController> {
           : Drawer(
               child: Padding(
                 padding: const EdgeInsets.only(top: kSpacing),
-                child: Sidebar(data: controller.getSelectedProject()),
+                child: Sidebar(
+                  data: controller.getSelectedProject(),
+                  initialSelected: 2,
+                ),
               ),
             ),
       body: SingleChildScrollView(
@@ -74,7 +77,10 @@ class WalletsScreen extends GetView<WalletsController> {
                 topRight: Radius.circular(kBorderRadius),
                 bottomRight: Radius.circular(kBorderRadius),
               ),
-              child: Sidebar(data: controller.getSelectedProject())),
+              child: Sidebar(
+                data: controller.getSelectedProject(),
+                initialSelected: 2,
+              )),
         ),
         Flexible(
           flex: 9,

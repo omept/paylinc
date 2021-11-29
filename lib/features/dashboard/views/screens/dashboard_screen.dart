@@ -51,7 +51,10 @@ class DashboardScreen extends GetView<DashboardController> {
           : Drawer(
               child: Padding(
                 padding: const EdgeInsets.only(top: kSpacing),
-                child: Sidebar(data: controller.getSelectedProject()),
+                child: Sidebar(
+                  data: controller.getSelectedProject(),
+                  initialSelected: 0,
+                ),
               ),
             ),
       body: SingleChildScrollView(
@@ -75,7 +78,10 @@ class DashboardScreen extends GetView<DashboardController> {
                 topRight: Radius.circular(kBorderRadius),
                 bottomRight: Radius.circular(kBorderRadius),
               ),
-              child: Sidebar(data: controller.getSelectedProject())),
+              child: Sidebar(
+                data: controller.getSelectedProject(),
+                initialSelected: 0,
+              )),
         ),
         Flexible(
           flex: 9,

@@ -5,6 +5,7 @@ class Routes {
   static const dashboard = _Paths.dashboard;
   static const wallets = _Paths.wallets;
   static const settings = _Paths.settings;
+  static const splash = _Paths.splash;
 }
 
 /// contains a list of route names.
@@ -13,6 +14,7 @@ class _Paths {
   static const dashboard = '/dashboard';
   static const wallets = '/wallets';
   static const settings = '/settings';
+  static const splash = '/splash';
 
   // Example :
   // static const index = '/';
