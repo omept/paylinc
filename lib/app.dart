@@ -1,7 +1,11 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/route_manager.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/config/themes/app_theme.dart';
+import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:paylinc/features/forgot_password/view/forgot_password_page.dart';
 import 'package:paylinc/features/home/view/home_page.dart';
 import 'package:paylinc/features/login/view/login_page.dart';
@@ -51,7 +55,7 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
@@ -70,11 +74,11 @@ class _AppViewState extends State<AppView> {
                 );
                 break;
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
-                // Get.to(HomePage());
+                Get.offNamed(Routes.wallets);
+                // _navigator.pushAndRemoveUntil<void>(
+                //   HomePage.route(),
+                //   (route) => false,
+                // );
                 break;
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
@@ -101,7 +105,10 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
+      // onGenerateRoute: (_) => SplashPage.route(),
+      theme: AppTheme.basic,
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
     );
   }
 }

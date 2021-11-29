@@ -1,7 +1,16 @@
-part of dashboard;
+import 'dart:developer';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/constants/app_constants.dart';
+import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/selection_button.dart';
+import 'package:paylinc/shared_components/upgrade_premium_card.dart';
 
-class _Sidebar extends StatelessWidget {
-  const _Sidebar({
+class Sidebar extends StatelessWidget {
+  const Sidebar({
     required this.data,
     Key? key,
   }) : super(key: key);
@@ -58,6 +67,12 @@ class _Sidebar extends StatelessWidget {
                 ),
               ],
               onSelected: (index, value) {
+                if (index == 0) {
+                  Get.offAndToNamed(Routes.dashboard);
+                }
+                if (index == 1) {
+                  Get.offAndToNamed(Routes.wallets);
+                }
                 log("index : $index | label : ${value.label}");
               },
             ),

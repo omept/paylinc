@@ -1,6 +1,6 @@
-part of dashboard;
+part of wallets;
 
-class DashboardController extends GetxController {
+class WalletsController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void openDrawer() {
@@ -18,8 +18,8 @@ class DashboardController extends GetxController {
     );
   }
 
-  //  DashboardState getProfil() {
-  //   return const DashboardState(
+  //  WalletsState getProfil() {
+  //   return const WalletsState(
   //     photo: AssetImage(ImageRasterPath.avatar1),
   //     name: "Firgia",
   //     email: "flutterwithgia@gmail.com",

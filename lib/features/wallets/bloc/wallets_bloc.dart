@@ -1,7 +1,21 @@
-part of dashboard;
+import 'dart:async';
 
-class DashboardController extends GetxController {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:paylinc/constants/app_constants.dart';
+import 'package:paylinc/shared_components/chatting_card.dart';
+import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/task_card.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+
+part 'wallets_event.dart';
+part 'wallets_state.dart';
+
+class WalletsBloc extends Bloc<WalletsEvent, WalletsState> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  WalletsBloc(WalletsState initialState) : super(initialState);
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -9,22 +23,19 @@ class DashboardController extends GetxController {
     }
   }
 
+  @override
+  Stream<WalletsState> mapEventToState(
+    WalletsEvent event,
+  ) async* {}
+
   // Data
-  _Profile getProfil() {
-    return const _Profile(
+  WalletsState getProfil() {
+    return const WalletsState(
       photo: AssetImage(ImageRasterPath.avatar1),
       name: "Firgia",
       email: "flutterwithgia@gmail.com",
     );
   }
-
-  //  DashboardState getProfil() {
-  //   return const DashboardState(
-  //     photo: AssetImage(ImageRasterPath.avatar1),
-  //     name: "Firgia",
-  //     email: "flutterwithgia@gmail.com",
-  //   );
-  // }
 
   List<TaskCardData> getAllTask() {
     return [

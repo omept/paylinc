@@ -1,8 +1,8 @@
-library dashboard;
+library wallets;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-// import 'package:paylinc/features/dashboard/bloc/dashboard_bloc.dart';
+// import 'package:paylinc/features/wallets/bloc/wallets_bloc.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -21,10 +21,10 @@ import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 // binding
-part '../../bindings/dashboard_binding.dart';
+part '../../bindings/wallets_binding.dart';
 
 // controller
-part '../../controllers/dashboard_controller.dart';
+part '../../controllers/wallets_controller.dart';
 
 // models
 part '../../models/profile.dart';
@@ -36,16 +36,15 @@ part '../components/profile_tile.dart';
 part '../components/recent_messages.dart';
 part '../components/team_member.dart';
 
-class DashboardScreen extends GetView<DashboardController> {
-  const DashboardScreen({Key? key}) : super(key: key);
+class WalletsScreen extends GetView<WalletsController> {
+  const WalletsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // return Container();
 
     return Scaffold(
-      key: this.key,
-      // key: controller.scaffoldKey,
+      key: controller.scaffoldKey,
       drawer: (ResponsiveBuilder.isDesktop(context))
           ? null
           : Drawer(
@@ -56,14 +55,14 @@ class DashboardScreen extends GetView<DashboardController> {
             ),
       body: SingleChildScrollView(
           child: ResponsiveBuilder(
-        mobileBuilder: _dashboardMobileScreenWidget,
-        tabletBuilder: _dashboardTabletScreenWidget,
-        desktopBuilder: _dashboardDesktopScreenWidget,
+        mobileBuilder: _walletsMobileScreenWidget,
+        tabletBuilder: _walletsTabletScreenWidget,
+        desktopBuilder: _walletsDesktopScreenWidget,
       )),
     );
   }
 
-  Widget _dashboardDesktopScreenWidget(context, constraints) {
+  Widget _walletsDesktopScreenWidget(context, constraints) {
     var maxWidth = 1360;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +127,7 @@ class DashboardScreen extends GetView<DashboardController> {
     // return Container();
   }
 
-  Widget _dashboardTabletScreenWidget(context, constraints) {
+  Widget _walletsTabletScreenWidget(context, constraints) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,7 +195,7 @@ class DashboardScreen extends GetView<DashboardController> {
     );
   }
 
-  Widget _dashboardMobileScreenWidget(context, constraints) {
+  Widget _walletsMobileScreenWidget(context, constraints) {
     return Column(children: [
       const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
       _buildHeader(onPressedMenu: () => controller.openDrawer()),
