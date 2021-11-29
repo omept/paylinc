@@ -1,14 +1,14 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
-import 'package:paylinc/forgot_password/view/forgot_password_page.dart';
-import 'package:paylinc/home/home.dart';
-import 'package:paylinc/onboarding/view/onboarding_page.dart';
-import 'package:paylinc/sign_up/sign_up.dart';
-import 'package:paylinc/login/login.dart';
-import 'package:paylinc/splash/splash.dart';
-import 'package:paylinc/validate_otp/view/validate_otp_page.dart';
+import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/features/forgot_password/view/forgot_password_page.dart';
+import 'package:paylinc/features/home/view/home_page.dart';
+import 'package:paylinc/features/login/view/login_page.dart';
+import 'package:paylinc/features/onboarding/onboarding.dart';
+import 'package:paylinc/features/sign_up/sign_up.dart';
+import 'package:paylinc/features/splash/view/splash_page.dart';
+import 'package:paylinc/features/validate_otp/validate_otp.dart';
 import 'package:user_repository/user_repository.dart';
 
 class Paylinc extends StatelessWidget {
