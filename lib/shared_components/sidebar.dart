@@ -67,15 +67,37 @@ class Sidebar extends StatelessWidget {
                   activeIcon: EvaIcons.person,
                   icon: EvaIcons.personOutline,
                   label: "Settings",
+                ),
+                SelectionButtonData(
+                  activeIcon: EvaIcons.messageCircleOutline,
+                  icon: EvaIcons.messageSquareOutline,
+                  label: "Feed Back",
                 )
               ],
               onSelected: (index, value) {
                 if (value.label == "Dashboard") {
+                  // 0
                   Get.offNamed(Routes.dashboard);
+                } else if (value.label == "Admin Dashboard") {
+                  // 1
+                  Get.offNamed(Routes.admin_dashboard);
                 } else if (value.label == "Wallets") {
+                  // 2
                   Get.offNamed(Routes.wallets);
+                } else if (value.label == "User Alert") {
+                  // 3
+                  Get.offNamed(Routes.user_alerts);
+                } else if (value.label == "Transactions") {
+                  // 4
+                  Get.offNamed(Routes.initialized_transactions);
+                } else if (value.label == "Settings") {
+                  // 5
+                  Get.offNamed(Routes.settings);
+                } else if (value.label == "Feed Back") {
+                  // 6
+                  Get.offNamed(Routes.feed_back);
                 }
-                log("index : $index | label : ${value.label}");
+                // log("index : $index | label : ${value.label}");
               },
             ),
             const Divider(thickness: 1),

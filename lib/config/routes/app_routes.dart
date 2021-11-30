@@ -6,6 +6,10 @@ class Routes {
   static const wallets = _Paths.wallets;
   static const settings = _Paths.settings;
   static const splash = _Paths.splash;
+  static const initialized_transactions = _Paths.initialized_transactions;
+  static const admin_dashboard = _Paths.admin_dashboard;
+  static const user_alerts = _Paths.user_alerts;
+  static const feed_back = _Paths.feed_back;
 }
 
 /// contains a list of route names.
@@ -15,6 +19,10 @@ class _Paths {
   static const wallets = '/wallets';
   static const settings = '/settings';
   static const splash = '/splash';
+  static const initialized_transactions = '/initialized-transactions';
+  static const admin_dashboard = '/admin-dashboard';
+  static const user_alerts = '/user-alerts';
+  static const feed_back = '/feed-back';
 
   // Example :
   // static const index = '/';

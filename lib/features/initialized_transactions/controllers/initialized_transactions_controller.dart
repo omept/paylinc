@@ -1,21 +1,7 @@
-import 'dart:async';
+part of initialized_transactions;
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/chatting_card.dart';
-import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/task_card.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
-
-part 'wallets_event.dart';
-part 'wallets_state.dart';
-
-class WalletsBloc extends Bloc<WalletsEvent, WalletsState> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  WalletsBloc(WalletsState initialState) : super(initialState);
+class InitializedTransactionsController extends GetxController {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -23,19 +9,22 @@ class WalletsBloc extends Bloc<WalletsEvent, WalletsState> {
     }
   }
 
-  @override
-  Stream<WalletsState> mapEventToState(
-    WalletsEvent event,
-  ) async* {}
-
   // Data
-  WalletsState getProfil() {
-    return const WalletsState(
+  _Profile getProfil() {
+    return const _Profile(
       photo: AssetImage(ImageRasterPath.avatar1),
       name: "Firgia",
       email: "flutterwithgia@gmail.com",
     );
   }
+
+  //  InitializedTransactionsState getProfil() {
+  //   return const InitializedTransactionsState(
+  //     photo: AssetImage(ImageRasterPath.avatar1),
+  //     name: "Firgia",
+  //     email: "flutterwithgia@gmail.com",
+  //   );
+  // }
 
   List<TaskCardData> getAllTask() {
     return [

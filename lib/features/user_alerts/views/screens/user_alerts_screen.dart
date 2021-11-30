@@ -1,7 +1,6 @@
-library wallets;
+library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-// import 'package:paylinc/features/wallets/bloc/wallets_bloc.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -17,10 +16,10 @@ import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 // binding
-part '../../bindings/wallets_binding.dart';
+part '../../bindings/user_alerts_binding.dart';
 
 // controller
-part '../../controllers/wallets_controller.dart';
+part '../../controllers/user_alerts_controller.dart';
 
 // models
 part '../../models/profile.dart';
@@ -28,36 +27,30 @@ part '../../models/profile.dart';
 // component
 part '../components/profile_tile.dart';
 
-class WalletsScreen extends GetView<WalletsController> {
-  const WalletsScreen({Key? key}) : super(key: key);
+class UserAlertsScreen extends GetView<UserAlertsController> {
+  const UserAlertsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // return Container();
-
     return Scaffold(
       key: controller.scaffoldKey,
       drawer: (ResponsiveBuilder.isDesktop(context))
           ? null
           : Drawer(
               child: Padding(
-                padding: const EdgeInsets.only(top: kSpacing),
-                child: Sidebar(
-                  data: controller.getSelectedProject(),
-                  initialSelected: 2,
-                ),
-              ),
+                  padding: const EdgeInsets.only(top: kSpacing),
+                  child: _sideBar()),
             ),
       body: SingleChildScrollView(
           child: ResponsiveBuilder(
-        mobileBuilder: _walletsMobileScreenWidget,
-        tabletBuilder: _walletsTabletScreenWidget,
-        desktopBuilder: _walletsDesktopScreenWidget,
+        mobileBuilder: _userAlertsMobileScreenWidget,
+        tabletBuilder: _userAlertsTabletScreenWidget,
+        desktopBuilder: _userAlertsDesktopScreenWidget,
       )),
     );
   }
 
-  Widget _walletsDesktopScreenWidget(context, constraints) {
+  Widget _userAlertsDesktopScreenWidget(context, constraints) {
     var maxWidth = 1360;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,10 +62,7 @@ class WalletsScreen extends GetView<WalletsController> {
                 topRight: Radius.circular(kBorderRadius),
                 bottomRight: Radius.circular(kBorderRadius),
               ),
-              child: Sidebar(
-                data: controller.getSelectedProject(),
-                initialSelected: 2,
-              )),
+              child: _sideBar()),
         ),
         Flexible(
           flex: 9,
@@ -101,7 +91,14 @@ class WalletsScreen extends GetView<WalletsController> {
     // return Container();
   }
 
-  Widget _walletsTabletScreenWidget(context, constraints) {
+  Sidebar _sideBar() {
+    return Sidebar(
+      data: controller.getSelectedProject(),
+      initialSelected: 3,
+    );
+  }
+
+  Widget _userAlertsTabletScreenWidget(context, constraints) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -128,7 +125,7 @@ class WalletsScreen extends GetView<WalletsController> {
     );
   }
 
-  Widget _walletsMobileScreenWidget(context, constraints) {
+  Widget _userAlertsMobileScreenWidget(context, constraints) {
     return Column(children: [
       const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
       _buildHeader(onPressedMenu: () => controller.openDrawer()),
@@ -153,7 +150,7 @@ class WalletsScreen extends GetView<WalletsController> {
             ),
           const Expanded(
               child: Header(
-            todayText: TodayText(message: "Wallets"),
+            todayText: TodayText(message: "User Alerts"),
           )),
         ],
       ),

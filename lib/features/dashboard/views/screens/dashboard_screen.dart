@@ -14,6 +14,7 @@ import 'package:paylinc/shared_components/progress_report_card.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/task_card.dart';
+import 'package:paylinc/shared_components/today_text.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 import 'package:flutter/material.dart';
@@ -252,7 +253,10 @@ class DashboardScreen extends GetView<DashboardController> {
                 tooltip: "menu",
               ),
             ),
-          const Expanded(child: Header()),
+          const Expanded(
+              child: Header(
+            todayText: TodayText(message: "Dashboard"),
+          )),
         ],
       ),
     );

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TodayText extends StatelessWidget {
-  const TodayText({Key? key}) : super(key: key);
-
+  const TodayText({Key? key, required this.message}) : super(key: key);
+  final String message;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,7 +12,7 @@ class TodayText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Today",
+            this.message,
             style: Theme.of(context).textTheme.caption,
           ),
           Text(
