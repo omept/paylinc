@@ -11,14 +11,6 @@ import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/shared_components/today_text.dart';
 
 class ValidateOtpPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(
-        builder: (_) => ValidateOtpPage(), settings: routeSettings);
-  }
-
-  static final RouteSettings routeSettings =
-      RouteSettings(name: "/validate-otp");
-
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(

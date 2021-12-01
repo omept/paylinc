@@ -9,13 +9,6 @@ import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/shared_components/today_text.dart';
 
 class SignUpPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(
-        builder: (_) => SignUpPage(), settings: routeSettings);
-  }
-
-  static final RouteSettings routeSettings = RouteSettings(name: "/sign-up");
-
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(

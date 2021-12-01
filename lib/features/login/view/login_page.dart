@@ -16,13 +16,6 @@ import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/today_text.dart';
 
 class LoginPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(
-        builder: (_) => LoginPage(), settings: routeSettings);
-  }
-
-  static final RouteSettings routeSettings = RouteSettings(name: "/login");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,13 +86,6 @@ class LoginPage extends StatelessWidget {
     );
 
     // return Container();
-  }
-
-  Sidebar _sideBar() {
-    return Sidebar(
-      data: getSelectedProject(),
-      initialSelected: 1,
-    );
   }
 
   ProjectCardData getSelectedProject() {
