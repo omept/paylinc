@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,13 +7,12 @@ import 'package:get/route_manager.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/config/themes/app_theme.dart';
-import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
+import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
 import 'package:paylinc/features/forgot_password/view/forgot_password_page.dart';
-import 'package:paylinc/features/home/view/home_page.dart';
+import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/login/view/login_page.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
-import 'package:paylinc/features/splash/view/splash_page.dart';
 import 'package:paylinc/features/validate_otp/validate_otp.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -39,6 +40,30 @@ class Paylinc extends StatelessWidget {
               userRepository: userRepository,
             ),
           ),
+          BlocProvider(create: (context) {
+            return ForgotPasswordCubit();
+          }),
+          BlocProvider(create: (context) {
+            return LoginBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return SignUpBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return OnboardingBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return ValidateOtpCubit();
+          })
         ], child: AppView()));
   }
 }
@@ -62,37 +87,22 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.unknown:
-                _navigator.pushAndRemoveUntil<void>(
-                  OnboardingPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.welcome);
                 break;
               case AuthenticationStatus.signup:
-                _navigator.pushAndRemoveUntil<void>(
-                  SignUpPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.sign_up);
                 break;
               case AuthenticationStatus.authenticated:
                 Get.offNamed(Routes.dashboard);
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.login);
                 break;
               case AuthenticationStatus.forgot_password:
-                _navigator.pushAndRemoveUntil<void>(
-                  ForgotPasswordPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.forgot_password);
                 break;
               case AuthenticationStatus.validate_otp:
-                _navigator.pushAndRemoveUntil<void>(
-                  ValidateOtpPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.validate_otp);
                 break;
               default:
                 break;

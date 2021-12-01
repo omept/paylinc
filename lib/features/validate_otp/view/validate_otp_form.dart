@@ -46,7 +46,7 @@ class _SubmitButton extends StatelessWidget {
             : ElevatedButton(
                 key: const Key('fpForm_continue_raisedButton'),
                 child: const Text('Submit'),
-                onPressed: state.status.isValidated
+                onPressed: state.otp.valid
                     ? () {
                         context.read<ValidateOtpCubit>().submit();
                       }

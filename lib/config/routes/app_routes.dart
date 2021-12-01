@@ -10,6 +10,11 @@ class Routes {
   static const admin_dashboard = _Paths.admin_dashboard;
   static const user_alerts = _Paths.user_alerts;
   static const feed_back = _Paths.feed_back;
+  static const welcome = _Paths.welcome;
+  static const login = _Paths.login;
+  static const sign_up = _Paths.sign_up;
+  static const forgot_password = _Paths.forgot_password;
+  static const validate_otp = _Paths.validate_otp;
 }
 
 /// contains a list of route names.
@@ -19,6 +24,11 @@ class _Paths {
   static const wallets = '/wallets';
   static const settings = '/settings';
   static const splash = '/splash';
+  static const welcome = '/welcome';
+  static const login = '/login';
+  static const sign_up = '/sign-up';
+  static const forgot_password = '/forgot-password';
+  static const validate_otp = '/validate-otp';
   static const initialized_transactions = '/initialized-transactions';
   static const admin_dashboard = '/admin-dashboard';
   static const user_alerts = '/user-alerts';
