@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
 class IosAppAd extends StatelessWidget {
@@ -25,7 +24,7 @@ class IosAppAd extends StatelessWidget {
               children: [
                 Text(
                   "IOS APP",
-                  style: GoogleFonts.oswald(
+                  style: TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w900,
                     fontSize: 16.0,
@@ -36,7 +35,7 @@ class IosAppAd extends StatelessWidget {
                 ),
                 Text(
                   "UNIVERSAL\nSMART HOME APP",
-                  style: GoogleFonts.oswald(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
                     height: 1.3,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/testimonial.dart';
@@ -48,7 +47,7 @@ Widget _buildUi(double width) {
             children: [
               Text(
                 "TESTIMONIALS",
-                style: GoogleFonts.oswald(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w900,
                   fontSize: 30.0,
@@ -136,7 +135,7 @@ Widget _buildUi(double width) {
                                 children: [
                                   Text(
                                     testimonial.personName,
-                                    style: GoogleFonts.oswald(
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16.0,

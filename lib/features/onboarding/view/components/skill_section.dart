@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/skill.dart';
@@ -59,7 +58,7 @@ class SkillSection extends StatelessWidget {
                   children: [
                     Text(
                       "SKILLS",
-                      style: GoogleFonts.oswald(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
                         fontSize: 28.0,

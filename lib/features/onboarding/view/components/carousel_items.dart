@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/models/carousel_item_model.dart';
@@ -16,7 +15,7 @@ List<CarouselItemModel> carouselItems = [
         children: [
           Text(
             "Reliable",
-            style: GoogleFonts.oswald(
+            style: TextStyle(
               color: kPrimaryColor,
               fontWeight: FontWeight.w900,
               fontSize: 16.0,
@@ -27,7 +26,7 @@ List<CarouselItemModel> carouselItems = [
           ),
           Text(
             "PAY ON \nDELIVERY",
-            style: GoogleFonts.oswald(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 40.0,
               fontWeight: FontWeight.w900,
@@ -124,7 +123,7 @@ List<CarouselItemModel> carouselItems = [
         children: [
           Text(
             "Quick Response",
-            style: GoogleFonts.oswald(
+            style: TextStyle(
               color: kPrimaryColor,
               fontWeight: FontWeight.w900,
               fontSize: 16.0,
@@ -226,7 +225,7 @@ List<CarouselItemModel> carouselItems = [
 //         children: [
 //           Text(
 //             "PRODUCT DESIGNER",
-//             style: GoogleFonts.oswald(
+//             style: TextStyle(
 //               color: kPrimaryColor,
 //               fontWeight: FontWeight.w900,
 //               fontSize: 16.0,
@@ -237,7 +236,7 @@ List<CarouselItemModel> carouselItems = [
 //           ),
 //           Text(
 //             "MICHELE\nHARRINGTON",
-//             style: GoogleFonts.oswald(
+//             style: TextStyle(
 //               color: Colors.white,
 //               fontSize: 40.0,
 //               fontWeight: FontWeight.w900,

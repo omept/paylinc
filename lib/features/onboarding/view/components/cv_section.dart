@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/design_process.dart';
@@ -46,7 +45,7 @@ class CvSection extends StatelessWidget {
             children: [
               Text(
                 "BETTER DESIGN,\nBETTER EXPERIENCES",
-                style: GoogleFonts.oswald(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w900,
                   height: 1.8,
@@ -59,7 +58,7 @@ class CvSection extends StatelessWidget {
                   cursor: SystemMouseCursors.click,
                   child: Text(
                     "DOWNLOAD CV",
-                    style: GoogleFonts.oswald(
+                    style: TextStyle(
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w900,
                       fontSize: 16.0,
@@ -109,7 +108,7 @@ class CvSection extends StatelessWidget {
                               ),
                               Text(
                                 designProcesses[index].title,
-                                style: GoogleFonts.oswald(
+                                style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,

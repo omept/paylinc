@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/models/education.dart';
 
@@ -40,7 +39,7 @@ class EducationSection extends StatelessWidget {
         children: [
           Text(
             "EDUCATION",
-            style: GoogleFonts.oswald(
+            style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w900,
               fontSize: 30.0,
@@ -82,7 +81,7 @@ class EducationSection extends StatelessWidget {
                             children: [
                               Text(
                                 education.period,
-                                style: GoogleFonts.oswald(
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 20.0,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/footer_item.dart';
@@ -69,7 +68,7 @@ class Footer extends StatelessWidget {
                                     ),
                                     Text(
                                       footerItem.title,
-                                      style: GoogleFonts.oswald(
+                                      style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,
