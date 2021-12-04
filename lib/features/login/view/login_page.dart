@@ -12,7 +12,6 @@ import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/today_text.dart';
 
 class LoginPage extends StatelessWidget {

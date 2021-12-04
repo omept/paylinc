@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/footer_item.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 final List<FooterItem> footerItems = [
   FooterItem(

@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/chatting_card.dart';
-import 'package:paylinc/shared_components/form_inputs/password.dart';
-import 'package:paylinc/shared_components/form_inputs/username.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/task_card.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';

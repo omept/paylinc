@@ -1,9 +1,7 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/features/login/login.dart';
-import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -78,43 +76,43 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _LoginButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                key: const Key('loginForm_continue_raisedButton'),
-                child: const Text('Login'),
-                onPressed: state.status.isValidated
-                    ? () {
-                        context.read<LoginBloc>().add(const LoginSubmitted());
-                      }
-                    : null,
-              );
-      },
-    );
-  }
-}
+// class _LoginButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<LoginBloc, LoginState>(
+//       buildWhen: (previous, current) => previous.status != current.status,
+//       builder: (context, state) {
+//         return state.status.isSubmissionInProgress
+//             ? const CircularProgressIndicator()
+//             : ElevatedButton(
+//                 key: const Key('loginForm_continue_raisedButton'),
+//                 child: const Text('Login'),
+//                 onPressed: state.status.isValidated
+//                     ? () {
+//                         context.read<LoginBloc>().add(const LoginSubmitted());
+//                       }
+//                     : null,
+//               );
+//       },
+//     );
+//   }
+// }
 
-class _NewAcctButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          key: const Key('loginForm_linktosignup_raisedButton'),
-          child: const Text('new account?'),
-          onPressed: () {
-            context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
-          },
-        );
-      },
-    );
-  }
-}
+// class _NewAcctButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+//       builder: (context, state) {
+//         return ElevatedButton(
+//           key: const Key('loginForm_linktosignup_raisedButton'),
+//           child: const Text('new account?'),
+//           onPressed: () {
+//             context
+//                 .read<AuthenticationBloc>()
+//                 .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
+//           },
+//         );
+//       },
+//     );
+//   }
+// }

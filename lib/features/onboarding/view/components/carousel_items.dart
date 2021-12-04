@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/models/carousel_item_model.dart';
 
@@ -13,7 +15,7 @@ List<CarouselItemModel> carouselItems = [
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "PRODUCT DESIGNER",
+            "Reliable",
             style: GoogleFonts.oswald(
               color: kPrimaryColor,
               fontWeight: FontWeight.w900,
@@ -24,7 +26,7 @@ List<CarouselItemModel> carouselItems = [
             height: 18.0,
           ),
           Text(
-            "MICHELE\nHARRINGTON",
+            "PAY ON \nDELIVERY",
             style: GoogleFonts.oswald(
               color: Colors.white,
               fontSize: 40.0,
@@ -36,7 +38,7 @@ List<CarouselItemModel> carouselItems = [
             height: 10.0,
           ),
           Text(
-            "Full-stack developer, based in Barcelona",
+            "that is transparent and simple",
             style: TextStyle(
               color: kCaptionColor,
               fontSize: 15.0,
@@ -50,27 +52,27 @@ List<CarouselItemModel> carouselItems = [
             child: Wrap(
               children: [
                 Text(
-                  "Need a full custom website?",
+                  "What are you waiting for?",
                   style: TextStyle(
                     color: kCaptionColor,
                     fontSize: 15.0,
                     height: 1.5,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Text(
-                      " Got a project? Let's talk.",
-                      style: TextStyle(
-                        height: 1.5,
-                        color: Colors.white,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: MouseRegion(
+                //     cursor: SystemMouseCursors.click,
+                //     child: Text(
+                //       " Got a project? Let's talk.",
+                //       style: TextStyle(
+                //         height: 1.5,
+                //         color: Colors.white,
+                //         fontSize: 15.0,
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
@@ -89,7 +91,9 @@ List<CarouselItemModel> carouselItems = [
                 horizontal: 28.0,
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.offNamed(Routes.sign_up);
+                },
                 child: Text(
                   "GET STARTED",
                   style: TextStyle(
@@ -129,15 +133,6 @@ List<CarouselItemModel> carouselItems = [
           SizedBox(
             height: 18.0,
           ),
-          // Text(
-          //   "MICHELE\nHARRINGTON",
-          //   style: GoogleFonts.oswald(
-          //     color: Colors.white,
-          //     fontSize: 40.0,
-          //     fontWeight: FontWeight.w900,
-          //     height: 1.3,
-          //   ),
-          // ),
           SizedBox(
             height: 10.0,
           ),

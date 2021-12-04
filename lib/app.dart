@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +6,7 @@ import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/config/themes/app_theme.dart';
 import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
-import 'package:paylinc/features/forgot_password/view/forgot_password_page.dart';
 import 'package:paylinc/features/login/login.dart';
-import 'package:paylinc/features/login/view/login_page.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/validate_otp/validate_otp.dart';
@@ -76,12 +72,11 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       navigatorKey: _navigatorKey,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {

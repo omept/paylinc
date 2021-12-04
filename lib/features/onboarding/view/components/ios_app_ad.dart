@@ -9,20 +9,16 @@ class IosAppAd extends StatelessWidget {
     BuildContext context,
   ) {
     return Container(
-      child: Flex(
-        direction: Axis.vertical,
+      child: Row(
         children: [
-          // Disable expanded on smaller screen to avoid Render errors by setting flex to 0
           Expanded(
-            flex: 1,
             child: Image.asset(
               "assets/images/raster/welcome/ios.png",
               // Set width for image on smaller screen
-              width: 350.0,
+              // width: 350.0,
             ),
           ),
           Expanded(
-            flex: 1,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,35 +59,35 @@ class IosAppAd extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        height: 48.0,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 28.0,
-                        ),
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text(
-                              "EXPLORE MORE",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
+                    // MouseRegion(
+                    //   cursor: SystemMouseCursors.click,
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       color: kPrimaryColor,
+                    //       borderRadius: BorderRadius.circular(8.0),
+                    //     ),
+                    //     height: 48.0,
+                    //     padding: EdgeInsets.symmetric(
+                    //       horizontal: 28.0,
+                    //     ),
+                    //     child: TextButton(
+                    //       onPressed: () {},
+                    //       child: Center(
+                    //         child: Text(
+                    //           "EXPLORE MORE",
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //             fontSize: 13.0,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 10.0,
+                    // ),
                     MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Container(

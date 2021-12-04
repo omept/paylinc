@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class FooterItem {
   final String iconPath;
   final String title;
