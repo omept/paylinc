@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
+import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/onboarding/view/components/carousel.dart';
 import 'package:paylinc/features/onboarding/view/components/cv_section.dart';
 import 'package:paylinc/features/onboarding/view/components/education_section.dart';
@@ -187,22 +189,51 @@ class OnboardingPage extends StatelessWidget {
   }
 }
 
-// class _RequestSignUpButton extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<OnboardingBloc, OnboardingState>(
-//       // buildWhen: (previous, current) => previous != current,
-//       builder: (context, state) {
-//         return ElevatedButton(
-//           child: const Text('Request Sign up'),
-//           onPressed: () {
-//             context.read<OnboardingBloc>().add(const OnboardingRequestSignUp());
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
+class _MobileOnboardingGetStartedButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<OnboardingBloc, OnboardingState>(
+      // buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        return TextButton(
+          child: const Text(
+            'GET STARTED',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22.0,
+            ),
+          ),
+          onPressed: () {
+            context.read<OnboardingBloc>().add(const OnboardingRequestSignUp());
+          },
+        );
+      },
+    );
+  }
+}
+
+class _MobileOnboardingSkipButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<OnboardingBloc, OnboardingState>(
+      // buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        return TextButton(
+          child: const Text(
+            'Skip',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15.0,
+            ),
+          ),
+          onPressed: () {
+            context.read<OnboardingBloc>().add(const OnboardingRequestLogin());
+          },
+        );
+      },
+    );
+  }
+}
 
 class HeaderLogo extends StatelessWidget {
   @override
@@ -345,16 +376,7 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
           children: <Widget>[
             Container(
               alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => print('Skip'),
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
+              child: _MobileOnboardingSkipButton(),
             ),
             Expanded(
               child: Container(
@@ -420,18 +442,12 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22.0,
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                          size: 30.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            _MobileOnboardingGetStartedButton()
+                          ],
                         ),
                       ],
                     ),
