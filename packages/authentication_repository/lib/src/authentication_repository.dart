@@ -39,10 +39,11 @@ class AuthenticationRepository {
     required String username,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _controller.add(AuthenticationStatus.authenticated),
-    );
+    print("hello world");
+    // await Future.delayed(
+    //   const Duration(milliseconds: 300),
+    //   () => _controller.add(AuthenticationStatus.authenticated),
+    // );
   }
 
   currentAuthenticationState() async {

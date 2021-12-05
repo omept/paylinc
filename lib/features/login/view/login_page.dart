@@ -123,11 +123,53 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _loginPageMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(kSpacing),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
+            const SizedBox(height: kSpacing / 2),
+            const Divider(),
+            const SizedBox(height: kSpacing * 2),
+            const Padding(padding: EdgeInsets.all(12)),
+            Text('Log in'),
+            const SizedBox(height: kSpacing * 2),
+            _UsernameInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _PasswordInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(child: _LoginButton()),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: kSpacing),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _NewAcctButton(),
+                  const SizedBox(width: kSpacing),
+                  const Text(' or ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      )),
+                  const SizedBox(width: kSpacing),
+                  ElevatedButton(
+                    child: const Text('Forgot Password?'),
+                    onPressed: () {
+                      Get.offNamed(Routes.forgot_password);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ]),
+    );
   }
 
   Widget _buildHeader({Function()? onPressedMenu, context}) {
@@ -173,7 +215,6 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
@@ -235,7 +276,7 @@ class _NewAcctButton extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return ElevatedButton(
-          child: const Text('new account?'),
+          child: const Text('New account?'),
           onPressed: () {
             context
                 .read<AuthenticationBloc>()

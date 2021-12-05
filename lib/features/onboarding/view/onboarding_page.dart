@@ -353,106 +353,109 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: context.height,
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter,
-      //     stops: [0.1, 0.4, 0.7, 0.9],
-      //     colors: [
-      //       Color(0xFF3594DD),
-      //       Color(0xFF4563DB),
-      //       Color(0xFF5036D5),
-      //       Color(0xFF5B16D0),
-      //     ],
-      //   ),
-      // ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: kSpacing * 2, vertical: kSpacing / 3),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerRight,
-              child: _MobileOnboardingSkipButton(),
-            ),
-            Expanded(
-              child: Container(
-                child: PageView(
-                  physics: ClampingScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  children: <Widget>[
-                    _pageOneOnboarding(),
-                    _pageOneOnboarding(),
-                    _pageOneOnboarding(),
-                  ],
+    return SafeArea(
+      child: Container(
+        height: context.height,
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     stops: [0.1, 0.4, 0.7, 0.9],
+        //     colors: [
+        //       Color(0xFF3594DD),
+        //       Color(0xFF4563DB),
+        //       Color(0xFF5036D5),
+        //       Color(0xFF5B16D0),
+        //     ],
+        //   ),
+        // ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: kSpacing * 2, vertical: kSpacing / 3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerRight,
+                child: _MobileOnboardingSkipButton(),
+              ),
+              Expanded(
+                child: Container(
+                  child: PageView(
+                    physics: ClampingScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    children: <Widget>[
+                      _pageOneOnboarding(),
+                      _pageOneOnboarding(),
+                      _pageOneOnboarding(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: kSpacing),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildPageIndicator(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kSpacing),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildPageIndicator(),
+                ),
               ),
-            ),
-            _currentPage != _numPages - 1
-                ? Container(
-                    child: Align(
-                      alignment: FractionalOffset.bottomRight,
-                      child: TextButton(
-                        onPressed: () {
-                          _pageController.nextPage(
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
+              _currentPage != _numPages - 1
+                  ? Container(
+                      child: Align(
+                        alignment: FractionalOffset.bottomRight,
+                        child: TextButton(
+                          onPressed: () {
+                            _pageController.nextPage(
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22.0,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10.0),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                          ],
+                              SizedBox(width: 10.0),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                                size: 30.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    )
+                  : Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kSpacing * 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              _MobileOnboardingGetStartedButton()
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(vertical: kSpacing * 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            _MobileOnboardingGetStartedButton()
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
