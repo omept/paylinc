@@ -1,14 +1,15 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:paylinc/authentication/bloc/authentication_bloc.dart';
-import 'package:paylinc/forgot_password/view/forgot_password_page.dart';
-import 'package:paylinc/home/home.dart';
-import 'package:paylinc/onboarding/view/onboarding_page.dart';
-import 'package:paylinc/sign_up/sign_up.dart';
-import 'package:paylinc/login/login.dart';
-import 'package:paylinc/splash/splash.dart';
-import 'package:paylinc/validate_otp/view/validate_otp_page.dart';
+import 'package:get/route_manager.dart';
+import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/config/themes/app_theme.dart';
+import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
+import 'package:paylinc/features/login/login.dart';
+import 'package:paylinc/features/onboarding/onboarding.dart';
+import 'package:paylinc/features/sign_up/sign_up.dart';
+import 'package:paylinc/features/validate_otp/validate_otp.dart';
 import 'package:user_repository/user_repository.dart';
 
 class Paylinc extends StatelessWidget {
@@ -35,6 +36,30 @@ class Paylinc extends StatelessWidget {
               userRepository: userRepository,
             ),
           ),
+          BlocProvider(create: (context) {
+            return ForgotPasswordCubit();
+          }),
+          BlocProvider(create: (context) {
+            return LoginBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return SignUpBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return OnboardingBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            );
+          }),
+          BlocProvider(create: (context) {
+            return ValidateOtpCubit();
+          })
         ], child: AppView()));
   }
 }
@@ -47,51 +72,32 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: _navigatorKey,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.unknown:
-                _navigator.pushAndRemoveUntil<void>(
-                  OnboardingPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.welcome);
                 break;
               case AuthenticationStatus.signup:
-                _navigator.pushAndRemoveUntil<void>(
-                  SignUpPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.sign_up);
                 break;
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.dashboard);
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.login);
                 break;
               case AuthenticationStatus.forgot_password:
-                _navigator.pushAndRemoveUntil<void>(
-                  ForgotPasswordPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.forgot_password);
                 break;
               case AuthenticationStatus.validate_otp:
-                _navigator.pushAndRemoveUntil<void>(
-                  ValidateOtpPage.route(),
-                  (route) => false,
-                );
+                Get.offNamed(Routes.validate_otp);
                 break;
               default:
                 break;
@@ -100,7 +106,9 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
+      theme: AppTheme.basic,
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
     );
   }
 }
