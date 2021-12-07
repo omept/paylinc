@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:paylinc/utils/services/rest_api_services.dart';
+
 class ResponseModel {
   final Map? data;
-  final String? message;
+  String? message;
   final bool? status;
   final int? statusCode;
   ResponseModel({
     this.data,
-    this.message,
+    this.message = RestApiServices.errMessage,
     this.status = false,
     this.statusCode,
   });

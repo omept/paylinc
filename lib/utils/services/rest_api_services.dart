@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
+part 'user_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
@@ -8,10 +9,21 @@ class RestApiServices extends GetConnect {
   AuthenticationRepository? authenticationRepository;
 
   RestApiServices();
+
   RestApiServices.withAuthRepository(this.authenticationRepository);
 
-  dynamic responseHandler(Response<dynamic> response) {
+  static const errMessage = "We encountered a problem. Please try again later.";
+
+  Map<String, String> requestHeader() => {'Access-Control-Allow-Origin': '*'};
+
+  ResponseModel responseHandler(Response<dynamic> response) {
     ResponseModel responseModel;
+    responseModel = ResponseModel(
+      data: response.body?['data'],
+      message: response.body?['message'],
+      status: response.body?['status'],
+      statusCode: response.body?['status-code'],
+    );
     if (response.status.hasError) {
       if (response.body != null) {
         // handle backend errors
@@ -19,12 +31,6 @@ class RestApiServices extends GetConnect {
         // 400 -- problem response
         // 500 -- server response
 
-        responseModel = ResponseModel(
-          data: response.body['data'],
-          message: response.body['message'],
-          status: response.body['status'],
-          statusCode: response.body['status-code'],
-        );
         switch (responseModel.statusCode) {
           case 400:
             break;
@@ -42,56 +48,15 @@ class RestApiServices extends GetConnect {
           default:
         }
         return responseModel;
-      } else {
-        return ResponseModel();
       }
-    } else {
-      // handle successful response
-      responseModel = ResponseModel.fromJson(response.body.toString());
-      return responseModel;
     }
+    return responseModel;
   }
-
-  Map<String, String> requestHeader() => {'Access-Control-Allow-Origin': '*'};
 
   @override
   void onInit() {
-    httpClient.baseUrl = 'https://paylinc.test/api/';
+    httpClient.baseUrl = baseUrl;
     httpClient.defaultContentType = "application/json";
     super.onInit();
-  }
-  // to get data from server, you can use Http for simple feature
-  // or Dio for more complex feature
-
-  // Example:
-  // Future<ProductDetail?> getProductDetail(int id)async{
-  //   var uri = Uri.parse(ApiPath.product + "/$id");
-  //   try {
-  //     return await Dio().getUri(uri);
-  //   } on DioError catch (e) {
-  //     print(e);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-}
-
-class UserApi extends RestApiServices {
-  UserApi.withAuthRepository(AuthenticationRepository authenticationRepository)
-      : super.withAuthRepository(authenticationRepository);
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  Future<dynamic> login(Map data) async {
-    try {
-      final String loginUrl = "auth/login/";
-      final response = await post(loginUrl, data, headers: requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return false;
-    }
   }
 }

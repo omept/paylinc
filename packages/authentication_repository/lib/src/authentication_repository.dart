@@ -44,6 +44,9 @@ class AuthenticationRepository {
     //   () => _controller.add(AuthenticationStatus.authenticated),
     // );
   }
+  Future<void> setLoggedIn() async {
+    _controller.add(AuthenticationStatus.authenticated);
+  }
 
   currentAuthenticationState() async {
     // Determine their anthentication status.
