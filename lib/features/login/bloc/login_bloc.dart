@@ -4,10 +4,9 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:get/get_connect.dart';
 import 'package:paylinc/shared_components/form_inputs/password.dart';
 import 'package:paylinc/shared_components/form_inputs/username.dart';
-import 'package:paylinc/utils/apis/userRequest.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -66,33 +65,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: Password.dirty(state.password.value),
       );
       try {
-        await _authenticationRequest(
-          username: state.username.value,
-          password: state.password.value,
-        );
-        var userApi = new UserApi();
-        var resp = await userApi.login({
-          'username': state.username.value,
+        var api = UserApi.withAuthRepository(this._authenticationRepository);
+        var loginRes = await api.login({
+          'email_or_paytag': state.username.value,
           'password': state.password.value,
         });
-        print(resp);
-        //  await _authenticationRepository.logIn(
-        //   username: state.username.value,
-        //   password: state.password.value,
-        // );
-        // yield state.copyWith(
-        //   status: FormzStatus.submissionSuccess,
-        //   username: Username.dirty(state.username.value),
-        //   password: Password.dirty(state.password.value),
-        // );
+
+        if (loginRes == false) {
+          yield state.copyWith(status: FormzStatus.submissionFailure);
+        }
+        if (loginRes?.status == true) {
+          yield state.copyWith(
+            status: FormzStatus.submissionSuccess,
+            username: Username.dirty(''),
+            password: Password.dirty(''),
+          );
+        } else {
+          yield state.copyWith(status: FormzStatus.submissionFailure);
+        }
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
     }
-  }
-
-  _authenticationRequest(
-      {required String username, required String password}) async {
-    // Map data = {'username': username, 'password': password};
   }
 }

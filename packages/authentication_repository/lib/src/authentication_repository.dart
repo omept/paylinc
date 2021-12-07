@@ -39,7 +39,6 @@ class AuthenticationRepository {
     required String username,
     required String password,
   }) async {
-    print("hello world");
     // await Future.delayed(
     //   const Duration(milliseconds: 300),
     //   () => _controller.add(AuthenticationStatus.authenticated),
@@ -127,5 +126,9 @@ class AuthenticationRepository {
 
   void dispose() {
     _controller.close();
+  }
+
+  void onboardingReqAcctVerification() {
+    _controller.add(AuthenticationStatus.validate_otp);
   }
 }
