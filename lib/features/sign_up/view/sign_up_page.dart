@@ -153,7 +153,7 @@ class MobileSignUp extends StatefulWidget {
 }
 
 class _MobileSignUpState extends State<MobileSignUp> {
-  final int _numPages = 6;
+  final int _numPages = 5;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -213,10 +213,12 @@ class _MobileSignUpState extends State<MobileSignUp> {
                       });
                     },
                     children: <Widget>[
-                      _countryPage(),
+                      // _transferPinPage(),
+// -----
+                      // _countryPage(),
                       _namePage(),
-                      _emailPage(),
                       _paytagPage(),
+                      _emailPage(),
                       _passwordPage(),
                       _transferPinPage(),
                     ],
@@ -330,7 +332,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'select your country',
+                  'your country has been set. click Next.',
                   style: kSubtitleStyle,
                 ),
               ],
@@ -374,7 +376,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
         ),
         Padding(
           padding: const EdgeInsets.all(kSpacing),
-          child: EmailInput(),
+          child: Container(),
         ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

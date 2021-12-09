@@ -4,9 +4,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:paylinc/shared_components/form_inputs/password.dart';
 import 'package:paylinc/shared_components/form_inputs/text_input.dart';
-import 'package:paylinc/shared_components/form_inputs/username.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'sign_up_event.dart';
@@ -112,6 +110,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpState state,
   ) async* {
     if (state.status.isValidated) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
       print('state');
       print(state);
       yield state.copyWith(status: FormzStatus.submissionInProgress);

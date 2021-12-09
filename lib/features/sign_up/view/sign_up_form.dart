@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
+import 'package:paylinc/shared_components/is_text_an_integer.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -59,7 +64,7 @@ class NameInput extends StatelessWidget {
   }
 }
 
-class EmailInput extends StatelessWidget {
+class EmailInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -72,7 +77,12 @@ class EmailInput extends StatelessWidget {
               context.read<SignUpBloc>().add(SignUpEmailChanged(email)),
           decoration: InputDecoration(
             labelText: 'email',
-            errorText: state.email.invalid ? 'invalid email' : null,
+            errorText:
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(state.email.value) &&
+                        (state.email.value.toString().length > 0)
+                    ? 'invalid email'
+                    : null,
           ),
         );
       },
@@ -81,19 +91,21 @@ class EmailInput extends StatelessWidget {
 }
 
 class CountryInput extends StatelessWidget {
+  var kCountry = Country(countryName: "Nigeria", countryId: 123);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) => previous.countryId != current.countryId,
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.countryId.value,
+          initialValue: kCountry.countryName,
+          // initialValue: state.countryId.value,
           key: const Key('signUpForm_countryInput_textField'),
-          onChanged: (country) => context.read<SignUpBloc>().add(
-              SignUpCountryChanged(
-                  Country(countryId: 123, countryName: "Nigeria"))),
+          onChanged: (country) =>
+              context.read<SignUpBloc>().add(SignUpCountryChanged(kCountry)),
           decoration: InputDecoration(
             labelText: 'country',
+            enabled: false,
             errorText: state.countryId.invalid ? 'invalid country' : null,
           ),
         );
@@ -130,38 +142,71 @@ class PaytagInput extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) => previous.paytag != current.paytag,
       builder: (context, state) {
-        return TextFormField(
-          initialValue: state.paytag.value,
-          key: const Key('signUpForm_paytagInput_textField'),
-          onChanged: (paytag) =>
-              context.read<SignUpBloc>().add(SignUpPaytagChanged(paytag)),
-          decoration: InputDecoration(
-            labelText: 'Paytag',
-            errorText: state.paytag.invalid ? 'invalid paytag' : null,
-          ),
+        return Column(
+          children: [
+            TextFormField(
+              initialValue: state.paytag.value,
+              key: const Key('signUpForm_paytagInput_textField'),
+              onChanged: (paytag) =>
+                  context.read<SignUpBloc>().add(SignUpPaytagChanged(paytag)),
+              decoration: InputDecoration(
+                labelText: 'Paytag',
+                errorText: state.paytagErrorUsageMessage.length > 0
+                    ? state.paytagErrorUsageMessage
+                    : null,
+              ),
+            ),
+          ],
         );
       },
     );
   }
 }
 
-class TransferPinInput extends StatelessWidget {
+class TransferPinInput extends StatefulWidget {
+  @override
+  State<TransferPinInput> createState() => _TransferPinInputState();
+}
+
+class _TransferPinInputState extends State<TransferPinInput> {
+  StreamController<ErrorAnimationType> errorController =
+      StreamController<ErrorAnimationType>();
+  TextEditingController textEditingController = TextEditingController();
+  String currentText = '';
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    errorController.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) =>
-          previous.transferPin != current.transferPin,
+      // buildWhen: (previous, current) =>
+      //     previous.transferPin.value != current.transferPin.value,
       builder: (context, state) {
-        return TextFormField(
-          initialValue: state.transferPin.value,
-          key: const Key('signUpForm_transferPinInput_textField'),
-          onChanged: (transferPin) => context
-              .read<SignUpBloc>()
-              .add(SignUpTransferPinChanged(transferPin)),
-          decoration: InputDecoration(
-            labelText: 'transfer pin',
-            errorText: state.transferPin.invalid ? 'invalid tranfer' : null,
-          ),
+        // String currentText = state.transferPin.value;
+        return PinCodeTextField(
+          appContext: context,
+          length: 4,
+          obscureText: true,
+          animationType: AnimationType.fade,
+          animationDuration: Duration(milliseconds: 300),
+          errorAnimationController: errorController,
+          keyboardType: TextInputType.number,
+          controller: textEditingController,
+          onChanged: (value) {
+            if (!isTextAnInteger(value) && (value.length > 0)) {
+              errorController.add(ErrorAnimationType.shake);
+            }
+            context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
+          },
+          beforeTextPaste: (text) => true,
         );
       },
     );
