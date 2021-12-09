@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class SignUpForm extends StatelessWidget {
   @override
@@ -23,7 +24,7 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            UsernameInput(),
+            NameInput(),
             const Padding(padding: EdgeInsets.all(12)),
             PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
@@ -37,19 +38,63 @@ class SignUpForm extends StatelessWidget {
   }
 }
 
-class UsernameInput extends StatelessWidget {
+class NameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) => previous.username != current.username,
+      buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signUpForm_usernameInput_textField'),
-          onChanged: (username) =>
-              context.read<SignUpBloc>().add(SignUpUsernameChanged(username)),
+        return TextFormField(
+          initialValue: state.name.value,
+          key: const Key('signUpForm_nameInput_textField'),
+          onChanged: (name) =>
+              context.read<SignUpBloc>().add(SignUpNameChanged(name)),
           decoration: InputDecoration(
-            labelText: 'username',
-            errorText: state.username.invalid ? 'invalid username' : null,
+            labelText: 'name',
+            errorText: state.name.invalid ? 'invalid name' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class EmailInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.email.value,
+          key: const Key('signUpForm_emailInput_textField'),
+          onChanged: (email) =>
+              context.read<SignUpBloc>().add(SignUpEmailChanged(email)),
+          decoration: InputDecoration(
+            labelText: 'email',
+            errorText: state.email.invalid ? 'invalid email' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CountryInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      buildWhen: (previous, current) => previous.countryId != current.countryId,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.countryId.value,
+          key: const Key('signUpForm_countryInput_textField'),
+          onChanged: (country) => context.read<SignUpBloc>().add(
+              SignUpCountryChanged(
+                  Country(countryId: 123, countryName: "Nigeria"))),
+          decoration: InputDecoration(
+            labelText: 'country',
+            errorText: state.countryId.invalid ? 'invalid country' : null,
           ),
         );
       },
@@ -63,14 +108,59 @@ class PasswordInput extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('signupForm_passwordInput_textField'),
+        return TextFormField(
+          initialValue: state.password.value,
+          key: const Key('signUpForm_passwordInput_textField'),
           onChanged: (password) =>
               context.read<SignUpBloc>().add(SignUpPasswordChanged(password)),
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
             errorText: state.password.invalid ? 'invalid password' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class PaytagInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      buildWhen: (previous, current) => previous.paytag != current.paytag,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.paytag.value,
+          key: const Key('signUpForm_paytagInput_textField'),
+          onChanged: (paytag) =>
+              context.read<SignUpBloc>().add(SignUpPaytagChanged(paytag)),
+          decoration: InputDecoration(
+            labelText: 'Paytag',
+            errorText: state.paytag.invalid ? 'invalid paytag' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class TransferPinInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      buildWhen: (previous, current) =>
+          previous.transferPin != current.transferPin,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: state.transferPin.value,
+          key: const Key('signUpForm_transferPinInput_textField'),
+          onChanged: (transferPin) => context
+              .read<SignUpBloc>()
+              .add(SignUpTransferPinChanged(transferPin)),
+          decoration: InputDecoration(
+            labelText: 'transfer pin',
+            errorText: state.transferPin.invalid ? 'invalid tranfer' : null,
           ),
         );
       },
@@ -91,7 +181,7 @@ class SignUpButton extends StatelessWidget {
                 child: const Text('Sign Up'),
                 onPressed: state.status.isValidated
                     ? () {
-                        context.read<SignUpBloc>().add(const SignUpSubmitted());
+                        context.read<SignUpBloc>().add(SignUpSubmitted());
                       }
                     : null,
               );

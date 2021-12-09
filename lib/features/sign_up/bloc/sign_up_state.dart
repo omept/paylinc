@@ -3,26 +3,50 @@ part of 'sign_up_bloc.dart';
 class SignUpState extends Equatable {
   const SignUpState({
     this.status = FormzStatus.pure,
-    this.username = const Username.pure(),
-    this.password = const Password.pure(),
+    this.name = const TextInput.pure(),
+    this.email = const TextInput.pure(),
+    this.password = const TextInput.pure(),
+    this.paytag = const TextInput.pure(),
+    this.transferPin = const TextInput.pure(),
+    this.countryId = const TextInput.pure(),
   });
 
   final FormzStatus status;
-  final Username username;
-  final Password password;
+  final TextInput name;
+  final TextInput password;
+  final TextInput email;
+  final TextInput paytag;
+  final TextInput transferPin;
+  final TextInput countryId;
 
   SignUpState copyWith({
     FormzStatus? status,
-    Username? username,
-    Password? password,
+    TextInput? name,
+    TextInput? password,
+    TextInput? email,
+    TextInput? paytag,
+    TextInput? transferPin,
+    TextInput? countryId,
   }) {
     return SignUpState(
       status: status ?? this.status,
-      username: username ?? this.username,
+      name: name ?? this.name,
       password: password ?? this.password,
+      email: email ?? this.email,
+      paytag: paytag ?? this.paytag,
+      transferPin: transferPin ?? this.transferPin,
+      countryId: countryId ?? this.countryId,
     );
   }
 
   @override
-  List<Object> get props => [status, username, password];
+  List<Object> get props => [
+        status,
+        name,
+        password,
+        email,
+        paytag,
+        transferPin,
+        countryId,
+      ];
 }

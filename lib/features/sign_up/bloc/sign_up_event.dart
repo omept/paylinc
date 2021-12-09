@@ -1,31 +1,60 @@
 part of 'sign_up_bloc.dart';
 
-
-abstract class SignUpEvent extends Equatable {
-  const SignUpEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-class SignUpUsernameChanged extends SignUpEvent {
-  const SignUpUsernameChanged(this.username);
-
-  final String username;
-
-  @override
-  List<Object> get props => [username];
+abstract class SignUpEvent {
+  SignUpEvent(
+      {this.password,
+      this.name,
+      this.paytag,
+      this.email,
+      this.country,
+      this.username});
+  String? password;
+  String? name;
+  String? paytag;
+  String? email;
+  Country? country;
+  String? username;
 }
 
 class SignUpPasswordChanged extends SignUpEvent {
-  const SignUpPasswordChanged(this.password);
+  SignUpPasswordChanged(this.password);
 
   final String password;
+}
+
+class SignUpNameChanged extends SignUpEvent {
+  SignUpNameChanged(this.name);
+
+  final String name;
+}
+
+class SignUpPaytagChanged extends SignUpEvent {
+  SignUpPaytagChanged(this.paytag);
+
+  final String paytag;
+}
+
+class SignUpEmailChanged extends SignUpEvent {
+  SignUpEmailChanged(this.email);
+
+  final String email;
 
   @override
-  List<Object> get props => [password];
+  List<Object> get props => [email];
+}
+
+class SignUpCountryChanged extends SignUpEvent {
+  SignUpCountryChanged(this.country);
+
+  final Country country;
+}
+
+class SignUpTransferPinChanged extends SignUpEvent {
+  SignUpTransferPinChanged(this.transferPin);
+
+  final String transferPin;
 }
 
 class SignUpSubmitted extends SignUpEvent {
-  const SignUpSubmitted();
+  SignUpSubmitted();
 }

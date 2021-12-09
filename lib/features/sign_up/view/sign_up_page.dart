@@ -153,7 +153,7 @@ class MobileSignUp extends StatefulWidget {
 }
 
 class _MobileSignUpState extends State<MobileSignUp> {
-  final int _numPages = 3;
+  final int _numPages = 6;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -213,9 +213,12 @@ class _MobileSignUpState extends State<MobileSignUp> {
                       });
                     },
                     children: <Widget>[
-                      _pageOneSignUp(),
-                      _pageOneSignUp(),
-                      _pageOneSignUp(),
+                      _countryPage(),
+                      _namePage(),
+                      _emailPage(),
+                      _paytagPage(),
+                      _passwordPage(),
+                      _transferPinPage(),
                     ],
                   ),
                 ),
@@ -310,7 +313,109 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _pageOneSignUp() {
+  Widget _countryPage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Country",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'select your country',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: CountryInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _emailPage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Email",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'enter your email',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: EmailInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _transferPinPage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Transfer Pin",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'set up a transfer pin for your account. ',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: TransferPinInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _namePage() {
     return Column(
       children: [
         Container(
@@ -328,6 +433,74 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'Enter your full name.',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: NameInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _paytagPage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Paytag",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Create a one time paytag.',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: PaytagInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _passwordPage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Password",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'set up your account password.',
                   style: kSubtitleStyle,
                 ),
               ],
@@ -362,7 +535,7 @@ class _MobileSignUpGetStartedButton extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              context.read<SignUpBloc>().add(const SignUpSubmitted());
+              context.read<SignUpBloc>().add(SignUpSubmitted());
             },
           ),
         );
