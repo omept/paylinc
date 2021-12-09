@@ -23,13 +23,13 @@ class SignUpForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _UsernameInput(),
+            UsernameInput(),
             const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
+            PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
-            _SignUpButton(),
+            SignUpButton(),
             const Padding(padding: EdgeInsets.all(12)),
-            _PrevAcctButton(),
+            PrevAcctButton(),
           ],
         ),
       ),
@@ -37,7 +37,7 @@ class SignUpForm extends StatelessWidget {
   }
 }
 
-class _UsernameInput extends StatelessWidget {
+class UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -57,7 +57,7 @@ class _UsernameInput extends StatelessWidget {
   }
 }
 
-class _PasswordInput extends StatelessWidget {
+class PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -78,7 +78,7 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _SignUpButton extends StatelessWidget {
+class SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -100,7 +100,7 @@ class _SignUpButton extends StatelessWidget {
   }
 }
 
-class _PrevAcctButton extends StatelessWidget {
+class PrevAcctButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
