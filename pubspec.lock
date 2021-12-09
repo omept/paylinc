@@ -297,7 +297,7 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.8"
+    version: "4.5.1"
   glob:
     dependency: transitive
     description:
@@ -709,13 +709,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.4"
   vector_math:
     dependency: transitive
     description:
