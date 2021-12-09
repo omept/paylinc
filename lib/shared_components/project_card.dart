@@ -39,15 +39,9 @@ class ProjectCard extends StatelessWidget {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _TitleText(data.projectName),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  const _SubtitleText("Release time : "),
-                  _ReleaseTimeText(data.releaseTime)
-                ],
-              )
             ],
           ),
         )
