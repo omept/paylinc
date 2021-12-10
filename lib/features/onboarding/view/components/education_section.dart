@@ -33,6 +33,7 @@ final List<Education> educationList = [
 class EducationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -40,7 +41,7 @@ class EducationSection extends StatelessWidget {
           Text(
             "EDUCATION",
             style: TextStyle(
-              color: Colors.white,
+              color: themeContext.colorScheme.onBackground,
               fontWeight: FontWeight.w900,
               fontSize: 30.0,
               height: 1.3,
@@ -56,7 +57,7 @@ class EducationSection extends StatelessWidget {
                 child: Text(
                   "A full stack all round developer that does all the job he needs to do at all times. Actually this is a false statement",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: themeContext.colorScheme.onBackground,
                     height: 1.5,
                   ),
                 ),
@@ -82,7 +83,7 @@ class EducationSection extends StatelessWidget {
                               Text(
                                 education.period,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeContext.colorScheme.onBackground,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 20.0,
                                 ),
@@ -95,7 +96,7 @@ class EducationSection extends StatelessWidget {
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  color: kCaptionColor,
+                                  color: themeContext.textTheme.caption?.color,
                                   height: 1.5,
                                 ),
                               ),
@@ -109,7 +110,8 @@ class EducationSection extends StatelessWidget {
                                   child: Text(
                                     education.linkName,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                     ),
                                   ),
                                 ),

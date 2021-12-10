@@ -34,6 +34,7 @@ final List<FooterItem> footerItems = [
 class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Container(
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -71,7 +72,8 @@ class Footer extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.white,
+                                        color: themeContext
+                                            .colorScheme.onBackground,
                                       ),
                                     ),
                                   ],
@@ -86,14 +88,16 @@ class Footer extends StatelessWidget {
                                       TextSpan(
                                         text: "${footerItem.text1}\n",
                                         style: TextStyle(
-                                          color: kCaptionColor,
+                                          color: themeContext
+                                              .textTheme.caption?.color,
                                           height: 1.8,
                                         ),
                                       ),
                                       TextSpan(
                                         text: "${footerItem.text2}\n",
                                         style: TextStyle(
-                                          color: kCaptionColor,
+                                          color: themeContext
+                                              .textTheme.caption?.color,
                                         ),
                                       )
                                     ],
@@ -123,7 +127,7 @@ class Footer extends StatelessWidget {
                     child: Text(
                       "Copyright (c) 2021 Michele Harrington. All rights Reserved",
                       style: TextStyle(
-                        color: kCaptionColor,
+                        color: themeContext.textTheme.caption?.color,
                       ),
                     ),
                   ),
@@ -137,7 +141,7 @@ class Footer extends StatelessWidget {
                           child: Text(
                             "Privacy Policy",
                             style: TextStyle(
-                              color: kCaptionColor,
+                              color: themeContext.textTheme.caption?.color,
                             ),
                           ),
                         ),
@@ -147,7 +151,7 @@ class Footer extends StatelessWidget {
                         child: Text(
                           "|",
                           style: TextStyle(
-                            color: kCaptionColor,
+                            color: themeContext.textTheme.caption?.color,
                           ),
                         ),
                       ),
@@ -158,7 +162,7 @@ class Footer extends StatelessWidget {
                           child: Text(
                             "Terms & Conditions",
                             style: TextStyle(
-                              color: kCaptionColor,
+                              color: themeContext.textTheme.caption?.color,
                             ),
                           ),
                         ),

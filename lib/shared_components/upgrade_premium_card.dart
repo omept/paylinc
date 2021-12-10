@@ -17,7 +17,7 @@ class UpgradePremiumCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(kBorderRadius),
-      color: backgroundColor ?? Theme.of(context).cardColor,
+      color: Theme.of(context).primaryColorDark,
       child: InkWell(
         borderRadius: BorderRadius.circular(kBorderRadius),
         onTap: onPressed,
@@ -83,32 +83,35 @@ class _Info extends StatelessWidget {
   }
 
   Widget _price() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.1),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      padding: const EdgeInsets.all(10),
-      child: RichText(
-        text: TextSpan(
-          style: TextStyle(
-            fontSize: 10,
-            color: kFontColorPallets[0],
-            fontWeight: FontWeight.w200,
-          ),
-          children: [
-            const TextSpan(text: "10\$ "),
-            TextSpan(
-              text: "per month",
-              style: TextStyle(
-                color: kFontColorPallets[1],
-              ),
-            ),
-          ],
+    return Builder(builder: (context) {
+      var themeContext = Theme.of(context);
+      return Container(
+        decoration: BoxDecoration(
+          color: themeContext.textTheme.caption?.color?.withOpacity(.1),
+          borderRadius: BorderRadius.circular(5),
         ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
+        padding: const EdgeInsets.all(10),
+        child: RichText(
+          text: TextSpan(
+            style: TextStyle(
+              fontSize: 10,
+              color: themeContext.colorScheme.onBackground,
+              fontWeight: FontWeight.w200,
+            ),
+            children: [
+              const TextSpan(text: "10\$ "),
+              TextSpan(
+                text: "per month",
+                style: TextStyle(
+                  color: themeContext.textTheme.caption?.color,
+                ),
+              ),
+            ],
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    });
   }
 }

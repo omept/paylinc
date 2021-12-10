@@ -21,6 +21,7 @@ class WebsiteAd extends StatelessWidget {
     return Center(
       child: LayoutBuilder(
         builder: (context, constraints) {
+          var themeContext = Theme.of(context);
           return ResponsiveWrapper(
             maxWidth: width,
             minWidth: width,
@@ -41,7 +42,7 @@ class WebsiteAd extends StatelessWidget {
                         Text(
                           "WEBSITE",
                           style: TextStyle(
-                            color: kPrimaryColor,
+                            color: themeContext.primaryColor,
                             fontWeight: FontWeight.w900,
                             fontSize: 16.0,
                           ),
@@ -52,7 +53,7 @@ class WebsiteAd extends StatelessWidget {
                         Text(
                           "EVOLVING NAGA\nRESORT WEBSITE",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: themeContext.colorScheme.onBackground,
                             fontWeight: FontWeight.w900,
                             height: 1.3,
                             fontSize: 35.0,
@@ -64,7 +65,7 @@ class WebsiteAd extends StatelessWidget {
                         Text(
                           "This is a random text about the project, I should have used the regular lorem ipsum text, but I am too lazy to search for that. This should be long enough",
                           style: TextStyle(
-                            color: kCaptionColor,
+                            color: themeContext.textTheme.caption?.color,
                             height: 1.5,
                             fontSize: 15.0,
                           ),
@@ -78,7 +79,7 @@ class WebsiteAd extends StatelessWidget {
                               cursor: SystemMouseCursors.click,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: kPrimaryColor,
+                                  color: themeContext.primaryColor,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 height: 48.0,
@@ -91,7 +92,8 @@ class WebsiteAd extends StatelessWidget {
                                     child: Text(
                                       "EXPLORE MORE",
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: themeContext
+                                            .colorScheme.onBackground,
                                         fontSize: 13.0,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -109,7 +111,7 @@ class WebsiteAd extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   border: Border.all(
-                                    color: kPrimaryColor,
+                                    color: themeContext.primaryColor,
                                   ),
                                 ),
                                 height: 48.0,
@@ -120,7 +122,7 @@ class WebsiteAd extends StatelessWidget {
                                     child: Text(
                                       "NEXT APP",
                                       style: TextStyle(
-                                        color: kPrimaryColor,
+                                        color: themeContext.primaryColor,
                                         fontSize: 13.0,
                                         fontWeight: FontWeight.bold,
                                       ),

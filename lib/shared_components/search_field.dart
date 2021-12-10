@@ -10,6 +10,7 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -21,14 +22,14 @@ class SearchField extends StatelessWidget {
         prefixIcon: const Icon(EvaIcons.search),
         hintText: "search..",
         isDense: true,
-        fillColor: Theme.of(context).cardColor,
+        fillColor: themeContext.cardColor,
       ),
       onEditingComplete: () {
         FocusScope.of(context).unfocus();
         if (onSearch != null) onSearch!(controller.text);
       },
       textInputAction: TextInputAction.search,
-      style: TextStyle(color: kFontColorPallets[1]),
+      style: TextStyle(color: themeContext.textTheme.caption?.color),
     );
   }
 }

@@ -158,17 +158,16 @@ class _MobileSignUpState extends State<MobileSignUp> {
   int _currentPage = 0;
 
   final kTitleStyle = TextStyle(
-    color: Colors.white,
     fontFamily: 'CM Sans Serif',
     fontSize: 26.0,
     height: 1.5,
   );
 
-  final kSubtitleStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 13.0,
-    height: 1.2,
-  );
+  kSubtitleStyle(themeContext) => TextStyle(
+        color: themeContext?.textTheme?.caption?.color,
+        fontSize: 13.0,
+        height: 1.2,
+      );
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
     for (int i = 0; i < _numPages; i++) {
@@ -178,21 +177,27 @@ class _MobileSignUpState extends State<MobileSignUp> {
   }
 
   Widget _indicator(bool isActive) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 8.0,
-      width: isActive ? 24.0 : 16.0,
-      decoration: BoxDecoration(
-        color: isActive ? Colors.white : Color(0xFF7B51D3),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-    );
+    return Builder(builder: (context) {
+      var themeContext = Theme.of(context);
+      return AnimatedContainer(
+        duration: Duration(milliseconds: 150),
+        margin: EdgeInsets.symmetric(horizontal: 8.0),
+        height: 8.0,
+        width: isActive ? 24.0 : 16.0,
+        decoration: BoxDecoration(
+          color: isActive
+              ? themeContext.colorScheme.onBackground
+              : themeContext.primaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var themeContext = Theme.of(context);
     return SafeArea(
       child: Container(
         height: size.height,
@@ -213,14 +218,14 @@ class _MobileSignUpState extends State<MobileSignUp> {
                       });
                     },
                     children: <Widget>[
-                      // _transferPinPage(),
+                      _paytagPage(themeContext),
 // -----
-                      // _countryPage(),
-                      _namePage(),
-                      _paytagPage(),
-                      _emailPage(),
-                      _passwordPage(),
-                      _transferPinPage(),
+
+                      _namePage(themeContext),
+                      // _paytagPage(),
+                      _emailPage(themeContext),
+                      _passwordPage(themeContext),
+                      _transferPinPage(themeContext),
                     ],
                   ),
                 ),
@@ -253,14 +258,16 @@ class _MobileSignUpState extends State<MobileSignUp> {
                                 children: <Widget>[
                                   Icon(
                                     Icons.arrow_back,
-                                    color: Colors.white,
+                                    color:
+                                        themeContext.colorScheme.onBackground,
                                     size: 30.0,
                                   ),
                                   SizedBox(width: 10.0),
                                   Text(
                                     'Previous',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                       fontSize: 22.0,
                                     ),
                                   ),
@@ -291,14 +298,16 @@ class _MobileSignUpState extends State<MobileSignUp> {
                                   Text(
                                     'Next',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                       fontSize: 22.0,
                                     ),
                                   ),
                                   SizedBox(width: 10.0),
                                   Icon(
                                     Icons.arrow_forward,
-                                    color: Colors.white,
+                                    color:
+                                        themeContext.colorScheme.onBackground,
                                     size: 30.0,
                                   ),
                                 ],
@@ -315,7 +324,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _countryPage() {
+  Widget _countryPage(themeContext) {
     return Column(
       children: [
         Container(
@@ -333,7 +342,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'your country has been set. click Next.',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -349,7 +358,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _emailPage() {
+  Widget _emailPage(themeContext) {
     return Column(
       children: [
         Container(
@@ -367,7 +376,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'enter your email',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -383,7 +392,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _transferPinPage() {
+  Widget _transferPinPage(themeContext) {
     return Column(
       children: [
         Container(
@@ -401,7 +410,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'set up a transfer pin for your account. ',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -417,7 +426,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _namePage() {
+  Widget _namePage(themeContext) {
     return Column(
       children: [
         Container(
@@ -435,7 +444,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'Enter your full name.',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -451,7 +460,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _paytagPage() {
+  Widget _paytagPage(themeContext) {
     return Column(
       children: [
         Container(
@@ -469,7 +478,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'Create a one time paytag.',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -485,7 +494,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _passwordPage() {
+  Widget _passwordPage(themeContext) {
     return Column(
       children: [
         Container(
@@ -503,7 +512,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 SizedBox(height: 15.0),
                 Text(
                   'set up your account password.',
-                  style: kSubtitleStyle,
+                  style: kSubtitleStyle(themeContext),
                 ),
               ],
             ),
@@ -529,10 +538,10 @@ class _MobileSignUpGetStartedButton extends StatelessWidget {
         return Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            child: const Text(
+            child: Text(
               'Get Started',
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 22.0,
               ),
             ),

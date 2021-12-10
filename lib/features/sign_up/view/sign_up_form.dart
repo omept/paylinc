@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class EmailInputField extends StatelessWidget {
 }
 
 class CountryInput extends StatelessWidget {
-  var kCountry = Country(countryName: "Nigeria", countryId: 123);
+  final kCountry = Country(countryName: "Nigeria", countryId: 123);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -136,8 +137,14 @@ class PasswordInput extends StatelessWidget {
   }
 }
 
-class PaytagInput extends StatelessWidget {
+class PaytagInput extends StatefulWidget {
+  @override
+  State<PaytagInput> createState() => _PaytagInputState();
+}
+
+class _PaytagInputState extends State<PaytagInput> {
   Timer? _debounce;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -147,7 +154,6 @@ class PaytagInput extends StatelessWidget {
           children: [
             TextFormField(
               initialValue: state.paytag.value,
-              key: const Key('signUpForm_paytagInput_textField'),
               onChanged: (paytag) {
                 if (_debounce?.isActive ?? false) _debounce?.cancel();
                 _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -156,15 +162,32 @@ class PaytagInput extends StatelessWidget {
               },
               decoration: InputDecoration(
                 labelText: 'Paytag',
-                errorText: state.paytagErrorUsageMessage.length > 0
-                    ? state.paytagErrorUsageMessage
-                    : null,
+                errorStyle: paytagMessageStyle(state),
+                errorText: paytagMessage(state),
               ),
             ),
           ],
         );
       },
     );
+  }
+
+  String? paytagMessage(SignUpState state) {
+    return state.paytagErrorUsageMessage.length > 0
+        ? state.paytagErrorUsageMessage
+        : null;
+  }
+
+  TextStyle? paytagMessageStyle(SignUpState state) {
+    if (state.paytagErrorUsageMessage == "") {
+      return null;
+    }
+
+    if (state.paytagErrorUsageMessage == "Successful") {
+      return TextStyle();
+    } else {
+      return TextStyle();
+    }
   }
 }
 

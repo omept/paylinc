@@ -88,7 +88,9 @@ class OnboardingPage extends StatelessWidget {
                                         child: Text(
                                           item.title,
                                           style: menuItemTextStyle(
-                                              color: Colors.white),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground),
                                         ),
                                       ),
                                     ),
@@ -102,7 +104,9 @@ class OnboardingPage extends StatelessWidget {
                                         child: Text(
                                           item.title,
                                           style: menuItemButtonStyle(
-                                              color: Colors.white),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground),
                                         ),
                                       ),
                                     ),
@@ -196,10 +200,10 @@ class _MobileOnboardingGetStartedButton extends StatelessWidget {
       // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         return TextButton(
-          child: const Text(
+          child: Text(
             'GET STARTED',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 22.0,
             ),
           ),
@@ -219,10 +223,10 @@ class _MobileOnboardingSkipButton extends StatelessWidget {
       // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         return TextButton(
-          child: const Text(
+          child: Text(
             'Skip',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 15.0,
             ),
           ),
@@ -261,7 +265,10 @@ class HeaderLogo extends StatelessWidget {
                       children: [
                         TextSpan(
                             text: "Paylinc",
-                            style: menuItemTextStyle(color: Colors.white)),
+                            style: menuItemTextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground)),
                       ],
                     ),
                   ),
@@ -312,34 +319,30 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
-  final kTitleStyle = TextStyle(
-    color: Colors.white,
-    fontFamily: 'CM Sans Serif',
-    fontSize: 26.0,
-    height: 1.5,
-  );
-
   final kSubtitleStyle = TextStyle(
-    color: Colors.white,
     fontSize: 18.0,
     height: 1.2,
   );
-  List<Widget> _buildPageIndicator() {
+  List<Widget> _buildPageIndicator(context) {
     List<Widget> list = [];
     for (int i = 0; i < _numPages; i++) {
-      list.add(i == _currentPage ? _indicator(true) : _indicator(false));
+      list.add(i == _currentPage
+          ? _indicator(true, context)
+          : _indicator(false, context));
     }
     return list;
   }
 
-  Widget _indicator(bool isActive) {
+  Widget _indicator(bool isActive, context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Color(0xFF7B51D3),
+        color: isActive
+            ? Theme.of(context).colorScheme.onBackground
+            : Theme.of(context).colorScheme.primaryVariant,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -401,7 +404,7 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
                 padding: const EdgeInsets.only(bottom: kSpacing),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: _buildPageIndicator(),
+                  children: _buildPageIndicator(context),
                 ),
               ),
               _currentPage != _numPages - 1
@@ -422,14 +425,17 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
                               Text(
                                 'Next',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                   fontSize: 22.0,
                                 ),
                               ),
                               SizedBox(width: 10.0),
                               Icon(
                                 Icons.arrow_forward,
-                                color: Colors.white,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                                 size: 30.0,
                               ),
                             ],

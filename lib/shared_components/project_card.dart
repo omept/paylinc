@@ -102,7 +102,7 @@ class _TitleText extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: kFontColorPallets[0],
+        color: Theme.of(context).colorScheme.onBackground,
         letterSpacing: 0.8,
       ),
       maxLines: 1,
@@ -119,7 +119,8 @@ class _SubtitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
-      style: TextStyle(fontSize: 11, color: kFontColorPallets[2]),
+      style: TextStyle(
+          fontSize: 11, color: Theme.of(context).textTheme.caption?.color),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -141,7 +142,8 @@ class _ReleaseTimeText extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),
       child: Text(
         DateFormat.yMMMd().format(date),
-        style: const TextStyle(fontSize: 9, color: Colors.white),
+        style: TextStyle(
+            fontSize: 9, color: Theme.of(context).colorScheme.onBackground),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

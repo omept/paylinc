@@ -19,8 +19,9 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Container(
-      color: Theme.of(context).cardColor,
+      color: themeContext.cardColor,
       child: SingleChildScrollView(
         controller: ScrollController(),
         child: Column(
@@ -101,7 +102,7 @@ class Sidebar extends StatelessWidget {
             const Divider(thickness: 1),
             const SizedBox(height: kSpacing * 2),
             UpgradePremiumCard(
-              backgroundColor: Theme.of(context).canvasColor.withOpacity(.4),
+              backgroundColor: themeContext.canvasColor.withOpacity(.4),
               onPressed: () {},
             ),
             const SizedBox(height: kSpacing),
