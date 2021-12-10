@@ -137,6 +137,7 @@ class PasswordInput extends StatelessWidget {
 }
 
 class PaytagInput extends StatelessWidget {
+  Timer? _debounce;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -147,8 +148,12 @@ class PaytagInput extends StatelessWidget {
             TextFormField(
               initialValue: state.paytag.value,
               key: const Key('signUpForm_paytagInput_textField'),
-              onChanged: (paytag) =>
-                  context.read<SignUpBloc>().add(SignUpPaytagChanged(paytag)),
+              onChanged: (paytag) {
+                if (_debounce?.isActive ?? false) _debounce?.cancel();
+                _debounce = Timer(const Duration(milliseconds: 500), () {
+                  context.read<SignUpBloc>().add(SignUpPaytagChanged(paytag));
+                });
+              },
               decoration: InputDecoration(
                 labelText: 'Paytag',
                 errorText: state.paytagErrorUsageMessage.length > 0

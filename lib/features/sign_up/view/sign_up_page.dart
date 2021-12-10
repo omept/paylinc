@@ -376,7 +376,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
         ),
         Padding(
           padding: const EdgeInsets.all(kSpacing),
-          child: Container(),
+          child: EmailInputField(),
         ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

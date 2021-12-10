@@ -87,6 +87,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpPaytagChanged event,
     SignUpState state,
   ) {
+    state = checkPaytagAvailability(state);
     final paytag = TextInput.dirty(event.paytag);
     return state.copyWith(
       paytag: paytag,
@@ -124,5 +125,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
     }
+  }
+
+  SignUpState checkPaytagAvailability(SignUpState state) {
+    return state.copyWith(
+      paytag: state.paytag,
+    );
   }
 }
