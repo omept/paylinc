@@ -92,7 +92,6 @@ class EmailInputField extends StatelessWidget {
 }
 
 class CountryInput extends StatelessWidget {
-  final kCountry = Country(countryName: "Nigeria", countryId: 123);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
@@ -167,7 +166,7 @@ class _PaytagInputState extends State<PaytagInput> {
                 errorText: state.paytag.invalid ? 'invalid paytag' : null,
               ),
             ),
-            state.paytagUsageMessage.length > 0 && !state.paytag.invalid
+            state.paytag.valid
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
@@ -258,11 +257,9 @@ class SignUpButton extends StatelessWidget {
             : ElevatedButton(
                 key: const Key('signupForm_continue_raisedButton'),
                 child: const Text('Sign Up'),
-                onPressed: state.status.isValidated
-                    ? () {
-                        context.read<SignUpBloc>().add(SignUpSubmitted());
-                      }
-                    : null,
+                onPressed: () {
+                  context.read<SignUpBloc>().add(SignUpSubmitted());
+                },
               );
       },
     );

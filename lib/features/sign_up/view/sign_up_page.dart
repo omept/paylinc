@@ -218,11 +218,10 @@ class _MobileSignUpState extends State<MobileSignUp> {
                       });
                     },
                     children: <Widget>[
-                      _paytagPage(themeContext),
 // -----
 
                       _namePage(themeContext),
-                      // _paytagPage(),
+                      _paytagPage(themeContext),
                       _emailPage(themeContext),
                       _passwordPage(themeContext),
                       _transferPinPage(themeContext),

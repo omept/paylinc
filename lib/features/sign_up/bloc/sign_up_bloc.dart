@@ -4,7 +4,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:get/get.dart';
+import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/form_inputs/text_input.dart';
+import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -115,13 +118,34 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       print('sign up submit state');
       print(state);
-      yield state.copyWith(status: FormzStatus.submissionInProgress);
+      // yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        // await _authenticationRepository.logIn(
-        //   username: state.username.value,
-        //   password: state.password.value,
-        // );
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+        var api = UserApi.withAuthRepository(this._authenticationRepository);
+        var signUpRes = await api.signUp({
+          'email': state.email.value,
+          'name': state.name.value,
+          'paytag': state.paytag.value,
+          'country_id': kCountry.countryId.toString(),
+          'password': state.password.value,
+          'transfer_pin': state.transferPin.value,
+        });
+        print(signUpRes);
+        if (signUpRes.status == true) {
+          var locStorageServ = LocalStorageServices();
+          locStorageServ.saveToken(signUpRes.data?['access_token']);
+          locStorageServ.saveUserFromMap(signUpRes.data?['user']);
+          _authenticationRepository.setLoggedIn();
+
+          yield state.copyWith(
+            status: FormzStatus.submissionSuccess,
+          );
+        } else {
+          Get.snackbar('Sign Up Failed',
+              signUpRes.message ?? RestApiServices.errMessage);
+
+          yield state.copyWith(status: FormzStatus.submissionFailure);
+        }
+        // yield state.copyWith(status: FormzStatus.submissionSuccess);
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
@@ -133,15 +157,18 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     yield state.copyWith(
       paytagUsageMessage: 'checking ' + event.paytag,
     );
-    print('should say checking for ' + event.paytag);
-    var api = UserApi.withAuthRepository(this._authenticationRepository);
-    var loginRes = await api.isPaytagUsable({
-      'paytag': event.paytag,
-    });
-    print(loginRes);
-    yield state.copyWith(
-      paytagUsageMessage: loginRes.message?.toLowerCase(),
-    );
-    print('should say ' + (loginRes.message ?? ''));
+    try {
+      var api = UserApi.withAuthRepository(this._authenticationRepository);
+      var loginRes = await api.isPaytagUsable({
+        'paytag': event.paytag,
+      });
+      yield state.copyWith(
+        paytagUsageMessage: loginRes.message?.toLowerCase(),
+      );
+    } on Exception catch (_) {
+      yield state.copyWith(
+        paytagUsageMessage: 'no internet',
+      );
+    }
   }
 }

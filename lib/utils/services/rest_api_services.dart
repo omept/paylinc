@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
+import 'package:paylinc/shared_components/form_inputs/text_input.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 part 'user_api.dart';
 

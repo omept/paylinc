@@ -30,4 +30,14 @@ class UserApi extends RestApiServices {
       return ResponseModel(message: UserApi.errMessage);
     }
   }
+
+  signUp(Map<String, String> data) async {
+    try {
+      final String url = "auth/sign-up/";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
 }
