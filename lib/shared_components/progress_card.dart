@@ -61,7 +61,7 @@ class ProgressCard extends StatelessWidget {
                 ),
                 Text(
                   "${data.totalTaskInProress} Tasks are in progress",
-                  style: TextStyle(color: kFontColorPallets[1]),
+                  style: TextStyle(color: kLightGrayTextColor),
                 ),
                 const SizedBox(height: kSpacing),
                 ElevatedButton(

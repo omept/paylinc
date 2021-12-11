@@ -12,21 +12,21 @@ class _TeamMember extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Row(
       children: [
         RichText(
           text: TextSpan(
             style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: kFontColorPallets[0],
-            ),
+                fontWeight: FontWeight.bold,
+                color: themeContext.colorScheme.onBackground),
             children: [
               const TextSpan(text: "Team Member "),
               TextSpan(
                 text: "($totalMember)",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  color: kFontColorPallets[2],
+                  color: themeContext.textTheme.caption?.color,
                 ),
               ),
             ],

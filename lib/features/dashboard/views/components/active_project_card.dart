@@ -50,7 +50,7 @@ class _ActiveProjectCard extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: const Text("See All"),
-      style: TextButton.styleFrom(primary: kFontColorPallets[1]),
+      style: TextButton.styleFrom(primary: kLightGrayTextColor),
     );
   }
 }

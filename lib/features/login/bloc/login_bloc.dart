@@ -7,6 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:get/route_manager.dart';
 import 'package:paylinc/shared_components/form_inputs/password.dart';
 import 'package:paylinc/shared_components/form_inputs/username.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
@@ -83,13 +84,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             status: FormzStatus.submissionSuccess,
           );
         } else {
-          Get.snackbar(
+          Snackbar.errSnackBar(
               'Login Failed', loginRes.message ?? RestApiServices.errMessage);
 
           yield state.copyWith(
               status: FormzStatus.submissionFailure, message: loginRes.message);
         }
       } on Exception catch (_) {
+        Snackbar.errSnackBar('Login Failed', RestApiServices.errMessage);
+
         yield state.copyWith(
             status: FormzStatus.submissionFailure, message: UserApi.errMessage);
       }

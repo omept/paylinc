@@ -29,6 +29,7 @@ class ChattingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Column(
       children: [
         ListTile(
@@ -37,7 +38,9 @@ class ChattingCard extends StatelessWidget {
             children: [
               CircleAvatar(backgroundImage: data.image),
               CircleAvatar(
-                backgroundColor: data.isOnline ? Colors.green : Colors.grey,
+                backgroundColor: data.isOnline
+                    ? Colors.green
+                    : themeContext.textTheme.caption?.color,
                 radius: 5,
               ),
             ],
@@ -46,14 +49,14 @@ class ChattingCard extends StatelessWidget {
             data.name,
             style: TextStyle(
               fontSize: 13,
-              color: kFontColorPallets[0],
+              color: themeContext.colorScheme.onBackground,
             ),
           ),
           subtitle: Text(
             data.lastMessage,
             style: TextStyle(
               fontSize: 11,
-              color: kFontColorPallets[2],
+              color: themeContext.textTheme.caption?.color,
             ),
           ),
           onTap: onPressed,
@@ -61,7 +64,9 @@ class ChattingCard extends StatelessWidget {
               ? _notif(data.totalUnread)
               : Icon(
                   Icons.check,
-                  color: data.isRead ? Colors.grey : Colors.green,
+                  color: data.isRead
+                      ? themeContext.textTheme.caption?.color
+                      : Colors.green,
                 ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -73,24 +78,27 @@ class ChattingCard extends StatelessWidget {
   }
 
   Widget _notif(int total) {
-    return Container(
-      width: 30,
-      height: 30,
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Theme.of(Get.context!).primaryColor,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        (total >= 100) ? "99+" : "$total",
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
+    return Builder(builder: (context) {
+      var themeContext = Theme.of(Get.context!);
+      return Container(
+        width: 30,
+        height: 30,
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: themeContext.primaryColor,
+          borderRadius: BorderRadius.circular(15),
         ),
-        textAlign: TextAlign.center,
-      ),
-    );
+        alignment: Alignment.center,
+        child: Text(
+          (total >= 100) ? "99+" : "$total",
+          style: TextStyle(
+            color: themeContext.colorScheme.onBackground,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    });
   }
 }

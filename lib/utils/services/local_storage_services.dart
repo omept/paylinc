@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// contains all service to get data from local
@@ -31,6 +32,12 @@ class LocalStorageServices {
     User user = User.fromMap(data);
     var authTokBox = await Hive.openBox('auth_user');
     authTokBox.put('user', user.toJson());
+  }
+
+  Future<void> saveUserStatisticsFromMap(Map<String, dynamic> data) async {
+    UserStatistics userStatistics = UserStatistics.fromMap(data);
+    var authTokBox = await Hive.openBox('auth_user');
+    authTokBox.put('user_statistics', userStatistics.toJson());
   }
 
   Future<User?> getUser() async {

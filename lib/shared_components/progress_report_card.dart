@@ -81,10 +81,11 @@ class _RichText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return RichText(
       text: TextSpan(
         style: TextStyle(
-          color: kFontColorPallets[0],
+          color: themeContext.colorScheme.onBackground,
           fontWeight: FontWeight.bold,
           fontSize: 12,
         ),
@@ -93,7 +94,7 @@ class _RichText extends StatelessWidget {
           TextSpan(
             text: value2,
             style: TextStyle(
-              color: kFontColorPallets[0],
+              color: themeContext.colorScheme.onBackground,
               fontWeight: FontWeight.w100,
             ),
           ),
@@ -110,6 +111,7 @@ class _Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return CircularPercentIndicator(
       radius: 140,
       lineWidth: 15,
@@ -128,8 +130,8 @@ class _Indicator extends StatelessWidget {
           ),
         ],
       ),
-      progressColor: Colors.white,
-      backgroundColor: Colors.white.withOpacity(.3),
+      progressColor: themeContext.colorScheme.onBackground,
+      backgroundColor: themeContext.colorScheme.onBackground.withOpacity(.3),
     );
   }
 }

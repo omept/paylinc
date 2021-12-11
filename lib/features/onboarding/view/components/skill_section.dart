@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/skill.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -30,6 +29,7 @@ List<Skill> skills = [
 class SkillSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return ResponsiveWrapper(
@@ -59,7 +59,7 @@ class SkillSection extends StatelessWidget {
                     Text(
                       "SKILLS",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: themeContext.colorScheme.onBackground,
                         fontWeight: FontWeight.w900,
                         fontSize: 28.0,
                         height: 1.3,
@@ -71,7 +71,7 @@ class SkillSection extends StatelessWidget {
                     Text(
                       "This is all the skills listed below more will be added in due time. This is all the skills listed below more will be added in due time.",
                       style: TextStyle(
-                        color: kCaptionColor,
+                        color: themeContext.textTheme.caption?.color,
                         height: 1.5,
                         fontSize: 16.0,
                       ),
@@ -93,7 +93,8 @@ class SkillSection extends StatelessWidget {
                                       alignment: Alignment.centerLeft,
                                       height: 38.0,
                                       child: Text(skill.skill),
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                     ),
                                   ),
                                   SizedBox(
@@ -103,7 +104,8 @@ class SkillSection extends StatelessWidget {
                                     // remaining (blank part)
                                     flex: 100 - skill.percentage,
                                     child: Divider(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                     ),
                                   ),
                                   SizedBox(
@@ -112,7 +114,8 @@ class SkillSection extends StatelessWidget {
                                   Text(
                                     "${skill.percentage}%",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                       fontSize: 16.0,
                                     ),
                                   )

@@ -23,43 +23,48 @@ final List<HeaderItem> guestHeaderItems = [
 ];
 
 Widget guestHeaderRow() {
-  return Row(
-    textDirection: TextDirection.rtl,
-    children: guestHeaderItems
-        .map(
-          (item) => item.isButton
-              ? MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: kDangerColor,
-                      borderRadius: BorderRadius.circular(8.0),
+  return Builder(builder: (context) {
+    var themeContext = Theme.of(context);
+    return Row(
+      textDirection: TextDirection.rtl,
+      children: guestHeaderItems
+          .map(
+            (item) => item.isButton
+                ? MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: kDangerColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                      child: TextButton(
+                        onPressed: item.onTap,
+                        child: Text(
+                          item.title,
+                          style: menuItemTextStyle(
+                              color: themeContext.colorScheme.onBackground),
+                        ),
+                      ),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                    child: TextButton(
-                      onPressed: item.onTap,
-                      child: Text(
-                        item.title,
-                        style: menuItemTextStyle(color: Colors.white),
+                  )
+                : MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 30.0),
+                      child: GestureDetector(
+                        onTap: item.onTap,
+                        child: Text(
+                          item.title,
+                          style: menuItemButtonStyle(
+                              color: themeContext.colorScheme.onBackground),
+                        ),
                       ),
                     ),
                   ),
-                )
-              : MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Container(
-                    margin: EdgeInsets.only(right: 30.0),
-                    child: GestureDetector(
-                      onTap: item.onTap,
-                      child: Text(
-                        item.title,
-                        style: menuItemButtonStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-        )
-        .toList(),
-  );
+          )
+          .toList(),
+    );
+  });
 }

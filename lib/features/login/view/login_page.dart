@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +8,9 @@ import 'package:paylinc/config/authentication/authentication.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/login/login.dart';
-import 'package:paylinc/shared_components/guest_header_items.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -32,38 +28,6 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _loginPageDesktopScreenWidget(context, constraints) {
-    // return Row(
-    //   children: [
-    //     Flexible(
-    //       flex: 9,
-    //       child: Container(
-    //         color: Colors.green.shade400,
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Expanded(
-    //               child: Container(
-    //                 color: Colors.amberAccent,
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     Flexible(
-    //         flex: 4,
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Container(
-    //               height: 400,
-    //               width: 400,
-    //               color: Colors.blue,
-    //             )
-    //           ],
-    //         ))
-    //   ],
-    // );
     var size = MediaQuery.of(context).size;
     return Row(
       children: [
@@ -154,41 +118,6 @@ class LoginPage extends StatelessWidget {
           ]),
     );
   }
-
-  Widget _buildHeader({Function()? onPressedMenu, context}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              if (onPressedMenu != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: kSpacing),
-                  child: IconButton(
-                    onPressed: onPressedMenu,
-                    icon: const Icon(EvaIcons.menu),
-                    tooltip: "menu",
-                  ),
-                ),
-              const Expanded(
-                  child: Header(
-                todayText: TodayText(message: "Welcome Page"),
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                child: const Text('middle column '),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _UsernameInput extends StatelessWidget {
@@ -256,16 +185,12 @@ class _LoginButton extends StatelessWidget {
 class _NewAcctButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          child: const Text('New account?'),
-          onPressed: () {
-            context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
-          },
-        );
+    return ElevatedButton(
+      child: const Text('New account?'),
+      onPressed: () {
+        context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
       },
     );
   }
