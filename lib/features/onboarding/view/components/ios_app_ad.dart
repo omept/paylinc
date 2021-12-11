@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:paylinc/constants/app_constants.dart';
 
 class IosAppAd extends StatelessWidget {
   @override

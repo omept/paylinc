@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
@@ -148,10 +148,11 @@ class _PaytagInputState extends State<PaytagInput> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
-      buildWhen: (previous, current) => previous.paytag != current.paytag,
       builder: (context, state) {
         return Column(
-          children: [
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
             TextFormField(
               initialValue: state.paytag.value,
               onChanged: (paytag) {
@@ -162,31 +163,36 @@ class _PaytagInputState extends State<PaytagInput> {
               },
               decoration: InputDecoration(
                 labelText: 'Paytag',
-                errorStyle: paytagMessageStyle(state),
-                errorText: paytagMessage(state),
+                errorStyle: TextStyle(color: kDangerColor),
+                errorText: state.paytag.invalid ? 'invalid paytag' : null,
               ),
             ),
+            state.paytagUsageMessage.length > 0 && !state.paytag.invalid
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      state.paytagUsageMessage,
+                      style: _paytagMessageStyle(state),
+                    ),
+                  )
+                : Container(),
           ],
         );
       },
     );
   }
 
-  String? paytagMessage(SignUpState state) {
-    return state.paytagErrorUsageMessage.length > 0
-        ? state.paytagErrorUsageMessage
-        : null;
-  }
-
-  TextStyle? paytagMessageStyle(SignUpState state) {
-    if (state.paytagErrorUsageMessage == "") {
+  TextStyle? _paytagMessageStyle(SignUpState state) {
+    if (state.paytagUsageMessage == "") {
       return null;
     }
 
-    if (state.paytagErrorUsageMessage == "Successful") {
-      return TextStyle();
+    if (state.paytagUsageMessage == "available") {
+      return TextStyle(color: kNotifColor);
+    } else if (state.paytagUsageMessage == "checking . . .") {
+      return TextStyle(color: kNotifColor);
     } else {
-      return TextStyle();
+      return TextStyle(color: Theme.of(Get.context!).errorColor);
     }
   }
 }

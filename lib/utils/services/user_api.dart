@@ -11,11 +11,20 @@ class UserApi extends RestApiServices {
     super.onInit();
   }
 
-  Future<ResponseModel> login(Map data) async {
+  Future<ResponseModel> login(Map<String, String> data) async {
     try {
-      final String loginUrl = "auth/login/";
-      final response =
-          await post(loginUrl, data, headers: this.requestHeader());
+      final String url = "auth/login/";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
+
+  Future<ResponseModel> isPaytagUsable(Map<String, String> data) async {
+    try {
+      final String url = "auth/validate-paytag/";
+      final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
     } on Exception catch (_) {
       return ResponseModel(message: UserApi.errMessage);

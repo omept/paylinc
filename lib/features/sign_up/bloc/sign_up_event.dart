@@ -38,9 +38,6 @@ class SignUpEmailChanged extends SignUpEvent {
   SignUpEmailChanged(this.email);
 
   final String email;
-
-  @override
-  List<Object> get props => [email];
 }
 
 class SignUpCountryChanged extends SignUpEvent {

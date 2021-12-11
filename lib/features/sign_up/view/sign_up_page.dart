@@ -324,39 +324,39 @@ class _MobileSignUpState extends State<MobileSignUp> {
     );
   }
 
-  Widget _countryPage(themeContext) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          height: 120.0,
-          child: Padding(
-            padding: EdgeInsets.all(kSpacing),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Country",
-                  style: kTitleStyle,
-                ),
-                SizedBox(height: 15.0),
-                Text(
-                  'your country has been set. click Next.',
-                  style: kSubtitleStyle(themeContext),
-                ),
-              ],
-            ),
-          ),
-          // ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(kSpacing),
-          child: CountryInput(),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    );
-  }
+  // Widget _countryPage(themeContext) {
+  //   return Column(
+  //     children: [
+  //       Container(
+  //         alignment: Alignment.topLeft,
+  //         height: 120.0,
+  //         child: Padding(
+  //           padding: EdgeInsets.all(kSpacing),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: <Widget>[
+  //               Text(
+  //                 "Country",
+  //                 style: kTitleStyle,
+  //               ),
+  //               SizedBox(height: 15.0),
+  //               Text(
+  //                 'your country has been set. click Next.',
+  //                 style: kSubtitleStyle(themeContext),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         // ),
+  //       ),
+  //       Padding(
+  //         padding: const EdgeInsets.all(kSpacing),
+  //         child: CountryInput(),
+  //       ),
+  //     ],
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //   );
+  // }
 
   Widget _emailPage(themeContext) {
     return Column(

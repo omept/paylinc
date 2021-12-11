@@ -9,7 +9,7 @@ class SignUpState extends Equatable {
     this.paytag = const TextInput.pure(),
     this.transferPin = const TextInput.pure(),
     this.countryId = const TextInput.pure(),
-    this.paytagErrorUsageMessage = '',
+    this.paytagUsageMessage = '',
   });
 
   final FormzStatus status;
@@ -17,7 +17,7 @@ class SignUpState extends Equatable {
   final TextInput password;
   final TextInput email;
   final TextInput paytag;
-  final String paytagErrorUsageMessage;
+  final String paytagUsageMessage;
   final TextInput transferPin;
   final TextInput countryId;
 
@@ -29,7 +29,7 @@ class SignUpState extends Equatable {
     TextInput? paytag,
     TextInput? transferPin,
     TextInput? countryId,
-    String? paytagErrorUsageMessage,
+    String? paytagUsageMessage,
   }) {
     return SignUpState(
       status: status ?? this.status,
@@ -39,8 +39,7 @@ class SignUpState extends Equatable {
       paytag: paytag ?? this.paytag,
       transferPin: transferPin ?? this.transferPin,
       countryId: countryId ?? this.countryId,
-      paytagErrorUsageMessage:
-          paytagErrorUsageMessage ?? this.paytagErrorUsageMessage,
+      paytagUsageMessage: paytagUsageMessage ?? this.paytagUsageMessage,
     );
   }
 
@@ -53,6 +52,6 @@ class SignUpState extends Equatable {
         paytag,
         transferPin,
         countryId,
-        paytagErrorUsageMessage,
+        paytagUsageMessage,
       ];
 }

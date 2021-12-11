@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/shared_components/form_inputs/text_input.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'sign_up_event.dart';
@@ -30,6 +31,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield _mapEmailChangedToState(event, state);
     } else if (event is SignUpPaytagChanged) {
       yield _mapPaytagChangedToState(event, state);
+      yield* _checkPaytagAvailability(event, state);
     } else if (event is SignUpTransferPinChanged) {
       yield _mapTransferPinChangedToState(event, state);
     } else if (event is SignUpPasswordChanged) {
@@ -87,7 +89,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpPaytagChanged event,
     SignUpState state,
   ) {
-    state = checkPaytagAvailability(state);
     final paytag = TextInput.dirty(event.paytag);
     return state.copyWith(
       paytag: paytag,
@@ -112,7 +113,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   ) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      print('state');
+      print('sign up submit state');
       print(state);
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
@@ -127,9 +128,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
-  SignUpState checkPaytagAvailability(SignUpState state) {
-    return state.copyWith(
-      paytag: state.paytag,
+  Stream<SignUpState> _checkPaytagAvailability(
+      SignUpPaytagChanged event, SignUpState state) async* {
+    yield state.copyWith(
+      paytagUsageMessage: 'checking ' + event.paytag,
     );
+    print('should say checking for ' + event.paytag);
+    var api = UserApi.withAuthRepository(this._authenticationRepository);
+    var loginRes = await api.isPaytagUsable({
+      'paytag': event.paytag,
+    });
+    print(loginRes);
+    yield state.copyWith(
+      paytagUsageMessage: loginRes.message?.toLowerCase(),
+    );
+    print('should say ' + (loginRes.message ?? ''));
   }
 }
