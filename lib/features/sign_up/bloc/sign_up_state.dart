@@ -54,4 +54,8 @@ class SignUpState extends Equatable {
         countryId,
         paytagUsageMessage,
       ];
+
+  List<FormzInput> allInputs() {
+    return [name, password, email, paytag, transferPin];
+  }
 }

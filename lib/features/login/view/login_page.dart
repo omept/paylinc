@@ -185,16 +185,12 @@ class _LoginButton extends StatelessWidget {
 class _NewAcctButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          child: const Text('New account?'),
-          onPressed: () {
-            context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
-          },
-        );
+    return ElevatedButton(
+      child: const Text('New account?'),
+      onPressed: () {
+        context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
       },
     );
   }

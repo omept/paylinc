@@ -7,6 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/form_inputs/text_input.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 import 'package:user_repository/user_repository.dart';
@@ -51,7 +52,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final password = TextInput.dirty(event.password);
     return state.copyWith(
       password: password,
-      status: Formz.validate([password]),
     );
   }
 
@@ -60,10 +60,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpState state,
   ) {
     final countryID = TextInput.dirty(event.country.countryId.toString());
-    return state.copyWith(
-      countryId: countryID,
-      status: FormzStatus.valid,
-    );
+    return state.copyWith(countryId: countryID);
   }
 
   SignUpState _mapNameChangedToState(
@@ -73,7 +70,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final name = TextInput.dirty(event.name);
     return state.copyWith(
       name: name,
-      status: Formz.validate([name, state.name]),
     );
   }
 
@@ -84,7 +80,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final transferPin = TextInput.dirty(event.transferPin);
     return state.copyWith(
       transferPin: transferPin,
-      status: Formz.validate([transferPin, state.transferPin]),
     );
   }
 
@@ -95,7 +90,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final paytag = TextInput.dirty(event.paytag);
     return state.copyWith(
       paytag: paytag,
-      status: Formz.validate([paytag, state.paytag]),
     );
   }
 
@@ -106,7 +100,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final email = TextInput.dirty(event.email);
     return state.copyWith(
       email: email,
-      status: Formz.validate([email]),
     );
   }
 
@@ -114,11 +107,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpSubmitted event,
     SignUpState state,
   ) async* {
-    if (state.status.isValidated) {
+    bool canSubmit = Formz.validate(allStateInputs(state)) == FormzStatus.valid;
+    if (canSubmit) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
-      print('sign up submit state');
-      print(state);
-      // yield state.copyWith(status: FormzStatus.submissionInProgress);
+
       try {
         var api = UserApi.withAuthRepository(this._authenticationRepository);
         var signUpRes = await api.signUp({
@@ -129,18 +121,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           'password': state.password.value,
           'transfer_pin': state.transferPin.value,
         });
-        print(signUpRes);
         if (signUpRes.status == true) {
           var locStorageServ = LocalStorageServices();
           locStorageServ.saveToken(signUpRes.data?['access_token']);
           locStorageServ.saveUserFromMap(signUpRes.data?['user']);
-          _authenticationRepository.setLoggedIn();
+          locStorageServ
+              .saveUserStatisticsFromMap(signUpRes.data?['statistics']);
 
           yield state.copyWith(
             status: FormzStatus.submissionSuccess,
           );
+          _authenticationRepository.setSignedUpIn();
         } else {
-          Get.snackbar('Sign Up Failed',
+          Snackbar.errSnackBar('Sign Up Failed',
               signUpRes.message ?? RestApiServices.errMessage);
 
           yield state.copyWith(status: FormzStatus.submissionFailure);
@@ -149,6 +142,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }
+    } else {
+      Snackbar.errSnackBar('Missing Fields', "fill the registration form");
     }
   }
 
@@ -170,5 +165,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         paytagUsageMessage: 'no internet',
       );
     }
+  }
+
+  List<FormzInput> allStateInputs(SignUpState state) {
+    return state.allInputs();
   }
 }

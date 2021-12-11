@@ -1,12 +1,16 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_form.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/shared_components/today_text.dart';
 
@@ -17,7 +21,7 @@ class SignUpPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _signUpMobileScreenWidget,
-          tabletBuilder: _signUpTabletScreenWidget,
+          tabletBuilder: _signUpDesktopScreenWidget,
           desktopBuilder: _signUpDesktopScreenWidget,
         ),
       ),
@@ -26,46 +30,41 @@ class SignUpPage extends StatelessWidget {
   }
 
   Widget _signUpDesktopScreenWidget(context, constraints) {
-    var maxWidth = 1360;
+    var size = MediaQuery.of(context).size;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: (constraints.maxWidth < maxWidth) ? 4 : 3,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kBorderRadius),
-                bottomRight: Radius.circular(kBorderRadius),
+          child: Container(
+            height: size.height,
+            child: Center(
+              child: Container(
+                width: 200,
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(kSpacing),
+                  child: ProjectCard(
+                    data: projectCardData(),
+                  ),
+                ),
               ),
-              child: Container()),
-        ),
-        Flexible(
-          flex: 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing),
-              _buildHeader(context: context),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Sign up'),
-              const Padding(padding: EdgeInsets.all(12)),
-              // _RequestLoginButton(),
-              const Padding(padding: EdgeInsets.all(12)),
-              SignUpForm(),
-            ],
+            ),
           ),
         ),
         Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing / 2),
-              Text('Welcome Page'),
-              const Divider(thickness: 1),
-              const SizedBox(height: kSpacing),
-            ],
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      width: size.width / 1.5,
+                      child: _signUpMobileScreenWidget(context, constraints))
+                ],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -79,69 +78,8 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget _signUpTabletScreenWidget(context, constraints) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          flex: (constraints.maxWidth < 950) ? 6 : 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-              const SizedBox(height: kSpacing * 2),
-              const SizedBox(height: kSpacing * 2),
-            ],
-          ),
-        ),
-        Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 0.5 : 1.5)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
   Widget _signUpMobileScreenWidget(context, constraints) {
     return MobileSignUp();
-  }
-
-  Widget _buildHeader({Function()? onPressedMenu, context}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              if (onPressedMenu != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: kSpacing),
-                  child: IconButton(
-                    onPressed: onPressedMenu,
-                    icon: const Icon(EvaIcons.menu),
-                    tooltip: "menu",
-                  ),
-                ),
-              const Expanded(
-                  child: Header(
-                todayText: TodayText(message: "Welcome Page"),
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                child: const Text('middle column '),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -240,7 +178,35 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _currentPage == 0
-                      ? Container()
+                      ? Container(
+                          child: Builder(builder: (context) {
+                            return Align(
+                              alignment: FractionalOffset.bottomRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  BlocProvider.of<AuthenticationBloc>(context)
+                                      .add(AuthenticationStatusChanged(
+                                          AuthenticationStatus
+                                              .unauthenticated));
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      'Log in ?',
+                                      style: TextStyle(
+                                        color: themeContext
+                                            .colorScheme.onBackground,
+                                        fontSize: 22.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        )
                       : Container(
                           child: Align(
                             alignment: FractionalOffset.bottomRight,
@@ -276,7 +242,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                           ),
                         ),
                   _currentPage == _numPages - 1
-                      ? Expanded(child: _MobileSignUpGetStartedButton())
+                      ? (Expanded(child: _MobileSignUpGetStartedButton()))
                       : Container(),
                   _currentPage == _numPages - 1
                       ? Container()
@@ -408,7 +374,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'set up a transfer pin for your account. ',
+                  'set up a 4 digit transfer pin for your account. ',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],
@@ -476,7 +442,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Create a one time paytag.',
+                  'choose a one time paytag for yourself.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],
@@ -537,13 +503,18 @@ class _MobileSignUpGetStartedButton extends StatelessWidget {
         return Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            child: Text(
-              'Get Started',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 22.0,
-              ),
-            ),
+            child: state.status.isSubmissionInProgress
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const CircularProgressIndicator(),
+                  )
+                : Text(
+                    'Get Started',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 22.0,
+                    ),
+                  ),
             onPressed: () {
               context.read<SignUpBloc>().add(SignUpSubmitted());
             },

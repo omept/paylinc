@@ -6,8 +6,8 @@ enum AuthenticationStatus {
   unknown,
   signup,
   forgotPassword,
-  authenticated,
-  unauthenticated,
+  authenticated, // logged in
+  unauthenticated, // not logged in
   validate_otp,
   forgot_password,
   validate_email
@@ -46,6 +46,10 @@ class AuthenticationRepository {
   }
   Future<void> setLoggedIn() async {
     _controller.add(AuthenticationStatus.authenticated);
+  }
+
+  Future<void> setSignedUpIn() async {
+    _controller.add(AuthenticationStatus.validate_otp);
   }
 
   currentAuthenticationState() async {
