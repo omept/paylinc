@@ -80,10 +80,11 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Material(
       color: (!selected)
-          ? Theme.of(context).cardColor
-          : Theme.of(context).primaryColor.withOpacity(.1),
+          ? themeContext.cardColor
+          : themeContext.primaryColor.withOpacity(.1),
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: onPressed,
@@ -112,7 +113,7 @@ class _Button extends StatelessWidget {
       iconData,
       size: 20,
       color: (!selected)
-          ? kFontColorPallets[1]
+          ? kLightGrayTextColor
           : Theme.of(Get.context!).primaryColor,
     );
   }
@@ -122,7 +123,7 @@ class _Button extends StatelessWidget {
       data,
       style: TextStyle(
         color: (!selected)
-            ? kFontColorPallets[1]
+            ? kLightGrayTextColor
             : Theme.of(Get.context!).primaryColor,
         fontWeight: FontWeight.w600,
         letterSpacing: .8,
@@ -142,15 +143,17 @@ class _Button extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             alignment: Alignment.center,
-            child: Text(
-              (total >= 100) ? "99+" : "$total",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-              ),
-              textAlign: TextAlign.center,
-            ),
+            child: Builder(builder: (context) {
+              return Text(
+                (total >= 100) ? "99+" : "$total",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              );
+            }),
           );
   }
 }

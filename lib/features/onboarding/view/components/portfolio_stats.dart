@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/stat.dart';
 
@@ -13,6 +12,7 @@ final List<Stat> stats = [
 class PortfolioStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Container(
       alignment: Alignment.center,
       child: Container(
@@ -36,7 +36,7 @@ class PortfolioStats extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 32.0,
-                          color: Colors.white,
+                          color: themeContext.colorScheme.onBackground,
                         ),
                       ),
                       SizedBox(
@@ -46,7 +46,7 @@ class PortfolioStats extends StatelessWidget {
                         stat.text,
                         style: TextStyle(
                           fontSize: 16.0,
-                          color: kCaptionColor,
+                          color: themeContext.textTheme.caption?.color,
                         ),
                       )
                     ],

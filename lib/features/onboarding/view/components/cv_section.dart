@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
 import 'package:paylinc/shared_components/models/design_process.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -35,6 +34,7 @@ final List<DesignProcess> designProcesses = [
 class CvSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Container(
       width: double.infinity,
       child: Column(
@@ -46,7 +46,6 @@ class CvSection extends StatelessWidget {
               Text(
                 "BETTER DESIGN,\nBETTER EXPERIENCES",
                 style: TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.w900,
                   height: 1.8,
                   fontSize: 18.0,
@@ -59,7 +58,7 @@ class CvSection extends StatelessWidget {
                   child: Text(
                     "DOWNLOAD CV",
                     style: TextStyle(
-                      color: kPrimaryColor,
+                      color: themeContext.primaryColor,
                       fontWeight: FontWeight.w900,
                       fontSize: 16.0,
                     ),
@@ -111,7 +110,7 @@ class CvSection extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                                  color: themeContext.colorScheme.onBackground,
                                 ),
                               )
                             ],
@@ -122,7 +121,7 @@ class CvSection extends StatelessWidget {
                           Text(
                             designProcesses[index].subtitle,
                             style: TextStyle(
-                              color: kCaptionColor,
+                              color: themeContext.textTheme.caption?.color,
                               height: 1.5,
                               fontSize: 14.0,
                             ),

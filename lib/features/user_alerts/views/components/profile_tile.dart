@@ -10,18 +10,21 @@ class _ProfilTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return ListTile(
       contentPadding: const EdgeInsets.all(0),
       leading: CircleAvatar(backgroundImage: data.photo),
       title: Text(
         data.name,
-        style: TextStyle(fontSize: 14, color: kFontColorPallets[0]),
+        style: TextStyle(
+            fontSize: 14, color: themeContext.colorScheme.onBackground),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
         data.email,
-        style: TextStyle(fontSize: 12, color: kFontColorPallets[2]),
+        style: TextStyle(
+            fontSize: 12, color: themeContext.textTheme.caption?.color),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

@@ -6,8 +6,8 @@ enum AuthenticationStatus {
   unknown,
   signup,
   forgotPassword,
-  authenticated,
-  unauthenticated,
+  authenticated, // logged in
+  unauthenticated, // not logged in
   validate_otp,
   forgot_password,
   validate_email
@@ -39,10 +39,17 @@ class AuthenticationRepository {
     required String username,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _controller.add(AuthenticationStatus.authenticated),
-    );
+    // await Future.delayed(
+    //   const Duration(milliseconds: 300),
+    //   () => _controller.add(AuthenticationStatus.authenticated),
+    // );
+  }
+  Future<void> setLoggedIn() async {
+    _controller.add(AuthenticationStatus.authenticated);
+  }
+
+  Future<void> setSignedUpIn() async {
+    _controller.add(AuthenticationStatus.validate_otp);
   }
 
   currentAuthenticationState() async {
@@ -126,5 +133,9 @@ class AuthenticationRepository {
 
   void dispose() {
     _controller.close();
+  }
+
+  void onboardingReqAcctVerification() {
+    _controller.add(AuthenticationStatus.validate_otp);
   }
 }

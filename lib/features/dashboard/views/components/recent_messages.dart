@@ -10,13 +10,14 @@ class _RecentMessages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var primaryColor = Theme.of(context).primaryColor;
     return Row(
       children: [
-        Icon(EvaIcons.messageCircle, color: Theme.of(context).primaryColor),
+        Icon(EvaIcons.messageCircle, color: primaryColor),
         const SizedBox(width: 10),
         Text(
           "Recent Messages",
-          style: TextStyle(color: Theme.of(context).primaryColor),
+          style: TextStyle(color: primaryColor),
         ),
         const Spacer(),
         IconButton(

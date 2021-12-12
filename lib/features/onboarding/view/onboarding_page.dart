@@ -88,7 +88,9 @@ class OnboardingPage extends StatelessWidget {
                                         child: Text(
                                           item.title,
                                           style: menuItemTextStyle(
-                                              color: Colors.white),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground),
                                         ),
                                       ),
                                     ),
@@ -102,7 +104,9 @@ class OnboardingPage extends StatelessWidget {
                                         child: Text(
                                           item.title,
                                           style: menuItemButtonStyle(
-                                              color: Colors.white),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground),
                                         ),
                                       ),
                                     ),
@@ -196,10 +200,10 @@ class _MobileOnboardingGetStartedButton extends StatelessWidget {
       // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         return TextButton(
-          child: const Text(
+          child: Text(
             'GET STARTED',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 22.0,
             ),
           ),
@@ -219,10 +223,10 @@ class _MobileOnboardingSkipButton extends StatelessWidget {
       // buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         return TextButton(
-          child: const Text(
+          child: Text(
             'Skip',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 15.0,
             ),
           ),
@@ -261,7 +265,10 @@ class HeaderLogo extends StatelessWidget {
                       children: [
                         TextSpan(
                             text: "Paylinc",
-                            style: menuItemTextStyle(color: Colors.white)),
+                            style: menuItemTextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground)),
                       ],
                     ),
                   ),
@@ -312,34 +319,30 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
-  final kTitleStyle = TextStyle(
-    color: Colors.white,
-    fontFamily: 'CM Sans Serif',
-    fontSize: 26.0,
-    height: 1.5,
-  );
-
   final kSubtitleStyle = TextStyle(
-    color: Colors.white,
     fontSize: 18.0,
     height: 1.2,
   );
-  List<Widget> _buildPageIndicator() {
+  List<Widget> _buildPageIndicator(context) {
     List<Widget> list = [];
     for (int i = 0; i < _numPages; i++) {
-      list.add(i == _currentPage ? _indicator(true) : _indicator(false));
+      list.add(i == _currentPage
+          ? _indicator(true, context)
+          : _indicator(false, context));
     }
     return list;
   }
 
-  Widget _indicator(bool isActive) {
+  Widget _indicator(bool isActive, context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Color(0xFF7B51D3),
+        color: isActive
+            ? Theme.of(context).colorScheme.onBackground
+            : Theme.of(context).colorScheme.primaryVariant,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -353,106 +356,112 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: context.height,
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter,
-      //     stops: [0.1, 0.4, 0.7, 0.9],
-      //     colors: [
-      //       Color(0xFF3594DD),
-      //       Color(0xFF4563DB),
-      //       Color(0xFF5036D5),
-      //       Color(0xFF5B16D0),
-      //     ],
-      //   ),
-      // ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: kSpacing * 2, vertical: kSpacing / 3),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerRight,
-              child: _MobileOnboardingSkipButton(),
-            ),
-            Expanded(
-              child: Container(
-                child: PageView(
-                  physics: ClampingScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  children: <Widget>[
-                    _pageOneOnboarding(),
-                    _pageOneOnboarding(),
-                    _pageOneOnboarding(),
-                  ],
+    return SafeArea(
+      child: Container(
+        height: context.height,
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter,
+        //     stops: [0.1, 0.4, 0.7, 0.9],
+        //     colors: [
+        //       Color(0xFF3594DD),
+        //       Color(0xFF4563DB),
+        //       Color(0xFF5036D5),
+        //       Color(0xFF5B16D0),
+        //     ],
+        //   ),
+        // ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: kSpacing * 2, vertical: kSpacing / 3),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerRight,
+                child: _MobileOnboardingSkipButton(),
+              ),
+              Expanded(
+                child: Container(
+                  child: PageView(
+                    physics: ClampingScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    children: <Widget>[
+                      _pageOneOnboarding(),
+                      _pageOneOnboarding(),
+                      _pageOneOnboarding(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: kSpacing),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildPageIndicator(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kSpacing),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildPageIndicator(context),
+                ),
               ),
-            ),
-            _currentPage != _numPages - 1
-                ? Container(
-                    child: Align(
-                      alignment: FractionalOffset.bottomRight,
-                      child: TextButton(
-                        onPressed: () {
-                          _pageController.nextPage(
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
+              _currentPage != _numPages - 1
+                  ? Container(
+                      child: Align(
+                        alignment: FractionalOffset.bottomRight,
+                        child: TextButton(
+                          onPressed: () {
+                            _pageController.nextPage(
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease,
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                  fontSize: 22.0,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10.0),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                          ],
+                              SizedBox(width: 10.0),
+                              Icon(
+                                Icons.arrow_forward,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                size: 30.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    )
+                  : Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kSpacing * 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              _MobileOnboardingGetStartedButton()
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(vertical: kSpacing * 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            _MobileOnboardingGetStartedButton()
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );

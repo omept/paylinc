@@ -102,6 +102,7 @@ class _OverviewHeader extends StatelessWidget {
     required String label,
     required Function() onPressed,
   }) {
+    var themeGetContext = Theme.of(Get.context!);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: ElevatedButton(
@@ -111,9 +112,11 @@ class _OverviewHeader extends StatelessWidget {
         ),
         style: ElevatedButton.styleFrom(
           primary: selected
-              ? Theme.of(Get.context!).cardColor
-              : Theme.of(Get.context!).canvasColor,
-          onPrimary: selected ? kFontColorPallets[0] : kFontColorPallets[2],
+              ? themeGetContext.cardColor
+              : themeGetContext.canvasColor,
+          onPrimary: selected
+              ? themeGetContext.colorScheme.onBackground
+              : themeGetContext.textTheme.caption?.color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

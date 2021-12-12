@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:paylinc/constants/app_constants.dart';
 
 class ProjectCardData {
   final double percent;
@@ -39,15 +37,9 @@ class ProjectCard extends StatelessWidget {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _TitleText(data.projectName),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  const _SubtitleText("Release time : "),
-                  _ReleaseTimeText(data.releaseTime)
-                ],
-              )
             ],
           ),
         )
@@ -108,7 +100,7 @@ class _TitleText extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: kFontColorPallets[0],
+        color: Theme.of(context).colorScheme.onBackground,
         letterSpacing: 0.8,
       ),
       maxLines: 1,
@@ -117,40 +109,42 @@ class _TitleText extends StatelessWidget {
   }
 }
 
-class _SubtitleText extends StatelessWidget {
-  const _SubtitleText(this.data, {Key? key}) : super(key: key);
+// class _SubtitleText extends StatelessWidget {
+//   const _SubtitleText(this.data, {Key? key}) : super(key: key);
 
-  final String data;
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      data,
-      style: TextStyle(fontSize: 11, color: kFontColorPallets[2]),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-}
+//   final String data;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       data,
+//       style: TextStyle(
+//           fontSize: 11, color: Theme.of(context).textTheme.caption?.color),
+//       maxLines: 1,
+//       overflow: TextOverflow.ellipsis,
+//     );
+//   }
+// }
 
-class _ReleaseTimeText extends StatelessWidget {
-  const _ReleaseTimeText(this.date, {Key? key}) : super(key: key);
+// class _ReleaseTimeText extends StatelessWidget {
+//   const _ReleaseTimeText(this.date, {Key? key}) : super(key: key);
 
-  final DateTime date;
+//   final DateTime date;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: kNotifColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),
-      child: Text(
-        DateFormat.yMMMd().format(date),
-        style: const TextStyle(fontSize: 9, color: Colors.white),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: kNotifColor,
+//         borderRadius: BorderRadius.circular(10),
+//       ),
+//       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2.5),
+//       child: Text(
+//         DateFormat.yMMMd().format(date),
+//         style: TextStyle(
+//             fontSize: 9, color: Theme.of(context).colorScheme.onBackground),
+//         maxLines: 1,
+//         overflow: TextOverflow.ellipsis,
+//       ),
+//     );
+//   }
+// }

@@ -222,20 +222,24 @@ class _IconButton extends StatelessWidget {
   }
 
   Widget _label(String data) {
-    return Text(
-      data,
-      style: const TextStyle(
-        color: Colors.white54,
-        fontSize: 10,
-      ),
-    );
+    return Builder(builder: (context) {
+      return Text(
+        data,
+        style: TextStyle(
+          color: Theme.of(context).textTheme.caption?.color,
+          fontSize: 10,
+        ),
+      );
+    });
   }
 
   Widget _icon(IconData iconData) {
-    return Icon(
-      iconData,
-      color: Colors.white54,
-      size: 14,
-    );
+    return Builder(builder: (context) {
+      return Icon(
+        iconData,
+        color: Theme.of(context).textTheme.caption?.color,
+        size: 14,
+      );
+    });
   }
 }

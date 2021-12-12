@@ -38,6 +38,7 @@ Widget _buildUi(double width) {
   return Center(
     child: LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        var themeContext = Theme.of(context);
         return ResponsiveWrapper(
           maxWidth: width,
           minWidth: width,
@@ -48,7 +49,7 @@ Widget _buildUi(double width) {
               Text(
                 "TESTIMONIALS",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: themeContext.colorScheme.onBackground,
                   fontWeight: FontWeight.w900,
                   fontSize: 30.0,
                   height: 1.3,
@@ -65,18 +66,22 @@ Widget _buildUi(double width) {
                       TextSpan(
                         text:
                             "This is the portfolio section. There is alot of work here",
-                        style: TextStyle(color: Colors.white, height: 1.8),
+                        style: TextStyle(
+                            color: themeContext.colorScheme.onBackground,
+                            height: 1.8),
                       ),
                       TextSpan(
                           text: " click here to contact us",
                           style: TextStyle(
-                            color: kPrimaryColor,
+                            color: themeContext.primaryColor,
                             fontWeight: FontWeight.w700,
                             height: 1.8,
                           )),
                       TextSpan(
                         text: ". Please subscribe to me youtube channel :-)",
-                        style: TextStyle(color: Colors.white, height: 1.8),
+                        style: TextStyle(
+                            color: themeContext.colorScheme.onBackground,
+                            height: 1.8),
                       ),
                     ],
                   ),
@@ -136,7 +141,8 @@ Widget _buildUi(double width) {
                                   Text(
                                     testimonial.personName,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color:
+                                          themeContext.colorScheme.onBackground,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16.0,
                                     ),
@@ -147,7 +153,8 @@ Widget _buildUi(double width) {
                                   Text(
                                     testimonial.occupation,
                                     style: TextStyle(
-                                      color: kCaptionColor,
+                                      color:
+                                          themeContext.textTheme.caption?.color,
                                     ),
                                   )
                                 ],

@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,9 @@ import 'package:paylinc/config/authentication/authentication.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/login/login.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -21,7 +19,7 @@ class LoginPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _loginPageMobileScreenWidget,
-          tabletBuilder: _loginPageTabletScreenWidget,
+          tabletBuilder: _loginPageDesktopScreenWidget,
           desktopBuilder: _loginPageDesktopScreenWidget,
         ),
       ),
@@ -30,138 +28,94 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _loginPageDesktopScreenWidget(context, constraints) {
-    var maxWidth = 1360;
+    var size = MediaQuery.of(context).size;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: (constraints.maxWidth < maxWidth) ? 4 : 3,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kBorderRadius),
-                bottomRight: Radius.circular(kBorderRadius),
+          child: Container(
+            height: size.height,
+            child: Center(
+              child: Container(
+                width: 200,
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(kSpacing),
+                  child: ProjectCard(
+                    data: projectCardData(),
+                  ),
+                ),
               ),
-              child: Container()),
+            ),
+          ),
         ),
         Flexible(
-          flex: 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing),
-              _buildHeader(context: context),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Log in'),
-              const SizedBox(height: kSpacing * 2),
-              _UsernameInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _PasswordInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _LoginButton(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _NewAcctButton(),
-              const SizedBox(height: kSpacing),
-              ElevatedButton(
-                child: const Text('Forgot Password?'),
-                onPressed: () {
-                  Get.offNamed(Routes.forgot_password);
-                },
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: kSpacing * 2),
+                  SizedBox(
+                      width: size.width / 1.5,
+                      child: _loginPageMobileScreenWidget(context, constraints))
+                ],
               ),
-            ],
+            ),
           ),
         ),
-        Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing / 2),
-              Text('Welcome Page'),
-              const Divider(thickness: 1),
-              const SizedBox(height: kSpacing),
-            ],
-          ),
-        )
-      ],
-    );
-
-    // return Container();
-  }
-
-  ProjectCardData getSelectedProject() {
-    return ProjectCardData(
-      percent: .3,
-      projectImage: const AssetImage(ImageRasterPath.logo1),
-      projectName: "Paylinc",
-      releaseTime: DateTime.now(),
-    );
-  }
-
-  Widget _loginPageTabletScreenWidget(context, constraints) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          flex: (constraints.maxWidth < 950) ? 6 : 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-              const SizedBox(height: kSpacing * 2),
-              const SizedBox(height: kSpacing * 2),
-            ],
-          ),
-        ),
-        Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 0.5 : 1.5)),
-            ],
-          ),
-        )
       ],
     );
   }
 
   Widget _loginPageMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
-  }
-
-  Widget _buildHeader({Function()? onPressedMenu, context}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+      padding: const EdgeInsets.all(kSpacing),
       child: Column(
-        children: [
-          Row(
-            children: [
-              if (onPressedMenu != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: kSpacing),
-                  child: IconButton(
-                    onPressed: onPressedMenu,
-                    icon: const Icon(EvaIcons.menu),
-                    tooltip: "menu",
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
+            const SizedBox(height: kSpacing / 2),
+            const Divider(),
+            const SizedBox(height: kSpacing * 2),
+            const Padding(padding: EdgeInsets.all(12)),
+            Text('Log in'),
+            const SizedBox(height: kSpacing * 2),
+            _UsernameInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _PasswordInput(),
+            const Padding(padding: EdgeInsets.all(12)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(child: _LoginButton()),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: kSpacing),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                // spacing: ,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: kSpacing / 2),
+                    child: _NewAcctButton(),
                   ),
-                ),
-              const Expanded(
-                  child: Header(
-                todayText: TodayText(message: "Welcome Page"),
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                child: const Text('middle column '),
-                onPressed: () {},
+                  const SizedBox(width: kSpacing),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: kSpacing / 2),
+                    child: ElevatedButton(
+                      child: const Text('Forgot Password?'),
+                      onPressed: () {
+                        Get.offNamed(Routes.forgot_password);
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ],
-      ),
+            )
+          ]),
     );
   }
 }
@@ -173,7 +127,6 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
@@ -232,16 +185,12 @@ class _LoginButton extends StatelessWidget {
 class _NewAcctButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          child: const Text('new account?'),
-          onPressed: () {
-            context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
-          },
-        );
+    return ElevatedButton(
+      child: const Text('New account?'),
+      onPressed: () {
+        context
+            .read<AuthenticationBloc>()
+            .add(AuthenticationStatusChanged(AuthenticationStatus.signup));
       },
     );
   }
