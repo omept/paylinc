@@ -7,8 +7,12 @@ class UserStatistics {
   late double? received;
   late String? receivedInWords;
 
-  UserStatistics(this.totalTransactions, this.sent, this.sentInWords,
-      this.received, this.receivedInWords);
+  UserStatistics(
+      {this.totalTransactions = 0,
+      this.sent = 0,
+      this.sentInWords = "0",
+      this.received = 0,
+      this.receivedInWords = "0"});
 
   UserStatistics.fromMap(Map<String, dynamic> map) {
     totalTransactions = int.parse(map['total_transactions'].toString());
@@ -33,4 +37,7 @@ class UserStatistics {
   String toString() {
     return 'UserStatistics(totalTransactions: $totalTransactions, sent: $sent, sentInWords: $sentInWords, received: $received, receivedInWords: $receivedInWords)';
   }
+
+  factory UserStatistics.fromJson(String source) =>
+      UserStatistics.fromMap(json.decode(source));
 }

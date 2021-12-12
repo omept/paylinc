@@ -63,7 +63,7 @@ class User {
       'stash_balance': stashBalance,
       'otp_verified': otpVerified,
       'country': country?.toMap(),
-      'wallets': wallets?.map((x) => x?.toMap())?.toList(),
+      'wallets': wallets?.map((x) => x?.toMap()).toList(),
       'createdAt': createdAt,
     };
   }

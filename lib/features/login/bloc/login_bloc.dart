@@ -4,15 +4,11 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:get/route_manager.dart';
 import 'package:paylinc/shared_components/form_inputs/password.dart';
 import 'package:paylinc/shared_components/form_inputs/username.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
-import 'package:user_repository/user_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -78,21 +74,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         });
 
         if (loginRes.status == true) {
-          var locStorageServ = LocalStorageServices();
-          locStorageServ.saveToken(loginRes.data?['access_token']);
-          User user =
-              await locStorageServ.saveUserFromMap(loginRes.data?['user']);
-
-          UserStatistics userStatistics = await locStorageServ
-              .saveUserStatisticsFromMap(loginRes.data?['statistics']);
-
-          print('===');
-          print(loginRes.data?['user']?['country'].toString());
-          print('===');
-          print(loginRes.toString());
-          print(user.toString());
-          print(userStatistics.toString());
-          //_authenticationRepository.setLoggedIn();
+          await onAuthenticated(loginRes, _authenticationRepository);
 
           yield state.copyWith(
             status: FormzStatus.submissionSuccess,
