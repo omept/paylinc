@@ -48,7 +48,7 @@ class AuthenticationRepository {
     _controller.add(AuthenticationStatus.authenticated);
   }
 
-  Future<void> setSignedUpIn() async {
+  Future<void> shouldValidateOtp() async {
     _controller.add(AuthenticationStatus.validate_otp);
   }
 

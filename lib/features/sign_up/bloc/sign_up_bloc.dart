@@ -122,16 +122,13 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           'transfer_pin': state.transferPin.value,
         });
         if (signUpRes.status == true) {
-          var locStorageServ = LocalStorageServices();
-          locStorageServ.saveToken(signUpRes.data?['access_token']);
-          locStorageServ.saveUserFromMap(signUpRes.data?['user']);
-          locStorageServ
-              .saveUserStatisticsFromMap(signUpRes.data?['statistics']);
-
           yield state.copyWith(
             status: FormzStatus.submissionSuccess,
           );
-          _authenticationRepository.setSignedUpIn();
+
+          await onAuthenticated(signUpRes, _authenticationRepository);
+
+          _authenticationRepository.shouldValidateOtp();
         } else {
           Snackbar.errSnackBar('Sign Up Failed',
               signUpRes.message ?? RestApiServices.errMessage);

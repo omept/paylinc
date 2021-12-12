@@ -78,21 +78,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         });
 
         if (loginRes.status == true) {
-          var locStorageServ = LocalStorageServices();
-          locStorageServ.saveToken(loginRes.data?['access_token']);
-          User user =
-              await locStorageServ.saveUserFromMap(loginRes.data?['user']);
-
-          UserStatistics userStatistics = await locStorageServ
-              .saveUserStatisticsFromMap(loginRes.data?['statistics']);
-
-          print('===');
-          print(loginRes.data?['user']?['country'].toString());
-          print('===');
-          print(loginRes.toString());
-          print(user.toString());
-          print(userStatistics.toString());
-          //_authenticationRepository.setLoggedIn();
+          await onAuthenticated(loginRes, _authenticationRepository);
 
           yield state.copyWith(
             status: FormzStatus.submissionSuccess,
