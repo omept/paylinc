@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserStatistics {
   late int? totalTransactions;
   late double? sent;
@@ -13,16 +15,22 @@ class UserStatistics {
     sent = double.parse(map['sent'].toString());
     sentInWords = map['sent_in_words'].toString();
     received = double.parse(map['received'].toString());
-    receivedInWords = map['rapeceived_in_words'].toString();
+    receivedInWords = map['received_in_words'].toString();
+  }
+  Map<String, dynamic> toMap() {
+    return {
+      'total_transactions': totalTransactions,
+      'sent': sent,
+      'sent_in_words': sentInWords,
+      'received': received,
+      'received_in_words': receivedInWords,
+    };
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_transactions'] = totalTransactions;
-    data['sent'] = sent;
-    data['sent_in_words'] = sentInWords;
-    data['received'] = received;
-    data['rapeceived_in_words'] = receivedInWords;
-    return data;
+  String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return 'UserStatistics(totalTransactions: $totalTransactions, sent: $sent, sentInWords: $sentInWords, received: $received, receivedInWords: $receivedInWords)';
   }
 }
