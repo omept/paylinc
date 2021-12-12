@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +7,9 @@ import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_form.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
