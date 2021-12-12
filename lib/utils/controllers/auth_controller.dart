@@ -22,17 +22,8 @@ class AuthController extends GetxController {
 
   @override
   void onInit() async {
-    ever(_token, (value) {
-      token = value;
-    });
-    ever(_user, (value) {
-      user = value;
-    });
-    ever(_userStatistics, (value) {
-      userStatistics = value;
-    });
-
     _token.value = await localStorageServices.getToken();
+    authenticated = _token.value.isNotEmpty;
     var userClass = await localStorageServices.getUser();
     _user(userClass);
     var userStatisticsClass = await localStorageServices.getUserStatistics();

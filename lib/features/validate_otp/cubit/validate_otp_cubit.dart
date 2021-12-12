@@ -18,7 +18,6 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
   void submit() async {
     AuthenticationRepository authenticationRepository =
         RepositoryProvider.of<AuthenticationRepository>(Get.context!);
-    print(state.otp);
     emit(ValidateOtpState(
         otp: state.otp, status: FormzStatus.submissionInProgress));
 
