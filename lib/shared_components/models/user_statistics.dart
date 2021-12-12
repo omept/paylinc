@@ -7,8 +7,12 @@ class UserStatistics {
   late double? received;
   late String? receivedInWords;
 
-  UserStatistics(this.totalTransactions, this.sent, this.sentInWords,
-      this.received, this.receivedInWords);
+  UserStatistics(
+      {this.totalTransactions,
+      this.sent,
+      this.sentInWords,
+      this.received,
+      this.receivedInWords});
 
   UserStatistics.fromMap(Map<String, dynamic> map) {
     totalTransactions = int.parse(map['total_transactions'].toString());

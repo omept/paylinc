@@ -13,6 +13,8 @@ import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
 import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
+import 'package:paylinc/utils/middlewares/authenticated.dart';
+import 'package:paylinc/utils/middlewares/guest.dart';
 
 part 'app_routes.dart';
 
@@ -22,46 +24,65 @@ class AppPages {
   static const initial = Routes.splash;
 
   static final routes = [
+    GetPage(name: _Paths.splash, page: () => SplashPage()),
+    GetPage(name: _Paths.welcome, page: () => OnboardingPage()),
+    GetPage(
+      name: _Paths.login,
+      middlewares: [GuestMiddleware()],
+      page: () => LoginPage(),
+    ),
+    GetPage(
+      name: _Paths.sign_up,
+      page: () => SignUpPage(),
+      middlewares: [GuestMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.forgot_password,
+      page: () => ForgotPasswordPage(),
+      middlewares: [GuestMiddleware()],
+    ),
+    GetPage(name: _Paths.validate_otp, page: () => ValidateOtpPage()),
     GetPage(
       name: _Paths.dashboard,
       page: () => const DashboardScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: DashboardBinding(),
     ),
     GetPage(
       name: _Paths.wallets,
       page: () => const WalletsScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: WalletsBinding(),
     ),
     GetPage(
       name: _Paths.admin_dashboard,
       page: () => const AdminDashboardScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: AdminDashboardBinding(),
     ),
     GetPage(
       name: _Paths.user_alerts,
       page: () => const UserAlertsScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: UserAlertsBinding(),
     ),
     GetPage(
       name: _Paths.initialized_transactions,
       page: () => const InitializedTransactionsScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: InitializedTransactionsBinding(),
     ),
     GetPage(
       name: _Paths.settings,
       page: () => const SettingsScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: SettingsBinding(),
     ),
     GetPage(
       name: _Paths.feed_back,
       page: () => const FeedBackScreen(),
+      middlewares: [AuthenticatedMiddleware()],
       binding: FeedBackBinding(),
-    ),
-    GetPage(name: _Paths.splash, page: () => SplashPage()),
-    GetPage(name: _Paths.welcome, page: () => OnboardingPage()),
-    GetPage(name: _Paths.login, page: () => LoginPage()),
-    GetPage(name: _Paths.sign_up, page: () => SignUpPage()),
-    GetPage(name: _Paths.forgot_password, page: () => ForgotPasswordPage()),
-    GetPage(name: _Paths.validate_otp, page: () => ValidateOtpPage()),
+    )
   ];
 }

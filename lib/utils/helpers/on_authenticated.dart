@@ -7,7 +7,9 @@ Future<User> onAuthenticated(ResponseModel loginRes,
   User user = await locStorageServ.saveUserFromMap(loginRes.data?['user']);
 
   locStorageServ.saveUserStatisticsFromMap(loginRes.data?['statistics']);
-  if (user.otpVerified != null) {
+  if ((user.userId is int) &&
+      (user.userId! > 0) &&
+      (user.otpVerified != null)) {
     authenticationRepository.setLoggedIn();
   } else {
     authenticationRepository.shouldValidateOtp();

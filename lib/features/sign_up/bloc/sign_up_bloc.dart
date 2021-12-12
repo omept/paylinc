@@ -127,8 +127,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           );
 
           await onAuthenticated(signUpRes, _authenticationRepository);
-
-          _authenticationRepository.shouldValidateOtp();
         } else {
           Snackbar.errSnackBar('Sign Up Failed',
               signUpRes.message ?? RestApiServices.errMessage);
