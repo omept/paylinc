@@ -77,7 +77,6 @@ class LoginPage extends StatelessWidget {
           children: [
             const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
             const SizedBox(height: kSpacing / 2),
-            const Divider(),
             const SizedBox(height: kSpacing * 2),
             const Padding(padding: EdgeInsets.all(12)),
             Text('Log in'),

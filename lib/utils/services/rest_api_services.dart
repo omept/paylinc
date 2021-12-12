@@ -1,12 +1,14 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 part 'user_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
   final String baseUrl = 'https://paylinc.test/api/';
   AuthenticationRepository? authenticationRepository;
+  AuthController authCtrlr = Get.find();
 
   RestApiServices();
 
@@ -14,7 +16,16 @@ class RestApiServices extends GetConnect {
 
   static const errMessage = "We encountered a problem. Please try again later.";
 
-  Map<String, String> requestHeader() => {'Access-Control-Allow-Origin': '*'};
+  Map<String, String> requestHeader() {
+    Map<String, String> headers = {'Access-Control-Allow-Origin': '*'};
+    String token = authCtrlr.token;
+    if (token.isNotEmpty || token.length > 0) {
+      headers['AUTHORIZATION'] = 'Bearer ' + token;
+      headers['HTTP-AUTHORIZATION'] = 'Bearer ' + token;
+    }
+
+    return headers;
+  }
 
   ResponseModel responseHandler(Response<dynamic> response) {
     ResponseModel responseModel;
