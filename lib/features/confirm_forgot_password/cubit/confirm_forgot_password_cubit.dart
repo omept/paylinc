@@ -10,13 +10,14 @@ import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
-part 'forgot_password_state.dart';
+part 'confirm_forgot_password_state.dart';
 
-class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  ForgotPasswordCubit() : super(ForgotPasswordState(emailI: EmailInput.pure()));
+class ConfirmForgotPasswordCubit extends Cubit<ConfirmForgotPasswordState> {
+  ConfirmForgotPasswordCubit()
+      : super(ConfirmForgotPasswordState(emailI: EmailInput.pure()));
 
   // void submit() {
-  //   emit(ForgotPasswordState(emailI: state.emailI));
+  //   emit(ConfirmForgotPasswordState(emailI: state.emailI));
   // }
   void submit() async {
     emit(state.copyWith(
@@ -25,11 +26,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     AuthenticationRepository authenticationRepository =
         RepositoryProvider.of<AuthenticationRepository>(Get.context!);
-    var api = UserApi.withAuthRepository(authenticationRepository);
-    ResponseModel forgotPassRes = await api.sendforgotPasswordLink({
-      'email': state.emailI.value,
-    });
 
+    var api = UserApi.withAuthRepository(authenticationRepository);
+    ResponseModel forgotPassRes = await api.confirmForgotPassword({
+      'password': state.emailI.value,
+    });
+    print(forgotPassRes);
     if (forgotPassRes.status == true) {
       emit(state.copyWith(
         status: FormzStatus.submissionSuccess,

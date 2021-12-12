@@ -14,6 +14,7 @@ class Routes {
   static const login = _Paths.login;
   static const sign_up = _Paths.sign_up;
   static const forgot_password = _Paths.forgot_password;
+  static const confirm_forgot_password = _Paths.confirm_forgot_password;
   static const validate_otp = _Paths.validate_otp;
 }
 
@@ -28,6 +29,7 @@ class _Paths {
   static const login = '/login';
   static const sign_up = '/sign-up';
   static const forgot_password = '/forgot-password';
+  static const confirm_forgot_password = '/confirm-forgot-password';
   static const validate_otp = '/validate-otp';
   static const initialized_transactions = '/initialized-transactions';
   static const admin_dashboard = '/admin-dashboard';

@@ -4,38 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:paylinc/config/authentication/authentication.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
+import 'package:paylinc/features/confirm_forgot_password/cubit/confirm_forgot_password_cubit.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(
-        builder: (_) => ForgotPasswordPage(), settings: routeSettings);
-  }
-
-  static final RouteSettings routeSettings =
-      RouteSettings(name: "/forgot-password");
-
+class ConfirmForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: ResponsiveBuilder(
-          mobileBuilder: _forgotPasswordMobileScreenWidget,
-          tabletBuilder: _forgotPasswordDesktopScreenWidget,
-          desktopBuilder: _forgotPasswordDesktopScreenWidget,
+          mobileBuilder: _confirmForgotPasswordMobileScreenWidget,
+          tabletBuilder: _confirmForgotPasswordDesktopScreenWidget,
+          desktopBuilder: _confirmForgotPasswordDesktopScreenWidget,
         ),
       ),
       // }
     );
   }
 
-  Widget _forgotPasswordDesktopScreenWidget(context, constraints) {
+  Widget _confirmForgotPasswordDesktopScreenWidget(context, constraints) {
     var size = MediaQuery.of(context).size;
     return Row(
       children: [
@@ -66,7 +57,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   const SizedBox(height: kSpacing * 2),
                   SizedBox(
                       width: size.width / 1.5,
-                      child: _forgotPasswordMobileScreenWidget(
+                      child: _confirmForgotPasswordMobileScreenWidget(
                           context, constraints))
                 ],
               ),
@@ -86,7 +77,7 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  Widget _forgotPasswordMobileScreenWidget(context, constraints) {
+  Widget _confirmForgotPasswordMobileScreenWidget(context, constraints) {
     return Padding(
       padding: const EdgeInsets.all(kSpacing),
       child: Container(
@@ -132,7 +123,7 @@ class ForgotPasswordPage extends StatelessWidget {
 class _FPFButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+    return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
@@ -140,7 +131,7 @@ class _FPFButton extends StatelessWidget {
                 child: const Text('Submit'),
                 onPressed: state.emailI.valid
                     ? () {
-                        context.read<ForgotPasswordCubit>().submit();
+                        context.read<ConfirmForgotPasswordCubit>().submit();
                       }
                     : null,
               );
@@ -175,11 +166,11 @@ class _NewAcctButton extends StatelessWidget {
 class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+    return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
       builder: (context, state) {
         return TextField(
           onChanged: (email) =>
-              context.read<ForgotPasswordCubit>().newEmail(email),
+              context.read<ConfirmForgotPasswordCubit>().newEmail(email),
           decoration: InputDecoration(
             labelText: 'Email',
             errorText:
