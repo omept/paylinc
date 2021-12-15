@@ -88,17 +88,22 @@ class ConfirmForgotPasswordPage extends StatelessWidget {
               const SizedBox(height: kSpacing),
               const SizedBox(height: kSpacing * 2),
               const Padding(padding: EdgeInsets.all(12)),
-              Text('Forgot Password'),
+              Text('Confirm Reset Password'),
               const Padding(padding: EdgeInsets.all(12)),
               const Padding(padding: EdgeInsets.all(12)),
               const Padding(padding: EdgeInsets.all(12)),
               _EmailInput(),
               const Padding(padding: EdgeInsets.all(12)),
+              _EmailTokenInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _NewPasswordInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _ConfirmNewPasswordInput(),
+              const Padding(padding: EdgeInsets.all(12)),
               Padding(
                 padding: const EdgeInsets.only(top: kSpacing),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  // spacing: ,
                   children: <Widget>[
                     Padding(
                       padding:
@@ -109,7 +114,7 @@ class ConfirmForgotPasswordPage extends StatelessWidget {
                     Padding(
                       padding:
                           const EdgeInsets.symmetric(vertical: kSpacing / 2),
-                      child: _FPFButton(),
+                      child: _CFPFSubmitButton(),
                     ),
                   ],
                 ),
@@ -120,7 +125,7 @@ class ConfirmForgotPasswordPage extends StatelessWidget {
   }
 }
 
-class _FPFButton extends StatelessWidget {
+class _CFPFSubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
@@ -129,7 +134,7 @@ class _FPFButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 child: const Text('Submit'),
-                onPressed: state.emailI.valid
+                onPressed: state.status.isValid
                     ? () {
                         context.read<ConfirmForgotPasswordCubit>().submit();
                       }
@@ -147,7 +152,6 @@ class _NewAcctButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           style: ElevatedButton.styleFrom(primary: Theme.of(context).cardColor),
-          key: const Key('loginForm_linktosignup_raisedButton'),
           child: Text(
             'New account?',
             style: TextStyle(color: Theme.of(context).textTheme.caption?.color),
@@ -170,13 +174,74 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (email) =>
-              context.read<ConfirmForgotPasswordCubit>().newEmail(email),
+              context.read<ConfirmForgotPasswordCubit>().updateEmail(email),
           decoration: InputDecoration(
             labelText: 'Email',
             errorText:
                 state.emailI.valid && !GetUtils.isEmail(state.emailI.value)
                     ? 'invalid email'
                     : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _EmailTokenInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
+      builder: (context, state) {
+        return TextField(
+          onChanged: (emailTkn) => context
+              .read<ConfirmForgotPasswordCubit>()
+              .updateEmailToken(emailTkn),
+          decoration: InputDecoration(
+            labelText: 'Token',
+            errorText: state.emailToken.invalid ? 'invalid email token' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _NewPasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
+      builder: (context, state) {
+        return TextField(
+          obscureText: true,
+          onChanged: (newPassWd) => context
+              .read<ConfirmForgotPasswordCubit>()
+              .updateNewPassWord(newPassWd),
+          decoration: InputDecoration(
+            labelText: 'New Password',
+            errorText: state.emailToken.invalid ? 'invalid password' : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ConfirmNewPasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ConfirmForgotPasswordCubit, ConfirmForgotPasswordState>(
+      builder: (context, state) {
+        return TextField(
+          obscureText: true,
+          onChanged: (newPassWd) => context
+              .read<ConfirmForgotPasswordCubit>()
+              .updateConfirmNewPassWord(newPassWd),
+          decoration: InputDecoration(
+            labelText: 'Confirm Password',
+            errorText: state.password != state.confirmPassword
+                ? 'invalid password'
+                : null,
           ),
         );
       },

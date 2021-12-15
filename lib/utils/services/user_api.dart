@@ -61,5 +61,13 @@ class UserApi extends RestApiServices {
     }
   }
 
-  confirmForgotPassword(Map<String, String> map) {}
+  Future<ResponseModel> confirmForgotPassword(Map<String, String> data) async {
+    try {
+      final String url = "auth/reset-password/";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
 }

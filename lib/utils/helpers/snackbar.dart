@@ -6,4 +6,6 @@ class Snackbar {
 
   static errSnackBar(String title, String message) =>
       Get.snackbar(title, message);
+
+  static infoSnackBar(String message) => Get.snackbar("Info", message);
 }

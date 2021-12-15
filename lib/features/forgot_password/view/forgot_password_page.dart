@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:paylinc/config/authentication/authentication.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
