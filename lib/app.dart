@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/config/themes/app_theme.dart';
+import 'package:paylinc/features/confirm_forgot_password/cubit/confirm_forgot_password_cubit.dart';
 import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
@@ -59,6 +60,9 @@ class Paylinc extends StatelessWidget {
           }),
           BlocProvider(create: (context) {
             return ValidateOtpCubit();
+          }),
+          BlocProvider(create: (context) {
+            return ConfirmForgotPasswordCubit();
           })
         ], child: AppView()));
   }

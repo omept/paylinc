@@ -1,4 +1,5 @@
 import 'package:paylinc/features/admin_dashboard/views/screens/admin_dashboard_screen.dart';
+import 'package:paylinc/features/confirm_forgot_password/confirm_forgot_password.dart';
 import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
@@ -39,6 +40,11 @@ class AppPages {
     GetPage(
       name: _Paths.forgot_password,
       page: () => ForgotPasswordPage(),
+      middlewares: [GuestMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.confirm_forgot_password,
+      page: () => ConfirmForgotPasswordPage(),
       middlewares: [GuestMiddleware()],
     ),
     GetPage(name: _Paths.validate_otp, page: () => ValidateOtpPage()),

@@ -25,7 +25,6 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
     ResponseModel otpValRes = await api.validateOtp({
       'otp': state.otp.value,
     });
-
     if (otpValRes.status == true) {
       emit(state.copyWith(
         status: FormzStatus.submissionSuccess,
