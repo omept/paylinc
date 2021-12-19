@@ -13,7 +13,7 @@ class UserApi extends RestApiServices {
 
   Future<ResponseModel> login(Map<String, String> data) async {
     try {
-      final String url = "auth/login/";
+      final String url = "auth/login";
       final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
     } on Exception catch (_) {
@@ -56,7 +56,8 @@ class UserApi extends RestApiServices {
       final String url = "auth/send-password-reset-link/";
       final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      print(e);
       return ResponseModel(message: UserApi.errMessage);
     }
   }

@@ -6,7 +6,7 @@ part 'user_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
-  final String baseUrl = 'https://paylinc.test/api/';
+  final String baseUrl = 'https://paylinc.omept.com/api/';
   AuthenticationRepository? authenticationRepository;
   AuthController authCtrlr = Get.find();
 
@@ -28,6 +28,7 @@ class RestApiServices extends GetConnect {
   }
 
   ResponseModel responseHandler(Response<dynamic> response) {
+    print(response.body);
     ResponseModel responseModel;
     responseModel = ResponseModel(
       data: response.body?['data'],
