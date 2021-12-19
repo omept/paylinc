@@ -72,7 +72,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           'email_or_paytag': state.username.value,
           'password': state.password.value,
         });
-        print('heee');
         if (loginRes.status == true) {
           await onAuthenticated(loginRes, _authenticationRepository);
 

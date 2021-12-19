@@ -28,7 +28,6 @@ class RestApiServices extends GetConnect {
   }
 
   ResponseModel responseHandler(Response<dynamic> response) {
-    print(response.body);
     ResponseModel responseModel;
     responseModel = ResponseModel(
       data: response.body?['data'],
