@@ -3,23 +3,23 @@ part of app_helpers;
 extension TaskTypeExtension on TaskType {
   Color getColor() {
     switch (this) {
-      case TaskType.done:
+      case TaskType.bank:
         return Colors.lightBlue;
-      case TaskType.inProgress:
+      case TaskType.card:
         return Colors.amber[700]!;
       default:
-        return Colors.redAccent;
+        return Colors.lightBlue;
     }
   }
 
   String toStringValue() {
     switch (this) {
-      case TaskType.done:
-        return "Done";
-      case TaskType.inProgress:
-        return "In Progress";
+      case TaskType.card:
+        return "Card";
+      case TaskType.bank:
+        return "Bank";
       default:
-        return "Todo";
+        return "";
     }
   }
 }

@@ -1,7 +1,7 @@
 part of dashboard;
 
-class _RecentMessages extends StatelessWidget {
-  const _RecentMessages({
+class _RecentInitializedTransaction extends StatelessWidget {
+  const _RecentInitializedTransaction({
     required this.onPressedMore,
     Key? key,
   }) : super(key: key);
@@ -16,7 +16,7 @@ class _RecentMessages extends StatelessWidget {
         Icon(EvaIcons.messageCircle, color: primaryColor),
         const SizedBox(width: 10),
         Text(
-          "Recent Messages",
+          "Recent Transactions",
           style: TextStyle(color: primaryColor),
         ),
         const Spacer(),

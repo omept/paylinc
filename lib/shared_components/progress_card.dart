@@ -3,12 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
 class ProgressCardData {
-  final int totalUndone;
-  final int totalTaskInProress;
+  final int totalWallets;
 
   const ProgressCardData({
-    required this.totalUndone,
-    required this.totalTaskInProress,
+    required this.totalWallets,
   });
 }
 
@@ -56,17 +54,18 @@ class ProgressCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "You Have ${data.totalUndone} Undone Tasks",
+                  "You Have ${data.totalWallets} Wallets",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
+                const SizedBox(height: kSpacing),
                 Text(
-                  "${data.totalTaskInProress} Tasks are in progress",
+                  "create a wallet for your vendor acount",
                   style: TextStyle(color: kLightGrayTextColor),
                 ),
-                const SizedBox(height: kSpacing),
+                const SizedBox(height: kSpacing / 2),
                 ElevatedButton(
                   onPressed: onPressedCheck,
-                  child: const Text("Check"),
+                  child: const Text("Create"),
                 )
               ],
             ),

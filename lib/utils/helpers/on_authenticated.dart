@@ -4,7 +4,7 @@ Future<User> onAuthenticated(ResponseModel loginRes,
     AuthenticationRepository authenticationRepository) async {
   AuthController authController = Get.find();
   var locStorageServ = LocalStorageServices();
-  locStorageServ.saveToken(loginRes.data?['access_token']);
+  await locStorageServ.saveToken(loginRes.data?['access_token']);
   User user = await locStorageServ.saveUserFromMap(loginRes.data?['user']);
 
   locStorageServ.saveUserStatisticsFromMap(loginRes.data?['statistics']);
@@ -14,12 +14,12 @@ Future<User> onAuthenticated(ResponseModel loginRes,
   authController.userStatistics = await locStorageServ.getUserStatistics();
   authController.authenticated = true;
 
-  if ((user.userId is int) &&
-      (user.userId! > 0) &&
-      (user.otpVerified != null)) {
-    authenticationRepository.setLoggedIn();
-  } else {
+  if (user.otpVerified != true) {
     authenticationRepository.shouldValidateOtp();
+  }
+
+  if ((user.userId is int) && (user.userId! > 0)) {
+    authenticationRepository.setLoggedIn();
   }
   return user;
 }

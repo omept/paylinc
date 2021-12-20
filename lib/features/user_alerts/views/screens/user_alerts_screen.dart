@@ -7,9 +7,7 @@ import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/chatting_card.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/task_card.dart';
 import 'package:paylinc/shared_components/today_text.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
-class ProgressReportCardData {
+class ProfileCompletionReportCardData {
   final double percent;
   final String title;
-  final int task;
-  final int doneTask;
-  final int undoneTask;
 
-  const ProgressReportCardData({
-    required this.percent,
-    required this.title,
-    required this.task,
-    required this.doneTask,
-    required this.undoneTask,
-  });
+  const ProfileCompletionReportCardData(
+      {required this.percent, required this.title});
 }
 
 class ProgressReportCard extends StatelessWidget {
@@ -24,7 +16,7 @@ class ProgressReportCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final ProgressReportCardData data;
+  final ProfileCompletionReportCardData data;
 
   @override
   Widget build(BuildContext context) {
@@ -53,51 +45,10 @@ class ProgressReportCard extends StatelessWidget {
                 data.title,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 15),
-              _RichText(value1: "${data.task} ", value2: "Task"),
-              const SizedBox(height: 3),
-              _RichText(value1: "${data.doneTask} ", value2: "Done Task"),
-              const SizedBox(height: 3),
-              _RichText(value1: "${data.undoneTask} ", value2: "Undone Task"),
             ],
           ),
           const Spacer(),
           _Indicator(percent: data.percent),
-        ],
-      ),
-    );
-  }
-}
-
-class _RichText extends StatelessWidget {
-  const _RichText({
-    required this.value1,
-    required this.value2,
-    Key? key,
-  }) : super(key: key);
-
-  final String value1;
-  final String value2;
-
-  @override
-  Widget build(BuildContext context) {
-    var themeContext = Theme.of(context);
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(
-          color: themeContext.colorScheme.onBackground,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-        children: [
-          TextSpan(text: value1),
-          TextSpan(
-            text: value2,
-            style: TextStyle(
-              color: themeContext.colorScheme.onBackground,
-              fontWeight: FontWeight.w100,
-            ),
-          ),
         ],
       ),
     );
