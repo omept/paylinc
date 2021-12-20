@@ -14,7 +14,12 @@ class ValidateOtpForm extends StatelessWidget {
           const Padding(padding: EdgeInsets.all(12)),
           _OtpInput(),
           const Padding(padding: EdgeInsets.all(12)),
-          _SubmitButton(),
+          Row(
+            children: <Widget>[
+              _SubmitButton(),
+              _ResendOtpButton(),
+            ],
+          ),
           const Padding(padding: EdgeInsets.all(12))
         ],
       ),
@@ -39,6 +44,38 @@ class _SubmitButton extends StatelessWidget {
               );
       },
     );
+  }
+}
+
+class _ResendOtpButton extends StatefulWidget {
+  @override
+  State<_ResendOtpButton> createState() => _ResendOtpButtonState();
+}
+
+class _ResendOtpButtonState extends State<_ResendOtpButton> {
+  // final CountdownController countdownController =
+  //     Get.put(CountdownController());
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ValidateOtpCubit, ValidateOtpState>(
+      builder: (context, state) {
+        var otpCubit = context.read<ValidateOtpCubit>();
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            child: ElevatedButton(
+              child: Text('Resend OTP Submit'),
+              onPressed: () {
+                otpCubit.resendOtp();
+              },
+            ));
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 

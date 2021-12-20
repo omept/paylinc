@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_form.dart';
@@ -73,18 +72,20 @@ class ValidateOtpPage extends StatelessWidget {
   }
 
   Widget _validateOtpMobileScreenWidget(context, constraints) {
+    var size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(kSpacing),
       child: Container(
+        height: size.height - 40,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-              const SizedBox(height: kSpacing / 2),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Validate Otp'),
+              const SizedBox(height: kSpacing * 10),
+              Text('Validate Otp',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                  )),
               const SizedBox(height: kSpacing * 2),
               ValidateOtpForm(),
               const SizedBox(height: kSpacing),

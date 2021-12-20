@@ -6,7 +6,7 @@ part 'user_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
-  final String baseUrl = 'https://paylinc.omept.com/api/';
+  final String baseUrl = 'https://paylinc.test/api/';
   AuthenticationRepository? authenticationRepository;
   AuthController authCtrlr = Get.find();
 

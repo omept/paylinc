@@ -70,4 +70,14 @@ class UserApi extends RestApiServices {
       return ResponseModel(message: UserApi.errMessage);
     }
   }
+
+  Future<ResponseModel> resendOtp() async {
+    try {
+      final String url = "auth/resend-otp";
+      final response = await post(url, '', headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
 }
