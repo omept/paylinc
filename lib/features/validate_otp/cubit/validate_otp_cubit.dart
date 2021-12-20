@@ -7,17 +7,20 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/form_inputs/otp.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
 part 'validate_otp_state.dart';
 
 class ValidateOtpCubit extends Cubit<ValidateOtpState> {
+  final authController = Get.find<AuthController>();
   ValidateOtpCubit() : super(ValidateOtpState(otp: OtpInput.pure()));
 
+  AuthenticationRepository authenticationRepository =
+      RepositoryProvider.of<AuthenticationRepository>(Get.context!);
+
   void submit() async {
-    AuthenticationRepository authenticationRepository =
-        RepositoryProvider.of<AuthenticationRepository>(Get.context!);
     emit(ValidateOtpState(
         otp: state.otp, status: FormzStatus.submissionInProgress));
 
@@ -29,6 +32,8 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
       emit(state.copyWith(
         status: FormzStatus.submissionSuccess,
       ));
+
+      await onAuthenticated(otpValRes, authenticationRepository);
       Get.offNamed(Routes.dashboard);
     } else {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
@@ -46,5 +51,33 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
 
   newOtp(String otp) {
     emit(state.copyWith(otp: OtpInput.dirty(otp)));
+  }
+
+  void resendOtp() async {
+    if (state.resendCalled == true) {
+      Snackbar.infoSnackBar("Too many retries");
+      return;
+    }
+
+    var email = authController.user.email;
+    if (email != null) {
+      AuthenticationRepository authenticationRepository =
+          RepositoryProvider.of<AuthenticationRepository>(Get.context!);
+      var api = UserApi.withAuthRepository(authenticationRepository);
+      ResponseModel rOtpRes = await api.resendOtp();
+
+      if (rOtpRes.status == true) {
+        Snackbar.successSnackBar(
+            'Done', rOtpRes.message ?? RestApiServices.errMessage);
+        this.resendCalled(true);
+      } else {
+        Snackbar.errSnackBar(
+            'Failed', rOtpRes.message ?? RestApiServices.errMessage);
+      }
+    }
+  }
+
+  void resendCalled(bool val) {
+    emit(state.copyWith(resendCalled: val));
   }
 }

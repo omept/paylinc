@@ -86,45 +86,50 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 
   Widget _forgotPasswordMobileScreenWidget(context, constraints) {
-    return Padding(
-      padding: const EdgeInsets.all(kSpacing),
-      child: Container(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: kSpacing),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Forgot Password'),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              _EmailInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              Padding(
-                padding: const EdgeInsets.only(top: kSpacing),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  // spacing: ,
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kSpacing / 2),
-                      child: _NewAcctButton(),
+    return Builder(builder: (context) {
+      return Container(
+        height: context.height,
+        child: Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: Container(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: kSpacing),
+                  const SizedBox(height: kSpacing * 2),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  Text('Forgot Password'),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _EmailInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: kSpacing),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      // spacing: ,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: _NewAcctButton(),
+                        ),
+                        const SizedBox(width: kSpacing),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: _FPFButton(),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: kSpacing),
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kSpacing / 2),
-                      child: _FPFButton(),
-                    ),
-                  ],
-                ),
-              )
-            ]),
-      ),
-    );
+                  )
+                ]),
+          ),
+        ),
+      );
+    });
   }
 }
 

@@ -189,7 +189,7 @@ class OnboardingPage extends StatelessWidget {
   }
 
   Widget _onboardingPageMobileScreenWidget(context, constraints) {
-    return MobileOnBoarding();
+    return _MobileOnBoarding();
   }
 }
 
@@ -307,14 +307,14 @@ TextStyle menuItemTextStyle({required Color color}) {
   );
 }
 
-class MobileOnBoarding extends StatefulWidget {
-  MobileOnBoarding({Key? key}) : super(key: key);
+class _MobileOnBoarding extends StatefulWidget {
+  _MobileOnBoarding({Key? key}) : super(key: key);
 
   @override
   _MobileOnBoardingState createState() => _MobileOnBoardingState();
 }
 
-class _MobileOnBoardingState extends State<MobileOnBoarding> {
+class _MobileOnBoardingState extends State<_MobileOnBoarding> {
   final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
@@ -358,20 +358,7 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: context.height,
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     stops: [0.1, 0.4, 0.7, 0.9],
-        //     colors: [
-        //       Color(0xFF3594DD),
-        //       Color(0xFF4563DB),
-        //       Color(0xFF5036D5),
-        //       Color(0xFF5B16D0),
-        //     ],
-        //   ),
-        // ),
+        height: context.height - 65,
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: kSpacing * 2, vertical: kSpacing / 3),
@@ -470,9 +457,9 @@ class _MobileOnBoardingState extends State<MobileOnBoarding> {
   Center _pageOneOnboarding() {
     return Center(
       child: Container(
-        height: 450.0,
+        height: 410.0,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: kSpacing * 2),
+          padding: EdgeInsets.symmetric(horizontal: kSpacing),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
