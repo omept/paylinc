@@ -19,13 +19,6 @@ class _ProfilTile extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(
-        data.email,
-        style: TextStyle(
-            fontSize: 12, color: Theme.of(context).textTheme.caption?.color),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
       trailing: IconButton(
         onPressed: onPressedNotification,
         icon: const Icon(EvaIcons.bellOutline),

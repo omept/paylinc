@@ -1,7 +1,6 @@
 library dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -40,9 +39,9 @@ class DashboardScreen extends GetView<DashboardController> {
     // return Container();
 
     return Scaffold(
-      key: this.key,
+      key: controller.scaffoldKey,
       // key: controller.scaffoldKey,
-      drawer: (ResponsiveBuilder.isDesktop(context))
+      drawer: (!ResponsiveBuilder.isMobile(context))
           ? null
           : Drawer(
               child: Padding(
@@ -88,11 +87,6 @@ class DashboardScreen extends GetView<DashboardController> {
               const SizedBox(height: kSpacing * 2),
               _buildProgress(),
               const SizedBox(height: kSpacing * 2),
-              _buildBankAndCardOverview(
-                data: controller.getAllTask(),
-                crossAxisCount: 6,
-                crossAxisCellCount: (constraints.maxWidth < 1360) ? 3 : 2,
-              ),
               const SizedBox(height: kSpacing * 2)
             ],
           ),
@@ -140,19 +134,6 @@ class DashboardScreen extends GetView<DashboardController> {
                     : Axis.horizontal,
               ),
               const SizedBox(height: kSpacing * 2),
-              _buildBankAndCardOverview(
-                data: controller.getAllTask(),
-                headerAxis: (constraints.maxWidth < 850)
-                    ? Axis.vertical
-                    : Axis.horizontal,
-                crossAxisCount: 6,
-                crossAxisCellCount: (constraints.maxWidth < 950)
-                    ? 6
-                    : (constraints.maxWidth < 1100)
-                        ? 3
-                        : 2,
-              ),
-              const SizedBox(height: kSpacing * 2),
             ],
           ),
         ),
@@ -180,29 +161,26 @@ class DashboardScreen extends GetView<DashboardController> {
   }
 
   Widget _dashboardMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      _buildHeader(onPressedMenu: () => controller.openDrawer()),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-      _buildProfile(data: controller.getProfil()),
-      const SizedBox(height: kSpacing),
-      _buildProgress(axis: Axis.vertical),
-      const SizedBox(height: kSpacing),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-        child: GetPremiumCard(onPressed: () {}),
-      ),
-      const SizedBox(height: kSpacing * 2),
-      _buildBankAndCardOverview(
-        data: controller.getAllTask(),
-        headerAxis: Axis.vertical,
-        crossAxisCount: 6,
-        crossAxisCellCount: 6,
-      ),
-      const SizedBox(height: kSpacing * 2),
-      _buildInitializedTransaction(data: controller.getChatting()),
-    ]);
+    return SingleChildScrollView(
+      child: Column(children: [
+        const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
+        Row(
+          children: [
+            _menuTogle(onPressedMenu: () => controller.openDrawer()),
+            Flexible(child: _buildProfile(data: controller.getProfil())),
+          ],
+        ),
+        const SizedBox(height: kSpacing),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+          child: GetPremiumCard(onPressed: () {}),
+        ),
+        const SizedBox(height: kSpacing),
+        _buildProgressMobile(axis: Axis.vertical),
+        const SizedBox(height: kSpacing * 2),
+        _buildInitializedTransaction(data: controller.getChatting()),
+      ]),
+    );
 
     // return Container();
   }
@@ -227,6 +205,19 @@ class DashboardScreen extends GetView<DashboardController> {
           )),
         ],
       ),
+    );
+  }
+
+  Widget _menuTogle({Function()? onPressedMenu}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: kSpacing),
+      child: (onPressedMenu != null)
+          ? IconButton(
+              onPressed: onPressedMenu,
+              icon: const Icon(EvaIcons.menu),
+              tooltip: "menu",
+            )
+          : null,
     );
   }
 
@@ -273,35 +264,33 @@ class DashboardScreen extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildBankAndCardOverview({
-    required List<TaskCardData> data,
-    int crossAxisCount = 6,
-    int crossAxisCellCount = 2,
-    Axis headerAxis = Axis.horizontal,
-  }) {
-    return StaggeredGridView.countBuilder(
-      crossAxisCount: crossAxisCount,
-      itemCount: data.length + 1,
-      addAutomaticKeepAlives: false,
+  Widget _buildProgressMobile({Axis axis = Axis.horizontal}) {
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return (index == 0)
-            ? Padding(
-                padding: const EdgeInsets.only(bottom: kSpacing),
-                child: Container(),
-              )
-            : TaskCard(
-                data: data[index - 1],
-                onPressedMore: () {},
-                onPressedTask: () {},
-                onPressedContributors: () {},
-                onPressedComments: () {},
-              );
-      },
-      staggeredTileBuilder: (int index) =>
-          StaggeredTile.fit((index == 0) ? crossAxisCount : crossAxisCellCount),
+      child: (axis == Axis.horizontal)
+          ? Row(
+              children: [
+                const SizedBox(width: kSpacing / 2),
+                Flexible(
+                  flex: 5,
+                  child: ProgressCard(
+                    data: const ProgressCardData(
+                      totalWallets: 10,
+                    ),
+                    onPressedCheck: () {},
+                  ),
+                ),
+              ],
+            )
+          : Column(
+              children: [
+                ProgressCard(
+                  data: const ProgressCardData(totalWallets: 10),
+                  onPressedCheck: () {},
+                ),
+                const SizedBox(height: kSpacing / 2),
+              ],
+            ),
     );
   }
 

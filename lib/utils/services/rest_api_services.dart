@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 part 'user_api.dart';
@@ -42,7 +43,7 @@ class RestApiServices extends GetConnect {
         // 400 -- problem response
         // 500 -- server response
 
-        switch (responseModel.statusCode) {
+        switch (response.status.code) {
           case 400:
             break;
           case 401:
@@ -50,7 +51,9 @@ class RestApiServices extends GetConnect {
               this.authenticationRepository?.onboardingReqAcctVerification();
               // } else if (responseModel.message == "Invalid credentials") {
             } else if (responseModel.message == "Expired Session" ||
+                responseModel.message == "Token has expired" ||
                 responseModel.message == "Invalid Token") {
+              Hive.deleteFromDisk();
               this.authenticationRepository?.onboardingReqLogin();
             }
             break;

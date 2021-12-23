@@ -13,6 +13,7 @@ import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 // binding
 part '../../bindings/wallets_binding.dart';
