@@ -5,6 +5,8 @@ import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
+import 'package:paylinc/features/request_money/bindings/request_money_bindings.dart';
+import 'package:paylinc/features/request_money/view/request_money_screen.dart';
 import 'package:paylinc/features/settings/views/screens/settings_screen.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_page.dart';
 import 'package:paylinc/features/splash/splash.dart';
@@ -65,6 +67,12 @@ class AppPages {
       page: () => const AdminDashboardScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: AdminDashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.request_money,
+      page: () => const RequestMoneyScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: RequestMoneyBindings(),
     ),
     GetPage(
       name: _Paths.user_alerts,

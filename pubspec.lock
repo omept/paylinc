@@ -36,6 +36,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  awesome_select:
+    dependency: "direct main"
+    description:
+      name: awesome_select
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   bloc:
     dependency: transitive
     description:

@@ -45,6 +45,7 @@ dependencies:
   responsive_framework: ^0.1.5
   password_strength: ^0.2.0
   pin_code_fields: ^7.3.0
+  awesome_select: ^5.1.0
 
 dev_dependencies:
   flutter_test:
