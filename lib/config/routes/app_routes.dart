@@ -19,6 +19,8 @@ class Routes {
   static const String validate_otp = _Paths.validate_otp;
 
   static const String request_money = _Paths.request_money;
+
+  static const String create_wallet = _Paths.create_wallet;
 }
 
 /// contains a list of route names.
@@ -39,9 +41,5 @@ class _Paths {
   static const String user_alerts = '/user-alerts';
   static const String feed_back = '/feed-back';
   static const String request_money = '/request-money';
-
-  // Example :
-  // static const index = '/';
-  // static const splash = '/splash';
-  // static const product = '/product';
+  static const String create_wallet = '/create-wallet';
 }
