@@ -22,6 +22,7 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
@@ -54,13 +55,14 @@ class ProgressCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "You Have ${data.totalWallets} Wallets",
+                  "You have ${data.totalWallets} vendor wallets.",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: kSpacing),
                 Text(
                   "create a wallet for your vendor acount",
-                  style: TextStyle(color: kLightGrayTextColor),
+                  style:
+                      TextStyle(color: themeContext.textTheme.caption?.color),
                 ),
                 const SizedBox(height: kSpacing / 2),
                 ElevatedButton(

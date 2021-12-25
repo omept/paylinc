@@ -2,16 +2,19 @@ library dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/chatting_card.dart';
 import 'package:paylinc/shared_components/get_premium_card.dart';
 import 'package:paylinc/shared_components/progress_card.dart';
 import 'package:paylinc/shared_components/progress_report_card.dart';
+import 'package:paylinc/shared_components/send_money_card%20copy.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/task_card.dart';
 import 'package:paylinc/shared_components/today_text.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 import 'package:flutter/material.dart';
@@ -107,7 +110,7 @@ class DashboardScreen extends GetView<DashboardController> {
               const SizedBox(height: kSpacing),
               const Divider(thickness: 1),
               const SizedBox(height: kSpacing),
-              _buildInitializedTransaction(data: controller.getChatting()),
+              // _buildInitializedTransaction(data: controller.getChatting()),
             ],
           ),
         )
@@ -152,7 +155,7 @@ class DashboardScreen extends GetView<DashboardController> {
               const SizedBox(height: kSpacing),
               const Divider(thickness: 1),
               const SizedBox(height: kSpacing),
-              _buildInitializedTransaction(data: controller.getChatting()),
+              // _buildInitializedTransaction(data: controller.getChatting()),
             ],
           ),
         )
@@ -173,12 +176,21 @@ class DashboardScreen extends GetView<DashboardController> {
         const SizedBox(height: kSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-          child: GetPremiumCard(onPressed: () {}),
+          child: RequestMoneyCard(onPressed: () {}),
         ),
         const SizedBox(height: kSpacing),
-        _buildProgressMobile(axis: Axis.vertical),
-        const SizedBox(height: kSpacing * 2),
-        _buildInitializedTransaction(data: controller.getChatting()),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+          child: SendMoneyCard(onPressed: () {}),
+        ),
+        const SizedBox(height: kSpacing),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+          child: ProgressCard(
+            data: const ProgressCardData(totalWallets: 10),
+            onPressedCheck: () {},
+          ),
+        ),
       ]),
     );
 
@@ -259,36 +271,6 @@ class DashboardScreen extends GetView<DashboardController> {
                   data: ProfileCompletionReportCardData(
                       title: "Your profile", percent: .3),
                 ),
-              ],
-            ),
-    );
-  }
-
-  Widget _buildProgressMobile({Axis axis = Axis.horizontal}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: (axis == Axis.horizontal)
-          ? Row(
-              children: [
-                const SizedBox(width: kSpacing / 2),
-                Flexible(
-                  flex: 5,
-                  child: ProgressCard(
-                    data: const ProgressCardData(
-                      totalWallets: 10,
-                    ),
-                    onPressedCheck: () {},
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              children: [
-                ProgressCard(
-                  data: const ProgressCardData(totalWallets: 10),
-                  onPressedCheck: () {},
-                ),
-                const SizedBox(height: kSpacing / 2),
               ],
             ),
     );
