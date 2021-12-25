@@ -19,6 +19,12 @@ class _ProfilTile extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
+      subtitle: Text(
+        data.paytag,
+        style: TextStyle(fontSize: 14),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       trailing: IconButton(
         onPressed: onPressedNotification,
         icon: const Icon(EvaIcons.bellOutline),

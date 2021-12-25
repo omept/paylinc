@@ -17,6 +17,7 @@ class DashboardController extends GetxController {
       photo: AssetImage(ImageRasterPath.avatar1),
       name: authController.user.name.toString(),
       email: authController.user.email.toString(),
+      paytag: authController.user.paytag.toString(),
     );
   }
 
