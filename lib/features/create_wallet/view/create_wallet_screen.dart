@@ -6,6 +6,7 @@ import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/create_wallet/controller/create_wallet_controller.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 class CreateWalletScreen extends GetView<CreateWalletController> {
   const CreateWalletScreen({Key? key}) : super(key: key);
@@ -100,17 +101,10 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
     });
   }
 
-  String value = 'flutter';
-  List<S2Choice<String>> options = [
-    S2Choice<String>(value: 'ion', title: 'Ionic'),
-    S2Choice<String>(value: 'flu', title: 'Flutter'),
-    S2Choice<String>(value: 'rea', title: 'React Native'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var themeContext = Theme.of(context);
+    ThemeData themeContext = Theme.of(context);
     CreateWalletController controller = Get.find<CreateWalletController>();
     return SafeArea(
       child: Container(
@@ -160,8 +154,8 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
                       });
                     },
                     children: <Widget>[
-                      _supportedCategoryPage(themeContext),
-                      _walletPaytagPage(themeContext),
+                      _supportedCategoryPage(themeContext, controller),
+                      _walletPaytagPage(themeContext, controller),
                     ],
                   ),
                 ),
@@ -278,7 +272,8 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
     );
   }
 
-  Widget _supportedCategoryPage(themeContext) {
+  Widget _supportedCategoryPage(
+      ThemeData themeContext, CreateWalletController c) {
     return Column(
       children: [
         Container(
@@ -318,15 +313,17 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
                   );
                 },
                 title: 'Category',
-                selectedValue: value,
-                choiceItems: options,
-                onChange: (state) => print(state.value))),
+                selectedValue: c.selectedCatValue,
+                choiceItems: c.categoryOptions,
+                // choiceLoader: c.categoryChoiceOpts,
+                onChange: (state) => c.selectedCatValue = state.value ?? '')),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }
 
-  Widget _walletPaytagPage(themeContext) {
+  Widget _walletPaytagPage(
+      ThemeData themeContext, CreateWalletController controller) {
     return Column(
       children: [
         Container(

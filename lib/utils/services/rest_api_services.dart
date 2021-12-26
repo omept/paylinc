@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 part 'user_api.dart';
+part 'settings_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
