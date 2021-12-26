@@ -27,8 +27,8 @@ class SupportedCategory {
 
   factory SupportedCategory.fromMap(Map<String, dynamic> map) {
     return SupportedCategory(
-      title: map['title'] ?? '',
-      value: map['value'] ?? '',
+      title: map['title'].toString(),
+      value: map['value'].toString(),
     );
   }
 

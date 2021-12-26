@@ -120,6 +120,10 @@ class AuthenticationRepository {
   }
 
   void logOut() {
+    // save new auth status for hive storage
+    var authRepository = Hive.box('auth_repository');
+    authRepository.put(
+        'status', hiveAuthToString(AuthenticationStatus.unauthenticated));
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 

@@ -9,7 +9,7 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() {
-    totalWallet = authController.user.wallets?.length;
+    totalWallet = authController.user.wallets?.length ?? 0;
     super.onInit();
   }
 
@@ -23,9 +23,9 @@ class DashboardController extends GetxController {
   _Profile getProfil() {
     return _Profile(
       photo: AssetImage(ImageRasterPath.avatar1),
-      name: authController.user.name.toString(),
-      email: authController.user.email.toString(),
-      paytag: authController.user.paytag.toString(),
+      name: authController.user.name?.toString() ?? '',
+      email: authController.user.email?.toString() ?? '',
+      paytag: authController.user.paytag?.toString() ?? '',
     );
   }
 

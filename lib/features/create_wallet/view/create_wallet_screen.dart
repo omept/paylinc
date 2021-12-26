@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:formz/formz.dart';
@@ -6,7 +8,6 @@ import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/create_wallet/controller/create_wallet_controller.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:awesome_select/awesome_select.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 class CreateWalletScreen extends GetView<CreateWalletController> {
   const CreateWalletScreen({Key? key}) : super(key: key);
@@ -204,32 +205,36 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                TextButton(
-                                  child: controller
-                                          .status.isSubmissionInProgress
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child:
-                                              const CircularProgressIndicator(),
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Accept',
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onBackground,
-                                                fontSize: 22.0,
+                                Obx(() {
+                                  return TextButton(
+                                    child: controller
+                                            .status.isSubmissionInProgress
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child:
+                                                const CircularProgressIndicator(),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Create',
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onBackground,
+                                                  fontSize: 22.0,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                  onPressed: () {},
-                                ),
+                                            ],
+                                          ),
+                                    onPressed: () {
+                                      controller.createWallet();
+                                    },
+                                  );
+                                })
                               ],
                             ),
                           ),
@@ -347,12 +352,75 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
           ),
           // ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(kSpacing),
-        //   child: EmailInputField(),
-        // ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: PaytagInput(),
+        ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
+  }
+}
+
+class PaytagInput extends StatefulWidget {
+  @override
+  State<PaytagInput> createState() => _PaytagInputState();
+}
+
+class _PaytagInputState extends State<PaytagInput> {
+  Timer? _debounce;
+
+  @override
+  Widget build(BuildContext context) {
+    CreateWalletController controller = Get.find<CreateWalletController>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Obx(() {
+          return TextFormField(
+            initialValue: controller.paytag.value,
+            onChanged: (paytag) {
+              if (_debounce?.isActive ?? false) _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 500), () {
+                controller.updatePaytag(paytag);
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Wallet Paytag',
+              errorStyle: TextStyle(color: kDangerColor),
+              errorText:
+                  controller.paytag.value.isEmpty ? 'invalid paytag' : null,
+            ),
+          );
+        }),
+        Obx(() {
+          return controller.paytag.value.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    controller.paytagUsageMessage.value,
+                    style: _paytagMessageStyle(
+                        controller.paytagUsageMessage.value),
+                  ),
+                )
+              : Container();
+        })
+      ],
+    );
+  }
+
+  TextStyle? _paytagMessageStyle(String paytagUsageMessage) {
+    if (paytagUsageMessage == "") {
+      return null;
+    }
+
+    if (paytagUsageMessage == "available") {
+      return TextStyle(color: kNotifColor);
+    } else if (paytagUsageMessage == "checking . . .") {
+      return TextStyle(color: kNotifColor);
+    } else {
+      return TextStyle(color: Theme.of(Get.context!).errorColor);
+    }
   }
 }
