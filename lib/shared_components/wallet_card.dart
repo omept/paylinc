@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
-class ProgressCardData {
+class WalletCardData {
   final int totalWallets;
 
-  const ProgressCardData({
+  const WalletCardData({
     required this.totalWallets,
   });
 }
 
-class ProgressCard extends StatelessWidget {
-  const ProgressCard({
+class WalletCard extends StatelessWidget {
+  const WalletCard({
     required this.data,
-    required this.onPressedCheck,
     Key? key,
   }) : super(key: key);
 
-  final ProgressCardData data;
-  final Function() onPressedCheck;
+  final WalletCardData data;
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +60,16 @@ class ProgressCard extends StatelessWidget {
                 ),
                 const SizedBox(height: kSpacing),
                 Text(
-                  "create a wallet for your vendor acount",
+                  "add a wallet for your vendor acount",
                   style:
                       TextStyle(color: themeContext.textTheme.caption?.color),
                 ),
                 const SizedBox(height: kSpacing / 2),
                 ElevatedButton(
-                  onPressed: onPressedCheck,
-                  child: const Text("Create"),
+                  onPressed: () {
+                    Get.offNamed(Routes.create_wallet);
+                  },
+                  child: const Text("Add"),
                 )
               ],
             ),

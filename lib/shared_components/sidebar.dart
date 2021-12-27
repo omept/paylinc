@@ -1,11 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/selection_button.dart';
-import 'package:paylinc/shared_components/upgrade_premium_card.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
@@ -20,6 +20,7 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeContext = Theme.of(context);
+    AuthController authController = Get.find<AuthController>();
     return Container(
       color: themeContext.cardColor,
       child: SingleChildScrollView(
@@ -71,6 +72,11 @@ class Sidebar extends StatelessWidget {
                   activeIcon: EvaIcons.messageCircleOutline,
                   icon: EvaIcons.messageSquareOutline,
                   label: "Feed Back",
+                ),
+                SelectionButtonData(
+                  activeIcon: EvaIcons.messageCircleOutline,
+                  icon: EvaIcons.messageSquareOutline,
+                  label: "Log Out",
                 )
               ],
               onSelected: (index, value) {
@@ -95,17 +101,20 @@ class Sidebar extends StatelessWidget {
                 } else if (value.label == "Feed Back") {
                   // 6
                   Get.offNamed(Routes.feed_back);
+                } else if (value.label == "Log Out") {
+                  // 6
+                  authController.logout();
                 }
                 // log("index : $index | label : ${value.label}");
               },
             ),
-            const Divider(thickness: 1),
+            // const Divider(thickness: 1),
             const SizedBox(height: kSpacing * 2),
-            UpgradePremiumCard(
-              backgroundColor: themeContext.canvasColor.withOpacity(.4),
-              onPressed: () {},
-            ),
-            const SizedBox(height: kSpacing),
+            // UpgradePremiumCard(
+            //   backgroundColor: themeContext.canvasColor.withOpacity(.4),
+            //   onPressed: () {},
+            // ),
+            // const SizedBox(height: kSpacing),
           ],
         ),
       ),

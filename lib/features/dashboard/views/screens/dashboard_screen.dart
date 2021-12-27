@@ -4,7 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/progress_card.dart';
+import 'package:paylinc/shared_components/wallet_card.dart';
 import 'package:paylinc/shared_components/send_money_card%20copy.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/project_card.dart';
@@ -95,9 +95,8 @@ class DashboardScreen extends GetView<DashboardController> {
         const SizedBox(height: kSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-          child: ProgressCard(
-            data: const ProgressCardData(totalWallets: 10),
-            onPressedCheck: () {},
+          child: WalletCard(
+            data: WalletCardData(totalWallets: controller.totalWallet),
           ),
         ),
       ]),
