@@ -2,8 +2,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 part 'user_api.dart';
 part 'settings_api.dart';
+part 'wallets_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
@@ -53,6 +55,8 @@ class RestApiServices extends GetConnect {
             } else if (responseModel.message == "Expired Session" ||
                 responseModel.message == "Token has expired" ||
                 responseModel.message == "Invalid Token") {
+              Snackbar.infoSnackBar(
+                  responseModel.message ?? RestApiServices.errMessage);
               authCtrlr.logout();
             }
             break;

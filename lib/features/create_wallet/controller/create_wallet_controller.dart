@@ -1,11 +1,13 @@
 import 'package:awesome_select/awesome_select.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/supported_category.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
+import 'package:user_repository/user_repository.dart';
 
 class CreateWalletController extends GetxController {
   var _status = FormzStatus.pure.obs;
@@ -67,7 +69,35 @@ class CreateWalletController extends GetxController {
     return s2Choices;
   }
 
-  void createWallet() {
+  void createWallet() async {
     _status.value = FormzStatus.submissionInProgress;
+    try {
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+      print({
+        'wallet_paytag': paytag.value,
+        'supported_category_id': _selectedCatValue
+      });
+      var res = await walletsApi.createWallet({
+        'wallet_paytag': paytag.value,
+        'supported_category_id': _selectedCatValue
+      });
+
+      if (res.status == true) {
+        _status.value = FormzStatus.submissionSuccess;
+        List<Wallet> wallets = List<Wallet>.from(
+            res.data?['wallets']?.map((x) => Wallet.fromMap(x)));
+        authController.updateUserWallets(wallets);
+        Snackbar.successSnackBar('Successful', "vendor wallet created");
+        Get.offNamed(Routes.wallets);
+      } else {
+        _status.value = FormzStatus.submissionFailure;
+
+        Snackbar.errSnackBar(
+            'Submission Failed', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      Snackbar.errSnackBar('Network error', RestApiServices.errMessage);
+    }
   }
 }

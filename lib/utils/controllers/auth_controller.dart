@@ -46,4 +46,11 @@ class AuthController extends GetxController {
     _token.value = "";
     authenticationRepository.onboardingReqLogin();
   }
+
+  void updateUserWallets(List<Wallet> wallets) {
+    User user = _user.value;
+    user.wallets = wallets;
+    _user(user);
+    localStorageServices.saveUserFromMap(user.toMap());
+  }
 }
