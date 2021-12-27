@@ -10,7 +10,6 @@ import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/shared_components/is_text_an_integer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:user_repository/user_repository.dart';
 
 class SignUpForm extends StatelessWidget {
   @override

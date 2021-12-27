@@ -1,13 +1,17 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
-import 'package:paylinc/shared_components/form_inputs/text_input.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 part 'user_api.dart';
+part 'settings_api.dart';
+part 'wallets_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {
   final String baseUrl = 'https://paylinc.test/api/';
   AuthenticationRepository? authenticationRepository;
+  AuthController authCtrlr = Get.find();
 
   RestApiServices();
 
@@ -15,7 +19,16 @@ class RestApiServices extends GetConnect {
 
   static const errMessage = "We encountered a problem. Please try again later.";
 
-  Map<String, String> requestHeader() => {'Access-Control-Allow-Origin': '*'};
+  Map<String, String> requestHeader() {
+    Map<String, String> headers = {'Access-Control-Allow-Origin': '*'};
+    String token = authCtrlr.token;
+    if (token.isNotEmpty || token.length > 0) {
+      headers['AUTHORIZATION'] = 'Bearer ' + token;
+      headers['HTTP-AUTHORIZATION'] = 'Bearer ' + token;
+    }
+
+    return headers;
+  }
 
   ResponseModel responseHandler(Response<dynamic> response) {
     ResponseModel responseModel;
@@ -32,7 +45,7 @@ class RestApiServices extends GetConnect {
         // 400 -- problem response
         // 500 -- server response
 
-        switch (responseModel.statusCode) {
+        switch (response.status.code) {
           case 400:
             break;
           case 401:
@@ -40,8 +53,11 @@ class RestApiServices extends GetConnect {
               this.authenticationRepository?.onboardingReqAcctVerification();
               // } else if (responseModel.message == "Invalid credentials") {
             } else if (responseModel.message == "Expired Session" ||
+                responseModel.message == "Token has expired" ||
                 responseModel.message == "Invalid Token") {
-              this.authenticationRepository?.onboardingReqLogin();
+              Snackbar.infoSnackBar(
+                  responseModel.message ?? RestApiServices.errMessage);
+              authCtrlr.logout();
             }
             break;
           case 500:
@@ -50,6 +66,12 @@ class RestApiServices extends GetConnect {
         }
         return responseModel;
       }
+      return ResponseModel(
+        data: {},
+        message: '',
+        status: false,
+        statusCode: 0,
+      );
     }
     return responseModel;
   }

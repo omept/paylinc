@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
-class ProgressCardData {
-  final int totalUndone;
-  final int totalTaskInProress;
+class WalletCardData {
+  final int totalWallets;
 
-  const ProgressCardData({
-    required this.totalUndone,
-    required this.totalTaskInProress,
+  const WalletCardData({
+    required this.totalWallets,
   });
 }
 
-class ProgressCard extends StatelessWidget {
-  const ProgressCard({
+class WalletCard extends StatelessWidget {
+  const WalletCard({
     required this.data,
-    required this.onPressedCheck,
     Key? key,
   }) : super(key: key);
 
-  final ProgressCardData data;
-  final Function() onPressedCheck;
+  final WalletCardData data;
 
   @override
   Widget build(BuildContext context) {
+    var themeContext = Theme.of(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
@@ -56,17 +55,21 @@ class ProgressCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "You Have ${data.totalUndone} Undone Tasks",
+                  "You have ${data.totalWallets} vendor wallets.",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
-                Text(
-                  "${data.totalTaskInProress} Tasks are in progress",
-                  style: TextStyle(color: kLightGrayTextColor),
-                ),
                 const SizedBox(height: kSpacing),
+                Text(
+                  "add a wallet for your vendor acount",
+                  style:
+                      TextStyle(color: themeContext.textTheme.caption?.color),
+                ),
+                const SizedBox(height: kSpacing / 2),
                 ElevatedButton(
-                  onPressed: onPressedCheck,
-                  child: const Text("Check"),
+                  onPressed: () {
+                    Get.offNamed(Routes.create_wallet);
+                  },
+                  child: const Text("Add"),
                 )
               ],
             ),

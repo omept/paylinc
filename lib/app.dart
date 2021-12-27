@@ -1,39 +1,36 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/config/themes/app_theme.dart';
+import 'package:paylinc/features/confirm_forgot_password/cubit/confirm_forgot_password_cubit.dart';
 import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/validate_otp/validate_otp.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 class Paylinc extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
 
-  const Paylinc(
-      {Key? key,
-      required this.authenticationRepository,
-      required this.userRepository})
+  const Paylinc({Key? key, required this.authenticationRepository})
       : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // register controllers
+    Get.put(AuthController(authenticationRepository: authenticationRepository));
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider.value(value: authenticationRepository),
-          RepositoryProvider.value(value: userRepository),
         ],
         child: MultiBlocProvider(providers: [
           BlocProvider(
             create: (_) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
-              userRepository: userRepository,
             ),
           ),
           BlocProvider(create: (context) {
@@ -59,6 +56,9 @@ class Paylinc extends StatelessWidget {
           }),
           BlocProvider(create: (context) {
             return ValidateOtpCubit();
+          }),
+          BlocProvider(create: (context) {
+            return ConfirmForgotPasswordCubit();
           })
         ], child: AppView()));
   }

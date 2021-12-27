@@ -63,7 +63,7 @@ class User {
       'stash_balance': stashBalance,
       'otp_verified': otpVerified,
       'country': country?.toMap(),
-      'wallets': wallets?.map((x) => x?.toMap())?.toList(),
+      'wallets': wallets?.map((x) => x?.toMap()).toList(),
       'createdAt': createdAt,
     };
   }
@@ -76,7 +76,7 @@ class User {
       email: map['email'],
       paytag: map['paytag'],
       stashBalance: map['stash_balance']?.toInt(),
-      otpVerified: map['otp_verified'],
+      otpVerified: map['otp_verified'] == 1,
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))

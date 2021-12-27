@@ -22,10 +22,10 @@ class LocalStorageServices {
     authTokBox.put('token', token);
   }
 
-  Future<String?> getToken() async {
+  Future<String> getToken() async {
     // Get auth status from hive storage
     var authTokBox = await Hive.openBox('auth_token');
-    return authTokBox.get('token');
+    return authTokBox.get('token', defaultValue: "");
   }
 
   Future<User> saveUserFromMap(data) async {
@@ -43,10 +43,19 @@ class LocalStorageServices {
     return userStatistics;
   }
 
-  Future<User?> getUser() async {
+  Future<User> getUser() async {
     // Get auth status from hive storage
     var authTokBox = await Hive.openBox('auth_user');
     var userjson = authTokBox.get('user', defaultValue: null);
     return userjson != null ? User.fromJson(userjson) : User();
+  }
+
+  Future<UserStatistics> getUserStatistics() async {
+    // Get auth status from hive storage
+    var authTokBox = await Hive.openBox('auth_user');
+    var userStatJson = authTokBox.get('user_statistics', defaultValue: null);
+    return userStatJson != null
+        ? UserStatistics.fromJson(userStatJson)
+        : UserStatistics();
   }
 }

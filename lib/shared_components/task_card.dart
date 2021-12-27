@@ -2,13 +2,11 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/list_profil_image.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 class TaskCardData {
   final String title;
   final int dueDay;
-  final List<ImageProvider> profilContributors;
   final TaskType type;
   final int totalComments;
   final int totalContributors;
@@ -19,7 +17,6 @@ class TaskCardData {
     required this.totalComments,
     required this.totalContributors,
     required this.type,
-    required this.profilContributors,
   });
 }
 
@@ -80,10 +77,6 @@ class TaskCard extends StatelessWidget {
                     child: Text(
                       data.type.toStringValue(),
                     ),
-                  ),
-                  ListProfilImage(
-                    images: data.profilContributors,
-                    onPressed: onPressedContributors,
                   ),
                 ],
               ),

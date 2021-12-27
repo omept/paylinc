@@ -69,54 +69,69 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _loginPageMobileScreenWidget(context, constraints) {
-    return Padding(
-      padding: const EdgeInsets.all(kSpacing),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-            const SizedBox(height: kSpacing / 2),
-            const Divider(),
-            const SizedBox(height: kSpacing * 2),
-            const Padding(padding: EdgeInsets.all(12)),
-            Text('Log in'),
-            const SizedBox(height: kSpacing * 2),
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(child: _LoginButton()),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: kSpacing),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                // spacing: ,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: kSpacing / 2),
-                    child: _NewAcctButton(),
-                  ),
-                  const SizedBox(width: kSpacing),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: kSpacing / 2),
-                    child: ElevatedButton(
-                      child: const Text('Forgot Password?'),
-                      onPressed: () {
-                        Get.offNamed(Routes.forgot_password);
-                      },
+    // return Container(height: 500, child: Expanded(child: Container()));
+    return Builder(builder: (context) {
+      return Container(
+        height: context.height,
+        child: Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: kSpacing * 10),
+                  Text(
+                    'Log in',
+                    style: TextStyle(
+                      fontSize: 22.0,
                     ),
                   ),
-                ],
-              ),
-            )
-          ]),
-    );
+                  const SizedBox(height: kSpacing * 2),
+                  Column(
+                    children: [
+                      _UsernameInput(),
+                      const Padding(padding: EdgeInsets.all(12)),
+                      _PasswordInput(),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(child: _LoginButton()),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: kSpacing),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      // spacing: ,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: _NewAcctButton(),
+                        ),
+                        const SizedBox(width: kSpacing),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: ElevatedButton(
+                            child: const Text('Forgot Password?'),
+                            onPressed: () {
+                              Get.offNamed(Routes.forgot_password);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ]),
+          ),
+        ),
+      );
+    });
   }
 }
 

@@ -1,16 +1,15 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/authentication.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/forgot_password/cubit/forgot_password_cubit.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   static Route route() {
@@ -21,24 +20,13 @@ class ForgotPasswordPage extends StatelessWidget {
   static final RouteSettings routeSettings =
       RouteSettings(name: "/forgot-password");
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text('Forgot Password')),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(12),
-  //       child: ForgotPasswordForm(),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _forgotPasswordMobileScreenWidget,
-          tabletBuilder: _forgotPasswordTabletScreenWidget,
+          tabletBuilder: _forgotPasswordDesktopScreenWidget,
           desktopBuilder: _forgotPasswordDesktopScreenWidget,
         ),
       ),
@@ -47,54 +35,45 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 
   Widget _forgotPasswordDesktopScreenWidget(context, constraints) {
-    var maxWidth = 1360;
+    var size = MediaQuery.of(context).size;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: (constraints.maxWidth < maxWidth) ? 4 : 3,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kBorderRadius),
-                bottomRight: Radius.circular(kBorderRadius),
+          child: Container(
+            height: size.height,
+            child: Center(
+              child: Container(
+                width: 200,
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(kSpacing),
+                  child: ProjectCard(
+                    data: projectCardData(),
+                  ),
+                ),
               ),
-              child: Container()),
-        ),
-        Flexible(
-          flex: 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing),
-              _buildHeader(context: context),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Forgot Password'),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              _EmailInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _FPFButton(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _NewAcctButton(),
-            ],
+            ),
           ),
         ),
         Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing / 2),
-              Text('Welcome Page'),
-              const Divider(thickness: 1),
-              const SizedBox(height: kSpacing),
-            ],
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: kSpacing * 2),
+                  SizedBox(
+                      width: size.width / 1.5,
+                      child: _forgotPasswordMobileScreenWidget(
+                          context, constraints))
+                ],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
-
-    // return Container();
   }
 
   ProjectCardData getSelectedProject() {
@@ -106,73 +85,51 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 
-  Widget _forgotPasswordTabletScreenWidget(context, constraints) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          flex: (constraints.maxWidth < 950) ? 6 : 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-              const SizedBox(height: kSpacing * 2),
-              const SizedBox(height: kSpacing * 2),
-            ],
+  Widget _forgotPasswordMobileScreenWidget(context, constraints) {
+    return Builder(builder: (context) {
+      return Container(
+        height: context.height,
+        child: Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: Container(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: kSpacing),
+                  const SizedBox(height: kSpacing * 2),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  Text('Forgot Password'),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _EmailInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: kSpacing),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      // spacing: ,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: _NewAcctButton(),
+                        ),
+                        const SizedBox(width: kSpacing),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kSpacing / 2),
+                          child: _FPFButton(),
+                        ),
+                      ],
+                    ),
+                  )
+                ]),
           ),
         ),
-        Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 0.5 : 1.5)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _forgotPasswordMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
-  }
-
-  Widget _buildHeader({Function()? onPressedMenu, context}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              if (onPressedMenu != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: kSpacing),
-                  child: IconButton(
-                    onPressed: onPressedMenu,
-                    icon: const Icon(EvaIcons.menu),
-                    tooltip: "menu",
-                  ),
-                ),
-              const Expanded(
-                  child: Header(
-                todayText: TodayText(message: "Welcome Page"),
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                child: const Text('middle column '),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -184,9 +141,8 @@ class _FPFButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
-                key: const Key('fpForm_continue_raisedButton'),
                 child: const Text('Submit'),
-                onPressed: state.status.isValidated
+                onPressed: state.emailI.valid
                     ? () {
                         context.read<ForgotPasswordCubit>().submit();
                       }
@@ -203,8 +159,12 @@ class _NewAcctButton extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Theme.of(context).cardColor),
           key: const Key('loginForm_linktosignup_raisedButton'),
-          child: const Text('new account?'),
+          child: Text(
+            'New account?',
+            style: TextStyle(color: Theme.of(context).textTheme.caption?.color),
+          ),
           onPressed: () {
             context
                 .read<AuthenticationBloc>()
@@ -220,16 +180,16 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
-      buildWhen: (previous, current) => previous.emailI != current.emailI,
       builder: (context, state) {
         return TextField(
-          key: const Key('fpForm_EmailInput_textField'),
-          onChanged: (password) =>
-              context.read<ForgotPasswordCubit>().newEmail(password),
-          obscureText: true,
+          onChanged: (email) =>
+              context.read<ForgotPasswordCubit>().newEmail(email),
           decoration: InputDecoration(
             labelText: 'Email',
-            errorText: state.emailI.invalid ? 'invalid email' : null,
+            errorText:
+                state.emailI.valid && !GetUtils.isEmail(state.emailI.value)
+                    ? 'invalid email'
+                    : null,
           ),
         );
       },

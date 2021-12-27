@@ -20,9 +20,8 @@ class _ProfilTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        data.email,
-        style: TextStyle(
-            fontSize: 12, color: Theme.of(context).textTheme.caption?.color),
+        data.paytag,
+        style: TextStyle(fontSize: 14),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

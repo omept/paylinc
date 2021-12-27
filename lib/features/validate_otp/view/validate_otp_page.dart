@@ -1,37 +1,18 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_form.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
+import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class ValidateOtpPage extends StatelessWidget {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(title: const Text('Validate Otp')),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(12),
-  //       child: BlocProvider(
-  //         create: (context) {
-  //           return ValidateOtpCubit();
-  //         },
-  //         child: ValidateOtpForm(),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _validateOtpMobileScreenWidget,
-          tabletBuilder: _validateOtpTabletScreenWidget,
+          tabletBuilder: _validateOtpDesktopScreenWidget,
           desktopBuilder: _validateOtpDesktopScreenWidget,
         ),
       ),
@@ -40,50 +21,45 @@ class ValidateOtpPage extends StatelessWidget {
   }
 
   Widget _validateOtpDesktopScreenWidget(context, constraints) {
-    var maxWidth = 1360;
+    var size = MediaQuery.of(context).size;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          flex: (constraints.maxWidth < maxWidth) ? 4 : 3,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(kBorderRadius),
-                bottomRight: Radius.circular(kBorderRadius),
+          child: Container(
+            height: size.height,
+            child: Center(
+              child: Container(
+                width: 200,
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(kSpacing),
+                  child: ProjectCard(
+                    data: projectCardData(),
+                  ),
+                ),
               ),
-              child: Container()),
-        ),
-        Flexible(
-          flex: 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing),
-              _buildHeader(context: context),
-              const SizedBox(height: kSpacing * 2),
-              const Padding(padding: EdgeInsets.all(12)),
-              Text('Validate OTP'),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              const Padding(padding: EdgeInsets.all(12)),
-              ValidateOtpForm()
-            ],
+            ),
           ),
         ),
         Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing / 2),
-              Text('Welcome Page'),
-              const Divider(thickness: 1),
-              const SizedBox(height: kSpacing),
-            ],
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: kSpacing * 2),
+                  SizedBox(
+                      width: size.width / 1.5,
+                      child:
+                          _validateOtpMobileScreenWidget(context, constraints))
+                ],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
-
-    // return Container();
   }
 
   ProjectCardData getSelectedProject() {
@@ -95,71 +71,25 @@ class ValidateOtpPage extends StatelessWidget {
     );
   }
 
-  Widget _validateOtpTabletScreenWidget(context, constraints) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          flex: (constraints.maxWidth < 950) ? 6 : 9,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-              const SizedBox(height: kSpacing * 2),
-              const SizedBox(height: kSpacing * 2),
-            ],
-          ),
-        ),
-        Flexible(
-          flex: 4,
-          child: Column(
-            children: [
-              const SizedBox(height: kSpacing * (kIsWeb ? 0.5 : 1.5)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
   Widget _validateOtpMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
-  }
-
-  Widget _buildHeader({Function()? onPressedMenu, context}) {
+    var size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: Column(
-        children: [
-          Row(
+      padding: const EdgeInsets.all(kSpacing),
+      child: Container(
+        height: size.height - 40,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (onPressedMenu != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: kSpacing),
-                  child: IconButton(
-                    onPressed: onPressedMenu,
-                    icon: const Icon(EvaIcons.menu),
-                    tooltip: "menu",
-                  ),
-                ),
-              const Expanded(
-                  child: Header(
-                todayText: TodayText(message: "Welcome Page"),
-              )),
-            ],
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                child: const Text('middle column '),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
+              const SizedBox(height: kSpacing * 10),
+              Text('Validate Otp',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                  )),
+              const SizedBox(height: kSpacing * 2),
+              ValidateOtpForm(),
+              const SizedBox(height: kSpacing),
+            ]),
       ),
     );
   }

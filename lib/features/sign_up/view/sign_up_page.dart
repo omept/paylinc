@@ -1,5 +1,4 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +7,9 @@ import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_form.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/project_card_data.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
@@ -138,7 +135,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
     var themeContext = Theme.of(context);
     return SafeArea(
       child: Container(
-        height: size.height,
+        height: size.height - 60,
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: kSpacing * 2, vertical: kSpacing / 3),
@@ -156,8 +153,6 @@ class _MobileSignUpState extends State<MobileSignUp> {
                       });
                     },
                     children: <Widget>[
-// -----
-
                       _namePage(themeContext),
                       _paytagPage(themeContext),
                       _emailPage(themeContext),
@@ -228,14 +223,14 @@ class _MobileSignUpState extends State<MobileSignUp> {
                                     size: 30.0,
                                   ),
                                   SizedBox(width: 10.0),
-                                  Text(
-                                    'Previous',
-                                    style: TextStyle(
-                                      color:
-                                          themeContext.colorScheme.onBackground,
-                                      fontSize: 22.0,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   'Previous',
+                                  //   style: TextStyle(
+                                  //     color:
+                                  //         themeContext.colorScheme.onBackground,
+                                  //     fontSize: 22.0,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -260,14 +255,14 @@ class _MobileSignUpState extends State<MobileSignUp> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Text(
-                                    'Next',
-                                    style: TextStyle(
-                                      color:
-                                          themeContext.colorScheme.onBackground,
-                                      fontSize: 22.0,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   'Next',
+                                  //   style: TextStyle(
+                                  //     color:
+                                  //         themeContext.colorScheme.onBackground,
+                                  //     fontSize: 22.0,
+                                  //   ),
+                                  // ),
                                   SizedBox(width: 10.0),
                                   Icon(
                                     Icons.arrow_forward,
@@ -362,7 +357,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          height: 120.0,
+          height: 220.0,
           child: Padding(
             padding: EdgeInsets.all(kSpacing),
             child: Column(

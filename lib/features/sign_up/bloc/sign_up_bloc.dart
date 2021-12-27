@@ -4,11 +4,9 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:get/get.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/form_inputs/text_input.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -122,16 +120,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           'transfer_pin': state.transferPin.value,
         });
         if (signUpRes.status == true) {
-          var locStorageServ = LocalStorageServices();
-          locStorageServ.saveToken(signUpRes.data?['access_token']);
-          locStorageServ.saveUserFromMap(signUpRes.data?['user']);
-          locStorageServ
-              .saveUserStatisticsFromMap(signUpRes.data?['statistics']);
-
           yield state.copyWith(
             status: FormzStatus.submissionSuccess,
           );
-          _authenticationRepository.setSignedUpIn();
+
+          await onAuthenticated(signUpRes, _authenticationRepository);
         } else {
           Snackbar.errSnackBar('Sign Up Failed',
               signUpRes.message ?? RestApiServices.errMessage);
