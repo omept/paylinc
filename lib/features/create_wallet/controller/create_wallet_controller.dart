@@ -94,7 +94,7 @@ class CreateWalletController extends GetxController {
         _status.value = FormzStatus.submissionFailure;
 
         Snackbar.errSnackBar(
-            'Submission Failed', res.message ?? RestApiServices.errMessage);
+            'Failed', res.message ?? RestApiServices.errMessage);
       }
     } on Exception catch (_) {
       Snackbar.errSnackBar('Network error', RestApiServices.errMessage);
