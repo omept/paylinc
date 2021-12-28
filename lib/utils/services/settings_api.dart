@@ -31,4 +31,14 @@ class SettingsApi extends RestApiServices {
       return ResponseModel(message: SettingsApi.errMessage);
     }
   }
+
+  Future<ResponseModel> preRequestMoney(Map<String, String> data) async {
+    try {
+      final String url = "transactions/pre-request-money";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: SettingsApi.errMessage);
+    }
+  }
 }

@@ -26,32 +26,6 @@ class AdminDashboardController extends GetxController {
   //   );
   // }
 
-  List<TaskCardData> getAllTask() {
-    return [
-      const TaskCardData(
-        title: "Landing page UI Design",
-        dueDay: 2,
-        totalComments: 50,
-        type: TaskType.card,
-        totalContributors: 30,
-      ),
-      const TaskCardData(
-        title: "Landing page UI Design",
-        dueDay: -1,
-        totalComments: 50,
-        totalContributors: 34,
-        type: TaskType.bank,
-      ),
-      const TaskCardData(
-        title: "Landing page UI Design",
-        dueDay: 1,
-        totalComments: 50,
-        totalContributors: 34,
-        type: TaskType.card,
-      ),
-    ];
-  }
-
   ProjectCardData getSelectedProject() {
     return ProjectCardData(
       percent: .3,

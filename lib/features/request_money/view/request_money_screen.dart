@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:formz/formz.dart';
@@ -6,6 +8,8 @@ import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/request_money/controller/request_money_controller.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:awesome_select/awesome_select.dart';
+import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class RequestMoneyScreen extends GetView<RequestMoneyController> {
   const RequestMoneyScreen({Key? key}) : super(key: key);
@@ -53,7 +57,7 @@ class RequestMoneyFlow extends StatefulWidget {
 }
 
 class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
-  final int _numPages = 4;
+  final int _numPages = 6;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -99,13 +103,6 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
       );
     });
   }
-
-  String value = 'flutter';
-  List<S2Choice<String>> options = [
-    S2Choice<String>(value: 'ion', title: 'Ionic'),
-    S2Choice<String>(value: 'flu', title: 'Flutter'),
-    S2Choice<String>(value: 'rea', title: 'React Native'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +157,12 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                       });
                     },
                     children: <Widget>[
-                      _recipientPaytagPage(themeContext),
-                      _transactionAmountPage(themeContext),
-                      _transactionPurposePage(themeContext),
-                      _transactionReviewPage(themeContext),
+                      _recipientPaytagPage(themeContext, controller),
+                      _senderPaytagePage(themeContext, controller),
+                      _transactionAmountPage(themeContext, controller),
+                      _transactionPurposePage(themeContext, controller),
+                      _transactionOtpPage(themeContext, controller),
+                      _transactionReviewPage(themeContext, controller),
                     ],
                   ),
                 ),
@@ -280,7 +279,8 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
     );
   }
 
-  Widget _recipientPaytagPage(themeContext) {
+  Widget _recipientPaytagPage(
+      ThemeData themeContext, RequestMoneyController c) {
     return Column(
       children: [
         Container(
@@ -320,15 +320,49 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                   );
                 },
                 title: 'My Wallet',
-                selectedValue: value,
-                choiceItems: options,
-                onChange: (state) => print(state.value))),
+                selectedValue: c.selectedWalletValue,
+                choiceItems: c.walletOptions,
+                onChange: (state) => c.updateSelectedWallet(state.value))),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }
 
-  Widget _transactionAmountPage(themeContext) {
+  Widget _senderPaytagePage(ThemeData themeContext, RequestMoneyController c) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 150.0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Sender Paytag",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'enter the account paytag you want to request money from.',
+                  style: kSubtitleStyle(themeContext),
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+            padding: const EdgeInsets.all(kSpacing),
+            child: _SenderPaytagInput()),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _transactionAmountPage(
+      ThemeData themeContext, RequestMoneyController c) {
     return Column(
       children: [
         Container(
@@ -353,16 +387,17 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
           ),
           // ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(kSpacing),
-        //   child: EmailInputField(),
-        // ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: _AmountInput(),
+        ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }
 
-  Widget _transactionPurposePage(themeContext) {
+  Widget _transactionPurposePage(
+      ThemeData themeContext, RequestMoneyController c) {
     return Column(
       children: [
         Container(
@@ -387,16 +422,51 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
           ),
           // ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(kSpacing),
-        //   child: EmailInputField(),
-        // ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: _PurposeInputField(),
+        ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }
 
-  Widget _transactionReviewPage(themeContext) {
+  Widget _transactionOtpPage(ThemeData themeContext, RequestMoneyController c) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          height: 120.0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "OTP",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Enter your transaction otp.',
+                  style: kSubtitleStyle(themeContext),
+                ),
+              ],
+            ),
+          ),
+          // ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: _TransferPinInput(),
+        ),
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+
+  Widget _transactionReviewPage(
+      ThemeData themeContext, RequestMoneyController c) {
     return Column(
       children: [
         Container(
@@ -424,5 +494,178 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
+  }
+}
+
+class _AmountInput extends StatefulWidget {
+  @override
+  State<_AmountInput> createState() => _AmountInputState();
+}
+
+class _AmountInputState extends State<_AmountInput> {
+  Timer? _debounce;
+
+  @override
+  Widget build(BuildContext context) {
+    RequestMoneyController controller = Get.find<RequestMoneyController>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Obx(() {
+          return TextFormField(
+            keyboardType: TextInputType.number,
+            initialValue: controller.amount.value,
+            onChanged: (amount) {
+              if (_debounce?.isActive ?? false) _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 500), () {
+                controller.updateAmount(amount);
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Amount',
+              errorStyle: TextStyle(color: kDangerColor),
+              errorText: controller.amount.value.isEmpty ||
+                      !isTextAnInteger(controller.amount.value)
+                  ? 'invalid amount'
+                  : null,
+            ),
+          );
+        })
+      ],
+    );
+  }
+}
+
+class _PurposeInputField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    RequestMoneyController controller = Get.find<RequestMoneyController>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Obx(() {
+          return TextFormField(
+            initialValue: controller.purpose.value,
+            onChanged: (purpose) {
+              controller.updatePurpose(purpose);
+            },
+            decoration: InputDecoration(
+              labelText: 'Purpose',
+              errorStyle: TextStyle(color: kDangerColor),
+              errorText: null,
+            ),
+          );
+        })
+      ],
+    );
+  }
+}
+
+class _TransferPinInput extends StatefulWidget {
+  @override
+  State<_TransferPinInput> createState() => _TransferPinInputState();
+}
+
+class _TransferPinInputState extends State<_TransferPinInput> {
+  StreamController<ErrorAnimationType> errorController =
+      StreamController<ErrorAnimationType>();
+  TextEditingController textEditingController = TextEditingController();
+  RequestMoneyController controller = Get.find<RequestMoneyController>();
+
+  String currentText = '';
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    errorController.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PinCodeTextField(
+      appContext: context,
+      length: 4,
+      obscureText: true,
+      animationType: AnimationType.fade,
+      animationDuration: Duration(milliseconds: 300),
+      errorAnimationController: errorController,
+      keyboardType: TextInputType.number,
+      controller: textEditingController,
+      onChanged: (value) {
+        if (!isTextAnInteger(value) && (value.length > 0)) {
+          controller.updateOtp(value);
+        }
+      },
+      beforeTextPaste: (text) => isTextAnInteger(text ?? ''),
+    );
+  }
+}
+
+class _SenderPaytagInput extends StatefulWidget {
+  @override
+  State<_SenderPaytagInput> createState() => _SenderPaytagInputState();
+}
+
+class _SenderPaytagInputState extends State<_SenderPaytagInput> {
+  Timer? _debounce;
+
+  @override
+  Widget build(BuildContext context) {
+    RequestMoneyController controller = Get.find<RequestMoneyController>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Obx(() {
+          return TextFormField(
+            initialValue: controller.sender.value,
+            onChanged: (paytag) {
+              if (_debounce?.isActive ?? false) _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 500), () {
+                controller.updateSenderPaytag(paytag);
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Paytag',
+              errorStyle: TextStyle(color: kDangerColor),
+              errorText:
+                  controller.sender.value.isEmpty ? 'invalid paytag' : null,
+            ),
+          );
+        }),
+        Obx(() {
+          return controller.sender.value.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    controller.senderPaytagUsageMessage.value,
+                    style: _paytagMessageStyle(
+                        controller.senderPaytagUsageMessage.value),
+                  ),
+                )
+              : Container();
+        })
+      ],
+    );
+  }
+
+  TextStyle? _paytagMessageStyle(String mes) {
+    if (mes == "") {
+      return null;
+    }
+
+    if (mes == "valid") {
+      return TextStyle(color: kNotifColor);
+    } else if (mes == "checking . . .") {
+      return TextStyle(color: kNotifColor);
+    } else {
+      return TextStyle(color: Theme.of(Get.context!).errorColor);
+    }
   }
 }

@@ -74,10 +74,6 @@ class CreateWalletController extends GetxController {
     try {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      print({
-        'wallet_paytag': paytag.value,
-        'supported_category_id': _selectedCatValue
-      });
       var res = await walletsApi.createWallet({
         'wallet_paytag': paytag.value,
         'supported_category_id': _selectedCatValue
