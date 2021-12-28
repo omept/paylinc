@@ -161,7 +161,8 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                       _senderPaytagePage(themeContext, controller),
                       _transactionAmountPage(themeContext, controller),
                       _transactionPurposePage(themeContext, controller),
-                      _transactionOtpPage(themeContext, controller),
+                      _transactionOtpPage(
+                          themeContext, controller, _pageController),
                       _transactionReviewPage(themeContext, controller),
                     ],
                   ),
@@ -431,7 +432,8 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
     );
   }
 
-  Widget _transactionOtpPage(ThemeData themeContext, RequestMoneyController c) {
+  Widget _transactionOtpPage(ThemeData themeContext, RequestMoneyController c,
+      PageController pageController) {
     return Column(
       children: [
         Container(
@@ -458,7 +460,7 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
         ),
         Padding(
           padding: const EdgeInsets.all(kSpacing),
-          child: _TransferPinInput(),
+          child: _TransferPinInput(pageController: pageController),
         ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -471,7 +473,7 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          height: 120.0,
+          height: 620.0,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: kSpacing),
             child: Column(
@@ -482,15 +484,18 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 15.0),
+                Expanded(
+                    child: Card(
+                  color: themeContext.cardColor,
+                  child: Column(
+                    children: [Container()],
+                  ),
+                ))
               ],
             ),
           ),
           // ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(kSpacing),
-        //   child: EmailInputField(),
-        // ),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
@@ -564,6 +569,10 @@ class _PurposeInputField extends StatelessWidget {
 }
 
 class _TransferPinInput extends StatefulWidget {
+  final PageController pageController;
+
+  const _TransferPinInput({Key? key, required this.pageController})
+      : super(key: key);
   @override
   State<_TransferPinInput> createState() => _TransferPinInputState();
 }
@@ -598,11 +607,17 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
-        if (!isTextAnInteger(value) && (value.length > 0)) {
+        if (isTextAnInteger(value) && (value.length > 0)) {
           controller.updateOtp(value);
         }
       },
       beforeTextPaste: (text) => isTextAnInteger(text ?? ''),
+      onCompleted: (value) {
+        widget.pageController.nextPage(
+          duration: Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      },
     );
   }
 }

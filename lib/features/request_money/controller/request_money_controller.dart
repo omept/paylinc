@@ -1,6 +1,7 @@
 import 'package:awesome_select/awesome_select.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
+import 'package:paylinc/shared_components/models/review_request.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
@@ -34,14 +35,6 @@ class RequestMoneyController extends GetxController {
 
   Future<void> preRequestMoneyReview() async {
     try {
-      print({
-        'paytag': sender.value,
-        "country_id": authController.user.country?.countryId.toString() ?? '',
-        'wallet_paytag': selectedWalletValue,
-        'amount': amount.value,
-        'transfer_pin': transferPin.value,
-        'purpose': purpose.value,
-      });
       if (amount.value.isEmpty ||
           transferPin.value.isEmpty ||
           transferPin.value.length < 4 ||
@@ -60,17 +53,23 @@ class RequestMoneyController extends GetxController {
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       });
-
-      print(res.data);
-
+      print(res.status);
+      print('res.status');
       if (res.status == true) {
+        print('hhh');
         _status.value = FormzStatus.submissionSuccess;
+        var resFormat = {'transaction': res.data!};
+        ReviewRequest reviewRequest =
+            ReviewRequest.fromMap(resFormat['transaction']!);
+        print(reviewRequest.toString());
+        print('reviewRequest.toString()');
       } else {
         _status.value = FormzStatus.submissionFailure;
         Snackbar.errSnackBar(
             'Submission Failed', res.message ?? RestApiServices.errMessage);
       }
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      print(e);
       _status.value = FormzStatus.submissionFailure;
     }
   }
