@@ -1,3 +1,5 @@
+library request_money;
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -5,11 +7,18 @@ import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/features/request_money/controller/request_money_controller.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import 'package:paylinc/shared_components/models/review_request.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
+
+part '../bindings/request_money_bindings.dart';
+part '../controller/request_money_controller.dart';
 
 class RequestMoneyScreen extends GetView<RequestMoneyController> {
   const RequestMoneyScreen({Key? key}) : super(key: key);
@@ -19,12 +28,14 @@ class RequestMoneyScreen extends GetView<RequestMoneyController> {
     // return Container();
 
     return Scaffold(
-      body: SingleChildScrollView(
-          child: ResponsiveBuilder(
-        mobileBuilder: _requestMoneyMobileScreenWidget,
-        tabletBuilder: _requestMoneyTabletScreenWidget,
-        desktopBuilder: _requestMoneyDesktopScreenWidget,
-      )),
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: ResponsiveBuilder(
+          mobileBuilder: _requestMoneyMobileScreenWidget,
+          tabletBuilder: _requestMoneyTabletScreenWidget,
+          desktopBuilder: _requestMoneyDesktopScreenWidget,
+        )),
+      ),
     );
   }
 
@@ -72,11 +83,21 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
         fontSize: 13.0,
         height: 1.2,
       );
-  kSelectionStyle(themeContext) => TextStyle(
-        color: themeContext?.textTheme?.caption?.color,
-        fontSize: 15.0,
-        height: 1.2,
-      );
+
+  kReviewHeaderStyle(ThemeData themeContext) =>
+      TextStyle(color: themeContext.textTheme.caption?.color, fontSize: 18.0);
+  kReviewSubHeaderFaintStyle(ThemeData themeContext) =>
+      TextStyle(color: themeContext.textTheme.caption?.color, fontSize: 15);
+  kReviewSubHeaderStyle(ThemeData themeContext, {bool withBold = false}) {
+    TextStyle(
+      color: themeContext.textTheme.caption?.color,
+      fontSize: 28.0,
+    );
+  }
+
+  kReviewSubHeaderValueStyle(themeContext) => TextStyle(fontSize: 15.0);
+  kSelectionStyle(themeContext) =>
+      TextStyle(color: themeContext?.textTheme?.caption?.color, fontSize: 15.0);
 
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
@@ -104,9 +125,34 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
     });
   }
 
+  Widget _promoCode(String code) {
+    return (code == 'null')
+        ? Container()
+        : Container(
+            width: 100,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: kNotifColor,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            alignment: Alignment.center,
+            child: Builder(builder: (context) {
+              return Text(
+                code,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              );
+            }),
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     var themeContext = Theme.of(context);
     RequestMoneyController controller = Get.find<RequestMoneyController>();
     return SafeArea(
@@ -163,7 +209,7 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                       _transactionPurposePage(themeContext, controller),
                       _transactionOtpPage(
                           themeContext, controller, _pageController),
-                      _transactionReviewPage(themeContext, controller),
+                      _transactionReviewPage(themeContext, controller, size),
                     ],
                   ),
                 ),
@@ -468,36 +514,463 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
   }
 
   Widget _transactionReviewPage(
-      ThemeData themeContext, RequestMoneyController c) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          height: 620.0,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: kSpacing),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Review",
-                  style: kTitleStyle,
-                ),
-                SizedBox(height: 15.0),
-                Expanded(
-                    child: Card(
-                  color: themeContext.cardColor,
-                  child: Column(
-                    children: [Container()],
+      ThemeData themeContext, RequestMoneyController c, Size size) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            height: 740.0,
+            width: size.width,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: kSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Review",
+                    style: kTitleStyle,
                   ),
-                ))
-              ],
+                  SizedBox(height: 15.0),
+                  Expanded(
+                      child: Card(
+                    color: themeContext.cardColor,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kSpacing / 2),
+                      child: Column(
+                        // final int? amount;
+                        // final String? purpose;
+                        // final TransactionType? transactionType;
+                        // final bool? promoApplied;
+                        // final String? promoCode;
+                        // final double? providerChargeLoc;
+                        // final double? providerChargeInt;
+                        // final double? appCharge;
+                        // final double? appChargePromo;
+                        // final double? remitableAmountInt;
+                        // final double? remitableAmountLoc;
+                        // final double? promoRemitableAmountInt;
+                        // final double? promoRemitableAmountLoc;
+                        // final String? paymentProviderName;
+                        // final double? refundChargeOnSender;
+                        // final double? appliedPromoCodeDeduction;
+                        children: [
+                          SizedBox(
+                            height: kSpacing / 2,
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Transaction',
+                                  style: kReviewHeaderStyle(themeContext),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: kSpacing / 2,
+                          ),
+                          // Sender
+                          Container(
+                            width: size.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sender',
+                                  style:
+                                      kReviewSubHeaderFaintStyle(themeContext),
+                                ),
+                                SizedBox(
+                                  width: kSpacing,
+                                ),
+                                Obx(() {
+                                  return Text(
+                                    '@${c.reviewRequest.value.sender?.paytag}',
+                                    style: kReviewSubHeaderValueStyle(
+                                        themeContext),
+                                  );
+                                })
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: kSpacing / 2,
+                          ),
+                          // Recipient
+                          Container(
+                            width: size.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Recipient',
+                                  style:
+                                      kReviewSubHeaderFaintStyle(themeContext),
+                                ),
+                                SizedBox(
+                                  width: kSpacing,
+                                ),
+                                Obx(() {
+                                  return Text(
+                                    '@${c.reviewRequest.value.recipient?.paytag}',
+                                    style: kReviewSubHeaderValueStyle(
+                                        themeContext),
+                                  );
+                                }),
+                                Obx(() {
+                                  return _promoCode(
+                                      '${c.reviewRequest.value.promoCode}');
+                                })
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: kSpacing / 2,
+                          ),
+                          // Recipient
+                          Container(
+                            width: size.width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    'Amount',
+                                    style: kReviewSubHeaderFaintStyle(
+                                        themeContext),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: kSpacing,
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Obx(() {
+                                      return Text(
+                                          '${c.reviewRequest.value.amount}',
+                                          style: kReviewSubHeaderValueStyle(
+                                              themeContext));
+                                    }),
+                                    Obx(() {
+                                      return Text(
+                                        '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                        style: kReviewSubHeaderValueStyle(
+                                            themeContext),
+                                      );
+                                    }),
+                                  ],
+                                ),
+                                Divider(),
+                                Text(
+                                  'Receive',
+                                  style: kReviewHeaderStyle(themeContext),
+                                ),
+                                SizedBox(
+                                  height: kSpacing / 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'International',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.remitableAmountInt}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Local',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.remitableAmountLoc}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: kSpacing / 2,
+                                ),
+                                Divider(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: kSpacing),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          'Promo',
+                                          style: kReviewSubHeaderFaintStyle(
+                                              themeContext),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: kSpacing / 2,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'International',
+                                            style: kReviewSubHeaderFaintStyle(
+                                                themeContext),
+                                          ),
+                                          Row(
+                                            textDirection: TextDirection.rtl,
+                                            children: [
+                                              Obx(() {
+                                                return Text(
+                                                    '${c.reviewRequest.value.promoRemitableAmountInt}',
+                                                    style:
+                                                        kReviewSubHeaderValueStyle(
+                                                            themeContext));
+                                              }),
+                                              Obx(() {
+                                                return Text(
+                                                  '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                                  style: kReviewSubHeaderStyle(
+                                                      themeContext),
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Local',
+                                            style: kReviewSubHeaderFaintStyle(
+                                                themeContext),
+                                          ),
+                                          Row(
+                                            textDirection: TextDirection.rtl,
+                                            children: [
+                                              Obx(() {
+                                                return Text(
+                                                    '${c.reviewRequest.value.promoRemitableAmountLoc}',
+                                                    style:
+                                                        kReviewSubHeaderValueStyle(
+                                                            themeContext));
+                                              }),
+                                              Obx(() {
+                                                return Text(
+                                                  '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                                  style:
+                                                      kReviewSubHeaderValueStyle(
+                                                          themeContext),
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(),
+                                Divider(),
+                                Text(
+                                  'Charges',
+                                  style: kReviewHeaderStyle(themeContext),
+                                ),
+                                SizedBox(
+                                  height: kSpacing / 2,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Obx(() {
+                                    return Text(
+                                      '${c.reviewRequest.value.paymentProviderName}',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    );
+                                  }),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'International',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.providerChargeInt}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderValueStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Local',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.providerChargeLoc}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderValueStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: kSpacing,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Service',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.appCharge}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderValueStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Save',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                    Row(
+                                      textDirection: TextDirection.rtl,
+                                      children: [
+                                        Obx(() {
+                                          return Text(
+                                              '${c.reviewRequest.value.appliedPromoCodeDeduction}',
+                                              style: kReviewSubHeaderValueStyle(
+                                                  themeContext));
+                                        }),
+                                        Obx(() {
+                                          return Text(
+                                            '${c.reviewRequest.value.recipient?.country?.currencyAbr} ',
+                                            style: kReviewSubHeaderValueStyle(
+                                                themeContext),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                // Divider(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ))
+                ],
+              ),
             ),
+            // ),
           ),
-          // ),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
     );
   }
 }

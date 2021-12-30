@@ -1,10 +1,4 @@
-import 'package:awesome_select/awesome_select.dart';
-import 'package:formz/formz.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/shared_components/models/review_request.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/services/rest_api_services.dart';
+part of request_money;
 
 class RequestMoneyController extends GetxController {
   Rx<FormzStatus> _status = FormzStatus.pure.obs;
@@ -21,6 +15,7 @@ class RequestMoneyController extends GetxController {
   var transferPin = ''.obs;
   var purpose = ''.obs;
   var senderPaytagUsageMessage = ''.obs;
+  var reviewRequest = ReviewRequest().obs;
 
   @override
   void onInit() async {
@@ -53,23 +48,16 @@ class RequestMoneyController extends GetxController {
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       });
-      print(res.status);
-      print('res.status');
       if (res.status == true) {
-        print('hhh');
         _status.value = FormzStatus.submissionSuccess;
         var resFormat = {'transaction': res.data!};
-        ReviewRequest reviewRequest =
-            ReviewRequest.fromMap(resFormat['transaction']!);
-        print(reviewRequest.toString());
-        print('reviewRequest.toString()');
+        reviewRequest.value = ReviewRequest.fromMap(resFormat['transaction']!);
       } else {
         _status.value = FormzStatus.submissionFailure;
         Snackbar.errSnackBar(
             'Submission Failed', res.message ?? RestApiServices.errMessage);
       }
-    } on Exception catch (e) {
-      print(e);
+    } on Exception catch (_) {
       _status.value = FormzStatus.submissionFailure;
     }
   }

@@ -80,4 +80,14 @@ class UserApi extends RestApiServices {
       return ResponseModel(message: UserApi.errMessage);
     }
   }
+
+  Future<ResponseModel> authUser(Map<String, String> data) async {
+    try {
+      final String url = "auth/user";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
 }
