@@ -1,5 +1,4 @@
-import 'package:get/get.dart';
-import 'package:paylinc/features/request_money/controller/request_money_controller.dart';
+part of request_money;
 
 class RequestMoneyBindings extends Bindings {
   @override

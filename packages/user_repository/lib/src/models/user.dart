@@ -76,7 +76,7 @@ class User {
       email: map['email'],
       paytag: map['paytag'],
       stashBalance: map['stash_balance']?.toInt(),
-      otpVerified: map['otp_verified'] == 1,
+      otpVerified: map['otp_verified'].toString() == "1",
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))
@@ -250,7 +250,7 @@ class Wallet {
 
   factory Wallet.fromMap(Map<String, dynamic> map) {
     return Wallet(
-      walletPaytag: map['walletPaytag'],
+      walletPaytag: map['wallet_paytag'],
       balance: map['balance']?.toDouble(),
     );
   }

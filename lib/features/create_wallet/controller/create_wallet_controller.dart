@@ -1,13 +1,4 @@
-import 'package:awesome_select/awesome_select.dart';
-import 'package:formz/formz.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/shared_components/models/supported_category.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/services/rest_api_services.dart';
-import 'package:user_repository/user_repository.dart';
+part of create_wallet;
 
 class CreateWalletController extends GetxController {
   var _status = FormzStatus.pure.obs;
@@ -28,9 +19,9 @@ class CreateWalletController extends GetxController {
     paytag.value = val;
 
     try {
-      SettingsApi settingsApi = SettingsApi.withAuthRepository(
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      var res = await settingsApi.isWalletPaytagUsable({'wallet_paytag': val});
+      var res = await walletsApi.isWalletPaytagUsable({'wallet_paytag': val});
 
       paytagUsageMessage.value = res.message?.toLowerCase() ?? "checking ...";
     } on Exception catch (_) {
@@ -74,10 +65,6 @@ class CreateWalletController extends GetxController {
     try {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      print({
-        'wallet_paytag': paytag.value,
-        'supported_category_id': _selectedCatValue
-      });
       var res = await walletsApi.createWallet({
         'wallet_paytag': paytag.value,
         'supported_category_id': _selectedCatValue
@@ -94,7 +81,7 @@ class CreateWalletController extends GetxController {
         _status.value = FormzStatus.submissionFailure;
 
         Snackbar.errSnackBar(
-            'Submission Failed', res.message ?? RestApiServices.errMessage);
+            'Failed', res.message ?? RestApiServices.errMessage);
       }
     } on Exception catch (_) {
       Snackbar.errSnackBar('Network error', RestApiServices.errMessage);

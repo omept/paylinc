@@ -1,13 +1,11 @@
 import 'package:paylinc/features/admin_dashboard/views/screens/admin_dashboard_screen.dart';
 import 'package:paylinc/features/confirm_forgot_password/confirm_forgot_password.dart';
-import 'package:paylinc/features/create_wallet/bindings/create_wallet_bindings.dart';
 import 'package:paylinc/features/create_wallet/view/create_wallet_screen.dart';
 import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
-import 'package:paylinc/features/request_money/bindings/request_money_bindings.dart';
 import 'package:paylinc/features/request_money/view/request_money_screen.dart';
 import 'package:paylinc/features/settings/views/screens/settings_screen.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_page.dart';
