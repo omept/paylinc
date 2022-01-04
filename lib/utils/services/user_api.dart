@@ -31,6 +31,16 @@ class UserApi extends RestApiServices {
     }
   }
 
+  Future<ResponseModel> isPaytagAvailable(Map<String, String> data) async {
+    try {
+      final String url = "auth/paytag-availability";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: UserApi.errMessage);
+    }
+  }
+
   Future<ResponseModel> signUp(Map<String, String> data) async {
     try {
       final String url = "auth/sign-up";

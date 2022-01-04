@@ -19,9 +19,9 @@ class CreateWalletController extends GetxController {
     paytag.value = val;
 
     try {
-      SettingsApi settingsApi = SettingsApi.withAuthRepository(
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      var res = await settingsApi.isWalletPaytagUsable({'wallet_paytag': val});
+      var res = await walletsApi.isWalletPaytagUsable({'wallet_paytag': val});
 
       paytagUsageMessage.value = res.message?.toLowerCase() ?? "checking ...";
     } on Exception catch (_) {

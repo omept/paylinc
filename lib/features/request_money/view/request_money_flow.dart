@@ -1086,10 +1086,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       },
       beforeTextPaste: (text) => isTextAnInteger(text ?? ''),
       onCompleted: (value) {
-        widget.pageController.nextPage(
-          duration: Duration(milliseconds: 500),
-          curve: Curves.ease,
-        );
+        controller.submitRequestMoney();
       },
     );
   }
