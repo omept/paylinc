@@ -1,7 +1,6 @@
 library dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -58,12 +57,46 @@ class DashboardScreen extends GetView<DashboardController> {
   }
 
   Widget _dashboardDesktopScreenWidget(context, constraints) {
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    var maxWidth = 1360;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [_dashboardMobileScreenWidget(context, constraints)],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          flex: 4,
+          child: Container(
+            color: Colors.amberAccent,
+            child: Column(
+              children: [
+                const SizedBox(height: kSpacing / 2),
+              ],
+            ),
+          ),
+        ),
+        Flexible(
+          flex: (mediaQueryData.size.width < maxWidth) ? 4 : 3,
+          child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(kBorderRadius),
+                bottomRight: Radius.circular(kBorderRadius),
+              ),
+              child: Sidebar(
+                data: controller.getSelectedProject(),
+                initialSelected: 0,
+              )),
+        ),
+        Flexible(
+          flex: 9,
+          child: Column(
+            children: [
+              const SizedBox(height: kSpacing),
+              _dashboardMobileScreenWidget(context, constraints),
+              const SizedBox(height: kSpacing * 2),
+            ],
+          ),
+        ),
+      ],
     );
-
-    // return Container();
   }
 
   Widget _dashboardTabletScreenWidget(context, constraints) {

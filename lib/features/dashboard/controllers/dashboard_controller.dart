@@ -11,9 +11,7 @@ class DashboardController extends GetxController {
   void onInit() {
     totalWallet = authController.user.wallets?.length ?? 0;
     super.onInit();
-    if (Get.previousRoute != Routes.validate_otp) {
-      authController.fetUserFromToken();
-    }
+    authController.fetUserFromToken();
   }
 
   void openDrawer() {

@@ -31,8 +31,7 @@ class RequestMoneyController extends GetxController {
   Future<void> preRequestMoneyReview() async {
     try {
       if (amount.value.isEmpty ||
-          transferPin.value.isEmpty ||
-          transferPin.value.length < 4 ||
+          purpose.value.isEmpty ||
           sender.value.isEmpty ||
           selectedWalletValue.isEmpty) {
         return;
@@ -87,9 +86,8 @@ class RequestMoneyController extends GetxController {
     preRequestMoneyReview();
   }
 
-  void updateOtp(String mes) {
-    transferPin.value = mes;
-    preRequestMoneyReview();
+  void updateOtp(String pin) {
+    transferPin.value = pin;
   }
 
   void updateSenderPaytag(String val) async {

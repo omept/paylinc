@@ -11,3 +11,17 @@ part 'string_helper.dart';
 part 'type.dart';
 part 'snackbar.dart';
 part 'on_authenticated.dart';
+
+extension IntHumanFormat on int {
+  String intHumanFormat() {
+    return this.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
+  }
+}
+
+extension DoubleHumanFormat on double {
+  String doubleHumanFormat() {
+    return this.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
+  }
+}
