@@ -1,5 +1,4 @@
-import 'package:get/get.dart';
-import 'package:paylinc/features/create_wallet/controller/create_wallet_controller.dart';
+part of create_wallet;
 
 class CreateWalletBindings extends Bindings {
   @override

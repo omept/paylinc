@@ -1,3 +1,5 @@
+library create_wallet;
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -5,9 +7,18 @@ import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/features/create_wallet/controller/create_wallet_controller.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:awesome_select/awesome_select.dart';
+
+import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/shared_components/models/supported_category.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
+import 'package:user_repository/user_repository.dart';
+
+part '../bindings/create_wallet_bindings.dart';
+part '../controller/create_wallet_controller.dart';
 
 class CreateWalletScreen extends GetView<CreateWalletController> {
   const CreateWalletScreen({Key? key}) : super(key: key);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:paylinc/shared_components/models/education.dart';
 
 final List<Education> educationList = [

@@ -12,10 +12,10 @@ class WalletsApi extends RestApiServices {
     super.onInit();
   }
 
-  Future<ResponseModel> supportedCategories() async {
+  Future<ResponseModel> preRequestMoney(Map<String, String> data) async {
     try {
-      final String url = "settings/supported-categories";
-      final response = await get(url, headers: this.requestHeader());
+      final String url = "transactions/pre-request-money";
+      final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
     } on Exception catch (_) {
       return ResponseModel(message: WalletsApi.errMessage);
@@ -32,9 +32,30 @@ class WalletsApi extends RestApiServices {
     }
   }
 
+  Future<ResponseModel> checkWalletPaytagExistance(
+      Map<String, String> data) async {
+    try {
+      final String url = "wallet/check-wallet-paytag-existance";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: WalletsApi.errMessage);
+    }
+  }
+
   Future<ResponseModel> createWallet(Map<String, String> data) async {
     try {
       final String url = "wallet/create";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: WalletsApi.errMessage);
+    }
+  }
+
+  Future<ResponseModel> requestMoney(Map<String, String> data) async {
+    try {
+      final String url = "transactions/request-money";
       final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
     } on Exception catch (_) {
