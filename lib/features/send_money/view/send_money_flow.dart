@@ -118,8 +118,8 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                     });
                   },
                   children: <Widget>[
-                    _recipientPaytagPage(themeContext, controller),
                     _transactionAmountPage(themeContext, controller),
+                    _recipientPaytagPage(themeContext, controller),
                     _transactionPurposePage(themeContext, controller),
                     _transactionReviewPage(themeContext, controller, size),
                     _transactionOtpPage(
@@ -257,12 +257,12 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Wallet",
+                  "Wallet Paytag",
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'select the wallet you want this transaction for.',
+                  'enter the vendor paytag you want to send money to.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],
@@ -272,22 +272,7 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
         ),
         Padding(
             padding: const EdgeInsets.all(kSpacing),
-            child: SmartSelect<String>.single(
-                modalType: S2ModalType.bottomSheet,
-                tileBuilder: (context, state) {
-                  return S2Tile<dynamic>(
-                    title: state.titleWidget,
-                    value: Text(
-                      state.selected.toString(),
-                      style: kSelectionStyle(themeContext),
-                    ),
-                    onTap: state.showModal,
-                  );
-                },
-                title: 'My Wallet',
-                selectedValue: c.selectedWalletValue,
-                choiceItems: c.walletOptions,
-                onChange: (state) => c.updateSelectedWallet(state.value))),
+            child: _RWalletPaytagInput()),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
@@ -310,7 +295,7 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Enter the amount you want to request.',
+                  'Enter the amount you want to send.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],
@@ -500,6 +485,31 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                                   ),
                                   SizedBox(
                                     height: kSpacing / 2,
+                                  ), // Recipient
+                                  Container(
+                                    width: size.width,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Recipient Wallet',
+                                          style: kReviewSubHeaderFaintStyle(
+                                              themeContext),
+                                        ),
+                                        Obx(() {
+                                          return Text(
+                                            '@${c.selectedWalletValue.value}',
+                                            style: kReviewSubHeaderValueStyle(
+                                                themeContext),
+                                          );
+                                        })
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: kSpacing / 2,
                                   ),
                                   // Purpost
                                   Container(
@@ -565,6 +575,9 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                                               );
                                             }),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: kSpacing,
                                         ),
                                       ],
                                     ),
@@ -703,12 +716,12 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   }
 }
 
-class _SenderPaytagInput extends StatefulWidget {
+class _RWalletPaytagInput extends StatefulWidget {
   @override
-  State<_SenderPaytagInput> createState() => _SenderPaytagInputState();
+  State<_RWalletPaytagInput> createState() => _RWalletPaytagInputState();
 }
 
-class _SenderPaytagInputState extends State<_SenderPaytagInput> {
+class _RWalletPaytagInputState extends State<_RWalletPaytagInput> {
   Timer? _debounce;
 
   @override
@@ -720,29 +733,30 @@ class _SenderPaytagInputState extends State<_SenderPaytagInput> {
       children: <Widget>[
         Obx(() {
           return TextFormField(
-            initialValue: controller.sender.value,
+            initialValue: controller.selectedWalletValue.value,
             onChanged: (paytag) {
               if (_debounce?.isActive ?? false) _debounce?.cancel();
               _debounce = Timer(const Duration(milliseconds: 500), () {
-                controller.updateSenderPaytag(paytag);
+                controller.updateRWalletPaytag(paytag);
               });
             },
             decoration: InputDecoration(
               labelText: 'Paytag',
               errorStyle: TextStyle(color: kDangerColor),
-              errorText:
-                  controller.sender.value.isEmpty ? 'invalid paytag' : null,
+              errorText: controller.rWalletPaytagUsageMessage.value.isEmpty
+                  ? 'invalid paytag'
+                  : null,
             ),
           );
         }),
         Obx(() {
-          return controller.sender.value.isNotEmpty
+          return controller.rWalletPaytagUsageMessage.value.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    controller.senderPaytagUsageMessage.value,
+                    controller.rWalletPaytagUsageMessage.value,
                     style: _paytagMessageStyle(
-                        controller.senderPaytagUsageMessage.value),
+                        controller.rWalletPaytagUsageMessage.value),
                   ),
                 )
               : Container();

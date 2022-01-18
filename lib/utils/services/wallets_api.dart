@@ -72,4 +72,14 @@ class WalletsApi extends RestApiServices {
       return ResponseModel(message: WalletsApi.errMessage);
     }
   }
+
+  Future<ResponseModel> sendMoney(Map<String, String> data) async {
+    try {
+      final String url = "transactions/send-money";
+      final response = await post(url, data, headers: this.requestHeader());
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(message: WalletsApi.errMessage);
+    }
+  }
 }

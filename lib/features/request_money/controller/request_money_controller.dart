@@ -129,6 +129,7 @@ class RequestMoneyController extends GetxController {
 
   Future<void> submitRequestMoney() async {
     try {
+      _status.value = FormzStatus.submissionInProgress;
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.requestMoney({
@@ -142,10 +143,9 @@ class RequestMoneyController extends GetxController {
 
       if (res.status == true) {
         Snackbar.successSnackBar('Successful', res.message ?? '');
+        _status.value = FormzStatus.submissionSuccess;
         Get.offNamed(Routes.dashboard);
       } else {
-        _status.value = FormzStatus.submissionFailure;
-
         Snackbar.errSnackBar(
             'Failed', res.message ?? RestApiServices.errMessage);
       }
