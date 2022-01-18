@@ -19,6 +19,7 @@ class Routes {
   static const String validate_otp = _Paths.validate_otp;
 
   static const String request_money = _Paths.request_money;
+  static const String send_money = _Paths.send_money;
 
   static const String create_wallet = _Paths.create_wallet;
 }
@@ -41,5 +42,6 @@ class _Paths {
   static const String user_alerts = '/user-alerts';
   static const String feed_back = '/feed-back';
   static const String request_money = '/request-money';
+  static const String send_money = '/send-money';
   static const String create_wallet = '/create-wallet';
 }

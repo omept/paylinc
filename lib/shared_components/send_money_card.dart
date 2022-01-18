@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
 class SendMoneyCard extends StatelessWidget {
   const SendMoneyCard({
-    required this.onPressed,
-    this.backgroundColor,
     Key? key,
   }) : super(key: key);
-
-  final Color? backgroundColor;
-  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(kBorderRadius),
-      color: backgroundColor ?? Theme.of(context).cardColor,
+      color: Theme.of(context).cardColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        onTap: onPressed,
+        onTap: () => {Get.offNamed(Routes.send_money)},
         child: Container(
           constraints: const BoxConstraints(
             minWidth: 250,

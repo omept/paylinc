@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/selection_button.dart';
+import 'package:paylinc/shared_components/route_button.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 class Sidebar extends StatelessWidget {
@@ -34,46 +34,46 @@ class Sidebar extends StatelessWidget {
               ),
             ),
             const Divider(thickness: 1),
-            SelectionButton(
+            RouteButton(
               initialSelected: initialSelected,
               data: [
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.grid,
                   icon: EvaIcons.gridOutline,
                   label: "Dashboard",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.grid,
                   icon: EvaIcons.gridOutline,
                   label: "Admin Dashboard",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.archive,
                   icon: EvaIcons.archiveOutline,
                   label: "Wallets",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.calendar,
                   icon: EvaIcons.calendarOutline,
                   label: "User Alert",
                   totalNotif: 20,
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.email,
                   icon: EvaIcons.emailOutline,
                   label: "Transactions",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.person,
                   icon: EvaIcons.personOutline,
                   label: "Settings",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.messageCircleOutline,
                   icon: EvaIcons.messageSquareOutline,
                   label: "Feed Back",
                 ),
-                SelectionButtonData(
+                RouteButtonData(
                   activeIcon: EvaIcons.messageCircleOutline,
                   icon: EvaIcons.messageSquareOutline,
                   label: "Log Out",
