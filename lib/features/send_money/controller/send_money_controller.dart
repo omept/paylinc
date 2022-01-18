@@ -1,0 +1,156 @@
+part of send_money;
+
+class SendMoneyController extends GetxController {
+  Rx<FormzStatus> _status = FormzStatus.pure.obs;
+  FormzStatus get status => _status.value;
+  AuthController authController = Get.find<AuthController>();
+
+  static final defaultWalletChoice =
+      S2Choice<String>(value: '', title: 'Select one');
+  var walletOptions = <S2Choice<String>>[defaultWalletChoice].obs;
+  String selectedWalletValue = "";
+
+  var sender = ''.obs;
+  var amount = ''.obs;
+  var transferPin = ''.obs;
+  var purpose = ''.obs;
+  var senderPaytagUsageMessage = ''.obs;
+  var reviewSend = ReviewRequest().obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    walletOptions.value = await fetchOptions;
+  }
+
+  updateAmount(String val) {
+    amount.value = val;
+    preSendMoneyReview();
+  }
+
+  Future<List<S2Choice<String>>> get fetchOptions async {
+    List<S2Choice<String>> s2Choices = [];
+
+    var wallets = authController.user.wallets;
+    if (wallets?.isNotEmpty ?? false) {
+      s2Choices = List<S2Choice<String>>.from(wallets!.map((e) =>
+          S2Choice<String>(
+              value: e!.walletPaytag ?? '', title: "@${(e.walletPaytag)}")));
+    } else {
+      s2Choices = [defaultWalletChoice];
+    }
+
+    return s2Choices;
+  }
+
+  updateSelectedWallet(String? value) {
+    selectedWalletValue = value ?? '';
+    preSendMoneyReview();
+  }
+
+  void updatePurpose(String mes) {
+    purpose.value = mes;
+    preSendMoneyReview();
+  }
+
+  void updateOtp(String pin) {
+    transferPin.value = pin;
+  }
+
+  void updateSenderPaytag(String val) async {
+    sender.value = val;
+
+    try {
+      senderPaytagUsageMessage.value = "checking ...";
+
+      var api =
+          UserApi.withAuthRepository(authController.authenticationRepository);
+      var res = await api.isPaytagAvailable({
+        'paytag': val,
+      });
+
+      if (res.status == true) {
+        senderPaytagUsageMessage.value =
+            retrieveMessage(res.message!.toLowerCase());
+        preSendMoneyReview();
+      } else {
+        senderPaytagUsageMessage.value =
+            retrieveMessage('', defaultMessage: WalletsApi.errMessage);
+      }
+    } on Exception catch (_) {
+      senderPaytagUsageMessage.value = "network problem";
+    }
+  }
+
+  String retrieveMessage(String key, {String defaultMessage = ''}) {
+    try {
+      var pVM = {'bad paytag': "invalid", 'good paytag': "valid"};
+      return pVM[key] != null ? pVM[key].toString() : defaultMessage;
+    } on Exception catch (_) {
+      return defaultMessage;
+    }
+  }
+
+  Future<void> preSendMoneyReview() async {
+    try {
+      if (amount.value.isEmpty ||
+          (amount.value.isNotEmpty && !isTextAnInteger(amount.value)) ||
+          purpose.value.isEmpty ||
+          sender.value.isEmpty ||
+          selectedWalletValue.isEmpty) {
+        _status.value = FormzStatus.submissionInProgress;
+        return;
+      }
+      _status.value = FormzStatus.submissionInProgress;
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+      var res = await walletsApi.preSendMoney({
+        'paytag': sender.value,
+        "country_id": authController.user.country?.countryId.toString() ?? '',
+        'wallet_paytag': selectedWalletValue,
+        'amount': amount.value,
+        'transfer_pin': transferPin.value,
+        'purpose': purpose.value,
+      });
+      if (res.status == true) {
+        _status.value = FormzStatus.submissionSuccess;
+        var resFormat = {'transaction': res.data!};
+        reviewSend.value = ReviewRequest.fromMap(resFormat['transaction']!);
+      } else {
+        _status.value = FormzStatus.submissionFailure;
+        res.message?.trim().isEmpty;
+        var errMs = res.message ?? '';
+        Snackbar.errSnackBar('Could not load review', errMs);
+      }
+    } on Exception catch (_) {
+      _status.value = FormzStatus.submissionFailure;
+    }
+  }
+
+  Future<void> submitSendMoney() async {
+    try {
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+      var res = await walletsApi.requestMoney({
+        'paytag': sender.value,
+        "country_id": authController.user.country?.countryId.toString() ?? '',
+        'wallet_paytag': selectedWalletValue,
+        'amount': amount.value,
+        'transfer_pin': transferPin.value,
+        'purpose': purpose.value,
+      });
+
+      if (res.status == true) {
+        Snackbar.successSnackBar('Successful', res.message ?? '');
+        Get.offNamed(Routes.dashboard);
+      } else {
+        _status.value = FormzStatus.submissionFailure;
+
+        Snackbar.errSnackBar(
+            'Failed', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      senderPaytagUsageMessage.value = "network problem";
+    }
+  }
+}

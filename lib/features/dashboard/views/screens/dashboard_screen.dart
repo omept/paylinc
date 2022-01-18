@@ -5,7 +5,7 @@ import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/wallet_card.dart';
-import 'package:paylinc/shared_components/send_money_card%20copy.dart';
+import 'package:paylinc/shared_components/send_money_card.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
@@ -124,7 +124,7 @@ class DashboardScreen extends GetView<DashboardController> {
         const SizedBox(height: kSpacing),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-          child: SendMoneyCard(onPressed: () {}),
+          child: SendMoneyCard(),
         ),
         const SizedBox(height: kSpacing),
         Padding(
