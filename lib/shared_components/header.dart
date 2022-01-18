@@ -5,7 +5,9 @@ import 'package:paylinc/shared_components/today_text.dart';
 
 class Header extends StatelessWidget {
   final TodayText todayText;
-  const Header({Key? key, required this.todayText}) : super(key: key);
+  final bool showSearch;
+  const Header({Key? key, required this.todayText, this.showSearch = false})
+      : super(key: key);
   // final todayText = const TodayText();
   // final expanded = Expanded(child: SearchField());
 
@@ -15,7 +17,7 @@ class Header extends StatelessWidget {
       children: [
         this.todayText,
         SizedBox(width: kSpacing),
-        Expanded(child: SearchField()),
+        showSearch ? Expanded(child: SearchField()) : Container(),
       ],
     );
   }

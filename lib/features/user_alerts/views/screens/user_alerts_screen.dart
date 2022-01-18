@@ -28,6 +28,18 @@ part '../components/profile_tile.dart';
 class UserAlertsScreen extends GetView<UserAlertsController> {
   const UserAlertsScreen({Key? key}) : super(key: key);
 
+  final kTitleStyle = const TextStyle(
+    fontFamily: 'CM Sans Serif',
+    fontSize: 26.0,
+    height: 1.5,
+  );
+
+  kSubtitleStyle(ThemeData themeContext) => TextStyle(
+        color: themeContext.textTheme.caption?.color,
+        fontSize: 13.0,
+        height: 1.2,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,8 +97,6 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
         )
       ],
     );
-
-    // return Container();
   }
 
   Sidebar _sideBar() {
@@ -124,12 +134,55 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
   }
 
   Widget _userAlertsMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      _buildHeader(onPressedMenu: () => controller.openDrawer()),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
+    ThemeData themeData = Theme.of(context);
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
+          _buildHeader(onPressedMenu: () => controller.openDrawer()),
+          const SizedBox(height: kSpacing / 2),
+          Padding(
+            padding: const EdgeInsets.all(kSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Alerts",
+                  style: kTitleStyle,
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'view your most recent alerts.',
+                  style: kSubtitleStyle(themeData),
+                ),
+                SizedBox(height: 15.0),
+                DefaultTabController(
+                  length: 2,
+                  child: Column(children: [
+                    Container(
+                        child: const TabBar(
+                      tabs: [
+                        Tab(
+                          text: "Payments",
+                        ),
+                        Tab(text: "Wallets")
+                      ],
+                    )),
+                    Container(
+                      height: 550,
+                      child: const TabBarView(children: [
+                        _PaymentAlerts(),
+                        _WalletsAlerts(),
+                      ]),
+                    ),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+        ]);
   }
 
   Widget _buildHeader({Function()? onPressedMenu}) {
@@ -147,9 +200,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
               ),
             ),
           const Expanded(
-              child: Header(
-            todayText: TodayText(message: "User Alerts"),
-          )),
+              child: Header(todayText: TodayText(message: "My Alerts"))),
         ],
       ),
     );
@@ -161,6 +212,58 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
       child: _ProfilTile(
         data: data,
         onPressedNotification: () {},
+      ),
+    );
+  }
+}
+
+class _PaymentAlerts extends StatelessWidget {
+  const _PaymentAlerts({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (bcontext, index) {
+          return Card(
+            child: ListTile(
+              leading: Text("Leading $index"),
+              title: Text("This is a payment"),
+              subtitle: Text("This is subtitle"),
+            ),
+          );
+        },
+        itemCount: 22,
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(vertical: 5.0),
+        scrollDirection: Axis.vertical,
+      ),
+    );
+  }
+}
+
+class _WalletsAlerts extends StatelessWidget {
+  const _WalletsAlerts({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (bcontext, index) {
+          return Card(
+            child: ListTile(
+              leading: Text("Leading $index"),
+              title: Text("This is a wallet alert"),
+              subtitle: Text("This is subtitle"),
+            ),
+          );
+        },
+        itemCount: 22,
+        shrinkWrap: true,
+        padding: EdgeInsets.symmetric(vertical: 5.0),
+        scrollDirection: Axis.vertical,
       ),
     );
   }
