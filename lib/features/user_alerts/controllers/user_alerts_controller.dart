@@ -2,6 +2,10 @@ part of user_alerts;
 
 class UserAlertsController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  AuthController authController = Get.find();
+  LocalStorageServices localStorageServices = Get.find();
+  var walletAlertList = <WalletAlert?>[].obs;
+  var paymentAlertList = <PaymentAlert?>[].obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -14,21 +18,24 @@ class UserAlertsController extends GetxController {
 
   // }
 
-  // Data
-  _Profile getProfil() {
-    return const _Profile(
-      photo: AssetImage(ImageRasterPath.avatar1),
-      name: "Firgia",
-      email: "flutterwithgia@gmail.com",
-    );
-  }
+  void updateAlerts() async {
+    try {
+      var api = AlertsApi();
+      ResponseModel res = await api.getAlerts();
 
-  ProjectCardData getSelectedProject() {
-    return ProjectCardData(
-      percent: .3,
-      projectImage: const AssetImage(ImageRasterPath.logo1),
-      projectName: "Paylinc",
-      releaseTime: DateTime.now(),
-    );
+      print(res.data);
+
+      if (res.status == true) {
+        // UserAlert _userAlrt = await localStorageServices
+        //     .saveUserAlertsFromMap(res.data?['user_alerts']);
+
+        // userAlertList.value = _userAlrt;
+      } else {
+        Snackbar.errSnackBar(
+            'Failed getting alerts', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      Snackbar.errSnackBar('Failed getting alerts', RestApiServices.errMessage);
+    }
   }
 }

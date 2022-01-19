@@ -2,28 +2,30 @@ library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/payment_alert.dart';
+import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/shared_components/models/profile.dart';
+import 'package:paylinc/shared_components/profile_tile.dart';
+import 'package:paylinc/shared_components/models/wallet_alert.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/chatting_card.dart';
+import 'package:paylinc/shared_components/selected_project.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/today_text.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/helpers/get_profile.dart';
+import 'package:paylinc/utils/services/local_storage_services.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
 
 // binding
 part '../../bindings/user_alerts_binding.dart';
 
 // controller
 part '../../controllers/user_alerts_controller.dart';
-
-// models
-part '../../models/profile.dart';
-
-// component
-part '../components/profile_tile.dart';
 
 class UserAlertsScreen extends GetView<UserAlertsController> {
   const UserAlertsScreen({Key? key}) : super(key: key);
@@ -89,7 +91,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
           child: Column(
             children: [
               const SizedBox(height: kSpacing / 2),
-              _buildProfile(data: controller.getProfil()),
+              _buildProfile(data: getProfile()),
               const Divider(thickness: 1),
               const SizedBox(height: kSpacing),
             ],
@@ -101,7 +103,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
 
   Sidebar _sideBar() {
     return Sidebar(
-      data: controller.getSelectedProject(),
+      data: getSelectedProject(),
       initialSelected: 3,
     );
   }
@@ -135,7 +137,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
 
   Widget _userAlertsMobileScreenWidget(context, constraints) {
     ThemeData themeData = Theme.of(context);
-    MediaQueryData mediaQuery = MediaQuery.of(context);
+    // MediaQueryData mediaQuery = MediaQuery.of(context);
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,10 +208,10 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
     );
   }
 
-  Widget _buildProfile({required _Profile data}) {
+  Widget _buildProfile({required Profile data}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: _ProfilTile(
+      child: ProfilTile(
         data: data,
         onPressedNotification: () {},
       ),

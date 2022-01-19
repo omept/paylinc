@@ -1,11 +1,13 @@
-part of initialized_transactions;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:paylinc/shared_components/models/profile.dart';
 
-class _ProfilTile extends StatelessWidget {
-  const _ProfilTile(
+class ProfilTile extends StatelessWidget {
+  const ProfilTile(
       {required this.data, required this.onPressedNotification, Key? key})
       : super(key: key);
 
-  final _Profile data;
+  final Profile data;
   final Function() onPressedNotification;
 
   @override
