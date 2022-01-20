@@ -1,17 +1,11 @@
 library user_alerts;
 
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/shared_components/header.dart';
-import 'package:paylinc/shared_components/models/payment_alert.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
-import 'package:paylinc/shared_components/models/user_alert.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/profile_tile.dart';
-import 'package:paylinc/shared_components/models/wallet_alert.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
@@ -229,49 +223,60 @@ class _PaymentAlerts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView.builder(
+    UserAlertsController uAC = Get.find();
+    return SingleChildScrollView(child: Obx(() {
+      if (uAC.paymentAlertList.isEmpty) {
+        return Center(child: Text("Empty"));
+      }
+
+      return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (bcontext, index) {
           return Card(
             child: ListTile(
-              leading: Text("Leading $index"),
-              title: Text("This is a payment"),
-              subtitle: Text("This is subtitle"),
+              leading:
+                  Text("Alert Tag : ${uAC.paymentAlertList[index].alertTag}"),
+              title: Text("Amount : ${uAC.paymentAlertList[index].amount}"),
+              subtitle: Text(
+                  "Sender Paytag : ${uAC.paymentAlertList[index].sender?.paytag}"),
             ),
           );
         },
-        itemCount: 22,
+        itemCount: uAC.paymentAlertList.length,
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
-        scrollDirection: Axis.vertical,
-      ),
-    );
+      );
+    }));
   }
 }
 
 class _WalletsAlerts extends StatelessWidget {
   const _WalletsAlerts({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView.builder(
+    UserAlertsController uAC = Get.find();
+    return SingleChildScrollView(child: Obx(() {
+      if (uAC.walletAlertList.isEmpty) {
+        return Center(child: Text("Empty"));
+      }
+
+      return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (bcontext, index) {
           return Card(
             child: ListTile(
-              leading: Text("Leading $index"),
-              title: Text("This is a wallet alert"),
-              subtitle: Text("This is subtitle"),
+              leading:
+                  Text("Alert Tag : ${uAC.walletAlertList[index].alertTag}"),
+              title: Text("Amount : ${uAC.walletAlertList[index].amount}"),
+              subtitle: Text(
+                  "Sender Paytag : ${uAC.walletAlertList[index].sender?.paytag}"),
             ),
           );
         },
-        itemCount: 22,
+        itemCount: uAC.walletAlertList.length,
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
-        scrollDirection: Axis.vertical,
-      ),
-    );
+      );
+    }));
   }
 }
