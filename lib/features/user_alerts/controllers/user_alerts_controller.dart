@@ -6,6 +6,7 @@ class UserAlertsController extends GetxController {
   LocalStorageServices localStorageServices = Get.find();
   var walletAlertList = <WalletAlert?>[].obs;
   var paymentAlertList = <PaymentAlert?>[].obs;
+  var userAlertList = <UserAlert?>[].obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -13,19 +14,22 @@ class UserAlertsController extends GetxController {
     }
   }
 
-  // @override
-  // void onInit() {
-
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    // set alerts
+    updateAlerts();
+  }
 
   void updateAlerts() async {
     try {
       var api = AlertsApi();
       ResponseModel res = await api.getAlerts();
 
-      print(res.data);
-
       if (res.status == true) {
+        UserAlertResonse userAlertResonse =
+            UserAlertResonse.fromJson(res.data!);
+
         // UserAlert _userAlrt = await localStorageServices
         //     .saveUserAlertsFromMap(res.data?['user_alerts']);
 
