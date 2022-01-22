@@ -398,6 +398,8 @@ class InitializedTransaction {
   User? sender;
   int? amount;
   String? createdAt;
+  TransactionWallet? wallet;
+  TransactionPromoCode? promoCode;
   InitializedTransaction({
     this.id,
     this.initializedTransactionStatus,
@@ -408,6 +410,8 @@ class InitializedTransaction {
     this.sender,
     this.amount,
     this.createdAt,
+    this.wallet,
+    this.promoCode,
   });
 
   InitializedTransaction copyWith({
@@ -420,6 +424,8 @@ class InitializedTransaction {
     User? sender,
     int? amount,
     String? createdAt,
+    TransactionWallet? wallet,
+    TransactionPromoCode? promoCode,
   }) {
     return InitializedTransaction(
       id: id ?? this.id,
@@ -437,22 +443,26 @@ class InitializedTransaction {
       sender: sender ?? this.sender,
       amount: amount ?? this.amount,
       createdAt: createdAt ?? this.createdAt,
+      wallet: wallet ?? this.wallet,
+      promoCode: promoCode ?? this.promoCode,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'initialized_transaction_status': initializedTransactionStatus,
-      'initialized_transaction_description': initializedTransactionDescription,
-      'initialized_transaction_declination_reason':
+      'initializedTransactionStatus': initializedTransactionStatus,
+      'initializedTransactionDescription': initializedTransactionDescription,
+      'initializedTransactionDeclinationReason':
           initializedTransactionDeclinationReason,
-      'initialized_transaction_conflict_reason':
+      'initializedTransactionConflictReason':
           initializedTransactionConflictReason,
       'recipient': recipient?.toMap(),
       'sender': sender?.toMap(),
       'amount': amount,
       'createdAt': createdAt,
+      'wallet': wallet?.toMap(),
+      'promoCode': promoCode?.toMap(),
     };
   }
 
@@ -464,14 +474,20 @@ class InitializedTransaction {
       initializedTransactionDescription:
           map['initialized_transaction_description'],
       initializedTransactionDeclinationReason:
-          map['initialized_transaction_declination_reason'],
+          map['initialized_transaction_declinationReason'],
       initializedTransactionConflictReason:
-          map['initialized_transaction_conflict_reason'],
+          map['initialized_transaction_conflictReason'],
       recipient:
           map['recipient'] != null ? User.fromMap(map['recipient']) : null,
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
       amount: map['amount']?.toInt(),
-      createdAt: map['createdAt'],
+      createdAt: map['created_at'],
+      wallet: map['wallet'] != null
+          ? TransactionWallet.fromMap(map['wallet'])
+          : null,
+      promoCode: map['promo_code'] != null
+          ? TransactionPromoCode.fromMap(map['promo_code'])
+          : null,
     );
   }
 
@@ -482,7 +498,7 @@ class InitializedTransaction {
 
   @override
   String toString() {
-    return 'InitializedTransaction(id: $id, initializedTransactionStatus: $initializedTransactionStatus, initializedTransactionDescription: $initializedTransactionDescription, initializedTransactionDeclinationReason: $initializedTransactionDeclinationReason, initializedTransactionConflictReason: $initializedTransactionConflictReason, recipient: $recipient, sender: $sender, amount: $amount, createdAt: $createdAt)';
+    return 'InitializedTransaction(id: $id, initializedTransactionStatus: $initializedTransactionStatus, initializedTransactionDescription: $initializedTransactionDescription, initializedTransactionDeclinationReason: $initializedTransactionDeclinationReason, initializedTransactionConflictReason: $initializedTransactionConflictReason, recipient: $recipient, sender: $sender, amount: $amount, createdAt: $createdAt, wallet: $wallet, promoCode: $promoCode)';
   }
 
   @override
@@ -501,7 +517,9 @@ class InitializedTransaction {
         other.recipient == recipient &&
         other.sender == sender &&
         other.amount == amount &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.wallet == wallet &&
+        other.promoCode == promoCode;
   }
 
   @override
@@ -514,7 +532,9 @@ class InitializedTransaction {
         recipient.hashCode ^
         sender.hashCode ^
         amount.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        wallet.hashCode ^
+        promoCode.hashCode;
   }
 }
 
@@ -834,4 +854,111 @@ class OutgoingAlertsData {
         createdAt.hashCode ^
         readStatus.hashCode;
   }
+}
+
+class TransactionWallet {
+  int? id;
+  String? walletPaytag;
+  TransactionWallet({
+    this.id,
+    this.walletPaytag,
+  });
+
+  TransactionWallet copyWith({
+    int? id,
+    String? walletPaytag,
+  }) {
+    return TransactionWallet(
+      id: id ?? this.id,
+      walletPaytag: walletPaytag ?? this.walletPaytag,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'walletPaytag': walletPaytag,
+    };
+  }
+
+  factory TransactionWallet.fromMap(Map<String, dynamic> map) {
+    return TransactionWallet(
+      id: map['id']?.toInt(),
+      walletPaytag: map['walletPaytag'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory TransactionWallet.fromJson(String source) =>
+      TransactionWallet.fromMap(json.decode(source));
+
+  @override
+  String toString() =>
+      'TransactionWallet(id: $id, walletPaytag: $walletPaytag)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TransactionWallet &&
+        other.id == id &&
+        other.walletPaytag == walletPaytag;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ walletPaytag.hashCode;
+}
+
+class TransactionPromoCode {
+  int? id;
+  String? promoCode;
+  TransactionPromoCode({
+    this.id,
+    this.promoCode,
+  });
+
+  TransactionPromoCode copyWith({
+    int? id,
+    String? promoCode,
+  }) {
+    return TransactionPromoCode(
+      id: id ?? this.id,
+      promoCode: promoCode ?? this.promoCode,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'promo_code': promoCode,
+    };
+  }
+
+  factory TransactionPromoCode.fromMap(Map<String, dynamic> map) {
+    return TransactionPromoCode(
+      id: map['id']?.toInt(),
+      promoCode: map['promo_code'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory TransactionPromoCode.fromJson(String source) =>
+      TransactionPromoCode.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'TransactionPromoCode(id: $id, promoCode: $promoCode)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TransactionPromoCode &&
+        other.id == id &&
+        other.promoCode == promoCode;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ promoCode.hashCode;
 }

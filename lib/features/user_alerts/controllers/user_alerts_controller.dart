@@ -44,11 +44,12 @@ class UserAlertsController extends GetxController {
         // save to storage
         localStorageServices.saveUserAlertResonse(_usrAlrtRs);
       } else {
-        Snackbar.errSnackBar(
-            'Failed getting alerts', res.message ?? RestApiServices.errMessage);
+        Snackbar.errSnackBar('Could not fetch your alerts',
+            res.message ?? RestApiServices.errMessage);
       }
     } on Exception catch (_) {
-      Snackbar.errSnackBar('Failed getting alerts', RestApiServices.errMessage);
+      Snackbar.errSnackBar(
+          'Could not fetch your alerts', RestApiServices.errMessage);
     }
   }
 }

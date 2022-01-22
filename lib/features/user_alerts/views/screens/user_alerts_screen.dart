@@ -229,24 +229,159 @@ class _PaymentAlerts extends StatelessWidget {
         return Center(child: Text("Empty"));
       }
 
-      return ListView.builder(
+      final List fixedList =
+          Iterable<int>.generate(uAC.paymentAlertList.length).toList();
+
+      final List<Widget> paymentTiles = fixedList.map((idx) {
+        return _PaymentAlertListItem(
+          thumbnail: Container(
+            decoration: const BoxDecoration(color: Colors.pink),
+          ),
+          title: PaymentAlertTagHelper.alertTagObj(
+              title: "${uAC.paymentAlertList[idx].alertTag}")['message'],
+          subtitle: "${uAC.paymentAlertList[idx].amount}",
+          author: "${uAC.paymentAlertList[idx].sender?.paytag}",
+          publishDate: 'Dec 28',
+          readDuration: '5 mins',
+        );
+      }).toList();
+
+      return ListView(
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (bcontext, index) {
-          return Card(
-            child: ListTile(
-              leading:
-                  Text("Alert Tag : ${uAC.paymentAlertList[index].alertTag}"),
-              title: Text("Amount : ${uAC.paymentAlertList[index].amount}"),
-              subtitle: Text(
-                  "Sender Paytag : ${uAC.paymentAlertList[index].sender?.paytag}"),
-            ),
-          );
-        },
-        itemCount: uAC.paymentAlertList.length,
+        children: paymentTiles.length > 0 ? paymentTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
     }));
+  }
+}
+
+class _PaymentAlertDescription extends StatelessWidget {
+  const _PaymentAlertDescription({
+    Key? key,
+    required this.title,
+    required this.subtitle,
+    required this.author,
+    required this.publishDate,
+    required this.readDuration,
+  }) : super(key: key);
+
+  final String title;
+  final String subtitle;
+  final String author;
+  final String publishDate;
+  final String readDuration;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                author,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                ),
+              ),
+              Text(
+                '$publishDate - $readDuration',
+                style: const TextStyle(
+                  fontSize: 12.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PaymentAlertListItem extends StatelessWidget {
+  const _PaymentAlertListItem({
+    Key? key,
+    required this.thumbnail,
+    required this.title,
+    required this.subtitle,
+    required this.author,
+    required this.publishDate,
+    required this.readDuration,
+  }) : super(key: key);
+
+  final Widget thumbnail;
+  final String title;
+  final String subtitle;
+  final String author;
+  final String publishDate;
+  final String readDuration;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        elevation: 1.0,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap: () {
+            // Get.to(PaymentAlertDetailsPage());
+          },
+          child: SizedBox(
+            height: 100,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // AspectRatio(
+                //   aspectRatio: 1.0,
+                //   child: thumbnail,
+                // ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 8.0),
+                    child: _PaymentAlertDescription(
+                      title: title,
+                      subtitle: subtitle,
+                      author: author,
+                      publishDate: publishDate,
+                      readDuration: readDuration,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -280,3 +415,22 @@ class _WalletsAlerts extends StatelessWidget {
     }));
   }
 }
+
+class PaymentAlertTagHelper {
+  static alertTagObj({required String title}) {
+    print(title);
+    Map<String?, Map<String, String>?> alertTagMap = {
+      'REQUEST MONEY': {
+        'message': 'Payment request',
+        'next_action': 'Click to view more details',
+      }
+    };
+    return alertTagMap[title] ??
+        {
+          'message': '',
+          'next_action': '',
+        };
+  }
+}
+
+class WalletAlertTagHelper {}
