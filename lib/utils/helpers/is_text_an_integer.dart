@@ -1,4 +1,4 @@
-bool isTextAnInteger(String value) {
+bool canBeInteger(String value) {
   try {
     int.parse(value);
     return true;

@@ -4,8 +4,8 @@ class UserAlertsController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   AuthController authController = Get.find();
   LocalStorageServices localStorageServices = Get.find();
-  var walletAlertList = <IncomingAlertsData>[].obs;
-  var paymentAlertList = <OutgoingAlertsData>[].obs;
+  var walletAlertList = <IncomingAlertsData?>[].obs;
+  var paymentAlertList = <OutgoingAlertsData?>[].obs;
   var userAlertResonse = UserAlertResonse().obs;
 
   void openDrawer() {

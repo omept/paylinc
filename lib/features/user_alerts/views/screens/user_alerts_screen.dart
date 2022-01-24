@@ -1,6 +1,7 @@
 library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
+import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
@@ -234,15 +236,20 @@ class _PaymentAlerts extends StatelessWidget {
 
       final List<Widget> paymentTiles = fixedList.map((idx) {
         return _PaymentAlertListItem(
-          thumbnail: Container(
-            decoration: const BoxDecoration(color: Colors.pink),
-          ),
-          title: PaymentAlertTagHelper.alertTagObj(
-              title: "${uAC.paymentAlertList[idx].alertTag}")['message'],
-          subtitle: "${uAC.paymentAlertList[idx].amount}",
-          author: "${uAC.paymentAlertList[idx].sender?.paytag}",
-          publishDate: 'Dec 28',
-          readDuration: '5 mins',
+          alertTagMessage: AlertTagHelper.alertTagObj(
+                  title:
+                      "${uAC.paymentAlertList[idx]?.alertTag}")?['message'] ??
+              '',
+          transactionAmount: "${uAC.paymentAlertList[idx]?.amount}",
+          transactionCurrency:
+              "${uAC.paymentAlertList[idx]?.sender?.country?.currencyAbr}",
+          senderPaytag: "${uAC.paymentAlertList[idx]?.sender?.paytag}",
+          walletPaytag:
+              "${uAC.paymentAlertList[idx]?.initializedTransaction?.wallet?.walletPaytag}",
+          createdAt: Jiffy('${uAC.paymentAlertList[idx]?.createdAt}')
+              .fromNow()
+              .toString(),
+          readStatus: uAC.paymentAlertList[idx]?.readStatus ?? false,
         );
       }).toList();
 
@@ -257,66 +264,90 @@ class _PaymentAlerts extends StatelessWidget {
 }
 
 class _PaymentAlertDescription extends StatelessWidget {
-  const _PaymentAlertDescription({
+  final alrtAmountStyle = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+    // color: themeContext.textTheme.caption?.color,
+  );
+
+  _PaymentAlertDescription({
     Key? key,
-    required this.title,
-    required this.subtitle,
-    required this.author,
-    required this.publishDate,
-    required this.readDuration,
+    required this.alertTagMessage,
+    required this.transactionAmount,
+    required this.transactionCurrency,
+    required this.senderPaytag,
+    required this.walletPaytag,
+    required this.createdAt,
+    required this.readStatus,
   }) : super(key: key);
 
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
+  final String alertTagMessage;
+  final String transactionAmount;
+  final String transactionCurrency;
+  final String senderPaytag;
+  final String walletPaytag;
+  final String createdAt;
+  final bool readStatus;
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeCtx = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              alertTagMessage,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-              Text(
-                subtitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                ),
-              ),
-            ],
-          ),
+                  color: themeCtx.textTheme.caption?.color),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+            canBeInteger(transactionAmount)
+                ? Text(
+                    transactionAmount.toShortHumanFormat(
+                        currency: "$transactionCurrency "),
+                    style: alrtAmountStyle)
+                : Container(),
+          ],
         ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                author,
-                style: const TextStyle(
+                "@$senderPaytag",
+                style: TextStyle(
+                  color: themeCtx.textTheme.caption?.color,
                   fontSize: 12.0,
                 ),
               ),
-              Text(
-                '$publishDate - $readDuration',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '$createdAt',
+                    style: TextStyle(
+                      color: themeCtx.textTheme.caption?.color,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(
+                      EvaIcons.diagonalArrowRightUp,
+                      size: 12.0,
+                      color: !readStatus
+                          ? themeCtx.colorScheme.secondary
+                          : themeCtx.textTheme.caption?.color,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -329,20 +360,24 @@ class _PaymentAlertDescription extends StatelessWidget {
 class _PaymentAlertListItem extends StatelessWidget {
   const _PaymentAlertListItem({
     Key? key,
-    required this.thumbnail,
-    required this.title,
-    required this.subtitle,
-    required this.author,
-    required this.publishDate,
-    required this.readDuration,
+    this.thumbnail,
+    required this.alertTagMessage,
+    required this.transactionAmount,
+    required this.transactionCurrency,
+    required this.senderPaytag,
+    required this.walletPaytag,
+    required this.createdAt,
+    required this.readStatus,
   }) : super(key: key);
 
-  final Widget thumbnail;
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
+  final Widget? thumbnail;
+  final String alertTagMessage;
+  final String transactionAmount;
+  final String transactionCurrency;
+  final String senderPaytag;
+  final String walletPaytag;
+  final String createdAt;
+  final bool readStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -353,26 +388,27 @@ class _PaymentAlertListItem extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         child: InkWell(
           onTap: () {
-            // Get.to(PaymentAlertDetailsPage());
+            print('Tapped');
+          },
+          onDoubleTap: () {
+            print('Double Tapped');
           },
           child: SizedBox(
-            height: 100,
+            height: canBeInteger(transactionAmount) ? 110.0 : 88,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // AspectRatio(
-                //   aspectRatio: 1.0,
-                //   child: thumbnail,
-                // ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 8.0),
+                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
                     child: _PaymentAlertDescription(
-                      title: title,
-                      subtitle: subtitle,
-                      author: author,
-                      publishDate: publishDate,
-                      readDuration: readDuration,
+                      alertTagMessage: alertTagMessage,
+                      transactionAmount: transactionAmount,
+                      transactionCurrency: transactionCurrency,
+                      senderPaytag: senderPaytag,
+                      walletPaytag: walletPaytag,
+                      createdAt: createdAt,
+                      readStatus: readStatus,
                     ),
                   ),
                 )
@@ -387,6 +423,7 @@ class _PaymentAlertListItem extends StatelessWidget {
 
 class _WalletsAlerts extends StatelessWidget {
   const _WalletsAlerts({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     UserAlertsController uAC = Get.find();
@@ -395,20 +432,31 @@ class _WalletsAlerts extends StatelessWidget {
         return Center(child: Text("Empty"));
       }
 
-      return ListView.builder(
+      final List fixedList =
+          Iterable<int>.generate(uAC.walletAlertList.length).toList();
+
+      final List<Widget> walletTiles = fixedList.map((idx) {
+        return _WalletAlertListItem(
+          alertTagMessage: AlertTagHelper.alertTagObj(
+                  title: "${uAC.walletAlertList[idx]?.alertTag}",
+                  tag: AlertTagType.WALLETS)?['message'] ??
+              '',
+          transactionAmount: "${uAC.walletAlertList[idx]?.amount}",
+          transactionCurrency:
+              "${uAC.walletAlertList[idx]?.sender?.country?.currencyAbr}",
+          senderPaytag: "${uAC.walletAlertList[idx]?.sender?.paytag}",
+          walletPaytag:
+              "${uAC.walletAlertList[idx]?.initializedTransaction?.wallet?.walletPaytag}",
+          createdAt: Jiffy('${uAC.walletAlertList[idx]?.createdAt}')
+              .fromNow()
+              .toString(),
+          readStatus: uAC.walletAlertList[idx]?.readStatus ?? false,
+        );
+      }).toList();
+
+      return ListView(
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (bcontext, index) {
-          return Card(
-            child: ListTile(
-              leading:
-                  Text("Alert Tag : ${uAC.walletAlertList[index].alertTag}"),
-              title: Text("Amount : ${uAC.walletAlertList[index].amount}"),
-              subtitle: Text(
-                  "Sender Paytag : ${uAC.walletAlertList[index].sender?.paytag}"),
-            ),
-          );
-        },
-        itemCount: uAC.walletAlertList.length,
+        children: walletTiles.length > 0 ? walletTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -416,18 +464,195 @@ class _WalletsAlerts extends StatelessWidget {
   }
 }
 
-class PaymentAlertTagHelper {
-  static alertTagObj({required String title}) {
-    print(title);
-    Map<String?, Map<String, String>?> alertTagMap = {
+class _WalletAlertDescription extends StatelessWidget {
+  final alrtAmountStyle = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+    // color: themeContext.textTheme.caption?.color,
+  );
+
+  _WalletAlertDescription({
+    Key? key,
+    required this.alertTagMessage,
+    required this.transactionAmount,
+    required this.transactionCurrency,
+    required this.senderPaytag,
+    required this.walletPaytag,
+    required this.createdAt,
+    required this.readStatus,
+  }) : super(key: key);
+
+  final String alertTagMessage;
+  final String transactionAmount;
+  final String transactionCurrency;
+  final String senderPaytag;
+  final String walletPaytag;
+  final String createdAt;
+  final bool readStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeCtx = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              alertTagMessage,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: themeCtx.textTheme.caption?.color),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+            canBeInteger(transactionAmount)
+                ? Text(
+                    transactionAmount.toShortHumanFormat(
+                        currency: "$transactionCurrency "),
+                    style: alrtAmountStyle)
+                : Container(),
+          ],
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "@$senderPaytag  ->  @$walletPaytag",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: themeCtx.textTheme.caption?.color,
+                  fontSize: 12.0,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '$createdAt',
+                    style: TextStyle(
+                      color: themeCtx.textTheme.caption?.color,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(
+                      EvaIcons.diagonalArrowLeftDown,
+                      size: 12.0,
+                      color: !readStatus
+                          ? themeCtx.colorScheme.secondary
+                          : themeCtx.textTheme.caption?.color,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WalletAlertListItem extends StatelessWidget {
+  const _WalletAlertListItem({
+    Key? key,
+    this.thumbnail,
+    required this.alertTagMessage,
+    required this.transactionAmount,
+    required this.transactionCurrency,
+    required this.senderPaytag,
+    required this.walletPaytag,
+    required this.createdAt,
+    required this.readStatus,
+  }) : super(key: key);
+
+  final Widget? thumbnail;
+  final String alertTagMessage;
+  final String transactionAmount;
+  final String transactionCurrency;
+  final String senderPaytag;
+  final String walletPaytag;
+  final String createdAt;
+  final bool readStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        elevation: 1.0,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap: () {
+            print('Tapped');
+          },
+          onDoubleTap: () {
+            print('Double Tapped');
+          },
+          child: SizedBox(
+            height: canBeInteger(transactionAmount) ? 110.0 : 88,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
+                    child: _WalletAlertDescription(
+                      alertTagMessage: alertTagMessage,
+                      transactionAmount: transactionAmount,
+                      transactionCurrency: transactionCurrency,
+                      senderPaytag: senderPaytag,
+                      walletPaytag: walletPaytag,
+                      createdAt: createdAt,
+                      readStatus: readStatus,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum AlertTagType { PAYMENT, WALLETS }
+
+class AlertTagHelper {
+  static alertTagObj(
+      {required String title, AlertTagType tag = AlertTagType.PAYMENT}) {
+    Map<String?, Map<String, String>?> paymentAlertTagMap = {
       'REQUEST MONEY': {
-        'message': 'Payment request',
+        'message': 'New  requested  charge',
         'next_action': 'Click to view more details',
       }
     };
-    return alertTagMap[title] ??
+
+    Map<String?, Map<String, String>?> walletAlertTagMap = {
+      'SEND MONEY': {
+        'message': 'Incoming requested  wallet  payment',
+        'next_action': 'Click to view more details',
+      }
+    };
+
+    if (tag == AlertTagType.WALLETS) {
+      return walletAlertTagMap[title] ??
+          {
+            'message': title,
+            'next_action': '',
+          };
+    }
+    return paymentAlertTagMap[title] ??
         {
-          'message': '',
+          'message': title,
           'next_action': '',
         };
   }

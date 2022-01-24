@@ -1004,7 +1004,7 @@ class _AmountInputState extends State<_AmountInput> {
               labelText: 'Amount',
               errorStyle: TextStyle(color: kDangerColor),
               errorText: controller.amount.value.isEmpty ||
-                      !isTextAnInteger(controller.amount.value)
+                      !canBeInteger(controller.amount.value)
                   ? 'invalid amount'
                   : null,
             ),
@@ -1080,11 +1080,11 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
-        if (isTextAnInteger(value) && (value.length > 0)) {
+        if (canBeInteger(value) && (value.length > 0)) {
           controller.updateOtp(value);
         }
       },
-      beforeTextPaste: (text) => isTextAnInteger(text ?? ''),
+      beforeTextPaste: (text) => canBeInteger(text ?? ''),
       onCompleted: (value) {
         controller.submitRequestMoney();
       },

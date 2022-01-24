@@ -877,14 +877,14 @@ class TransactionWallet {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'walletPaytag': walletPaytag,
+      'wallet_paytag': walletPaytag,
     };
   }
 
   factory TransactionWallet.fromMap(Map<String, dynamic> map) {
     return TransactionWallet(
       id: map['id']?.toInt(),
-      walletPaytag: map['walletPaytag'],
+      walletPaytag: map['wallet_paytag'],
     );
   }
 
