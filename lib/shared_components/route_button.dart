@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:get/get.dart';
 
-class SelectionButtonData {
+class RouteButtonData {
   final IconData activeIcon;
   final IconData icon;
   final String label;
   final int? totalNotif;
 
-  SelectionButtonData({
+  RouteButtonData({
     required this.activeIcon,
     required this.icon,
     required this.label,
@@ -16,8 +16,8 @@ class SelectionButtonData {
   });
 }
 
-class SelectionButton extends StatefulWidget {
-  const SelectionButton({
+class RouteButton extends StatefulWidget {
+  const RouteButton({
     this.initialSelected = 0,
     required this.data,
     required this.onSelected,
@@ -25,14 +25,14 @@ class SelectionButton extends StatefulWidget {
   }) : super(key: key);
 
   final int initialSelected;
-  final List<SelectionButtonData> data;
-  final Function(int index, SelectionButtonData value) onSelected;
+  final List<RouteButtonData> data;
+  final Function(int index, RouteButtonData value) onSelected;
 
   @override
-  State<SelectionButton> createState() => _SelectionButtonState();
+  State<RouteButton> createState() => _RouteButtonState();
 }
 
-class _SelectionButtonState extends State<SelectionButton> {
+class _RouteButtonState extends State<RouteButton> {
   late int selected;
 
   @override
@@ -75,7 +75,7 @@ class _Button extends StatelessWidget {
   }) : super(key: key);
 
   final bool selected;
-  final SelectionButtonData data;
+  final RouteButtonData data;
   final Function() onPressed;
 
   @override

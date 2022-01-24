@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:hive/hive.dart';
+import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -33,6 +36,19 @@ class LocalStorageServices {
     var authTokBox = await Hive.openBox('auth_user');
     authTokBox.put('user', user.toJson());
     return user;
+  }
+
+  Future<void> saveUserAlertResonse(UserAlertResonse map) async {
+    var userARBox = await Hive.openBox('auth_user_alerts');
+    userARBox.put('alerts', map.toJson());
+  }
+
+  Future<UserAlertResonse?> getUserAlertResonse() async {
+    var userARBox = await Hive.openBox('auth_user_alerts');
+    var incomingData = userARBox.get('alerts');
+    if (incomingData != null) {
+      return UserAlertResonse.fromMap(json.decode(incomingData));
+    }
   }
 
   Future<UserStatistics> saveUserStatisticsFromMap(

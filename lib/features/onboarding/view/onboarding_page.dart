@@ -13,8 +13,8 @@ import 'package:paylinc/features/onboarding/view/components/sponsors.dart';
 import 'package:paylinc/features/onboarding/view/components/website_ad.dart';
 import 'package:paylinc/shared_components/header_item.dart';
 import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/project_image.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
+import 'package:paylinc/shared_components/project_image.dart';
 
 class OnboardingPage extends StatelessWidget {
   @override

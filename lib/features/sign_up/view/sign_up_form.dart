@@ -233,7 +233,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
           keyboardType: TextInputType.number,
           controller: textEditingController,
           onChanged: (value) {
-            if (!isTextAnInteger(value) && (value.length > 0)) {
+            if (!canBeInteger(value) && (value.length > 0)) {
               errorController.add(ErrorAnimationType.shake);
             }
             context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));

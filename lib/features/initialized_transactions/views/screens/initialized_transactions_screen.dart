@@ -4,26 +4,21 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/chatting_card.dart';
+import 'package:paylinc/shared_components/selected_project.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/today_text.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/utils/helpers/get_profile.dart';
 
+import 'package:paylinc/shared_components/models/profile.dart';
+import 'package:paylinc/shared_components/profile_tile.dart';
 // binding
 part '../../bindings/initialized_transactions_binding.dart';
 
 // controller
 part '../../controllers/initialized_transactions_controller.dart';
-
-// models
-part '../../models/profile.dart';
-
-// component
-part '../components/profile_tile.dart';
 
 class InitializedTransactionsScreen
     extends GetView<InitializedTransactionsController> {
@@ -78,7 +73,7 @@ class InitializedTransactionsScreen
           child: Column(
             children: [
               const SizedBox(height: kSpacing / 2),
-              _buildProfile(data: controller.getProfil()),
+              _buildProfile(data: getProfile()),
               const Divider(thickness: 1),
               const SizedBox(height: kSpacing),
             ],
@@ -92,7 +87,7 @@ class InitializedTransactionsScreen
 
   Sidebar _sideBar() {
     return Sidebar(
-      data: controller.getSelectedProject(),
+      data: getSelectedProject(),
       initialSelected: 4,
     );
   }
@@ -156,10 +151,10 @@ class InitializedTransactionsScreen
     );
   }
 
-  Widget _buildProfile({required _Profile data}) {
+  Widget _buildProfile({required Profile data}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
-      child: _ProfilTile(
+      child: ProfilTile(
         data: data,
         onPressedNotification: () {},
       ),
