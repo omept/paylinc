@@ -1,13 +1,15 @@
-part of wallets;
+import 'package:flutter/material.dart';
 
-class _Profile {
+class Profile {
   final ImageProvider photo;
   final String name;
   final String email;
+  final String paytag;
 
-  const _Profile({
+  const Profile({
     required this.photo,
     required this.name,
     required this.email,
+    required this.paytag,
   });
 }

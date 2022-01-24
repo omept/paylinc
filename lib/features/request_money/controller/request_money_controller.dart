@@ -94,7 +94,7 @@ class RequestMoneyController extends GetxController {
   Future<void> preRequestMoneyReview() async {
     try {
       if (amount.value.isEmpty ||
-          (amount.value.isNotEmpty && !isTextAnInteger(amount.value)) ||
+          (amount.value.isNotEmpty && !canBeInteger(amount.value)) ||
           purpose.value.isEmpty ||
           sender.value.isEmpty ||
           selectedWalletValue.isEmpty) {

@@ -89,6 +89,16 @@ class User {
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
+  factory User.fromDynamic(source) {
+    return new User().copyWith(
+      userId: source?['user_id'],
+      name: source?['name'],
+      profilePicUrl: source?['profile_pic_url'],
+      email: source?['email'],
+      paytag: source?['paytag'],
+    );
+  }
+
   @override
   String toString() {
     return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified, country: $country, wallets: $wallets, createdAt: $createdAt)';

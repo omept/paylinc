@@ -90,7 +90,7 @@ class SendMoneyController extends GetxController {
   Future<void> preSendMoneyReview() async {
     try {
       if (amount.value.isEmpty ||
-          (amount.value.isNotEmpty && !isTextAnInteger(amount.value)) ||
+          (amount.value.isNotEmpty && !canBeInteger(amount.value)) ||
           purpose.value.isEmpty ||
           selectedWalletValue.isEmpty) {
         _status.value = FormzStatus.submissionInProgress;
