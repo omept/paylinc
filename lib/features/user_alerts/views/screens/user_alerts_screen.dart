@@ -2,7 +2,9 @@ library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
@@ -390,9 +392,9 @@ class _PaymentAlertListItem extends StatelessWidget {
           onTap: () {
             print('Tapped');
           },
-          onDoubleTap: () {
-            print('Double Tapped');
-          },
+          // onDoubleTap: () {
+          //   print('Double Tapped');
+          // },
           child: SizedBox(
             height: canBeInteger(transactionAmount) ? 110.0 : 88,
             child: Row(
@@ -561,7 +563,7 @@ class _WalletAlertDescription extends StatelessWidget {
 }
 
 class _WalletAlertListItem extends StatelessWidget {
-  const _WalletAlertListItem({
+  _WalletAlertListItem({
     Key? key,
     this.thumbnail,
     required this.alertTagMessage,
@@ -581,6 +583,7 @@ class _WalletAlertListItem extends StatelessWidget {
   final String walletPaytag;
   final String createdAt;
   final bool readStatus;
+  final UserAlertsController uAC = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -591,10 +594,11 @@ class _WalletAlertListItem extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         child: InkWell(
           onTap: () {
-            print('Tapped');
-          },
-          onDoubleTap: () {
-            print('Double Tapped');
+            uAC.viewInititalizedTransaction(
+                alertTagType: AlertTagType.WALLETS,
+                alertId: uAC.walletAlertList[0]?.alertId,
+                initializedTransaction:
+                    uAC.walletAlertList[0]?.initializedTransaction);
           },
           child: SizedBox(
             height: canBeInteger(transactionAmount) ? 110.0 : 88,

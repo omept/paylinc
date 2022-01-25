@@ -3,6 +3,7 @@ import 'package:paylinc/features/confirm_forgot_password/confirm_forgot_password
 import 'package:paylinc/features/create_wallet/view/create_wallet_screen.dart';
 import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
+import 'package:paylinc/features/initialized_transaction/views/screens/initialized_transaction_screen.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
@@ -98,6 +99,12 @@ class AppPages {
       page: () => const InitializedTransactionsScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: InitializedTransactionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.initialized_transaction,
+      page: () => const InitializedTransactionScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: InitializedTransactionBinding(),
     ),
     GetPage(
       name: _Paths.settings,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
+import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:user_repository/user_repository.dart';
@@ -15,10 +16,6 @@ class LocalStorageServices {
   }
   LocalStorageServices._internal();
 
-  // to save data in local, you can use SharedPreferences for simple data
-  // or Sqflite for more complex data
-
-  /// example :
   Future<void> saveToken(String token) async {
     // save auth status for hive storage
     var authTokBox = await Hive.openBox('auth_token');
@@ -73,5 +70,13 @@ class LocalStorageServices {
     return userStatJson != null
         ? UserStatistics.fromJson(userStatJson)
         : UserStatistics();
+  }
+
+  Future<void> saveInitializedTransactionB64({
+    required InitializedTransactionB64 initializedTransactionB64,
+  }) async {
+    var box = await Hive.openBox('intialized_transaction');
+    box.put(
+        'initializedTransactionB64', initializedTransactionB64.toBase64Str());
   }
 }

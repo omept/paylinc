@@ -52,4 +52,22 @@ class UserAlertsController extends GetxController {
           'Could not fetch your alerts', RestApiServices.errMessage);
     }
   }
+
+  void viewInititalizedTransaction(
+      {required AlertTagType alertTagType,
+      required int? alertId,
+      InitializedTransaction? initializedTransaction}) {
+    // set the default initialized transaction page data to storage
+    var initializedTransactionB64 = InitializedTransactionB64.fromMap({
+      "alertTagType": alertTagType,
+      "alertId": alertId,
+      "initializedTransaction": initializedTransaction,
+    });
+    localStorageServices.saveInitializedTransactionB64(
+        initializedTransactionB64: initializedTransactionB64);
+    // redirect to the initialized transaction page
+    Get.offNamed(Routes.initialized_transaction +
+        "/" +
+        initializedTransactionB64.toBase64UrlStr());
+  }
 }
