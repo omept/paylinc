@@ -61,13 +61,12 @@ class UserAlertsController extends GetxController {
     var initializedTransactionB64 = InitializedTransactionB64.fromMap({
       "alertTagType": alertTagType,
       "alertId": alertId,
-      "initializedTransaction": initializedTransaction,
+      "initializedTransaction": initializedTransaction?.toMap(),
     });
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    Get.offNamed(Routes.initialized_transaction +
-        "/" +
+    Get.offNamed("/initialized-transaction/" +
         initializedTransactionB64.toBase64UrlStr());
   }
 }

@@ -13,7 +13,7 @@ class InitializedTransactionController extends GetxController {
   void onInit() {
     super.onInit();
     var b64UrlStr = Get.parameters['b64UrlStr'];
-    print(b64UrlStr);
-    print('b64UrlStr');
+    // print(b64UrlStr);
+    // print('b64UrlStr');
   }
 }

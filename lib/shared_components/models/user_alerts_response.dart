@@ -474,9 +474,9 @@ class InitializedTransaction {
       initializedTransactionDescription:
           map['initialized_transaction_description'],
       initializedTransactionDeclinationReason:
-          map['initialized_transaction_declinationReason'],
+          map['initialized_transaction_declination_reason'],
       initializedTransactionConflictReason:
-          map['initialized_transaction_conflictReason'],
+          map['initialized_transaction_conflict_reason'],
       recipient:
           map['recipient'] != null ? User.fromMap(map['recipient']) : null,
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,

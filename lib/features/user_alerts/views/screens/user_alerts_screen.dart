@@ -2,7 +2,6 @@ library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
@@ -57,10 +56,12 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
                   child: _sideBar()),
             ),
       body: SingleChildScrollView(
-          child: ResponsiveBuilder(
-        mobileBuilder: _userAlertsMobileScreenWidget,
-        tabletBuilder: _userAlertsTabletScreenWidget,
-        desktopBuilder: _userAlertsDesktopScreenWidget,
+          child: SafeArea(
+        child: ResponsiveBuilder(
+          mobileBuilder: _userAlertsMobileScreenWidget,
+          tabletBuilder: _userAlertsTabletScreenWidget,
+          desktopBuilder: _userAlertsDesktopScreenWidget,
+        ),
       )),
     );
   }
@@ -145,9 +146,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
           _buildHeader(onPressedMenu: () => controller.openDrawer()),
-          const SizedBox(height: kSpacing / 2),
           Padding(
             padding: const EdgeInsets.all(kSpacing),
             child: Column(
@@ -238,6 +237,7 @@ class _PaymentAlerts extends StatelessWidget {
 
       final List<Widget> paymentTiles = fixedList.map((idx) {
         return _PaymentAlertListItem(
+          selectedIndex: idx,
           alertTagMessage: AlertTagHelper.alertTagObj(
                   title:
                       "${uAC.paymentAlertList[idx]?.alertTag}")?['message'] ??
@@ -360,9 +360,9 @@ class _PaymentAlertDescription extends StatelessWidget {
 }
 
 class _PaymentAlertListItem extends StatelessWidget {
-  const _PaymentAlertListItem({
+  _PaymentAlertListItem({
     Key? key,
-    this.thumbnail,
+    required this.selectedIndex,
     required this.alertTagMessage,
     required this.transactionAmount,
     required this.transactionCurrency,
@@ -372,14 +372,16 @@ class _PaymentAlertListItem extends StatelessWidget {
     required this.readStatus,
   }) : super(key: key);
 
-  final Widget? thumbnail;
   final String alertTagMessage;
+  final int selectedIndex;
   final String transactionAmount;
   final String transactionCurrency;
   final String senderPaytag;
   final String walletPaytag;
   final String createdAt;
   final bool readStatus;
+
+  final UserAlertsController uAC = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -390,7 +392,11 @@ class _PaymentAlertListItem extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         child: InkWell(
           onTap: () {
-            print('Tapped');
+            uAC.viewInititalizedTransaction(
+                alertTagType: AlertTagType.PAYMENT,
+                alertId: uAC.paymentAlertList[selectedIndex]?.alertId,
+                initializedTransaction: uAC
+                    .paymentAlertList[selectedIndex]?.initializedTransaction);
           },
           // onDoubleTap: () {
           //   print('Double Tapped');
@@ -439,6 +445,7 @@ class _WalletsAlerts extends StatelessWidget {
 
       final List<Widget> walletTiles = fixedList.map((idx) {
         return _WalletAlertListItem(
+          selectedIndex: idx,
           alertTagMessage: AlertTagHelper.alertTagObj(
                   title: "${uAC.walletAlertList[idx]?.alertTag}",
                   tag: AlertTagType.WALLETS)?['message'] ??
@@ -565,7 +572,7 @@ class _WalletAlertDescription extends StatelessWidget {
 class _WalletAlertListItem extends StatelessWidget {
   _WalletAlertListItem({
     Key? key,
-    this.thumbnail,
+    required this.selectedIndex,
     required this.alertTagMessage,
     required this.transactionAmount,
     required this.transactionCurrency,
@@ -575,7 +582,7 @@ class _WalletAlertListItem extends StatelessWidget {
     required this.readStatus,
   }) : super(key: key);
 
-  final Widget? thumbnail;
+  final int selectedIndex;
   final String alertTagMessage;
   final String transactionAmount;
   final String transactionCurrency;
@@ -596,9 +603,9 @@ class _WalletAlertListItem extends StatelessWidget {
           onTap: () {
             uAC.viewInititalizedTransaction(
                 alertTagType: AlertTagType.WALLETS,
-                alertId: uAC.walletAlertList[0]?.alertId,
+                alertId: uAC.walletAlertList[selectedIndex]?.alertId,
                 initializedTransaction:
-                    uAC.walletAlertList[0]?.initializedTransaction);
+                    uAC.walletAlertList[selectedIndex]?.initializedTransaction);
           },
           child: SizedBox(
             height: canBeInteger(transactionAmount) ? 110.0 : 88,

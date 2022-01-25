@@ -1,13 +1,12 @@
 library initialized_transaction;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -121,13 +120,112 @@ class InitializedTransactionScreen
   }
 
   Widget _initializedTransactionMobileScreenWidget(context, constraints) {
-    return Container(
-      child: Column(children: [
-        const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-        _buildHeader(onPressedMenu: () => controller.openDrawer()),
-        const SizedBox(height: kSpacing / 2),
-        const Divider(),
-      ]),
+    ThemeData themeCtx = Theme.of(context);
+    return SafeArea(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: kSpacing / 2,
+                ),
+                InkWell(
+                  onTap: () {
+                    String prvRoute = Get.previousRoute;
+                    var canGoBack = [
+                      Routes.user_alerts,
+                    ];
+                    if (canGoBack.contains(prvRoute)) {
+                      Get.offNamed(prvRoute);
+                    } else {
+                      Get.offNamed(Routes.dashboard);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: themeCtx.colorScheme.onBackground,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(kSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Initialized Transaction",
+                        style: TextStyle(
+                          // color: themeCtx.textTheme.caption?.color,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        "From: @ senderPaytag",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: themeCtx.textTheme.caption?.color,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      Text(
+                        "To:  @ walletPaytag",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: themeCtx.textTheme.caption?.color,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      Text(
+                        "Date:  @ createdAt",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: themeCtx.textTheme.caption?.color,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Amount',
+                              style: TextStyle(
+                                color: themeCtx.textTheme.caption?.color,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                            Text(
+                              '₦ 5,035',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ]),
     );
   }
 
@@ -145,10 +243,6 @@ class InitializedTransactionScreen
                 tooltip: "menu",
               ),
             ),
-          const Expanded(
-              child: Header(
-            todayText: TodayText(message: "Initiailized Transactions"),
-          )),
         ],
       ),
     );
