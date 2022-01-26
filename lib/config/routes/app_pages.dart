@@ -109,6 +109,14 @@ class AppPages {
       fullscreenDialog: true,
     ),
     GetPage(
+      name: _Paths.initialized_transaction_no_id,
+      page: () => const InitializedTransactionScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: InitializedTransactionBinding(),
+      transition: Transition.cupertinoDialog,
+      fullscreenDialog: true,
+    ),
+    GetPage(
       name: _Paths.settings,
       page: () => const SettingsScreen(),
       middlewares: [AuthenticatedMiddleware()],

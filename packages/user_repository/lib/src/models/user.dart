@@ -253,7 +253,7 @@ class Wallet {
 
   Map<String, dynamic> toMap() {
     return {
-      'walletPaytag': walletPaytag,
+      'wallet_paytag': walletPaytag,
       'balance': balance,
     };
   }

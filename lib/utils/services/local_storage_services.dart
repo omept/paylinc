@@ -79,4 +79,9 @@ class LocalStorageServices {
     box.put(
         'initializedTransactionB64', initializedTransactionB64.toBase64Str());
   }
+
+  Future<String?> getInitializedTransactionB64() async {
+    var box = await Hive.openBox('intialized_transaction');
+    return box.get('initializedTransactionB64', defaultValue: null);
+  }
 }

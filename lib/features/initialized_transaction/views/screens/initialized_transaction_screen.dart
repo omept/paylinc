@@ -1,8 +1,12 @@
 library initialized_transaction;
 
+import 'dart:developer';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
+import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
@@ -10,10 +14,12 @@ import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 
 import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/shared_components/profile_tile.dart';
+import 'package:paylinc/utils/services/local_storage_services.dart';
 // binding
 part '../../bindings/initialized_transaction_binding.dart';
 
@@ -121,6 +127,7 @@ class InitializedTransactionScreen
 
   Widget _initializedTransactionMobileScreenWidget(context, constraints) {
     ThemeData themeCtx = Theme.of(context);
+    InitializedTransactionController ctrl = Get.find();
     return SafeArea(
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -171,33 +178,42 @@ class InitializedTransactionScreen
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text(
-                        "From: @ senderPaytag",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: themeCtx.textTheme.caption?.color,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Text(
-                        "To:  @ walletPaytag",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: themeCtx.textTheme.caption?.color,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Text(
-                        "Date:  @ createdAt",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: themeCtx.textTheme.caption?.color,
-                          fontSize: 12.0,
-                        ),
-                      ),
+                      Obx(() => Text(
+                            "From:  @${ctrl.initializedTransaction.value.sender?.paytag}",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: themeCtx.textTheme.caption?.color,
+                              fontSize: 12.0,
+                            ),
+                          )),
+                      Obx(() => Text(
+                            "To:  @${ctrl.initializedTransaction.value.recipient?.paytag}",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: themeCtx.textTheme.caption?.color,
+                              fontSize: 12.0,
+                            ),
+                          )),
+                      Obx(() => Text(
+                            "Wallet:  @${ctrl.initializedTransaction.value.wallet?.walletPaytag ?? ''}",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: themeCtx.textTheme.caption?.color,
+                              fontSize: 12.0,
+                            ),
+                          )),
+                      Obx(() => Text(
+                            "Date: ${ctrl.initializedTransaction.value.createdAt}",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: themeCtx.textTheme.caption?.color,
+                              fontSize: 12.0,
+                            ),
+                          )),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Column(
@@ -210,13 +226,29 @@ class InitializedTransactionScreen
                                 fontSize: 12.0,
                               ),
                             ),
-                            Text(
-                              '₦ 5,035',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            Row(
+                              textDirection: TextDirection.rtl,
+                              children: [
+                                Obx(() {
+                                  return Text(
+                                    '${ctrl.initializedTransaction.value.amount?.intHumanFormat()}',
+                                    style: TextStyle(
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  );
+                                }),
+                                Obx(() {
+                                  return Text(
+                                    '${ctrl.initializedTransaction.value.recipient?.country?.currencyAbr} ',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  );
+                                }),
+                              ],
+                            )
                           ],
                         ),
                       ),

@@ -398,7 +398,7 @@ class InitializedTransaction {
   User? sender;
   int? amount;
   String? createdAt;
-  TransactionWallet? wallet;
+  Wallet? wallet;
   TransactionPromoCode? promoCode;
   InitializedTransaction({
     this.id,
@@ -424,7 +424,7 @@ class InitializedTransaction {
     User? sender,
     int? amount,
     String? createdAt,
-    TransactionWallet? wallet,
+    Wallet? wallet,
     TransactionPromoCode? promoCode,
   }) {
     return InitializedTransaction(
@@ -451,18 +451,18 @@ class InitializedTransaction {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'initializedTransactionStatus': initializedTransactionStatus,
-      'initializedTransactionDescription': initializedTransactionDescription,
-      'initializedTransactionDeclinationReason':
+      'initialized_transaction_status': initializedTransactionStatus,
+      'initialized_transaction_description': initializedTransactionDescription,
+      'initialized_transaction_declination_reason':
           initializedTransactionDeclinationReason,
-      'initializedTransactionConflictReason':
+      'initialized_transaction_conflict_reason':
           initializedTransactionConflictReason,
       'recipient': recipient?.toMap(),
       'sender': sender?.toMap(),
       'amount': amount,
-      'createdAt': createdAt,
+      'created_at': createdAt,
       'wallet': wallet?.toMap(),
-      'promoCode': promoCode?.toMap(),
+      'promo_code': promoCode?.toMap(),
     };
   }
 
@@ -481,9 +481,9 @@ class InitializedTransaction {
           map['recipient'] != null ? User.fromMap(map['recipient']) : null,
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
       amount: map['amount']?.toInt(),
-      createdAt: map['created_at'],
+      createdAt: map['created_at']?.toString() ?? '',
       wallet: map['wallet'] != null
-          ? TransactionWallet.fromMap(map['wallet'])
+          ? Wallet.fromMap(TransactionWallet.fromMap(map['wallet']).toMap())
           : null,
       promoCode: map['promo_code'] != null
           ? TransactionPromoCode.fromMap(map['promo_code'])
@@ -878,6 +878,7 @@ class TransactionWallet {
     return {
       'id': id,
       'wallet_paytag': walletPaytag,
+      'paytag': walletPaytag,
     };
   }
 

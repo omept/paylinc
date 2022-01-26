@@ -29,22 +29,22 @@ class InitializedTransactionB64 {
 
   Map<String, dynamic> toMap() {
     return {
-      'alertTagType': alertTagType?.toString(),
-      'alertId': alertId,
-      'initializedTransaction': initializedTransaction?.toMap(),
+      'alert_tag_type': alertTagType?.toString(),
+      'alert_id': alertId,
+      'initialized_transaction': initializedTransaction?.toMap(),
     };
   }
 
   factory InitializedTransactionB64.fromMap(Map<String, dynamic> map) {
     return InitializedTransactionB64(
-      alertTagType: map['alertTagType'] != null
-          ? (map['alertTagType'].toString() == "${AlertTagType.PAYMENT}"
+      alertTagType: map['alert_tag_type'] != null
+          ? (map['alert_tag_type'].toString() == "${AlertTagType.PAYMENT}"
               ? AlertTagType.PAYMENT
               : AlertTagType.WALLETS)
           : null,
-      alertId: map['alertId']?.toInt(),
-      initializedTransaction: map['initializedTransaction'] != null
-          ? InitializedTransaction.fromMap(map['initializedTransaction'])
+      alertId: map['alert_id']?.toInt(),
+      initializedTransaction: map['initialized_transaction'] != null
+          ? InitializedTransaction.fromMap(map['initialized_transaction'])
           : null,
     );
   }

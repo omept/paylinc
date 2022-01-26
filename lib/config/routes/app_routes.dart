@@ -9,6 +9,8 @@ class Routes {
   static const String initialized_transactions =
       _Paths.initialized_transactions;
   static const String initialized_transaction = _Paths.initialized_transaction;
+  static const String initialized_transaction_no_id =
+      _Paths.initialized_transaction_no_id;
   static const String admin_dashboard = _Paths.admin_dashboard;
   static const String user_alerts = _Paths.user_alerts;
   static const String feed_back = _Paths.feed_back;
@@ -41,6 +43,8 @@ class _Paths {
   static const String initialized_transactions = '/initialized-transactions';
   static const String initialized_transaction =
       '/initialized-transaction/:b64UrlStr';
+  static const String initialized_transaction_no_id =
+      '/initialized-transaction';
   static const String admin_dashboard = '/admin-dashboard';
   static const String user_alerts = '/user-alerts';
   static const String feed_back = '/feed-back';

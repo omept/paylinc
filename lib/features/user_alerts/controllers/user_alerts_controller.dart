@@ -56,17 +56,26 @@ class UserAlertsController extends GetxController {
   void viewInititalizedTransaction(
       {required AlertTagType alertTagType,
       required int? alertId,
+      required int alertIndex,
       InitializedTransaction? initializedTransaction}) {
     // set the default initialized transaction page data to storage
+
+    if (alertTagType == AlertTagType.PAYMENT) {
+      initializedTransaction?.createdAt =
+          paymentAlertList[alertIndex]?.createdAt;
+    } else {
+      initializedTransaction?.createdAt =
+          walletAlertList[alertIndex]?.createdAt;
+    }
+
     var initializedTransactionB64 = InitializedTransactionB64.fromMap({
-      "alertTagType": alertTagType,
-      "alertId": alertId,
-      "initializedTransaction": initializedTransaction?.toMap(),
+      "alert_tag_type": alertTagType,
+      "alert_td": alertId,
+      "initialized_transaction": initializedTransaction?.toMap(),
     });
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    Get.offNamed("/initialized-transaction/" +
-        initializedTransactionB64.toBase64UrlStr());
+    Get.offNamed(Routes.initialized_transaction_no_id);
   }
 }

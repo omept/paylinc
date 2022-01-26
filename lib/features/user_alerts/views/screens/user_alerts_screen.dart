@@ -1,7 +1,10 @@
 library user_alerts;
 
+import 'dart:developer';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
@@ -393,6 +396,7 @@ class _PaymentAlertListItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             uAC.viewInititalizedTransaction(
+                alertIndex: selectedIndex,
                 alertTagType: AlertTagType.PAYMENT,
                 alertId: uAC.paymentAlertList[selectedIndex]?.alertId,
                 initializedTransaction: uAC
@@ -602,6 +606,7 @@ class _WalletAlertListItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             uAC.viewInititalizedTransaction(
+                alertIndex: selectedIndex,
                 alertTagType: AlertTagType.WALLETS,
                 alertId: uAC.walletAlertList[selectedIndex]?.alertId,
                 initializedTransaction:
