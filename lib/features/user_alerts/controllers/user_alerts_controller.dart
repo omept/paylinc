@@ -40,7 +40,7 @@ class UserAlertsController extends GetxController {
             _usrAlrtRs.outgoingAlerts?.outgoingAlertsData ?? [];
         walletAlertList.value =
             _usrAlrtRs.incomingAlerts?.incomingAlertsData ?? [];
-
+        // log(_usrAlrtRs.toJson());
         // save to storage
         localStorageServices.saveUserAlertResonse(_usrAlrtRs);
       } else {
@@ -76,6 +76,12 @@ class UserAlertsController extends GetxController {
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    Get.offNamed(Routes.initialized_transaction_no_id);
+    // Get.offNamed(Routes.initialized_transaction_no_id);
+
+    // simulate url
+    var id = (initializedTransaction?.id) ?? 0;
+    var b64Url = '{"id": $id}';
+    var b64UrlStr = B64Encoder.base64UrlEncode(b64Url);
+    Get.offNamed("/initialized-transaction/$b64UrlStr");
   }
 }
