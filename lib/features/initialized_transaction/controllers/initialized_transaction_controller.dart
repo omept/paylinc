@@ -92,9 +92,10 @@ class InitializedTransactionController extends GetxController {
         pageStatus.value = FormzStatus.submissionSuccess;
         var intTrzn = InitializedTransaction.fromMap(
             res.data?['initialized_transaction']);
-        log(intTrzn.toString());
+
+        initializedTransaction.value = intTrzn;
       } else {
-        // _badPageRedrct();
+        _badPageRedrct();
       }
     } on Exception catch (_) {
       // _badPageRedrct();
