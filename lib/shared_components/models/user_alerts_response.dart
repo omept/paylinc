@@ -973,11 +973,11 @@ class TransactionPromoCode {
 }
 
 class TransactionaActivityLogs {
-  List<Incoming?> incoming;
-  List<Outgiong?> outgoing;
+  List<Incoming?>? incoming;
+  List<Outgiong?>? outgoing;
   TransactionaActivityLogs({
-    required this.incoming,
-    required this.outgoing,
+    this.incoming,
+    this.outgoing,
   });
 
   TransactionaActivityLogs copyWith({
@@ -992,8 +992,8 @@ class TransactionaActivityLogs {
 
   Map<String, dynamic> toMap() {
     return {
-      'incoming': incoming.map((x) => x?.toMap()).toList(),
-      'outgoing': outgoing.map((x) => x?.toMap()).toList(),
+      'incoming': incoming?.map((x) => x?.toMap()).toList(),
+      'outgoing': outgoing?.map((x) => x?.toMap()).toList(),
     };
   }
 
@@ -1028,7 +1028,16 @@ class TransactionaActivityLogs {
   int get hashCode => incoming.hashCode ^ outgoing.hashCode;
 }
 
-class Incoming {
+class TransactionLogStructure {
+  int? userTransactionActivityLogId;
+  int? initializedTransactionId;
+  int? senderId;
+  int? recipientId;
+  String? activityTag;
+  String? createdAt;
+}
+
+class Incoming implements TransactionLogStructure {
   int? userTransactionActivityLogId;
   int? initializedTransactionId;
   int? senderId;
@@ -1121,7 +1130,7 @@ class Incoming {
   }
 }
 
-class Outgiong {
+class Outgiong implements TransactionLogStructure {
   int? userTransactionActivityLogId;
   int? initializedTransactionId;
   int? senderId;

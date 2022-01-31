@@ -310,7 +310,7 @@ class InitializedTransactionScreen
                                         ],
                                       );
                               }),
-                              _ActivityLogs(),
+                              _TransactionActivityLogs(),
                             ],
                           )
                         ],
@@ -351,43 +351,56 @@ class InitializedTransactionScreen
   }
 }
 
-class _ActivityLogs extends StatelessWidget {
-  const _ActivityLogs({Key? key}) : super(key: key);
+class _TransactionActivityLogs extends StatelessWidget {
+  const _TransactionActivityLogs({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     InitializedTransactionController ctrl = Get.find();
     return SingleChildScrollView(child: Obx(() {
-      if (ctrl.activityList.isNotEmpty) {
-        // if (ctrl.activityList.isEmpty) {
-        return Center(child: Text("No activity yet"));
+      var initializedTransaction = ctrl.initializedTransaction;
+      var authC = ctrl.authController;
+      var incoming =
+          initializedTransaction.value.transactionaActivityLogs!.incoming ?? [];
+      var outgoing =
+          initializedTransaction.value.transactionaActivityLogs!.outgoing ?? [];
+
+      if (incoming.isEmpty &&
+          authC.user.userId == initializedTransaction.value.recipient?.userId) {
+        return Center(child: Text("No incoming activity yet"));
+      } else if (outgoing.isEmpty &&
+          authC.user.userId == initializedTransaction.value.sender?.userId) {
+        return Center(child: Text("No outgoing activity yet"));
       }
-
-      // final List fixedList =
-      //     Iterable<int>.generate(ctrl.activityList.length).toList();
-
-      final List fixedList = Iterable<int>.generate(8).toList();
-
-      final List<Widget> activityTiles = fixedList.map((idx) {
-        return _ActivityListItem(
-          selectedIndex: idx,
-          alertTagMessage: "sdd",
-          transactionAmount: "e43",
-          transactionCurrency: "iror",
-          senderPaytag: "dsd",
-          walletPaytag: "ds",
-          createdAt: '434',
-          ctrl: ctrl,
-        );
-      }).toList();
-
-      return ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: activityTiles.length > 0 ? activityTiles : <Widget>[],
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-      );
+      List<TransactionLogStructure?> trnsDt;
+      if (incoming.isNotEmpty &&
+          authC.user.userId == initializedTransaction.value.recipient?.userId) {
+        trnsDt = incoming;
+      } else if (outgoing.isNotEmpty &&
+          authC.user.userId == initializedTransaction.value.sender?.userId) {
+        trnsDt = outgoing;
+      } else {
+        return Center(child: Text("No activity"));
+      }
+      return renderList(trnsDt);
     }));
+  }
+
+  renderList(List<TransactionLogStructure?> data) {
+    final List fixedList = Iterable<int>.generate(data.length).toList();
+    final List<Widget> activityTiles = fixedList.map((idx) {
+      return _ActivityListItem(
+          selectedIndex: idx,
+          alertTagMessage: data[idx]?.activityTag ?? '',
+          createdAt: data[idx]?.createdAt ?? '');
+    }).toList();
+
+    return ListView(
+      physics: NeverScrollableScrollPhysics(),
+      children: activityTiles.length > 0 ? activityTiles : <Widget>[],
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(vertical: 5.0),
+    );
   }
 }
 
@@ -396,32 +409,23 @@ class _ActivityListItem extends StatelessWidget {
     Key? key,
     required this.selectedIndex,
     required this.alertTagMessage,
-    required this.transactionAmount,
-    required this.transactionCurrency,
-    required this.senderPaytag,
-    required this.walletPaytag,
     required this.createdAt,
-    required this.ctrl,
   }) : super(key: key);
 
   final String alertTagMessage;
   final int selectedIndex;
-  final String transactionAmount;
-  final String transactionCurrency;
-  final String senderPaytag;
-  final String walletPaytag;
   final String createdAt;
-  final InitializedTransactionController ctrl;
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themeCtx = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Card(
         elevation: 0,
         margin: const EdgeInsets.all(0),
         child: SizedBox(
-          height: 60.0,
+          height: 55.0,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -429,7 +433,18 @@ class _ActivityListItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
                   child: Column(
-                    children: [],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        alertTagMessage.toUpperCase(),
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        createdAt,
+                        style:
+                            TextStyle(color: themeCtx.textTheme.caption?.color),
+                      ),
+                    ],
                   ),
                 ),
               )

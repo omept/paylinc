@@ -8,7 +8,7 @@ class InitializedTransactionController extends GetxController {
   var intlzdTrnscnB64Url = InitializedTransactionB64().obs;
   var b64UrlStr = "".obs;
   var initTrznId = 0.obs;
-  var activityList = <ActivityLogData>[].obs;
+  var activityLogs = TransactionaActivityLogs().obs;
   var pageStatus = FormzStatus.pure.obs;
 
   void openDrawer() {
@@ -46,11 +46,9 @@ class InitializedTransactionController extends GetxController {
         intTVal = intTB64.initializedTransaction!;
       }
 
-      // simulate having a promo
-      // intTVal.promoCode = TransactionPromoCode.fromMap(
-      //     json.decode('{"id": 1, "promo_code": "IjsdOW"}'));
-
-      // TODO: set promocode to null if you're the sender
+      if (intTVal.sender?.userId == authController.user.userId) {
+        intTVal.promoCode = null;
+      }
 
       initializedTransaction.value = intTVal;
       pageStatus.value = FormzStatus.submissionSuccess;
@@ -102,5 +100,3 @@ class InitializedTransactionController extends GetxController {
     }
   }
 }
-
-class ActivityLogData {}
