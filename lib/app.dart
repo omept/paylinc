@@ -109,6 +109,7 @@ class _AppViewState extends State<AppView> {
       theme: AppTheme.basic,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
+      transitionDuration: Duration(milliseconds: 700),
     );
   }
 }

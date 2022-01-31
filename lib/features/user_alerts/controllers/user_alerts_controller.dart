@@ -40,7 +40,7 @@ class UserAlertsController extends GetxController {
             _usrAlrtRs.outgoingAlerts?.outgoingAlertsData ?? [];
         walletAlertList.value =
             _usrAlrtRs.incomingAlerts?.incomingAlertsData ?? [];
-
+        // log(_usrAlrtRs.toJson());
         // save to storage
         localStorageServices.saveUserAlertResonse(_usrAlrtRs);
       } else {
@@ -51,5 +51,37 @@ class UserAlertsController extends GetxController {
       Snackbar.errSnackBar(
           'Could not fetch your alerts', RestApiServices.errMessage);
     }
+  }
+
+  void viewInititalizedTransaction(
+      {required AlertTagType alertTagType,
+      required int? alertId,
+      required int alertIndex,
+      InitializedTransaction? initializedTransaction}) {
+    // set the default initialized transaction page data to storage
+
+    if (alertTagType == AlertTagType.PAYMENT) {
+      initializedTransaction?.createdAt =
+          paymentAlertList[alertIndex]?.createdAt;
+    } else {
+      initializedTransaction?.createdAt =
+          walletAlertList[alertIndex]?.createdAt;
+    }
+
+    var initializedTransactionB64 = InitializedTransactionB64.fromMap({
+      "alert_tag_type": alertTagType,
+      "alert_td": alertId,
+      "initialized_transaction": initializedTransaction?.toMap(),
+    });
+    localStorageServices.saveInitializedTransactionB64(
+        initializedTransactionB64: initializedTransactionB64);
+    // redirect to the initialized transaction page
+    // Get.offNamed(Routes.initialized_transaction_no_id);
+
+    // simulate url
+    var id = (initializedTransaction?.id) ?? 0;
+    var b64Url = '{"id": $id}';
+    var b64UrlStr = B64Encoder.base64UrlEncode(b64Url);
+    Get.offNamed("/initialized-transaction/$b64UrlStr");
   }
 }

@@ -50,7 +50,7 @@ class RequestMoneyController extends GetxController {
 
   void updatePurpose(String mes) {
     purpose.value = mes;
-    preRequestMoneyReview();
+    // preRequestMoneyReview();
   }
 
   void updateOtp(String pin) {
@@ -95,7 +95,8 @@ class RequestMoneyController extends GetxController {
     try {
       if (amount.value.isEmpty ||
           (amount.value.isNotEmpty && !canBeInteger(amount.value)) ||
-          purpose.value.isEmpty ||
+          // purpose.value.isEmpty ||
+          senderPaytagUsageMessage.value != "valid" ||
           sender.value.isEmpty ||
           selectedWalletValue.isEmpty) {
         _status.value = FormzStatus.submissionInProgress;
