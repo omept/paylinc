@@ -11,6 +11,11 @@ class InitializedTransactionController extends GetxController {
   var activityLogs = TransactionaActivityLogs().obs;
   var pageStatus = FormzStatus.pure.obs;
 
+  final acceptOrDelineable = <int>[
+    TransactionStatus.pending,
+    TransactionStatus.requested
+  ];
+
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
       scaffoldKey.currentState!.openDrawer();
@@ -18,29 +23,30 @@ class InitializedTransactionController extends GetxController {
   }
 
   @override
-  void onInit() async {
-    super.onInit();
+  void onReady() async {
+    super.onReady();
     InitializedTransactionB64 intTB64;
     // get the initialized transaction id from url
     b64UrlStr.value = Get.parameters['b64UrlStr']?.toString() ?? "";
     if (b64UrlStr.value != "") {
+      pageStatus.value = FormzStatus.submissionInProgress;
       // retrieve the transaction with id from api
       try {
         String b64Url = B64Encoder.base64UrlDecode(b64UrlStr.value);
         Map<String, dynamic> b64UrlJson = json.decode(b64Url);
         initTrznId.value = b64UrlJson['id'];
       } on Exception catch (_) {
-        _badPageRedrct();
+        return _badPageRedrct();
       }
     } else {
       //check if there is a transaction in the local storage
       var intlzdTrnsctnB64Str =
           await localStorageServices.getInitializedTransactionB64();
       if (intlzdTrnsctnB64Str == null) {
-        _badPageRedrct();
+        return _badPageRedrct();
       }
       intTB64 =
-          InitializedTransactionB64().fromBase64UrlStr(intlzdTrnsctnB64Str!);
+          InitializedTransactionB64().fromBase64UrlStr(intlzdTrnsctnB64Str);
       InitializedTransaction intTVal = InitializedTransaction();
       if (intTB64.initializedTransaction != null) {
         intTVal = intTB64.initializedTransaction!;
@@ -50,20 +56,16 @@ class InitializedTransactionController extends GetxController {
         intTVal.promoCode = null;
       }
 
+      initTrznId.value = intTVal.id ?? 0;
       initializedTransaction.value = intTVal;
-      pageStatus.value = FormzStatus.submissionSuccess;
     }
+
+    updatePage();
   }
 
   void _badPageRedrct() {
     Snackbar.errSnackBar("Bad Page", "met an invalid page");
     Get.offNamed(Routes.dashboard);
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    updatePage(initTrznId.value);
   }
 
   Future<String?> validateB64UrlStr(String? b64UrlStr) async {
@@ -77,26 +79,66 @@ class InitializedTransactionController extends GetxController {
     return b64UrlStr;
   }
 
-  void updatePage(int initTrnzId) async {
-    pageStatus.value = FormzStatus.submissionInProgress;
+  void updatePage() async {
     try {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
       var res = await intTrznzApi.getInitializedTransaction(
-          {'initialized_transaction_id': initTrnzId});
-
-      if (res.status == true) {
-        pageStatus.value = FormzStatus.submissionSuccess;
-        var intTrzn = InitializedTransaction.fromMap(
-            res.data?['initialized_transaction']);
-
-        initializedTransaction.value = intTrzn;
-      } else {
-        _badPageRedrct();
+          {'initialized_transaction_id': initTrznId.value});
+      if (res.status != true) {
+        return _badPageRedrct();
       }
+      pageStatus.value = FormzStatus.submissionSuccess;
+      initializedTransaction.value =
+          InitializedTransaction.fromMap(res.data?['initialized_transaction']);
     } on Exception catch (_) {
-      // _badPageRedrct();
+      return _badPageRedrct();
     }
+  }
+
+  void acceptTransaction(InitializedTransaction load) async {
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .acceptTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Error", "Failed to accept");
+      }
+
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "transaction accept");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to accept");
+    }
+  }
+
+  void declineTransaction(InitializedTransaction load) async {
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .acceptTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Error", "Failed to decline");
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "transaction declined");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to declined");
+    }
+  }
+
+  //clear the status of the loaded transaction
+  void clearTransactionStatus() {
+    initializedTransaction.value.initializedTransactionStatus = null;
   }
 }

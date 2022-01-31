@@ -1,7 +1,5 @@
 library user_alerts;
 
-import 'dart:developer';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
