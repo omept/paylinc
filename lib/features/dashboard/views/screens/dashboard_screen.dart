@@ -1,6 +1,7 @@
 library dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -154,7 +155,9 @@ class DashboardScreen extends GetView<DashboardController> {
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
       child: ProfilTile(
         data: data,
-        onPressedNotification: () {},
+        onPressedNotification: () {
+          Get.offNamed(Routes.user_alerts);
+        },
       ),
     );
   }

@@ -7,6 +7,7 @@ part 'user_api.dart';
 part 'settings_api.dart';
 part 'wallets_api.dart';
 part 'alerts_api.dart';
+part 'initialized_transactions_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices extends GetConnect {

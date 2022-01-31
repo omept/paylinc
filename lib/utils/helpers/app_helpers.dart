@@ -1,5 +1,7 @@
 library app_helpers;
 
+import 'dart:convert';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +15,7 @@ part 'string_helper.dart';
 part 'type.dart';
 part 'snackbar.dart';
 part 'on_authenticated.dart';
+part 'b64_encoder.dart';
 
 extension IntHumanFormat on int {
   String intHumanFormat() {

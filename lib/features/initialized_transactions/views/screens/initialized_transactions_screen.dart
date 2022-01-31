@@ -124,7 +124,6 @@ class InitializedTransactionsScreen
       const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
       _buildHeader(onPressedMenu: () => controller.openDrawer()),
       const SizedBox(height: kSpacing / 2),
-      const Divider(),
     ]);
   }
 
