@@ -23,8 +23,8 @@ class InitializedTransactionController extends GetxController {
   }
 
   @override
-  void onInit() async {
-    super.onInit();
+  void onReady() async {
+    super.onReady();
     InitializedTransactionB64 intTB64;
     // get the initialized transaction id from url
     b64UrlStr.value = Get.parameters['b64UrlStr']?.toString() ?? "";
@@ -59,11 +59,7 @@ class InitializedTransactionController extends GetxController {
       initTrznId.value = intTVal.id ?? 0;
       initializedTransaction.value = intTVal;
     }
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
     updatePage();
   }
 
@@ -84,7 +80,6 @@ class InitializedTransactionController extends GetxController {
   }
 
   void updatePage() async {
-    pageStatus.value = FormzStatus.submissionInProgress;
     try {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
@@ -98,7 +93,7 @@ class InitializedTransactionController extends GetxController {
       initializedTransaction.value =
           InitializedTransaction.fromMap(res.data?['initialized_transaction']);
     } on Exception catch (_) {
-      // return _badPageRedrct();
+      return _badPageRedrct();
     }
   }
 
