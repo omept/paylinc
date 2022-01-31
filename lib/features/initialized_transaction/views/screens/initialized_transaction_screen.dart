@@ -1,11 +1,8 @@
 library initialized_transaction;
 
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
@@ -136,7 +133,7 @@ class InitializedTransactionScreen
     InitializedTransactionController ctrl = Get.find();
     return SafeArea(
       child: Obx(() {
-        return ctrl.pageStatus.value != FormzStatus.submissionSuccess
+        return ctrl.pageStatus.value == FormzStatus.submissionInProgress
             ? Container(
                 height: mediaQry.size.height,
                 child: Padding(
@@ -311,6 +308,7 @@ class InitializedTransactionScreen
                                       );
                               }),
                               _TransactionActivityLogs(),
+                              _TransactionActivityAction(),
                             ],
                           )
                         ],
@@ -358,26 +356,26 @@ class _TransactionActivityLogs extends StatelessWidget {
   Widget build(BuildContext context) {
     InitializedTransactionController ctrl = Get.find();
     return SingleChildScrollView(child: Obx(() {
-      var initializedTransaction = ctrl.initializedTransaction;
+      var initializedTransaction = ctrl.initializedTransaction.value;
       var authC = ctrl.authController;
       var incoming =
-          initializedTransaction.value.transactionaActivityLogs!.incoming ?? [];
+          initializedTransaction.transactionaActivityLogs?.incoming ?? [];
       var outgoing =
-          initializedTransaction.value.transactionaActivityLogs!.outgoing ?? [];
+          initializedTransaction.transactionaActivityLogs?.outgoing ?? [];
 
       if (incoming.isEmpty &&
-          authC.user.userId == initializedTransaction.value.recipient?.userId) {
+          authC.user.userId == initializedTransaction.recipient?.userId) {
         return Center(child: Text("No incoming activity yet"));
       } else if (outgoing.isEmpty &&
-          authC.user.userId == initializedTransaction.value.sender?.userId) {
+          authC.user.userId == initializedTransaction.sender?.userId) {
         return Center(child: Text("No outgoing activity yet"));
       }
       List<TransactionLogStructure?> trnsDt;
       if (incoming.isNotEmpty &&
-          authC.user.userId == initializedTransaction.value.recipient?.userId) {
+          authC.user.userId == initializedTransaction.recipient?.userId) {
         trnsDt = incoming;
       } else if (outgoing.isNotEmpty &&
-          authC.user.userId == initializedTransaction.value.sender?.userId) {
+          authC.user.userId == initializedTransaction.sender?.userId) {
         trnsDt = outgoing;
       } else {
         return Center(child: Text("No activity"));
@@ -402,6 +400,116 @@ class _TransactionActivityLogs extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 5.0),
     );
   }
+}
+
+class _TransactionActivityAction extends StatelessWidget {
+  const _TransactionActivityAction({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeDt = Theme.of(context);
+    InitializedTransactionController ctrl = Get.find();
+    var initializedTransaction = ctrl.initializedTransaction;
+    // var authC = ctrl.authController;
+    return SingleChildScrollView(
+        child: SizedBox(
+      height: 100.0,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Obx(() {
+              bool showInfo =
+                  initializedTransaction.value.initializedTransactionStatus !=
+                      null;
+              return showInfo
+                  ? Row(
+                      children: [
+                        Text(
+                          "Long press  ",
+                          style: TextStyle(
+                              color: themeDt.textTheme.caption?.color),
+                        ),
+                        Icon(EvaIcons.infoOutline,
+                            size: 12.5,
+                            color: themeDt.textTheme.caption?.color),
+                      ],
+                    )
+                  : Container();
+            }),
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: kSpacing,
+              ),
+              Expanded(
+                child: Obx(() {
+                  var shwClickable = (initializedTransaction
+                              .value.initializedTransactionStatus !=
+                          null) &&
+                      (ctrl.acceptOrDelineable.contains(initializedTransaction
+                          .value.initializedTransactionStatus));
+
+                  return shwClickable
+                      ? ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: kNotifColor,
+                          ),
+                          onPressed: () {},
+                          onLongPress: () {
+                            ctrl.acceptTransaction(
+                                initializedTransaction.value);
+                          },
+                          child: Text(
+                            "Accept",
+                            style: TextStyle(
+                                color: themeDt.colorScheme.onBackground),
+                          ),
+                        )
+                      : Container();
+                }),
+              ),
+              SizedBox(
+                width: kSpacing,
+              ),
+              Expanded(
+                child: Obx(() {
+                  var shwClickable = (initializedTransaction
+                              .value.initializedTransactionStatus !=
+                          null) &&
+                      (ctrl.acceptOrDelineable.contains(initializedTransaction
+                          .value.initializedTransactionStatus));
+                  return shwClickable
+                      ? ElevatedButton(
+                          onPressed: () {},
+                          onLongPress: () {
+                            ctrl.declineTransaction(
+                                initializedTransaction.value);
+                          },
+                          child: Text(
+                            "Decline",
+                            style: TextStyle(
+                                color: themeDt.colorScheme.onBackground),
+                          ),
+                        )
+                      : Container();
+                }),
+              ),
+              SizedBox(
+                width: kSpacing,
+              )
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+}
+
+class TransactionStatus {
+  static int requested = 0;
+  static int pending = 100;
 }
 
 class _ActivityListItem extends StatelessWidget {
