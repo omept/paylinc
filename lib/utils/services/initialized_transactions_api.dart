@@ -16,28 +16,23 @@ class InitializedTransactionsApi extends RestApiServices {
 
   Future<ResponseModel> getInitializedTransaction(
       Map<String, dynamic> data) async {
-    try {
-      final String url = "get-initiated-transaction";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: InitializedTransactionsApi.errMessage);
-    }
+    return await makePost(data, "get-initiated-transaction");
   }
 
   Future<ResponseModel> acceptTransaction(Map<String, dynamic> data) async {
-    try {
-      final String url = "accept-transaction";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: InitializedTransactionsApi.errMessage);
-    }
+    return await makePost(data, "accept-transaction");
+  }
+
+  Future<ResponseModel> terminateTransaction(Map<String, dynamic> data) async {
+    return await makePost(data, "cancel-transaction");
   }
 
   Future<ResponseModel> declineTransaction(Map<String, dynamic> data) async {
+    return await makePost(data, "decline-transaction");
+  }
+
+  Future<ResponseModel> makePost(Map<String, dynamic> data, url) async {
     try {
-      final String url = "decline-transaction";
       final response = await post(url, data, headers: this.requestHeader());
       return this.responseHandler(response);
     } on Exception catch (_) {

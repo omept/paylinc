@@ -1,6 +1,7 @@
 library initialized_transaction;
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
@@ -438,78 +439,165 @@ class _TransactionActivityAction extends StatelessWidget {
                   : Container();
             }),
           ),
-          Row(
-            children: [
-              SizedBox(
-                width: kSpacing,
-              ),
-              Expanded(
-                child: Obx(() {
-                  var shwClickable = (initializedTransaction
-                              .value.initializedTransactionStatus !=
-                          null) &&
-                      (ctrl.acceptOrDelineable.contains(initializedTransaction
-                          .value.initializedTransactionStatus));
-
-                  return shwClickable
-                      ? ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: kNotifColor,
-                          ),
-                          onPressed: () {},
-                          onLongPress: () {
-                            ctrl.acceptTransaction(
-                                initializedTransaction.value);
-                          },
-                          child: Text(
-                            "Accept",
-                            style: TextStyle(
-                                color: themeDt.colorScheme.onBackground),
-                          ),
-                        )
-                      : Container();
-                }),
-              ),
-              SizedBox(
-                width: kSpacing,
-              ),
-              Expanded(
-                child: Obx(() {
-                  var shwClickable = (initializedTransaction
-                              .value.initializedTransactionStatus !=
-                          null) &&
-                      (ctrl.acceptOrDelineable.contains(initializedTransaction
-                          .value.initializedTransactionStatus));
-                  return shwClickable
-                      ? ElevatedButton(
-                          onPressed: () {},
-                          onLongPress: () {
-                            ctrl.declineTransaction(
-                                initializedTransaction.value);
-                          },
-                          child: Text(
-                            "Decline",
-                            style: TextStyle(
-                                color: themeDt.colorScheme.onBackground),
-                          ),
-                        )
-                      : Container();
-                }),
-              ),
-              SizedBox(
-                width: kSpacing,
-              )
-            ],
-          ),
+          statusOptions(initializedTransaction, ctrl, themeDt)
         ],
       ),
     ));
+  }
+
+  acceptOrDeclineOpts(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: Obx(() {
+            var shwClickable = (initializedTransaction
+                        .value.initializedTransactionStatus !=
+                    null) &&
+                (ctrl.acceptOrDelineable.contains(
+                    initializedTransaction.value.initializedTransactionStatus));
+
+            return shwClickable
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: kNotifColor,
+                    ),
+                    onPressed: () {},
+                    onLongPress: () {
+                      ctrl.acceptTransaction(initializedTransaction.value);
+                    },
+                    child: Text(
+                      "Accept",
+                      style: TextStyle(color: themeDt.colorScheme.onBackground),
+                    ),
+                  )
+                : Container();
+          }),
+        ),
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: Obx(() {
+            var shwClickable = (initializedTransaction
+                        .value.initializedTransactionStatus !=
+                    null) &&
+                (ctrl.acceptOrDelineable.contains(
+                    initializedTransaction.value.initializedTransactionStatus));
+            return shwClickable
+                ? ElevatedButton(
+                    onPressed: () {},
+                    onLongPress: () {
+                      ctrl.declineTransaction(initializedTransaction.value);
+                    },
+                    child: Text(
+                      "Decline",
+                      style: TextStyle(color: themeDt.colorScheme.onBackground),
+                    ),
+                  )
+                : Container();
+          }),
+        ),
+        SizedBox(
+          width: kSpacing,
+        )
+      ],
+    );
+  }
+
+  payOrTerminateOpts(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: Obx(() {
+            var shwClickable = (initializedTransaction
+                        .value.initializedTransactionStatus !=
+                    null) &&
+                (ctrl.payOrTerminatable.contains(
+                    initializedTransaction.value.initializedTransactionStatus));
+
+            return shwClickable
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: kNotifColor,
+                    ),
+                    onPressed: () {},
+                    onLongPress: () {
+                      ctrl.payTransaction(initializedTransaction.value);
+                    },
+                    child: Text(
+                      "Pay",
+                      style: TextStyle(color: themeDt.colorScheme.onBackground),
+                    ),
+                  )
+                : Container();
+          }),
+        ),
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: Obx(() {
+            var shwClickable = (initializedTransaction
+                        .value.initializedTransactionStatus !=
+                    null) &&
+                (ctrl.payOrTerminatable.contains(
+                    initializedTransaction.value.initializedTransactionStatus));
+            return shwClickable
+                ? ElevatedButton(
+                    onPressed: () {},
+                    onLongPress: () {
+                      ctrl.terminateTransaction(initializedTransaction.value);
+                    },
+                    child: Text(
+                      "Terminate",
+                      style: TextStyle(color: themeDt.colorScheme.onBackground),
+                    ),
+                  )
+                : Container();
+          }),
+        ),
+        SizedBox(
+          width: kSpacing,
+        )
+      ],
+    );
+  }
+
+  Widget statusOptions(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    Widget res = Container();
+    int intlzdTrnsctnSts =
+        initializedTransaction.value.initializedTransactionStatus ?? -1;
+    switch (intlzdTrnsctnSts) {
+      case 100:
+      case 0:
+        res = acceptOrDeclineOpts(initializedTransaction, ctrl, themeDt);
+        break;
+      case 201:
+        res = initializedTransaction.value.sender?.userId ==
+                ctrl.authController.user.userId
+            ? payOrTerminateOpts(initializedTransaction, ctrl, themeDt)
+            : Container();
+        break;
+      default:
+        res = Container();
+    }
+    return res;
   }
 }
 
 class TransactionStatus {
   static int requested = 0;
   static int pending = 100;
+  static int acceptedNoCard = 201;
 }
 
 class _ActivityListItem extends StatelessWidget {
