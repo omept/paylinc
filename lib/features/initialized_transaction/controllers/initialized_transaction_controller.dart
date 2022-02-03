@@ -15,6 +15,9 @@ class InitializedTransactionController extends GetxController {
     TransactionStatus.pending,
     TransactionStatus.requested
   ];
+  final payOrTerminatable = <int>[
+    TransactionStatus.acceptedNoCard,
+  ];
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -63,6 +66,16 @@ class InitializedTransactionController extends GetxController {
     updatePage();
   }
 
+  void managePromocode(Rx<InitializedTransaction> initializedTransaction) {
+    var intTVal = initializedTransaction.value;
+    if (intTVal.sender?.userId == authController.user.userId) {
+      intTVal.promoCode = null;
+    }
+
+    initTrznId.value = intTVal.id ?? 0;
+    initializedTransaction.value = intTVal;
+  }
+
   void _badPageRedrct() {
     Snackbar.errSnackBar("Bad Page", "met an invalid page");
     Get.offNamed(Routes.dashboard);
@@ -92,6 +105,7 @@ class InitializedTransactionController extends GetxController {
       pageStatus.value = FormzStatus.submissionSuccess;
       initializedTransaction.value =
           InitializedTransaction.fromMap(res.data?['initialized_transaction']);
+      managePromocode(initializedTransaction);
     } on Exception catch (_) {
       return _badPageRedrct();
     }
@@ -108,6 +122,7 @@ class InitializedTransactionController extends GetxController {
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Error", "Failed to accept");
+        return;
       }
 
       clearTransactionStatus();
@@ -124,21 +139,52 @@ class InitializedTransactionController extends GetxController {
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
       var res = await intTrznzApi
-          .acceptTransaction({'initialized_transaction_id': load.id});
+          .declineTransaction({'initialized_transaction_id': load.id});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Error", "Failed to decline");
+        return;
       }
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
-      Snackbar.successSnackBar("Success", "transaction declined");
+      Snackbar.successSnackBar("Success", "Transaction declined");
     } on Exception catch (_) {
-      Snackbar.errSnackBar("Error", "Failed to declined");
+      Snackbar.errSnackBar("Error", "Failed to decline");
     }
   }
 
   //clear the status of the loaded transaction
   void clearTransactionStatus() {
     initializedTransaction.value.initializedTransactionStatus = null;
+  }
+
+  void terminateTransaction(InitializedTransaction load) async {
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .terminateTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Failed", "${res.message}");
+        return;
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "Transaction terminated");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to terminate");
+    }
+  }
+
+  void payTransaction(InitializedTransaction value) async {
+    await Get.to(() => WebViewStack(
+          initialUrl: value.transactionCheckoutUrl,
+          onError: () => Snackbar.errSnackBar(
+              "Checkout Error", "Could not load checkout url"),
+        ));
+    updatePage();
   }
 }
