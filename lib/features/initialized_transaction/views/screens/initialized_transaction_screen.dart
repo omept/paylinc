@@ -15,6 +15,7 @@ import 'package:paylinc/shared_components/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/shared_components/webview_stack.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
