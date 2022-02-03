@@ -179,5 +179,12 @@ class InitializedTransactionController extends GetxController {
     }
   }
 
-  void payTransaction(InitializedTransaction value) {}
+  void payTransaction(InitializedTransaction value) async {
+    await Get.to(() => WebViewStack(
+          initialUrl: value.transactionCheckoutUrl,
+          onError: () => Snackbar.errSnackBar(
+              "Checkout Error", "Could not load checkout url"),
+        ));
+    updatePage();
+  }
 }
