@@ -31,6 +31,20 @@ class InitializedTransactionsApi extends RestApiServices {
     return await makePost(data, "decline-transaction");
   }
 
+  confirmCompletTransaction(Map<String, dynamic> map) async {
+    return await makePost(map, "sender-confirm-transaction-completion");
+  }
+
+  setAsConflictTransaction(Map<String, dynamic> map) async {
+    return await makePost(map, "mark-transaction-as-conflict");
+  }
+
+  completTransaction(Map<String, dynamic> map) async {
+    return await makePost(map, "mark-transaction-as-completed");
+  }
+
+  refundTransaction(Map<String, dynamic> map) {}
+
   Future<ResponseModel> makePost(Map<String, dynamic> data, url) async {
     try {
       final response = await post(url, data, headers: this.requestHeader());

@@ -1,7 +1,6 @@
 library initialized_transaction;
 
 import 'dart:convert';
-import 'dart:developer';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
@@ -446,7 +445,7 @@ class _TransactionActivityAction extends StatelessWidget {
     ));
   }
 
-  acceptOrDeclineOpts(Rx<InitializedTransaction> initializedTransaction,
+  acceptAndDeclineOpts(Rx<InitializedTransaction> initializedTransaction,
       InitializedTransactionController ctrl, ThemeData themeDt) {
     return Row(
       children: [
@@ -509,7 +508,7 @@ class _TransactionActivityAction extends StatelessWidget {
     );
   }
 
-  payOrTerminateOpts(Rx<InitializedTransaction> initializedTransaction,
+  payAndTerminateOpts(Rx<InitializedTransaction> initializedTransaction,
       InitializedTransactionController ctrl, ThemeData themeDt) {
     return Row(
       children: [
@@ -518,11 +517,13 @@ class _TransactionActivityAction extends StatelessWidget {
         ),
         Expanded(
           child: Obx(() {
-            var shwClickable = (initializedTransaction
-                        .value.initializedTransactionStatus !=
-                    null) &&
-                (ctrl.payOrTerminatable.contains(
-                    initializedTransaction.value.initializedTransactionStatus));
+            var shwClickable =
+                (initializedTransaction.value.initializedTransactionStatus !=
+                        null) &&
+                    (ctrl.payable.contains(initializedTransaction
+                        .value.initializedTransactionStatus)) &&
+                    (ctrl.authController.user.userId ==
+                        initializedTransaction.value.sender?.userId);
 
             return shwClickable
                 ? ElevatedButton(
@@ -549,7 +550,7 @@ class _TransactionActivityAction extends StatelessWidget {
             var shwClickable = (initializedTransaction
                         .value.initializedTransactionStatus !=
                     null) &&
-                (ctrl.payOrTerminatable.contains(
+                (ctrl.terminatable.contains(
                     initializedTransaction.value.initializedTransactionStatus));
             return shwClickable
                 ? ElevatedButton(
@@ -574,31 +575,199 @@ class _TransactionActivityAction extends StatelessWidget {
 
   Widget statusOptions(Rx<InitializedTransaction> initializedTransaction,
       InitializedTransactionController ctrl, ThemeData themeDt) {
-    Widget res = Container();
+    Widget res;
     int intlzdTrnsctnSts =
         initializedTransaction.value.initializedTransactionStatus ?? -1;
     switch (intlzdTrnsctnSts) {
-      case 100:
-      case 0:
-        res = acceptOrDeclineOpts(initializedTransaction, ctrl, themeDt);
+      case TransactionStatus.pending: // STATUS_PENDING
+      case TransactionStatus.requested: // STATUS_REQUESTED
+        res = acceptAndDeclineOpts(initializedTransaction, ctrl, themeDt);
         break;
-      case 201:
+      case TransactionStatus.acceptedNoCard: // STATUS_ACCEPTED_NO_CARD
+        res = payAndTerminateOpts(initializedTransaction, ctrl, themeDt);
+        break;
+      case TransactionStatus.completed: // STATUS_COMPLETE
         res = initializedTransaction.value.sender?.userId ==
                 ctrl.authController.user.userId
-            ? payOrTerminateOpts(initializedTransaction, ctrl, themeDt)
-            : Container();
+            ? confrmCompltnAndConflctOpts(initializedTransaction, ctrl, themeDt)
+            : refundOpt(initializedTransaction, ctrl, themeDt);
+        break;
+      case TransactionStatus.completeByPAT: // STATUS_COMPLETE_BY_PAT_COMMAND
+        res = initializedTransaction.value.recipient?.userId ==
+                ctrl.authController.user.userId
+            ? compltAndConflctOpts(initializedTransaction, ctrl, themeDt)
+            : conflctOpt(initializedTransaction, ctrl, themeDt);
+        break;
+      case TransactionStatus.conflict: // STATUS_CONFLICT
+        res = refundAndMediateOpts(initializedTransaction, ctrl, themeDt);
         break;
       default:
-        res = Container();
+        res = noOpt(ctrl);
     }
     return res;
   }
-}
 
-class TransactionStatus {
-  static int requested = 0;
-  static int pending = 100;
-  static int acceptedNoCard = 201;
+  noOpt(InitializedTransactionController ctrl) {
+    ctrl.clearTransactionStatus();
+    return Container();
+  }
+
+  Row confrmCompltnAndConflctOpts(
+      Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl,
+      ThemeData themeDt) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: kNotifColor,
+            ),
+            onPressed: () {},
+            onLongPress: () {
+              ctrl.confirmCompletTransaction(initializedTransaction.value);
+            },
+            child: Text(
+              "Confirm Completed",
+              style: TextStyle(color: themeDt.colorScheme.onBackground),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: kSpacing,
+        ),
+        conflictBtnTile(ctrl, initializedTransaction, themeDt),
+        SizedBox(
+          width: kSpacing,
+        )
+      ],
+    );
+  }
+
+  Row compltAndConflctOpts(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: kNotifColor,
+            ),
+            onPressed: () {},
+            onLongPress: () {
+              ctrl.completTransaction(initializedTransaction.value);
+            },
+            child: Text(
+              "Complet",
+              style: TextStyle(color: themeDt.colorScheme.onBackground),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: kSpacing,
+        ),
+        conflictBtnTile(ctrl, initializedTransaction, themeDt),
+        SizedBox(
+          width: kSpacing,
+        )
+      ],
+    );
+  }
+
+  Row refundAndMediateOpts(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        SizedBox(
+          width: kSpacing,
+        ),
+        refundTile(ctrl, initializedTransaction, themeDt),
+        SizedBox(
+          width: kSpacing,
+        ),
+        Expanded(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: kNotifColor,
+            ),
+            onPressed: () {},
+            onLongPress: () {
+              ctrl.requestTransactionMediation(initializedTransaction.value);
+            },
+            child: Text(
+              "Mediate",
+              style: TextStyle(color: themeDt.colorScheme.onBackground),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: kSpacing,
+        )
+      ],
+    );
+  }
+
+  Widget refundTile(InitializedTransactionController ctrl,
+      Rx<InitializedTransaction> initializedTransaction, ThemeData themeDt) {
+    if (initializedTransaction.value.sender?.userId ==
+        ctrl.authController.user.userId) return Container();
+
+    return Expanded(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: kNotifColor,
+        ),
+        onPressed: () {},
+        onLongPress: () {
+          ctrl.refundTransaction(initializedTransaction.value);
+        },
+        child: Text(
+          "Refund",
+          style: TextStyle(color: themeDt.colorScheme.onBackground),
+        ),
+      ),
+    );
+  }
+
+  Expanded conflictBtnTile(InitializedTransactionController ctrl,
+      Rx<InitializedTransaction> initializedTransaction, ThemeData themeDt) {
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: () {},
+        onLongPress: () {
+          ctrl.setAsConflictTransaction(initializedTransaction.value);
+        },
+        child: Text(
+          "Confict",
+          style: TextStyle(color: themeDt.colorScheme.onBackground),
+        ),
+      ),
+    );
+  }
+
+  Row refundOpt(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        refundTile(ctrl, initializedTransaction, themeDt),
+      ],
+    );
+  }
+
+  Row conflctOpt(Rx<InitializedTransaction> initializedTransaction,
+      InitializedTransactionController ctrl, ThemeData themeDt) {
+    return Row(
+      children: [
+        conflictBtnTile(ctrl, initializedTransaction, themeDt),
+      ],
+    );
+  }
 }
 
 class _ActivityListItem extends StatelessWidget {
