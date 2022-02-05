@@ -46,7 +46,6 @@ class AuthController extends GetxController {
     // Hive.deleteBoxFromDisk('auth_user');
     _authenticated.value = false;
     _token.value = "";
-    authenticationRepository.onboardingReqLogin();
     await Hive.deleteFromDisk();
     authenticationRepository.onboardingReqLogin();
   }

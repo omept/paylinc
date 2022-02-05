@@ -78,8 +78,6 @@ class InitializedTransactionController extends GetxController {
       initializedTransaction.value = intTVal;
     }
 
-    // initializedTransaction.value.initializedTransactionStatus =
-    //     TransactionStatus.acceptedNoCard;
     updatePage();
   }
 
@@ -298,7 +296,7 @@ class InitializedTransactionController extends GetxController {
       }
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
-      Snackbar.successSnackBar("Success", "Refund request accepted.");
+      Snackbar.successSnackBar("Success", "Refund request created.");
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to refund.");
     }

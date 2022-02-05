@@ -1,6 +1,7 @@
 library initialized_transaction;
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
@@ -631,7 +632,7 @@ class _TransactionActivityAction extends StatelessWidget {
               ctrl.confirmCompletTransaction(initializedTransaction.value);
             },
             child: Text(
-              "Confirm Completed",
+              "Confirm",
               style: TextStyle(color: themeDt.colorScheme.onBackground),
             ),
           ),
@@ -664,7 +665,7 @@ class _TransactionActivityAction extends StatelessWidget {
               ctrl.completTransaction(initializedTransaction.value);
             },
             child: Text(
-              "Complet",
+              "Complete",
               style: TextStyle(color: themeDt.colorScheme.onBackground),
             ),
           ),
@@ -684,9 +685,6 @@ class _TransactionActivityAction extends StatelessWidget {
       InitializedTransactionController ctrl, ThemeData themeDt) {
     return Row(
       children: [
-        SizedBox(
-          width: kSpacing,
-        ),
         refundTile(ctrl, initializedTransaction, themeDt),
         SizedBox(
           width: kSpacing,
@@ -715,9 +713,6 @@ class _TransactionActivityAction extends StatelessWidget {
 
   Widget refundTile(InitializedTransactionController ctrl,
       Rx<InitializedTransaction> initializedTransaction, ThemeData themeDt) {
-    if (initializedTransaction.value.sender?.userId ==
-        ctrl.authController.user.userId) return Container();
-
     return Expanded(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
