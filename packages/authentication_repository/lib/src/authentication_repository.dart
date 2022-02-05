@@ -65,9 +65,9 @@ class AuthenticationRepository {
     return hiveStringToAuth(status);
   }
 
-  saveAuthStatus(AuthenticationStatus authStatus) {
+  saveAuthStatus(AuthenticationStatus authStatus) async {
     // save auth status for hive storage
-    var authRepository = Hive.box('auth_repository');
+    var authRepository = await Hive.openBox('auth_repository');
     authRepository.put('status', hiveAuthToString(authStatus));
   }
 
@@ -119,9 +119,9 @@ class AuthenticationRepository {
     return as;
   }
 
-  void logOut() {
+  void logOut() async {
     // save new auth status for hive storage
-    var authRepository = Hive.box('auth_repository');
+    var authRepository = await Hive.openBox('auth_repository');
     authRepository.put(
         'status', hiveAuthToString(AuthenticationStatus.unauthenticated));
     _controller.add(AuthenticationStatus.unauthenticated);

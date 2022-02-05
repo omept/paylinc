@@ -53,8 +53,8 @@ class CreateWalletController extends GetxController {
       s2Choices = List<S2Choice<String>>.from(supCatList
           .map((e) => S2Choice<String>(value: e.value, title: e.title)));
     } else {
-      Snackbar.errSnackBar(
-          'Network error', supCatRes.message ?? RestApiServices.errMessage);
+      Snackbar.errSnackBar('Failed to get Categories',
+          supCatRes.message ?? RestApiServices.errMessage);
     }
 
     return s2Choices;

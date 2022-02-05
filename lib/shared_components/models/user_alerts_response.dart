@@ -399,6 +399,7 @@ class InitializedTransaction {
   int? amount;
   String? createdAt;
   String? transactionCheckoutUrl;
+  String? transactionMediationUrl;
   Wallet? wallet;
   TransactionPromoCode? promoCode;
   TransactionaActivityLogs? transactionaActivityLogs;
@@ -413,6 +414,7 @@ class InitializedTransaction {
     this.amount,
     this.createdAt,
     this.transactionCheckoutUrl,
+    this.transactionMediationUrl,
     this.wallet,
     this.promoCode,
     this.transactionaActivityLogs,
@@ -449,6 +451,8 @@ class InitializedTransaction {
       createdAt: createdAt ?? this.createdAt,
       transactionCheckoutUrl:
           transactionCheckoutUrl ?? this.transactionCheckoutUrl,
+      transactionMediationUrl:
+          transactionMediationUrl ?? this.transactionMediationUrl,
       wallet: wallet ?? this.wallet,
       promoCode: promoCode ?? this.promoCode,
     );
@@ -468,6 +472,7 @@ class InitializedTransaction {
       'amount': amount,
       'created_at': createdAt,
       'transaction_checkout_url': transactionCheckoutUrl,
+      'transaction_mediation_url': transactionMediationUrl,
       'wallet': wallet?.toMap(),
       'promo_code': promoCode?.toMap(),
       'transactiona_ctivity_logs': transactionaActivityLogs?.toMap(),
@@ -491,6 +496,8 @@ class InitializedTransaction {
       amount: map['amount']?.toInt(),
       createdAt: map['created_at']?.toString() ?? '',
       transactionCheckoutUrl: map['transaction_checkout_url']?.toString() ?? '',
+      transactionMediationUrl:
+          map['transaction_mediation_url']?.toString() ?? '',
       wallet: map['wallet'] != null
           ? Wallet.fromMap(TransactionWallet.fromMap(map['wallet']).toMap())
           : null,
@@ -510,7 +517,7 @@ class InitializedTransaction {
 
   @override
   String toString() {
-    return 'InitializedTransaction(id: $id, initializedTransactionStatus: $initializedTransactionStatus, initializedTransactionDescription: $initializedTransactionDescription, initializedTransactionDeclinationReason: $initializedTransactionDeclinationReason, initializedTransactionConflictReason: $initializedTransactionConflictReason, recipient: $recipient, sender: $sender, amount: $amount, createdAt: $createdAt,  transactionCheckoutUrl: $transactionCheckoutUrl, wallet: $wallet, promoCode: $promoCode transactionaActivityLogs: $transactionaActivityLogs)';
+    return 'InitializedTransaction(id: $id, initializedTransactionStatus: $initializedTransactionStatus, initializedTransactionDescription: $initializedTransactionDescription, initializedTransactionDeclinationReason: $initializedTransactionDeclinationReason, initializedTransactionConflictReason: $initializedTransactionConflictReason, recipient: $recipient, sender: $sender, amount: $amount, createdAt: $createdAt,  transactionCheckoutUrl: $transactionCheckoutUrl, transactionMediationUrl: $transactionMediationUrl, wallet: $wallet, promoCode: $promoCode transactionaActivityLogs: $transactionaActivityLogs)';
   }
 
   @override
@@ -548,7 +555,9 @@ class InitializedTransaction {
         createdAt.hashCode ^
         wallet.hashCode ^
         promoCode.hashCode ^
-        transactionaActivityLogs.hashCode;
+        transactionaActivityLogs.hashCode ^
+        transactionCheckoutUrl.hashCode ^
+        transactionMediationUrl.hashCode;
   }
 }
 
