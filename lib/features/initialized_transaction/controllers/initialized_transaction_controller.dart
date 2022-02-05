@@ -15,8 +15,23 @@ class InitializedTransactionController extends GetxController {
     TransactionStatus.pending,
     TransactionStatus.requested
   ];
-  final payOrTerminatable = <int>[
+  final payable = <int>[
     TransactionStatus.acceptedNoCard,
+  ];
+  final terminatable = <int>[
+    TransactionStatus.acceptedNoCard,
+  ];
+  final conflictable = <int>[
+    TransactionStatus.completed,
+    TransactionStatus.completeByPAT,
+  ];
+  final completable = <int>[
+    TransactionStatus.completeByPAT,
+  ];
+
+  final refundable = <int>[
+    TransactionStatus.completeByPAT,
+    TransactionStatus.conflict
   ];
 
   void openDrawer() {
@@ -92,7 +107,7 @@ class InitializedTransactionController extends GetxController {
     return b64UrlStr;
   }
 
-  void updatePage() async {
+  void updatePage({bool clearStatus = false}) async {
     try {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
@@ -106,6 +121,8 @@ class InitializedTransactionController extends GetxController {
       initializedTransaction.value =
           InitializedTransaction.fromMap(res.data?['initialized_transaction']);
       managePromocode(initializedTransaction);
+
+      if (clearStatus) clearTransactionStatus();
     } on Exception catch (_) {
       return _badPageRedrct();
     }
@@ -159,6 +176,8 @@ class InitializedTransactionController extends GetxController {
   }
 
   void terminateTransaction(InitializedTransaction load) async {
+    if (!terminatable.contains(load.initializedTransactionStatus)) return;
+
     pageStatus.value = FormzStatus.submissionInProgress;
     try {
       InitializedTransactionsApi intTrznzApi =
@@ -180,11 +199,126 @@ class InitializedTransactionController extends GetxController {
   }
 
   void payTransaction(InitializedTransaction value) async {
+    if (value.sender?.userId != authController.user.userId) return;
+
     await Get.to(() => WebViewStack(
           initialUrl: value.transactionCheckoutUrl,
           onError: () => Snackbar.errSnackBar(
               "Checkout Error", "Could not load checkout url"),
         ));
-    updatePage();
+    updatePage(clearStatus: true);
   }
+
+  void confirmCompletTransaction(InitializedTransaction load) async {
+    if (load.initializedTransactionStatus != TransactionStatus.acceptedNoCard)
+      return;
+
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .confirmCompletTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Failed", "${res.message}");
+        return;
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "Confirmation processed");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to confirm");
+    }
+  }
+
+  void setAsConflictTransaction(InitializedTransaction load) async {
+    if (!conflictable.contains(load.initializedTransactionStatus)) return;
+
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .setAsConflictTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Failed", "${res.message}");
+        return;
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "Marked as conflict.");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to mark as conflict.");
+    }
+  }
+
+  void completTransaction(InitializedTransaction load) async {
+    if (!completable.contains(load.initializedTransactionStatus)) return;
+
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .completTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Failed", "${res.message}");
+        return;
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "Marked as completed.");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to mark as completed.");
+    }
+  }
+
+  void refundTransaction(InitializedTransaction load) async {
+    if (!refundable.contains(load.initializedTransactionStatus)) return;
+
+    pageStatus.value = FormzStatus.submissionInProgress;
+    try {
+      InitializedTransactionsApi intTrznzApi =
+          InitializedTransactionsApi.withAuthRepository(
+              authController.authenticationRepository);
+      var res = await intTrznzApi
+          .refundTransaction({'initialized_transaction_id': load.id});
+      pageStatus.value = FormzStatus.submissionSuccess;
+      if (res.status != true) {
+        Snackbar.errSnackBar("Failed", "${res.message}");
+        return;
+      }
+      // clear the transaction status of the loaded transaction
+      clearTransactionStatus();
+      Snackbar.successSnackBar("Success", "Refund request created.");
+    } on Exception catch (_) {
+      Snackbar.errSnackBar("Error", "Failed to refund.");
+    }
+  }
+
+  void requestTransactionMediation(InitializedTransaction value) async {
+    if (value.sender?.userId != authController.user.userId) return;
+
+    await Get.to(() => WebViewStack(
+          initialUrl: value.transactionMediationUrl,
+          onError: () => Snackbar.errSnackBar(
+              "Checkout Error", "Could not load mediation url"),
+        ));
+    clearTransactionStatus();
+  }
+}
+
+class TransactionStatus {
+  static const int requested = 0;
+  static const int pending = 100;
+  static const int acceptedNoCard = 201;
+  static const int conflict = 600;
+  static const int completed = 700;
+  static const int completeByPAT = 903;
 }
