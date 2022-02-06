@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
+import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:user_repository/user_repository.dart';
@@ -35,17 +36,32 @@ class LocalStorageServices {
     return user;
   }
 
-  Future<void> saveUserAlertResonse(UserAlertResonse map) async {
+  Future<void> saveUserAlertResponse(UserAlertResponse map) async {
     var userARBox = await Hive.openBox('auth_user_alerts');
     userARBox.put('alerts', map.toJson());
   }
 
-  Future<UserAlertResonse?> getUserAlertResonse() async {
+  Future<UserAlertResponse?> getUserAlertResponse() async {
     var userARBox = await Hive.openBox('auth_user_alerts');
-    var incomingData = userARBox.get('alerts');
-    if (incomingData != null) {
-      return UserAlertResonse.fromMap(json.decode(incomingData));
+    var bxData = userARBox.get('alerts');
+    if (bxData != null) {
+      return UserAlertResponse.fromMap(json.decode(bxData));
     }
+  }
+
+  Future<InitializedTransactionsResponse?>
+      getInitializedTransactionsResponse() async {
+    var userITBox = await Hive.openBox('auth_user_intlzd_trnzcts');
+    var bxData = userITBox.get('initialized_tranransactions');
+    if (bxData != null) {
+      return InitializedTransactionsResponse.fromMap(json.decode(bxData));
+    }
+  }
+
+  Future<void> saveInitializedTransactionsResponse(
+      InitializedTransactionsResponse map) async {
+    var userITBox = await Hive.openBox('auth_user_intlzd_trnzcts');
+    userITBox.put('initialized_tranransactions', map.toJson());
   }
 
   Future<UserStatistics> saveUserStatisticsFromMap(
