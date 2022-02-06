@@ -671,5 +671,3 @@ class AlertTagHelper {
         };
   }
 }
-
-class WalletAlertTagHelper {}
