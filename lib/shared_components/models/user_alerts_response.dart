@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:user_repository/user_repository.dart';
 
-class UserAlertResonse {
+class UserAlertResponse {
   IncomingAlerts? incomingAlerts;
   OutgoingAlerts? outgoingAlerts;
-  UserAlertResonse({
+  UserAlertResponse({
     this.incomingAlerts,
     this.outgoingAlerts,
   });
 
-  UserAlertResonse copyWith({
+  UserAlertResponse copyWith({
     IncomingAlerts? incomingAlerts,
     OutgoingAlerts? outgoingAlerts,
   }) {
-    return UserAlertResonse(
+    return UserAlertResponse(
       incomingAlerts: incomingAlerts ?? this.incomingAlerts,
       outgoingAlerts: outgoingAlerts ?? this.outgoingAlerts,
     );
@@ -28,8 +28,8 @@ class UserAlertResonse {
     };
   }
 
-  factory UserAlertResonse.fromMap(Map<dynamic, dynamic> map) {
-    return UserAlertResonse(
+  factory UserAlertResponse.fromMap(Map<dynamic, dynamic> map) {
+    return UserAlertResponse(
       incomingAlerts: map['incoming_alerts'] != null
           ? IncomingAlerts.fromMap(map['incoming_alerts'])
           : null,
@@ -41,18 +41,18 @@ class UserAlertResonse {
 
   String toJson() => json.encode(toMap());
 
-  factory UserAlertResonse.fromJson(String source) =>
-      UserAlertResonse.fromMap(json.decode(source));
+  factory UserAlertResponse.fromJson(String source) =>
+      UserAlertResponse.fromMap(json.decode(source));
 
   @override
   String toString() =>
-      'UserAlertResonse(incomingAlerts: $incomingAlerts, outgoingAlerts: $outgoingAlerts)';
+      'UserAlertResponse(incomingAlerts: $incomingAlerts, outgoingAlerts: $outgoingAlerts)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is UserAlertResonse &&
+    return other is UserAlertResponse &&
         other.incomingAlerts == incomingAlerts &&
         other.outgoingAlerts == outgoingAlerts;
   }

@@ -6,7 +6,7 @@ class UserAlertsController extends GetxController {
   LocalStorageServices localStorageServices = Get.find();
   var walletAlertList = <IncomingAlertsData?>[].obs;
   var paymentAlertList = <OutgoingAlertsData?>[].obs;
-  var userAlertResonse = UserAlertResonse().obs;
+  var userAlertResponse = UserAlertResponse().obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -19,8 +19,8 @@ class UserAlertsController extends GetxController {
     super.onInit();
     // set alerts
     // retrieve alerts from storage
-    UserAlertResonse? _usrAlrtRs =
-        await localStorageServices.getUserAlertResonse();
+    UserAlertResponse? _usrAlrtRs =
+        await localStorageServices.getUserAlertResponse();
     paymentAlertList.value =
         _usrAlrtRs?.outgoingAlerts?.outgoingAlertsData ?? [];
     walletAlertList.value =
@@ -35,14 +35,14 @@ class UserAlertsController extends GetxController {
       ResponseModel res = await api.getAlerts();
 
       if (res.status == true) {
-        UserAlertResonse _usrAlrtRs = UserAlertResonse.fromMap(res.data!);
+        UserAlertResponse _usrAlrtRs = UserAlertResponse.fromMap(res.data!);
         paymentAlertList.value =
             _usrAlrtRs.outgoingAlerts?.outgoingAlertsData ?? [];
         walletAlertList.value =
             _usrAlrtRs.incomingAlerts?.incomingAlertsData ?? [];
         // log(_usrAlrtRs.toJson());
         // save to storage
-        localStorageServices.saveUserAlertResonse(_usrAlrtRs);
+        localStorageServices.saveUserAlertResponse(_usrAlrtRs);
       } else {
         Snackbar.errSnackBar('Could not fetch your alerts',
             res.message ?? RestApiServices.errMessage);
@@ -57,7 +57,7 @@ class UserAlertsController extends GetxController {
       {required AlertTagType alertTagType,
       required int? alertId,
       required int alertIndex,
-      InitializedTransaction? initializedTransaction}) {
+      InitializedTransaction? initializedTransaction}) async {
     // set the default initialized transaction page data to storage
 
     if (alertTagType == AlertTagType.PAYMENT) {
@@ -76,7 +76,7 @@ class UserAlertsController extends GetxController {
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    Get.offNamed(Routes.initialized_transaction_no_id);
+    await Get.toNamed(Routes.initialized_transaction_no_id);
 
     // simulate url
     // var id = (initializedTransaction?.id) ?? 0;
