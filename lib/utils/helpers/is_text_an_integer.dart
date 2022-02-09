@@ -6,3 +6,12 @@ bool canBeInteger(String value) {
     return false;
   }
 }
+
+bool canBeDouble(String value) {
+  try {
+    double.parse(value);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}

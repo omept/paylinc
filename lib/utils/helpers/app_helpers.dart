@@ -25,7 +25,7 @@ extension IntHumanFormat on int {
 
 extension ToShortHumanFormat on String {
   String toShortHumanFormat({String? currency}) {
-    return canBeInteger(this.toString())
+    return canBeInteger(this.toString()) || canBeDouble(this.toString())
         ? _shortHumanFormat(val: this.toString(), currency: currency)
         : '';
   }

@@ -128,6 +128,9 @@ class DashboardScreen extends GetView<DashboardController> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kSpacing),
           child: WalletCard(
+            onTap: () {
+              Get.offNamed(Routes.wallets);
+            },
             data: WalletCardData(totalWallets: controller.totalWallet),
           ),
         ),
