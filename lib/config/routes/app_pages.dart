@@ -60,7 +60,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.wallets,
-      page: () => const WalletsScreen(),
+      page: () => WalletsScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: WalletsBinding(),
     ),

@@ -56,8 +56,8 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
                   padding: const EdgeInsets.only(top: kSpacing),
                   child: _sideBar()),
             ),
-      body: SingleChildScrollView(
-          child: SafeArea(
+      body: SafeArea(
+          child: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _userAlertsMobileScreenWidget,
           tabletBuilder: _userAlertsTabletScreenWidget,

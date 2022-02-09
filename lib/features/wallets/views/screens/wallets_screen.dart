@@ -14,7 +14,12 @@ import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/shared_components/wallet_card.dart';
+import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
+import 'package:user_repository/user_repository.dart';
 
 // binding
 part '../../bindings/wallets_binding.dart';
@@ -23,7 +28,13 @@ part '../../bindings/wallets_binding.dart';
 part '../../controllers/wallets_controller.dart';
 
 class WalletsScreen extends GetView<WalletsController> {
-  const WalletsScreen({Key? key}) : super(key: key);
+  WalletsScreen({Key? key}) : super(key: key);
+
+  final alrtAmountStyle = TextStyle(
+    fontSize: 30.0,
+    fontWeight: FontWeight.w600,
+    // color: themeContext.textTheme.caption?.color,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +53,14 @@ class WalletsScreen extends GetView<WalletsController> {
                 ),
               ),
             ),
-      body: SingleChildScrollView(
-          child: ResponsiveBuilder(
-        mobileBuilder: _walletsMobileScreenWidget,
-        tabletBuilder: _walletsTabletScreenWidget,
-        desktopBuilder: _walletsDesktopScreenWidget,
-      )),
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: ResponsiveBuilder(
+          mobileBuilder: _walletsMobileScreenWidget,
+          tabletBuilder: _walletsTabletScreenWidget,
+          desktopBuilder: _walletsDesktopScreenWidget,
+        )),
+      ),
     );
   }
 
@@ -123,12 +136,93 @@ class WalletsScreen extends GetView<WalletsController> {
   }
 
   Widget _walletsMobileScreenWidget(context, constraints) {
-    return Column(children: [
-      const SizedBox(height: kSpacing * (kIsWeb ? 1 : 2)),
-      _buildHeader(onPressedMenu: () => controller.openDrawer()),
-      const SizedBox(height: kSpacing / 2),
-      const Divider(),
-    ]);
+    ThemeData themeData = Theme.of(context);
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    WalletsController ctrl = Get.find();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          _buildHeader(onPressedMenu: () => controller.openDrawer()),
+          const SizedBox(height: kSpacing * 2),
+          Obx(
+            () => Text(
+              "${ctrl.currncy.value} ${ctrl.combinedBal.value.doubleHumanFormat()} ",
+              style: alrtAmountStyle,
+            ),
+          ),
+          Text(
+            "Combiled balance",
+          ),
+          const SizedBox(height: kSpacing),
+          Container(
+            width: 100.0,
+            height: 50.0,
+            child: Card(
+              child: Center(
+                child: Icon(
+                  EvaIcons.paperPlane,
+                  color: themeData.colorScheme.secondary,
+                ),
+              ),
+            ),
+          ),
+          const Divider(),
+        ]),
+        const SizedBox(height: kSpacing),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Stash",
+                style: TextStyle(color: themeData.textTheme.caption?.color),
+              ),
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
+                child: Container(
+                  height: 40.0,
+                  width: mediaQueryData.size.width,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Obx(
+                        () => Text(
+                          "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: kSpacing),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Wallets",
+                style: TextStyle(color: themeData.textTheme.caption?.color),
+              ),
+              _WalletsList(),
+              WalletCard(
+                onTap: () {},
+                data: WalletCardData(totalWallets: ctrl.walletsList.length),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildHeader({Function()? onPressedMenu}) {
@@ -148,7 +242,7 @@ class WalletsScreen extends GetView<WalletsController> {
           const Expanded(
               child: Header(
             todayText: TodayText(message: "Wallets"),
-          )),
+          ))
         ],
       ),
     );
@@ -160,6 +254,146 @@ class WalletsScreen extends GetView<WalletsController> {
       child: ProfilTile(
         data: data,
         onPressedNotification: () {},
+      ),
+    );
+  }
+}
+
+class _WalletsList extends StatelessWidget {
+  _WalletsList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    WalletsController ctrl = Get.find();
+    return SingleChildScrollView(
+      child: Obx(() {
+        if (ctrl.walletsList.isEmpty) {
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Empty"),
+          ));
+        }
+        final List fixedList =
+            Iterable<int>.generate(ctrl.walletsList.length).toList();
+
+        final List<Widget> walletTiles = fixedList.map((idx) {
+          return _WalletListItem(
+            selectedIndex: idx,
+            balance: "${ctrl.walletsList[idx]?.balance}",
+            currency: "${ctrl.currncy.value}",
+            walletPaytag: "${ctrl.walletsList[idx]?.walletPaytag}",
+          );
+        }).toList();
+
+        return ListView(
+          physics: NeverScrollableScrollPhysics(),
+          children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+          shrinkWrap: true,
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+        );
+      }),
+    );
+  }
+}
+
+class _WalletDescription extends StatelessWidget {
+  final alrtAmountStyle = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+    // color: themeContext.textTheme.caption?.color,
+  );
+
+  _WalletDescription(
+      {Key? key,
+      required this.balance,
+      required this.currency,
+      required this.walletPaytag})
+      : super(key: key);
+
+  final String balance;
+  final String currency;
+  final String walletPaytag;
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeCtx = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+            Text(balance.toShortHumanFormat(currency: "$currency "),
+                style: alrtAmountStyle),
+          ],
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "@$walletPaytag",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: themeCtx.textTheme.caption?.color,
+                  fontSize: 12.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WalletListItem extends StatelessWidget {
+  _WalletListItem({
+    Key? key,
+    required this.selectedIndex,
+    required this.balance,
+    required this.currency,
+    required this.walletPaytag,
+  }) : super(key: key);
+
+  final int selectedIndex;
+  final String balance;
+  final String currency;
+  final String walletPaytag;
+  final WalletsController ctrl = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        elevation: 1.0,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap: () {},
+          child: SizedBox(
+            height: 68.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
+                    child: _WalletDescription(
+                      balance: balance,
+                      currency: currency,
+                      walletPaytag: walletPaytag,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
