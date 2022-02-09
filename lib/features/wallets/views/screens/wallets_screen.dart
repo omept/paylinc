@@ -18,7 +18,6 @@ import 'package:paylinc/shared_components/wallet_card.dart';
 import 'package:paylinc/utils/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:user_repository/user_repository.dart';
 
 // binding
@@ -153,7 +152,7 @@ class WalletsScreen extends GetView<WalletsController> {
             ),
           ),
           Text(
-            "Combiled balance",
+            "Combined balance",
           ),
           const SizedBox(height: kSpacing),
           Container(
