@@ -59,8 +59,8 @@ class InitializedTransactionsScreen
                   padding: const EdgeInsets.only(top: kSpacing),
                   child: _sideBar()),
             ),
-      body: SingleChildScrollView(
-          child: SafeArea(
+      body: SafeArea(
+          child: SingleChildScrollView(
         child: ResponsiveBuilder(
           mobileBuilder: _initializedTransactionsMobileScreenWidget,
           tabletBuilder: _initializedTransactionsTabletScreenWidget,

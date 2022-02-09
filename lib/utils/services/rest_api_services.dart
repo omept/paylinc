@@ -49,6 +49,7 @@ class RestApiServices extends GetConnect {
 
         switch (response.status.code) {
           case 400:
+            responseModel.message = "Bad request.";
             break;
           case 401:
             if (responseModel.message == "Account is not yet verified.") {
@@ -63,6 +64,7 @@ class RestApiServices extends GetConnect {
             }
             break;
           case 500:
+            responseModel.message = "Could not connect";
             break;
           default:
         }
