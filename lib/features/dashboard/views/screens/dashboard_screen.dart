@@ -1,6 +1,7 @@
 library dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/request_money_card.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
@@ -9,7 +10,6 @@ import 'package:paylinc/shared_components/selected_project.dart';
 import 'package:paylinc/shared_components/wallet_card.dart';
 import 'package:paylinc/shared_components/send_money_card.dart';
 import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

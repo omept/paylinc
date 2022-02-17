@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:http/http.dart' as http;
 part 'user_api.dart';

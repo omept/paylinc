@@ -16,7 +16,7 @@ import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 

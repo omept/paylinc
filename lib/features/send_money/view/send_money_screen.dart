@@ -14,7 +14,7 @@ import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'package:paylinc/shared_components/models/review_request.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 

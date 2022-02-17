@@ -5,7 +5,7 @@ import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/project_card.dart';
 import 'package:paylinc/shared_components/route_button.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({
