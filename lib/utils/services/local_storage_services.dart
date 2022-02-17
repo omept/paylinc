@@ -47,6 +47,7 @@ class LocalStorageServices {
     if (bxData != null) {
       return UserAlertResponse.fromMap(json.decode(bxData));
     }
+    return null;
   }
 
   Future<InitializedTransactionsResponse?>
@@ -56,6 +57,7 @@ class LocalStorageServices {
     if (bxData != null) {
       return InitializedTransactionsResponse.fromMap(json.decode(bxData));
     }
+    return null;
   }
 
   Future<void> saveInitializedTransactionsResponse(

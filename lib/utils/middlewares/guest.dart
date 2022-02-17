@@ -11,5 +11,6 @@ class GuestMiddleware extends GetMiddleware {
     if (authController.authenticated) {
       return RouteSettings(name: Routes.dashboard);
     }
+    return null;
   }
 }

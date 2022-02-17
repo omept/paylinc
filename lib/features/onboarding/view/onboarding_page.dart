@@ -339,9 +339,7 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
       height: 8.0,
       width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive
-            ? Theme.of(context).colorScheme.onBackground
-            : Theme.of(context).colorScheme.primaryVariant,
+        color: Theme.of(context).colorScheme.onBackground,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );

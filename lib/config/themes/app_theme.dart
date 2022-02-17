@@ -34,7 +34,6 @@ class AppTheme {
         primaryColor: const Color.fromRGBO(128, 109, 255, 1),
         primaryColorLight: const Color.fromRGBO(159, 84, 252, 1),
         brightness: Brightness.dark,
-        primaryColorBrightness: Brightness.dark,
         primarySwatch: Colors.deepPurple,
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(

@@ -7,18 +7,7 @@ class SettingsApi extends RestApiServices {
       AuthenticationRepository authenticationRepository)
       : super.withAuthRepository(authenticationRepository);
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   Future<ResponseModel> supportedCategories() async {
-    try {
-      final String url = "settings/supported-categories";
-      final response = await get(url, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: SettingsApi.errMessage);
-    }
+    return await makeGet(url: "settings/supported-categories");
   }
 }

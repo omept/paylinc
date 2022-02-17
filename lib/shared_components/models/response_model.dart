@@ -5,8 +5,8 @@ import 'package:paylinc/utils/services/rest_api_services.dart';
 class ResponseModel {
   final Map? data;
   String? message;
-  final bool? status;
-  final int? statusCode;
+  bool? status;
+  int? statusCode;
   ResponseModel({
     this.data,
     this.message = RestApiServices.errMessage,
@@ -33,7 +33,7 @@ class ResponseModel {
       'data': data,
       'message': message,
       'status': status,
-      'statusCode': statusCode,
+      'status_code': statusCode,
     };
   }
 
@@ -42,7 +42,7 @@ class ResponseModel {
       data: map['data'] != null ? Map.from(map['data']) : null,
       message: map['message'] != null ? map['message'] : null,
       status: map['status'] != null ? map['status'] : null,
-      statusCode: map['statusCode'] != null ? map['statusCode'] : null,
+      statusCode: map['status_code'] != null ? map['status_code'] : null,
     );
   }
 
