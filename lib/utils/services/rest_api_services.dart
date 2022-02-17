@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
@@ -38,15 +37,18 @@ class RestApiServices {
 
   ResponseModel responseHandler(http.Response response) {
     ResponseModel responseModel = ResponseModel();
+    var jsonRes = json.decode(response.body);
+    responseModel = ResponseModel(
+      message: jsonRes['message'] ?? '',
+      status: jsonRes['status'] ?? false,
+      statusCode: jsonRes['status_code'] ?? 0,
+    );
 
     if (response.statusCode != 200) {
       // handle backend errors
       // 401 -- auth error response
       // 400 -- problem response
       // 500 -- server response
-
-      responseModel.message = '';
-      responseModel.status = false;
 
       switch (response.statusCode) {
         case 400:
@@ -74,14 +76,8 @@ class RestApiServices {
     } else {
       try {
         responseModel.status = true;
-        if (response.body.trim() != '') {
-          var jsonRes = json.decode(response.body);
-          log("dsdsd");
-          responseModel = ResponseModel.fromJson(json.encode(jsonRes['data']));
-          log("jsonRes");
-        }
-      } on Exception catch (e) {
-        print(e);
+        responseModel.data = jsonRes['data'];
+      } on Exception catch (_) {
         responseModel.status = false;
       }
       return responseModel;

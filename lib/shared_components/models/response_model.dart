@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
 class ResponseModel {
-  final Map? data;
+  Map? data;
   String? message;
   bool? status;
   int? statusCode;
