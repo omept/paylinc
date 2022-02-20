@@ -33,7 +33,6 @@ class InitializedTransactionsController extends GetxController {
     try {
       var api = InitializedTransactionsApi();
       ResponseModel res = await api.getInitializedTransactions();
-
       if (res.status == true) {
         InitializedTransactionsResponse _usrITRs =
             InitializedTransactionsResponse.fromMap(res.data!);

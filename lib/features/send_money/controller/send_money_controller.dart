@@ -55,14 +55,12 @@ class SendMoneyController extends GetxController {
     selectedWalletValue.value = val;
     try {
       rWalletPaytagUsageMessage.value = "checking ...";
-      log('dd 3');
 
       var api = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await api.checkWalletPaytagExistance({
         'wallet_paytag': val,
       });
-      log(res.message ?? 'dd');
       if (res.status == true) {
         rWalletPaytagUsageMessage.value =
             retrieveMessage(res.message!.toLowerCase());
@@ -109,7 +107,6 @@ class SendMoneyController extends GetxController {
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       });
-      log(res.message ?? 'dd');
       if (res.status == true) {
         _status.value = FormzStatus.submissionSuccess;
         var resFormat = {'transaction': res.data!};

@@ -4,6 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
@@ -230,7 +231,7 @@ class _PaymentAlerts extends StatelessWidget {
     UserAlertsController uAC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uAC.paymentAlertList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -439,7 +440,7 @@ class _WalletsAlerts extends StatelessWidget {
     UserAlertsController uAC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uAC.walletAlertList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =

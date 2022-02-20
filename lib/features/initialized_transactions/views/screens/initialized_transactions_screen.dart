@@ -5,6 +5,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
@@ -237,7 +238,7 @@ class _PaymentTransactions extends StatelessWidget {
     InitializedTransactionsController uITC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uITC.paymentTransactionsList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -422,7 +423,7 @@ class _WalletsTransactions extends StatelessWidget {
     InitializedTransactionsController uITC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uITC.walletTransactionsList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -574,7 +575,7 @@ class _WalletTransactionListItem extends StatelessWidget {
                 selectedIndex: selectedIndex,
                 selectedType: AlertTagType.WALLETS,
                 initializedTransaction:
-                    uITC.paymentTransactionsList[selectedIndex]);
+                    uITC.walletTransactionsList[selectedIndex]);
           },
           child: SizedBox(
             height: 90.0,

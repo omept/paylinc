@@ -86,7 +86,7 @@ class RestApiServices {
 
   Future<ResponseModel> makePost(
       {required String url,
-      Map<String, dynamic>? data,
+      Map<String, String>? data,
       String? defaultMessage}) async {
     try {
       return await post(url, data);
@@ -98,11 +98,10 @@ class RestApiServices {
     }
   }
 
-  Future<ResponseModel> post(String url, Map<String, dynamic>? data) async {
+  Future<ResponseModel> post(String url, Map<String, String>? data) async {
     var headers = this.requestHeader();
     var uri = Uri.parse('$apiBaseUrl$url/');
     var response = await http.post(uri, body: data, headers: headers);
-
     return responseHandler(response);
   }
 
@@ -111,7 +110,8 @@ class RestApiServices {
       required String url,
       String? defaultMessage}) async {
     try {
-      var response = await get(url);
+      var uri = Uri.parse('$apiBaseUrl$url/');
+      var response = await http.get(uri);
       return this.responseHandler(response);
     } on Exception catch (_) {
       return ResponseModel(
@@ -119,7 +119,7 @@ class RestApiServices {
     }
   }
 
-  Future<dynamic> get(String url) async {
+  Future<ResponseModel> get(String url) async {
     var headers = this.requestHeader();
     var uri = Uri.parse('$apiBaseUrl/$url');
     var response = await http.get(uri, headers: headers);
