@@ -182,18 +182,21 @@ class WalletsScreen extends GetView<WalletsController> {
                 "Stash",
                 style: TextStyle(color: themeData.textTheme.caption?.color),
               ),
-              Card(
-                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
-                child: Container(
-                  height: 40.0,
-                  width: mediaQueryData.size.width,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Obx(
-                        () => Text(
-                          "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+              InkWell(
+                onTap: () => Get.toNamed(Routes.admin_dashboard),
+                child: Card(
+                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
+                  child: Container(
+                    height: 40.0,
+                    width: mediaQueryData.size.width,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Obx(
+                          () => Text(
+                            "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                          ),
                         ),
                       ),
                     ),
