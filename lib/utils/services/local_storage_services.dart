@@ -5,6 +5,7 @@ import 'package:paylinc/shared_components/models/initializedTransactionB64.dart'
 import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/models/user_statistics.dart';
+import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// contains all service to get data from local
@@ -62,6 +63,21 @@ class LocalStorageServices {
 
   Future<void> saveInitializedTransactionsResponse(
       InitializedTransactionsResponse map) async {
+    var userITBox = await Hive.openBox('auth_user_intlzd_trnzcts');
+    userITBox.put('initialized_tranransactions', map.toJson());
+  }
+
+  Future<WalletLogsResponse?> getWalletLogsResponse() async {
+    var userITBox = await Hive.openBox('auth_user_wll_lgs');
+    var bxData = userITBox.get('wallet_logs');
+    if (bxData != null) {
+      return WalletLogsResponse();
+      // return WalletLogsResponse.fromMap(json.decode(bxData));
+    }
+    return null;
+  }
+
+  Future<void> saveWalletLogsResponse(map) async {
     var userITBox = await Hive.openBox('auth_user_intlzd_trnzcts');
     userITBox.put('initialized_tranransactions', map.toJson());
   }

@@ -12,8 +12,10 @@ import 'package:paylinc/features/send_money/view/send_money_screen.dart';
 import 'package:paylinc/features/settings/views/screens/settings_screen.dart';
 import 'package:paylinc/features/sign_up/view/sign_up_page.dart';
 import 'package:paylinc/features/splash/splash.dart';
+import 'package:paylinc/features/transfer/view/transfer_screen.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_page.dart';
+import 'package:paylinc/features/view_wallet/views/screens/view_wallet_screen.dart';
 import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
 import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
@@ -65,6 +67,12 @@ class AppPages {
       binding: WalletsBinding(),
     ),
     GetPage(
+      name: _Paths.view_wallet,
+      page: () => ViewWalletScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: ViewWalletBinding(),
+    ),
+    GetPage(
       name: _Paths.admin_dashboard,
       page: () => const AdminDashboardScreen(),
       middlewares: [AuthenticatedMiddleware()],
@@ -113,6 +121,14 @@ class AppPages {
       page: () => const InitializedTransactionScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: InitializedTransactionBinding(),
+      transition: Transition.cupertinoDialog,
+      fullscreenDialog: true,
+    ),
+    GetPage(
+      name: _Paths.transfer,
+      page: () => const TransferScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: TransferBinding(),
       transition: Transition.cupertinoDialog,
       fullscreenDialog: true,
     ),

@@ -1,4 +1,4 @@
-library initialized_transactions;
+library view_wallet;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
@@ -8,6 +8,7 @@ import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
+import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
@@ -22,21 +23,18 @@ import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 
 import 'package:paylinc/shared_components/models/profile.dart';
-import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
 import 'package:paylinc/shared_components/profile_tile.dart';
 import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 // binding
-part '../../bindings/initialized_transactions_binding.dart';
+part '../../bindings/view_wallet_binding.dart';
 
 // controller
-part '../../controllers/initialized_transactions_controller.dart';
+part '../../controllers/view_wallet_controller.dart';
 
-class InitializedTransactionsScreen
-    extends GetView<InitializedTransactionsController> {
-  const InitializedTransactionsScreen({Key? key}) : super(key: key);
-
+class ViewWalletScreen extends GetView<ViewWalletController> {
+  ViewWalletScreen({Key? key}) : super(key: key);
   final kTitleStyle = const TextStyle(
     fontFamily: 'CM Sans Serif',
     fontSize: 26.0,
@@ -46,6 +44,11 @@ class InitializedTransactionsScreen
   kSubtitleStyle(ThemeData themeContext) => TextStyle(
         color: themeContext.textTheme.caption?.color,
         fontSize: 13.0,
+        height: 1.2,
+      );
+  kSubtitleStyle2(ThemeData themeContext) => TextStyle(
+        color: themeContext.textTheme.caption?.color,
+        fontSize: 18.0,
         height: 1.2,
       );
 
@@ -148,47 +151,91 @@ class InitializedTransactionsScreen
 
   Widget _initializedTransactionsMobileScreenWidget(context, constraints) {
     ThemeData themeData = Theme.of(context);
+    ViewWalletController vwCtrl = Get.find();
     // MediaQueryData mediaQuery = MediaQuery.of(context);
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(onPressedMenu: () => controller.openDrawer()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: kSpacing / 2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      String prvRoute = Get.previousRoute;
+                      var canGoBack = [
+                        Routes.wallets,
+                      ];
+                      if (canGoBack.contains(prvRoute)) {
+                        Get.back();
+                      } else {
+                        Get.offNamed(Routes.dashboard);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: themeData.colorScheme.onBackground,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: InkWell(
+                  onTap: () => Get.offAllNamed(Routes.transfer),
+                  child: Container(
+                    width: 100.0,
+                    height: 50.0,
+                    child: Card(
+                      child: Center(
+                        child: Icon(
+                          EvaIcons.paperPlane,
+                          color: themeData.colorScheme.secondary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(kSpacing),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Transactions",
+                  '${vwCtrl.authController.user.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  'view your most recent initialized transactions.',
+                  '@${vwCtrl.authController.selectedWallet.value.walletPaytag ?? ""}',
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: kSubtitleStyle2(themeData),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'view recent wallet activities.',
                   style: kSubtitleStyle(themeData),
                 ),
                 SizedBox(height: 15.0),
-                DefaultTabController(
-                  length: 2,
-                  child: Column(children: [
-                    Container(
-                        child: const TabBar(
-                      tabs: [
-                        Tab(
-                          text: "Payments",
-                        ),
-                        Tab(text: "Wallets")
-                      ],
-                    )),
-                    Container(
-                      height: 550,
-                      child: const TabBarView(children: [
-                        _PaymentTransactions(),
-                        _WalletsTransactions(),
-                      ]),
-                    ),
-                  ]),
+                Divider(),
+                Container(
+                  height: 550,
+                  child: _WalletsTransactions(),
                 ),
               ],
             ),
@@ -212,7 +259,7 @@ class InitializedTransactionsScreen
             ),
           const Expanded(
               child: Header(
-            todayText: TodayText(message: "Initiailized Transactions"),
+            todayText: TodayText(message: "Wallet"),
           )),
         ],
       ),
@@ -230,218 +277,29 @@ class InitializedTransactionsScreen
   }
 }
 
-class _PaymentTransactions extends StatelessWidget {
-  const _PaymentTransactions({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    InitializedTransactionsController uITC = Get.find();
-    return SingleChildScrollView(child: Obx(() {
-      if (uITC.paymentTransactionsList.isEmpty) {
-        return emptyListIndicator();
-      }
-
-      final List fixedList =
-          Iterable<int>.generate(uITC.paymentTransactionsList.length).toList();
-
-      final List<Widget> paymentTiles = fixedList.map((idx) {
-        return _PaymentTransactionListItem(
-          selectedIndex: idx,
-          transactionAmount: "${uITC.paymentTransactionsList[idx]?.amount}",
-          transactionCurrency:
-              "${uITC.paymentTransactionsList[idx]?.sender?.country?.currencyAbr}",
-          senderPaytag: "${uITC.paymentTransactionsList[idx]?.sender?.paytag}",
-          walletPaytag:
-              "${uITC.paymentTransactionsList[idx]?.wallet?.walletPaytag}",
-          createdAt: dateTimeDisplay(
-              '${uITC.paymentTransactionsList[idx]?.createdAt}'),
-          status:
-              uITC.paymentTransactionsList[idx]?.initializedTransactionStatus ??
-                  0,
-        );
-      }).toList();
-
-      return ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: paymentTiles.length > 0 ? paymentTiles : <Widget>[],
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-      );
-    }));
-  }
-}
-
-class _PaymentTransactionDescription extends StatelessWidget {
-  final alrtAmountStyle = TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.w600,
-    // color: themeContext.textTheme.caption?.color,
-  );
-
-  _PaymentTransactionDescription({
-    Key? key,
-    required this.transactionAmount,
-    required this.transactionCurrency,
-    required this.senderPaytag,
-    required this.walletPaytag,
-    required this.createdAt,
-    required this.status,
-  }) : super(key: key);
-
-  final String transactionAmount;
-  final String transactionCurrency;
-  final String senderPaytag;
-  final String walletPaytag;
-  final String createdAt;
-  final int status;
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeCtx = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-            canBeInteger(transactionAmount)
-                ? Text(
-                    transactionAmount.toShortHumanFormat(
-                        currency: "$transactionCurrency "),
-                    style: alrtAmountStyle)
-                : Container(),
-          ],
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "@$senderPaytag",
-                style: TextStyle(
-                  color: themeCtx.textTheme.caption?.color,
-                  fontSize: 12.0,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '$createdAt',
-                    style: TextStyle(
-                      color: themeCtx.textTheme.caption?.color,
-                      fontSize: 12.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Icon(EvaIcons.diagonalArrowRightUp,
-                        size: 12.0, color: themeCtx.colorScheme.secondary),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _PaymentTransactionListItem extends StatelessWidget {
-  _PaymentTransactionListItem({
-    Key? key,
-    required this.selectedIndex,
-    required this.transactionAmount,
-    required this.transactionCurrency,
-    required this.senderPaytag,
-    required this.walletPaytag,
-    required this.createdAt,
-    required this.status,
-  }) : super(key: key);
-
-  final int selectedIndex;
-  final String transactionAmount;
-  final String transactionCurrency;
-  final String senderPaytag;
-  final String walletPaytag;
-  final String createdAt;
-  final int status;
-
-  final InitializedTransactionsController uITC = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Card(
-        elevation: 1.0,
-        margin: const EdgeInsets.all(0),
-        child: InkWell(
-          onTap: () {
-            uITC.viewInititalizedTransaction(
-                selectedIndex: selectedIndex,
-                selectedType: AlertTagType.PAYMENT,
-                initializedTransaction:
-                    uITC.paymentTransactionsList[selectedIndex]);
-          },
-          child: SizedBox(
-            height: 85.0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
-                    child: _PaymentTransactionDescription(
-                      transactionAmount: transactionAmount,
-                      transactionCurrency: transactionCurrency,
-                      senderPaytag: senderPaytag,
-                      walletPaytag: walletPaytag,
-                      createdAt: createdAt,
-                      status: status,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _WalletsTransactions extends StatelessWidget {
   const _WalletsTransactions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    InitializedTransactionsController uITC = Get.find();
+    ViewWalletController vWC = Get.find();
     return SingleChildScrollView(child: Obx(() {
-      if (uITC.walletTransactionsList.isEmpty) {
+      if (vWC.walletTransactionsList.isEmpty) {
         return emptyListIndicator();
       }
 
       final List fixedList =
-          Iterable<int>.generate(uITC.walletTransactionsList.length).toList();
+          Iterable<int>.generate(vWC.walletTransactionsList.length).toList();
 
       final List<Widget> walletTiles = fixedList.map((idx) {
         return _WalletTransactionListItem(
           selectedIndex: idx,
-          transactionAmount: "${uITC.walletTransactionsList[idx]?.amount}",
+          transactionAmount: "${vWC.walletTransactionsList[idx]?.amount}",
+          transactionAction: "${vWC.walletTransactionsList[idx]?.action}",
           transactionCurrency:
-              "${uITC.walletTransactionsList[idx]?.sender?.country?.currencyAbr}",
-          senderPaytag: "${uITC.walletTransactionsList[idx]?.sender?.paytag}",
-          walletPaytag:
-              "${uITC.walletTransactionsList[idx]?.wallet?.walletPaytag}",
+              "${vWC.authController.user.country?.currencyAbr ?? ""}",
           createdAt:
-              dateTimeDisplay('${uITC.walletTransactionsList[idx]?.createdAt}'),
-          status:
-              uITC.walletTransactionsList[idx]?.initializedTransactionStatus ??
-                  0,
+              dateTimeDisplay('${vWC.walletTransactionsList[idx]?.createdAt}'),
         );
       }).toList();
 
@@ -466,18 +324,14 @@ class _WalletTransactionDescription extends StatelessWidget {
     Key? key,
     required this.transactionAmount,
     required this.transactionCurrency,
-    required this.senderPaytag,
-    required this.walletPaytag,
+    required this.transactionAction,
     required this.createdAt,
-    required this.status,
   }) : super(key: key);
 
   final String transactionAmount;
+  final String transactionAction;
   final String transactionCurrency;
-  final String senderPaytag;
-  final String walletPaytag;
   final String createdAt;
-  final int status;
 
   @override
   Widget build(BuildContext context) {
@@ -489,7 +343,7 @@ class _WalletTransactionDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-            canBeInteger(transactionAmount)
+            canBeInteger(transactionAmount) || canBeDouble(transactionAmount)
                 ? Text(
                     transactionAmount.toShortHumanFormat(
                         currency: "$transactionCurrency "),
@@ -503,8 +357,8 @@ class _WalletTransactionDescription extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                "@$senderPaytag  ->  @$walletPaytag",
-                maxLines: 2,
+                "$transactionAction",
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: themeCtx.textTheme.caption?.color,
@@ -524,7 +378,7 @@ class _WalletTransactionDescription extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Icon(
-                      EvaIcons.diagonalArrowLeftDown,
+                      EvaIcons.activityOutline,
                       size: 12.0,
                       color: themeCtx.colorScheme.secondary,
                     ),
@@ -544,21 +398,17 @@ class _WalletTransactionListItem extends StatelessWidget {
     Key? key,
     required this.selectedIndex,
     required this.transactionAmount,
+    required this.transactionAction,
     required this.transactionCurrency,
-    required this.senderPaytag,
-    required this.walletPaytag,
     required this.createdAt,
-    required this.status,
   }) : super(key: key);
 
   final int selectedIndex;
   final String transactionAmount;
+  final String transactionAction;
   final String transactionCurrency;
-  final String senderPaytag;
-  final String walletPaytag;
   final String createdAt;
-  final int status;
-  final InitializedTransactionsController uITC = Get.find();
+  final ViewWalletController vWC = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -569,14 +419,15 @@ class _WalletTransactionListItem extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         child: InkWell(
           onTap: () {
-            uITC.viewInititalizedTransaction(
+            vWC.viewInititalizedTransaction(
                 selectedIndex: selectedIndex,
                 selectedType: AlertTagType.WALLETS,
-                initializedTransaction:
-                    uITC.walletTransactionsList[selectedIndex]);
+                initializedTransactionId: vWC
+                    .walletTransactionsList[selectedIndex]
+                    ?.initializedTransactionId);
           },
           child: SizedBox(
-            height: 90.0,
+            height: 82.0,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -585,11 +436,9 @@ class _WalletTransactionListItem extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
                     child: _WalletTransactionDescription(
                       transactionAmount: transactionAmount,
+                      transactionAction: transactionAction,
                       transactionCurrency: transactionCurrency,
-                      senderPaytag: senderPaytag,
-                      walletPaytag: walletPaytag,
                       createdAt: createdAt,
-                      status: status,
                     ),
                   ),
                 )

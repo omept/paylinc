@@ -22,4 +22,10 @@ class WalletsController extends GetxController {
     walletsList.value = authController.user.wallets ?? [];
     walletsList.forEach((e) => combinedBal.value += e?.balance ?? 0);
   }
+
+  void setSelectedWallet(int selectedIndex) {
+    try {
+      authController.selectedWallet.value = walletsList[selectedIndex]!;
+    } on Exception catch (_) {}
+  }
 }

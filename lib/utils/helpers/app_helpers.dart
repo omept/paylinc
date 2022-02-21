@@ -19,7 +19,7 @@ part 'b64_encoder.dart';
 
 extension IntHumanFormat on int {
   String intHumanFormat() {
-    return _humanFormat(this.toString());
+    return _humanFormat(this.toStringAsFixed(2));
   }
 }
 
@@ -33,11 +33,11 @@ extension ToShortHumanFormat on String {
 
 extension DoubleHumanFormat on double {
   String doubleHumanFormat() {
-    return _humanFormat(this.toString());
+    return _humanFormat(this.toStringAsFixed(2));
   }
 }
 
-String _humanFormat(dynamic val) {
+String _humanFormat(String val) {
   return val.replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
 }

@@ -25,6 +25,10 @@ class WalletsApi extends RestApiServices {
         data: data, url: "wallet/check-wallet-paytag-existance");
   }
 
+  Future<ResponseModel> getWalletLogs(Map<String, String> data) async {
+    return await makePost(data: data, url: "wallet/logs");
+  }
+
   Future<ResponseModel> createWallet(Map<String, String> data) async {
     return await makePost(data: data, url: "wallet/create");
   }

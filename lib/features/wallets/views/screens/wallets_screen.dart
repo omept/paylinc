@@ -1,6 +1,8 @@
 library wallets;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 
 import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/shared_components/profile_tile.dart';
@@ -267,11 +269,7 @@ class _WalletsList extends StatelessWidget {
     return SingleChildScrollView(
       child: Obx(() {
         if (ctrl.walletsList.isEmpty) {
-          return Center(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Empty"),
-          ));
+          return emptyListIndicator();
         }
         final List fixedList =
             Iterable<int>.generate(ctrl.walletsList.length).toList();
@@ -373,7 +371,10 @@ class _WalletListItem extends StatelessWidget {
         elevation: 1.0,
         margin: const EdgeInsets.all(0),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            ctrl.setSelectedWallet(selectedIndex);
+            Get.toNamed(Routes.view_wallet);
+          },
           child: SizedBox(
             height: 68.0,
             child: Row(
