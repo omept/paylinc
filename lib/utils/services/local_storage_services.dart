@@ -71,15 +71,14 @@ class LocalStorageServices {
     var userITBox = await Hive.openBox('auth_user_wll_lgs');
     var bxData = userITBox.get('wallet_logs');
     if (bxData != null) {
-      return WalletLogsResponse();
-      // return WalletLogsResponse.fromMap(json.decode(bxData));
+      return WalletLogsResponse.fromMap(json.decode(bxData));
     }
     return null;
   }
 
-  Future<void> saveWalletLogsResponse(map) async {
-    var userITBox = await Hive.openBox('auth_user_intlzd_trnzcts');
-    userITBox.put('initialized_tranransactions', map.toJson());
+  Future<void> saveWalletLogsResponse(WalletLogsResponse map) async {
+    var userITBox = await Hive.openBox('auth_user_wll_lgs');
+    userITBox.put('wallet_logs', map.toJson());
   }
 
   Future<UserStatistics> saveUserStatisticsFromMap(

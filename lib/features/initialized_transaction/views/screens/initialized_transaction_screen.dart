@@ -156,6 +156,7 @@ class InitializedTransactionScreen
                             var canGoBack = [
                               Routes.user_alerts,
                               Routes.initialized_transactions,
+                              Routes.view_wallet,
                             ];
                             if (canGoBack.contains(prvRoute)) {
                               Get.back();

@@ -18,7 +18,7 @@ class WalletLogsResponse {
 
   Map<String, dynamic> toMap() {
     return {
-      'walletLogsData': walletLogsData?.map((x) => x?.toMap()).toList(),
+      'wallet_logs': walletLogsData?.map((x) => x?.toMap()).toList(),
     };
   }
 

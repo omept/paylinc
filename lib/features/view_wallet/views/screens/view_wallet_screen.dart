@@ -167,15 +167,7 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
                   ),
                   InkWell(
                     onTap: () {
-                      String prvRoute = Get.previousRoute;
-                      var canGoBack = [
-                        Routes.wallets,
-                      ];
-                      if (canGoBack.contains(prvRoute)) {
-                        Get.back();
-                      } else {
-                        Get.offNamed(Routes.dashboard);
-                      }
+                      Get.back();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),
