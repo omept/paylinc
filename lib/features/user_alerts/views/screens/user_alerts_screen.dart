@@ -1,9 +1,9 @@
 library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
@@ -17,8 +17,9 @@ import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/helpers/dateTimeDisplay.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
@@ -230,7 +231,7 @@ class _PaymentAlerts extends StatelessWidget {
     UserAlertsController uAC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uAC.paymentAlertList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -249,9 +250,7 @@ class _PaymentAlerts extends StatelessWidget {
           senderPaytag: "${uAC.paymentAlertList[idx]?.sender?.paytag}",
           walletPaytag:
               "${uAC.paymentAlertList[idx]?.initializedTransaction?.wallet?.walletPaytag}",
-          createdAt: Jiffy('${uAC.paymentAlertList[idx]?.createdAt}')
-              .fromNow()
-              .toString(),
+          createdAt: dateTimeDisplay('${uAC.paymentAlertList[idx]?.createdAt}'),
           readStatus: uAC.paymentAlertList[idx]?.readStatus ?? false,
         );
       }).toList();
@@ -439,7 +438,7 @@ class _WalletsAlerts extends StatelessWidget {
     UserAlertsController uAC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uAC.walletAlertList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -458,9 +457,7 @@ class _WalletsAlerts extends StatelessWidget {
           senderPaytag: "${uAC.walletAlertList[idx]?.sender?.paytag}",
           walletPaytag:
               "${uAC.walletAlertList[idx]?.initializedTransaction?.wallet?.walletPaytag}",
-          createdAt: Jiffy('${uAC.walletAlertList[idx]?.createdAt}')
-              .fromNow()
-              .toString(),
+          createdAt: dateTimeDisplay('${uAC.walletAlertList[idx]?.createdAt}'),
           readStatus: uAC.walletAlertList[idx]?.readStatus ?? false,
         );
       }).toList();

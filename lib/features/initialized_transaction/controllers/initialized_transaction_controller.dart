@@ -112,8 +112,11 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi.getInitializedTransaction(
-          {'initialized_transaction_id': initTrznId.value});
+      Map<String, String> data = {
+        'initialized_transaction_id': initTrznId.value.toString()
+      };
+      var res = await intTrznzApi.getInitializedTransaction(data);
+
       if (res.status != true) {
         return _badPageRedrct();
       }
@@ -134,8 +137,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .acceptTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.acceptTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Error", "Failed to accept");
@@ -155,8 +158,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .declineTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.declineTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Error", "Failed to decline");
@@ -183,8 +186,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .terminateTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.terminateTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Failed", "${res.message}");
@@ -218,8 +221,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .confirmCompletTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.confirmCompletTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Failed", "${res.message}");
@@ -241,8 +244,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .setAsConflictTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.setAsConflictTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Failed", "${res.message}");
@@ -264,8 +267,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .completTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.completTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Failed", "${res.message}");
@@ -287,8 +290,8 @@ class InitializedTransactionController extends GetxController {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
               authController.authenticationRepository);
-      var res = await intTrznzApi
-          .refundTransaction({'initialized_transaction_id': load.id});
+      var res = await intTrznzApi.refundTransaction(
+          {'initialized_transaction_id': load.id.toString()});
       pageStatus.value = FormzStatus.submissionSuccess;
       if (res.status != true) {
         Snackbar.errSnackBar("Failed", "${res.message}");

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/form_inputs/otp.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 

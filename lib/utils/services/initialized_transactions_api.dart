@@ -9,54 +9,52 @@ class InitializedTransactionsApi extends RestApiServices {
       AuthenticationRepository authenticationRepository)
       : super.withAuthRepository(authenticationRepository);
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   Future<ResponseModel> getInitializedTransaction(
-      Map<String, dynamic> data) async {
-    return await makePost(data, "get-initiated-transaction");
+      Map<String, String> data) async {
+    return await makePost(data: data, url: "get-initiated-transaction");
   }
 
-  Future<ResponseModel> acceptTransaction(Map<String, dynamic> data) async {
-    return await makePost(data, "accept-transaction");
+  Future<ResponseModel> acceptTransaction(Map<String, String> data) async {
+    return await makePost(data: data, url: "accept-transaction");
   }
 
-  Future<ResponseModel> terminateTransaction(Map<String, dynamic> data) async {
-    return await makePost(data, "cancel-transaction");
+  Future<ResponseModel> terminateTransaction(Map<String, String> data) async {
+    return await makePost(data: data, url: "cancel-transaction");
   }
 
-  Future<ResponseModel> declineTransaction(Map<String, dynamic> data) async {
-    return await makePost(data, "decline-transaction");
+  Future<ResponseModel> declineTransaction(Map<String, String> data) async {
+    return await makePost(data: data, url: "decline-transaction");
   }
 
-  confirmCompletTransaction(Map<String, dynamic> map) async {
-    return await makePost(map, "sender-confirm-transaction-completion");
+  confirmCompletTransaction(Map<String, String> map) async {
+    return await makePost(
+        data: map, url: "sender-confirm-transaction-completion");
   }
 
-  setAsConflictTransaction(Map<String, dynamic> map) async {
-    return await makePost(map, "mark-transaction-as-conflict");
+  setAsConflictTransaction(Map<String, String> map) async {
+    return await makePost(
+      data: map,
+      url: "mark-transaction-as-conflict",
+    );
   }
 
-  completTransaction(Map<String, dynamic> map) async {
-    return await makePost(map, "mark-transaction-as-completed");
+  completTransaction(Map<String, String> map) async {
+    return await makePost(
+      data: map,
+      url: "mark-transaction-as-completed",
+    );
   }
 
-  refundTransaction(Map<String, dynamic> map) async {
-    return await makePost(map, "refund-transaction-request");
+  refundTransaction(Map<String, String> map) async {
+    return await makePost(
+      data: map,
+      url: "refund-transaction-request",
+    );
   }
 
   Future<ResponseModel> getInitializedTransactions() async {
-    return await makePost(null, "initialized-transactions");
-  }
-
-  Future<ResponseModel> makePost(Map<String, dynamic>? data, url) async {
-    try {
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: InitializedTransactionsApi.errMessage);
-    }
+    return await makePost(
+      url: "initialized-transactions",
+    );
   }
 }
