@@ -182,10 +182,10 @@ class WalletsScreen extends GetView<WalletsController> {
                 "Stash",
                 style: TextStyle(color: themeData.textTheme.caption?.color),
               ),
-              InkWell(
-                onTap: () => Get.toNamed(Routes.admin_dashboard),
-                child: Card(
-                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.view_stash),
                   child: Container(
                     height: 40.0,
                     width: mediaQueryData.size.width,

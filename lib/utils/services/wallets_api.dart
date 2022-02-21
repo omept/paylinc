@@ -29,6 +29,10 @@ class WalletsApi extends RestApiServices {
     return await makePost(data: data, url: "wallet/logs");
   }
 
+  Future<ResponseModel> getStashLogs() async {
+    return await makePost(url: "stash/logs");
+  }
+
   Future<ResponseModel> createWallet(Map<String, String> data) async {
     return await makePost(data: data, url: "wallet/create");
   }

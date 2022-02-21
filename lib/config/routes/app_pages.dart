@@ -15,6 +15,7 @@ import 'package:paylinc/features/splash/splash.dart';
 import 'package:paylinc/features/transfer/view/transfer_screen.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_page.dart';
+import 'package:paylinc/features/view_stash/views/screens/view_stash_screen.dart';
 import 'package:paylinc/features/view_wallet/views/screens/view_wallet_screen.dart';
 import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
@@ -71,6 +72,12 @@ class AppPages {
       page: () => ViewWalletScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: ViewWalletBinding(),
+    ),
+    GetPage(
+      name: _Paths.view_stash,
+      page: () => ViewStashScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: ViewStashBinding(),
     ),
     GetPage(
       name: _Paths.admin_dashboard,

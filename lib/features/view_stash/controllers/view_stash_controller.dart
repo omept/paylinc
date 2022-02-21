@@ -4,7 +4,7 @@ class ViewStashController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   AuthController authController = Get.find();
   LocalStorageServices localStorageServices = Get.find();
-  var walletTransactionsList = <WalletLogData?>[].obs;
+  var walletTransactionsList = <StashLogData?>[].obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -17,9 +17,9 @@ class ViewStashController extends GetxController {
     super.onInit();
     // set logs
     // retrieve logs from storage
-    WalletLogsResponse? _wlRs =
-        await localStorageServices.getWalletLogsResponse();
-    walletTransactionsList.value = _wlRs?.walletLogsData ?? [];
+    StashLogsResponse? _wlRs =
+        await localStorageServices.getStashLogsResponse();
+    walletTransactionsList.value = _wlRs?.stashLogsData ?? [];
 
     updateLogs();
   }
@@ -27,14 +27,12 @@ class ViewStashController extends GetxController {
   void updateLogs() async {
     try {
       var api = WalletsApi();
-      ResponseModel res = await api.getWalletLogs({
-        'wallet_paytag': authController.selectedWallet.value.walletPaytag ?? '',
-      });
+      ResponseModel res = await api.getStashLogs();
       if (res.status == true) {
-        WalletLogsResponse _wLRs = WalletLogsResponse.fromMap(res.data!);
-        walletTransactionsList.value = _wLRs.walletLogsData ?? [];
+        StashLogsResponse _sLRs = StashLogsResponse.fromMap(res.data!);
+        walletTransactionsList.value = _sLRs.stashLogsData ?? [];
         // save to storage
-        localStorageServices.saveWalletLogsResponse(_wLRs);
+        localStorageServices.saveStashLogsResponse(_sLRs);
       } else {
         Snackbar.errSnackBar('Could not fetch your logs',
             res.message ?? RestApiServices.errMessage);

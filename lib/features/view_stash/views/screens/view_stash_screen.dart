@@ -8,7 +8,7 @@ import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
-import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
+import 'package:paylinc/shared_components/models/stash_logs_response.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
@@ -206,7 +206,7 @@ class ViewStashScreen extends GetView<ViewStashController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${vwCtrl.authController.user.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
+                  '${vwCtrl.authController.user.country?.currencyAbr ?? ""} ${vwCtrl.authController.user.stashBalance?.intHumanFormat() ?? ""}',
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: kTitleStyle,
