@@ -87,7 +87,7 @@ class SettingsScreen extends GetView<SettingsController> {
   Sidebar _sideBar() {
     return Sidebar(
       data: getSelectedProject(),
-      initialSelected: 5,
+      initialSelected: 4,
     );
   }
 

@@ -50,7 +50,7 @@ class WalletsScreen extends GetView<WalletsController> {
                 padding: const EdgeInsets.only(top: kSpacing),
                 child: Sidebar(
                   data: getSelectedProject(),
-                  initialSelected: 2,
+                  initialSelected: 1,
                 ),
               ),
             ),

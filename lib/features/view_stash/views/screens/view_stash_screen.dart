@@ -436,7 +436,6 @@ class _StashTransactionDescription extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   bank != null
                       ? Text(

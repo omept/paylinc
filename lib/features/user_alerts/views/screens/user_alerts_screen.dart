@@ -110,7 +110,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
   Sidebar _sideBar() {
     return Sidebar(
       data: getSelectedProject(),
-      initialSelected: 3,
+      initialSelected: 2,
     );
   }
 

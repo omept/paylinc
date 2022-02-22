@@ -43,11 +43,11 @@ class Sidebar extends StatelessWidget {
                     icon: EvaIcons.gridOutline,
                     label: "Dashboard",
                   ),
-                  RouteButtonData(
-                    activeIcon: EvaIcons.grid,
-                    icon: EvaIcons.gridOutline,
-                    label: "Admin Dashboard",
-                  ),
+                  // RouteButtonData(
+                  //   activeIcon: EvaIcons.grid,
+                  //   icon: EvaIcons.gridOutline,
+                  //   label: "Admin Dashboard",
+                  // ),
                   RouteButtonData(
                     activeIcon: EvaIcons.archive,
                     icon: EvaIcons.archiveOutline,
@@ -56,7 +56,7 @@ class Sidebar extends StatelessWidget {
                   RouteButtonData(
                     activeIcon: EvaIcons.calendar,
                     icon: EvaIcons.calendarOutline,
-                    label: "User Alert",
+                    label: "Alerts",
                     totalNotif: 20,
                   ),
                   RouteButtonData(
@@ -65,20 +65,20 @@ class Sidebar extends StatelessWidget {
                     label: "Transactions",
                   ),
                   RouteButtonData(
-                    activeIcon: EvaIcons.person,
-                    icon: EvaIcons.personOutline,
+                    activeIcon: EvaIcons.settings,
+                    icon: EvaIcons.settings2,
                     label: "Settings",
                   ),
-                  RouteButtonData(
-                    activeIcon: EvaIcons.messageCircleOutline,
-                    icon: EvaIcons.messageSquareOutline,
-                    label: "Feed Back",
-                  ),
-                  RouteButtonData(
-                    activeIcon: EvaIcons.logOut,
-                    icon: EvaIcons.logOut,
-                    label: "Log Out",
-                  )
+                  // RouteButtonData(
+                  //   activeIcon: EvaIcons.messageCircleOutline,
+                  //   icon: EvaIcons.messageSquareOutline,
+                  //   label: "Feed Back",
+                  // ),
+                  // RouteButtonData(
+                  //   activeIcon: EvaIcons.logOut,
+                  //   icon: EvaIcons.logOut,
+                  //   label: "Log Out",
+                  // )
                 ],
                 onSelected: (index, value) {
                   if (value.label == "Dashboard") {
@@ -90,7 +90,7 @@ class Sidebar extends StatelessWidget {
                   } else if (value.label == "Wallets") {
                     // 2
                     Get.offNamed(Routes.wallets);
-                  } else if (value.label == "User Alert") {
+                  } else if (value.label == "Alerts") {
                     // 3
                     Get.offNamed(Routes.user_alerts);
                   } else if (value.label == "Transactions") {
@@ -106,16 +106,10 @@ class Sidebar extends StatelessWidget {
                     // 6
                     authController.logout();
                   }
-                  // log("index : $index | label : ${value.label}");
                 },
               ),
               // const Divider(thickness: 1),
               const SizedBox(height: kSpacing * 2),
-              // UpgradePremiumCard(
-              //   backgroundColor: themeContext.canvasColor.withOpacity(.4),
-              //   onPressed: () {},
-              // ),
-              // const SizedBox(height: kSpacing),
             ],
           ),
         ),

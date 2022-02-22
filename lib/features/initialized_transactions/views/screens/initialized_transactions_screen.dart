@@ -115,7 +115,7 @@ class InitializedTransactionsScreen
   Sidebar _sideBar() {
     return Sidebar(
       data: getSelectedProject(),
-      initialSelected: 4,
+      initialSelected: 3,
     );
   }
 
