@@ -31,6 +31,14 @@ extension ToShortHumanFormat on String {
   }
 }
 
+extension ToHumanFormat on String {
+  String toHumanFormat({String? currency}) {
+    return canBeInteger(this.toString()) || canBeDouble(this.toString())
+        ? "${currency ?? ""} ${_humanFormat(this.toString())}"
+        : '';
+  }
+}
+
 extension DoubleHumanFormat on double {
   String doubleHumanFormat() {
     return _humanFormat(this.toStringAsFixed(2));

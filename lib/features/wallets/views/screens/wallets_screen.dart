@@ -184,16 +184,19 @@ class WalletsScreen extends GetView<WalletsController> {
               ),
               Card(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
-                child: Container(
-                  height: 40.0,
-                  width: mediaQueryData.size.width,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Obx(
-                        () => Text(
-                          "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.view_stash),
+                  child: Container(
+                    height: 40.0,
+                    width: mediaQueryData.size.width,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Obx(
+                          () => Text(
+                            "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                          ),
                         ),
                       ),
                     ),

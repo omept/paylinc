@@ -26,6 +26,7 @@ class Routes {
 
   static const String create_wallet = _Paths.create_wallet;
   static const String view_wallet = _Paths.view_wallet;
+  static const String view_stash = _Paths.view_stash;
   static const String transfer = _Paths.transfer;
 }
 
@@ -35,6 +36,7 @@ class _Paths {
   static const String dashboard = '/dashboard';
   static const String wallets = '/wallets';
   static const String view_wallet = '/view-wallet';
+  static const String view_stash = '/view-stash';
   static const String settings = '/settings';
   static const String splash = '/splash';
   static const String welcome = '/welcome';

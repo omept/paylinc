@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
+import 'package:paylinc/shared_components/models/stash_logs_response.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
 import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
@@ -79,6 +80,20 @@ class LocalStorageServices {
   Future<void> saveWalletLogsResponse(WalletLogsResponse map) async {
     var userITBox = await Hive.openBox('auth_user_wll_lgs');
     userITBox.put('wallet_logs', map.toJson());
+  }
+
+  Future<StashLogsResponse?> getStashLogsResponse() async {
+    var userITBox = await Hive.openBox('auth_user_stsh_lgs');
+    var bxData = userITBox.get('stash_logs');
+    if (bxData != null) {
+      return StashLogsResponse.fromMap(json.decode(bxData));
+    }
+    return null;
+  }
+
+  Future<void> saveStashLogsResponse(StashLogsResponse map) async {
+    var userITBox = await Hive.openBox('auth_user_stsh_lgs');
+    userITBox.put('stash_logs', map.toJson());
   }
 
   Future<UserStatistics> saveUserStatisticsFromMap(
