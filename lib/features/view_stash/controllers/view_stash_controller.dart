@@ -4,7 +4,7 @@ class ViewStashController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   AuthController authController = Get.find();
   LocalStorageServices localStorageServices = Get.find();
-  var walletTransactionsList = <StashLogData?>[].obs;
+  var stashTransactionsList = <StashLogData?>[].obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -19,7 +19,7 @@ class ViewStashController extends GetxController {
     // retrieve logs from storage
     StashLogsResponse? _wlRs =
         await localStorageServices.getStashLogsResponse();
-    walletTransactionsList.value = _wlRs?.stashLogsData ?? [];
+    stashTransactionsList.value = _wlRs?.stashLogsData ?? [];
 
     updateLogs();
   }
@@ -30,7 +30,9 @@ class ViewStashController extends GetxController {
       ResponseModel res = await api.getStashLogs();
       if (res.status == true) {
         StashLogsResponse _sLRs = StashLogsResponse.fromMap(res.data!);
-        walletTransactionsList.value = _sLRs.stashLogsData ?? [];
+        log(_sLRs.stashLogsData.toString());
+
+        stashTransactionsList.value = _sLRs.stashLogsData ?? [];
         // save to storage
         localStorageServices.saveStashLogsResponse(_sLRs);
       } else {

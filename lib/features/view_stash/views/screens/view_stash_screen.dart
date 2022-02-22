@@ -1,5 +1,7 @@
 library view_stash;
 
+import 'dart:developer';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
@@ -276,32 +278,99 @@ class _StashsTransactions extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewStashController vWC = Get.find();
     return SingleChildScrollView(child: Obx(() {
-      if (vWC.walletTransactionsList.isEmpty) {
+      if (vWC.stashTransactionsList.isEmpty) {
         return emptyListIndicator();
       }
 
       final List fixedList =
-          Iterable<int>.generate(vWC.walletTransactionsList.length).toList();
+          Iterable<int>.generate(vWC.stashTransactionsList.length).toList();
 
-      final List<Widget> walletTiles = fixedList.map((idx) {
+      final List<Widget> stashTiles = fixedList.map((idx) {
         return _StashTransactionListItem(
           selectedIndex: idx,
-          transactionAmount: "${vWC.walletTransactionsList[idx]?.amount}",
-          transactionAction: "${vWC.walletTransactionsList[idx]?.action}",
+          transactionAmount: "${vWC.stashTransactionsList[idx]?.amount ?? ""}",
+          transactionAction: "${vWC.stashTransactionsList[idx]?.action ?? ""}",
+          bank: vWC.stashTransactionsList[idx]?.bank?.name,
+          accountNumber: vWC.stashTransactionsList[idx]?.accountNumber,
+          accountName: vWC.stashTransactionsList[idx]?.accountName,
+          wallet: vWC.stashTransactionsList[idx]?.wallet?.walletPaytag,
           transactionCurrency:
               "${vWC.authController.user.country?.currencyAbr ?? ""}",
           createdAt:
-              dateTimeDisplay('${vWC.walletTransactionsList[idx]?.createdAt}'),
+              dateTimeDisplay('${vWC.stashTransactionsList[idx]?.createdAt}'),
         );
       }).toList();
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+        children: stashTiles.length > 0 ? stashTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
     }));
+  }
+}
+
+class _StashTransactionListItem extends StatelessWidget {
+  _StashTransactionListItem({
+    Key? key,
+    required this.selectedIndex,
+    required this.transactionAmount,
+    required this.transactionAction,
+    required this.transactionCurrency,
+    required this.createdAt,
+    this.bank,
+    this.wallet,
+    this.accountNumber,
+    this.accountName,
+  }) : super(key: key);
+
+  final int selectedIndex;
+  final String transactionAmount;
+  final String transactionAction;
+  final String? bank;
+  final String? accountNumber;
+  final String? accountName;
+  final String? wallet;
+  final String transactionCurrency;
+  final String createdAt;
+  final ViewStashController vWC = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        elevation: 1.0,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap: () {},
+          child: SizedBox(
+            height: 84.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
+                    child: _StashTransactionDescription(
+                      transactionAmount: transactionAmount,
+                      transactionAction: transactionAction,
+                      wallet: wallet,
+                      bank: bank,
+                      accountNumber: accountNumber,
+                      accountName: accountName,
+                      transactionCurrency: transactionCurrency,
+                      createdAt: createdAt,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -317,12 +386,20 @@ class _StashTransactionDescription extends StatelessWidget {
     required this.transactionAmount,
     required this.transactionCurrency,
     required this.transactionAction,
+    this.wallet,
+    this.bank,
+    this.accountNumber,
+    this.accountName,
     required this.createdAt,
   }) : super(key: key);
 
   final String transactionAmount;
   final String transactionAction;
   final String transactionCurrency;
+  final String? wallet;
+  final String? bank;
+  final String? accountNumber;
+  final String? accountName;
   final String createdAt;
 
   @override
@@ -331,16 +408,26 @@ class _StashTransactionDescription extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
             canBeInteger(transactionAmount) || canBeDouble(transactionAmount)
                 ? Text(
-                    transactionAmount.toShortHumanFormat(
+                    transactionAmount.toHumanFormat(
                         currency: "$transactionCurrency "),
                     style: alrtAmountStyle)
                 : Container(),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(
+                '$createdAt',
+                style: TextStyle(
+                  color: themeCtx.textTheme.caption?.color,
+                  fontSize: 12.0,
+                ),
+              ),
+            )
           ],
         ),
         Expanded(
@@ -348,29 +435,49 @@ class _StashTransactionDescription extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "$transactionAction",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: themeCtx.textTheme.caption?.color,
-                  fontSize: 12.0,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  bank != null
+                      ? Text(
+                          "${bank ?? ""} ${accountNumber ?? ""} ${accountName ?? ""}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: themeCtx.textTheme.caption?.color,
+                            fontSize: 12.0,
+                          ),
+                        )
+                      : Text(
+                          "@${wallet ?? ""}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: themeCtx.textTheme.caption?.color,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '$createdAt',
-                    style: TextStyle(
-                      color: themeCtx.textTheme.caption?.color,
-                      fontSize: 12.0,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      "$transactionAction",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        // color: themeCtx.textTheme.caption?.color,
+                        fontSize: 13.0,
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Icon(
-                      EvaIcons.activityOutline,
+                      EvaIcons.layersOutline,
                       size: 12.0,
                       color: themeCtx.colorScheme.secondary,
                     ),
@@ -381,64 +488,6 @@ class _StashTransactionDescription extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _StashTransactionListItem extends StatelessWidget {
-  _StashTransactionListItem({
-    Key? key,
-    required this.selectedIndex,
-    required this.transactionAmount,
-    required this.transactionAction,
-    required this.transactionCurrency,
-    required this.createdAt,
-  }) : super(key: key);
-
-  final int selectedIndex;
-  final String transactionAmount;
-  final String transactionAction;
-  final String transactionCurrency;
-  final String createdAt;
-  final ViewStashController vWC = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Card(
-        elevation: 1.0,
-        margin: const EdgeInsets.all(0),
-        child: InkWell(
-          onTap: () {
-            vWC.viewInititalizedTransaction(
-                selectedIndex: selectedIndex,
-                selectedType: AlertTagType.WALLETS,
-                initializedTransactionId: vWC
-                    .walletTransactionsList[selectedIndex]
-                    ?.initializedTransactionId);
-          },
-          child: SizedBox(
-            height: 82.0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
-                    child: _StashTransactionDescription(
-                      transactionAmount: transactionAmount,
-                      transactionAction: transactionAction,
-                      transactionCurrency: transactionCurrency,
-                      createdAt: createdAt,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
