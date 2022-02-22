@@ -53,7 +53,6 @@ class SendMoneyController extends GetxController {
 
   void updateRWalletPaytag(String val) async {
     selectedWalletValue.value = val;
-
     try {
       rWalletPaytagUsageMessage.value = "checking ...";
 
@@ -108,7 +107,6 @@ class SendMoneyController extends GetxController {
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       });
-
       if (res.status == true) {
         _status.value = FormzStatus.submissionSuccess;
         var resFormat = {'transaction': res.data!};

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:http/http.dart' as http;
 part 'user_api.dart';
 part 'settings_api.dart';
 part 'wallets_api.dart';
@@ -10,8 +13,8 @@ part 'alerts_api.dart';
 part 'initialized_transactions_api.dart';
 
 /// contains all service to get data from Server
-class RestApiServices extends GetConnect {
-  final String baseUrl = 'https://paylinc.test/api/';
+class RestApiServices {
+  String apiBaseUrl = 'https://paylinc.test/api/';
   AuthenticationRepository? authenticationRepository;
   AuthController authCtrlr = Get.find();
 
@@ -32,58 +35,94 @@ class RestApiServices extends GetConnect {
     return headers;
   }
 
-  ResponseModel responseHandler(Response<dynamic> response) {
-    ResponseModel responseModel;
+  ResponseModel responseHandler(http.Response response) {
+    ResponseModel responseModel = ResponseModel();
+    var jsonRes = json.decode(response.body);
     responseModel = ResponseModel(
-      data: response.body?['data'],
-      message: response.body?['message'],
-      status: response.body?['status'],
-      statusCode: response.body?['status-code'],
+      message: jsonRes['message'] ?? '',
+      status: jsonRes['status'] ?? false,
+      statusCode: jsonRes['status_code'] ?? 0,
     );
-    if (response.status.hasError) {
-      if (response.body != null) {
-        // handle backend errors
-        // 401 -- auth error response
-        // 400 -- problem response
-        // 500 -- server response
 
-        switch (response.status.code) {
-          case 400:
-            responseModel.message = "Bad request.";
-            break;
-          case 401:
-            if (responseModel.message == "Account is not yet verified.") {
-              this.authenticationRepository?.onboardingReqAcctVerification();
-              // } else if (responseModel.message == "Invalid credentials") {
-            } else if (responseModel.message == "Expired Session" ||
-                responseModel.message == "Token has expired" ||
-                responseModel.message == "Invalid Token") {
-              Snackbar.infoSnackBar(
-                  responseModel.message ?? RestApiServices.errMessage);
-              authCtrlr.logout();
-            }
-            break;
-          case 500:
-            responseModel.message = "Could not connect";
-            break;
-          default:
-        }
-        return responseModel;
+    if (response.statusCode != 200) {
+      // handle backend errors
+      // 401 -- auth error response
+      // 400 -- problem response
+      // 500 -- server response
+
+      switch (response.statusCode) {
+        case 400:
+          responseModel.message = "Bad request.";
+          break;
+        case 401:
+          if (responseModel.message == "Account is not yet verified.") {
+            this.authenticationRepository?.onboardingReqAcctVerification();
+            // } else if (responseModel.message == "Invalid credentials") {
+          } else if (responseModel.message == "Expired Session" ||
+              responseModel.message == "Token has expired" ||
+              responseModel.message == "Invalid Token") {
+            Snackbar.infoSnackBar(
+                responseModel.message ?? RestApiServices.errMessage);
+            authCtrlr.logout();
+          }
+          break;
+        case 500:
+          responseModel.message = "Could not connect";
+          break;
+        default:
       }
-      return ResponseModel(
-        data: {},
-        message: '',
-        status: false,
-        statusCode: 0,
-      );
+
+      return responseModel;
+    } else {
+      try {
+        responseModel.status = true;
+        responseModel.data = jsonRes['data'];
+      } on Exception catch (_) {
+        responseModel.status = false;
+      }
+      return responseModel;
     }
-    return responseModel;
   }
 
-  @override
-  void onInit() {
-    httpClient.baseUrl = baseUrl;
-    httpClient.defaultContentType = "application/json";
-    super.onInit();
+  Future<ResponseModel> makePost(
+      {required String url,
+      Map<String, String>? data,
+      String? defaultMessage}) async {
+    try {
+      return await post(url, data);
+    } on Exception catch (_) {
+      return ResponseModel(
+          message: Runes(defaultMessage ?? "").length > 0
+              ? defaultMessage
+              : errMessage);
+    }
+  }
+
+  Future<ResponseModel> post(String url, Map<String, String>? data) async {
+    var headers = this.requestHeader();
+    var uri = Uri.parse('$apiBaseUrl$url/');
+    var response = await http.post(uri, body: data, headers: headers);
+    return responseHandler(response);
+  }
+
+  Future<ResponseModel> makeGet(
+      {Map<String, dynamic>? data,
+      required String url,
+      String? defaultMessage}) async {
+    try {
+      var uri = Uri.parse('$apiBaseUrl$url/');
+      var response = await http.get(uri);
+      return this.responseHandler(response);
+    } on Exception catch (_) {
+      return ResponseModel(
+          message: defaultMessage != "" ? defaultMessage : errMessage);
+    }
+  }
+
+  Future<ResponseModel> get(String url) async {
+    var headers = this.requestHeader();
+    var uri = Uri.parse('$apiBaseUrl/$url');
+    var response = await http.get(uri, headers: headers);
+    return responseHandler(response);
   }
 }

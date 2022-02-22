@@ -10,6 +10,8 @@ import 'package:paylinc/utils/services/local_storage_services.dart';
 
 class AuthController extends GetxController {
   final AuthenticationRepository authenticationRepository;
+
+  var selectedWallet = Wallet().obs;
   AuthController({
     required this.authenticationRepository,
   });
@@ -19,6 +21,7 @@ class AuthController extends GetxController {
   final _userStatistics = UserStatistics().obs;
 
   bool get authenticated => _authenticated.value;
+
   set authenticated(bool value) => _authenticated.value = value;
   String get token => _token.value;
   set token(String value) => _token.value = value;

@@ -11,7 +11,7 @@ import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/features/validate_otp/validate_otp.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 
 class Paylinc extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;

@@ -1,10 +1,10 @@
 library initialized_transactions;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/models/user_alerts_response.dart';
@@ -16,7 +16,8 @@ import 'package:paylinc/shared_components/today_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
+import 'package:paylinc/utils/helpers/dateTimeDisplay.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 
@@ -237,7 +238,7 @@ class _PaymentTransactions extends StatelessWidget {
     InitializedTransactionsController uITC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uITC.paymentTransactionsList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -252,9 +253,8 @@ class _PaymentTransactions extends StatelessWidget {
           senderPaytag: "${uITC.paymentTransactionsList[idx]?.sender?.paytag}",
           walletPaytag:
               "${uITC.paymentTransactionsList[idx]?.wallet?.walletPaytag}",
-          createdAt: Jiffy('${uITC.paymentTransactionsList[idx]?.createdAt}')
-              .fromNow()
-              .toString(),
+          createdAt: dateTimeDisplay(
+              '${uITC.paymentTransactionsList[idx]?.createdAt}'),
           status:
               uITC.paymentTransactionsList[idx]?.initializedTransactionStatus ??
                   0,
@@ -422,7 +422,7 @@ class _WalletsTransactions extends StatelessWidget {
     InitializedTransactionsController uITC = Get.find();
     return SingleChildScrollView(child: Obx(() {
       if (uITC.walletTransactionsList.isEmpty) {
-        return Center(child: Text("Empty"));
+        return emptyListIndicator();
       }
 
       final List fixedList =
@@ -437,9 +437,8 @@ class _WalletsTransactions extends StatelessWidget {
           senderPaytag: "${uITC.walletTransactionsList[idx]?.sender?.paytag}",
           walletPaytag:
               "${uITC.walletTransactionsList[idx]?.wallet?.walletPaytag}",
-          createdAt: Jiffy('${uITC.walletTransactionsList[idx]?.createdAt}')
-              .fromNow()
-              .toString(),
+          createdAt:
+              dateTimeDisplay('${uITC.walletTransactionsList[idx]?.createdAt}'),
           status:
               uITC.walletTransactionsList[idx]?.initializedTransactionStatus ??
                   0,
@@ -574,7 +573,7 @@ class _WalletTransactionListItem extends StatelessWidget {
                 selectedIndex: selectedIndex,
                 selectedType: AlertTagType.WALLETS,
                 initializedTransaction:
-                    uITC.paymentTransactionsList[selectedIndex]);
+                    uITC.walletTransactionsList[selectedIndex]);
           },
           child: SizedBox(
             height: 90.0,

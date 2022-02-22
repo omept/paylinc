@@ -1,6 +1,8 @@
 library wallets;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 
 import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/shared_components/profile_tile.dart';
@@ -15,10 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/shared_components/wallet_card.dart';
-import 'package:paylinc/utils/controllers/auth_controller.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:user_repository/user_repository.dart';
 
 // binding
@@ -153,7 +154,7 @@ class WalletsScreen extends GetView<WalletsController> {
             ),
           ),
           Text(
-            "Combiled balance",
+            "Combined balance",
           ),
           const SizedBox(height: kSpacing),
           Container(
@@ -183,16 +184,19 @@ class WalletsScreen extends GetView<WalletsController> {
               ),
               Card(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
-                child: Container(
-                  height: 40.0,
-                  width: mediaQueryData.size.width,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Obx(
-                        () => Text(
-                          "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.view_stash),
+                  child: Container(
+                    height: 40.0,
+                    width: mediaQueryData.size.width,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Obx(
+                          () => Text(
+                            "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                          ),
                         ),
                       ),
                     ),
@@ -268,11 +272,7 @@ class _WalletsList extends StatelessWidget {
     return SingleChildScrollView(
       child: Obx(() {
         if (ctrl.walletsList.isEmpty) {
-          return Center(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Empty"),
-          ));
+          return emptyListIndicator();
         }
         final List fixedList =
             Iterable<int>.generate(ctrl.walletsList.length).toList();
@@ -374,7 +374,10 @@ class _WalletListItem extends StatelessWidget {
         elevation: 1.0,
         margin: const EdgeInsets.all(0),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            ctrl.setSelectedWallet(selectedIndex);
+            Get.toNamed(Routes.view_wallet);
+          },
           child: SizedBox(
             height: 68.0,
             child: Row(

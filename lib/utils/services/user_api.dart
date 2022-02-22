@@ -6,98 +6,48 @@ class UserApi extends RestApiServices {
   UserApi.withAuthRepository(AuthenticationRepository authenticationRepository)
       : super.withAuthRepository(authenticationRepository);
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   Future<ResponseModel> login(Map<String, String> data) async {
-    try {
-      final String url = "auth/login";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/login");
   }
 
   Future<ResponseModel> isPaytagUsable(Map<String, String> data) async {
-    try {
-      final String url = "auth/validate-paytag";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/validate-paytag");
   }
 
   Future<ResponseModel> isPaytagAvailable(Map<String, String> data) async {
-    try {
-      final String url = "auth/paytag-availability";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/paytag-availability");
   }
 
   Future<ResponseModel> signUp(Map<String, String> data) async {
-    try {
-      final String url = "auth/sign-up";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/sign-up");
   }
 
   Future<ResponseModel> validateOtp(Map<String, String> data) async {
-    try {
-      final String url = "auth/confirm-otp";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/confirm-otp");
   }
 
   Future<ResponseModel> sendforgotPasswordLink(Map<String, String> data) async {
-    try {
-      final String url = "auth/send-password-reset-link";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/send-password-reset-link");
   }
 
   Future<ResponseModel> confirmForgotPassword(Map<String, String> data) async {
-    try {
-      final String url = "auth/reset-password";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/reset-password");
   }
 
   Future<ResponseModel> resendOtp() async {
-    try {
-      final String url = "auth/resend-otp";
-      final response = await post(url, '', headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(url: "auth/resend-otp");
   }
 
   Future<ResponseModel> authUser(Map<String, String> data) async {
-    try {
-      final String url = "auth/user";
-      final response = await post(url, data, headers: this.requestHeader());
-      return this.responseHandler(response);
-    } on Exception catch (_) {
-      return ResponseModel(message: UserApi.errMessage);
-    }
+    return makePost(data: data, url: "auth/user");
   }
+
+  // Future<ResponseModel> makePost(Map<String, dynamic>? data, url) async {
+  //   try {
+  //     var response = await post(url, data, headers: this.requestHeader());
+  //     return this.responseHandler(response);
+  //   } on Exception catch (_) {
+  //     return ResponseModel(message: WalletsApi.errMessage);
+  //   }
+  // }
 }

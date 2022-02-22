@@ -48,6 +48,7 @@ dependencies:
   awesome_select: ^5.1.0
   jiffy: ^5.0.0
   webview_flutter: ^3.0.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
