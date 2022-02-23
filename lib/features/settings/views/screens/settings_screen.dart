@@ -158,6 +158,24 @@ class SettingsScreen extends GetView<SettingsController> {
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
+            iconData: EvaIcons.personDoneOutline,
+            data: "Verification",
+            subData: controller.authCtrl.user.otpVerified == true
+                ? "Verified"
+                : "Not verified",
+            subDataColor: td.textTheme.caption?.color,
+            onTap: () => null,
+          ),
+          const SizedBox(height: kSpacing / 2.5),
+          _settingsBtn(
+            iconData: EvaIcons.moreHorizontal,
+            data: "PIN",
+            subData: "Update your transaction PIN",
+            subDataColor: td.textTheme.caption?.color,
+            onTap: () => null,
+          ),
+          const SizedBox(height: kSpacing / 2.5),
+          _settingsBtn(
             iconData: EvaIcons.shield,
             data: "Password",
             subData: "Last updated on: 22/12/2021",
