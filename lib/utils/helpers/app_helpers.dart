@@ -3,6 +3,7 @@ library app_helpers;
 import 'dart:convert';
 
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
@@ -55,4 +56,28 @@ String _shortHumanFormat({dynamic val, String? currency}) {
     decimalDigits: 2,
     symbol: "${currency ?? ''}",
   ).format(double.parse(val));
+}
+
+Widget appVersion(ThemeData td) {
+  String year = DateFormat('yyyy').format(DateTime.now());
+  return Column(children: [
+    Center(
+      child: Text(
+        "Paylinc V4.0.0",
+        style: TextStyle(
+          fontSize: 14,
+          color: td.textTheme.caption?.color,
+        ),
+      ),
+    ),
+    Center(
+      child: Text(
+        " © $year Omept Technology Ltd",
+        style: TextStyle(
+          fontSize: 14,
+          color: td.textTheme.caption?.color,
+        ),
+      ),
+    )
+  ]);
 }

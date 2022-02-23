@@ -9,18 +9,20 @@ import 'package:paylinc/shared_components/models/user_statistics.dart';
 import 'package:paylinc/utils/services/local_storage_services.dart';
 
 class AuthController extends GetxController {
-  final AuthenticationRepository authenticationRepository;
-
-  var selectedWallet = Wallet().obs;
   AuthController({
     required this.authenticationRepository,
   });
+
+  final AuthenticationRepository authenticationRepository;
   final _authenticated = false.obs;
   final _token = "".obs;
   final _user = User().obs;
   final _userStatistics = UserStatistics().obs;
-
+  var selectedWallet = Wallet().obs;
   bool get authenticated => _authenticated.value;
+
+  var enableAppLock = false.obs;
+  var enableBiometric = false.obs;
 
   set authenticated(bool value) => _authenticated.value = value;
   String get token => _token.value;
@@ -75,5 +77,13 @@ class AuthController extends GetxController {
         userStatistics = await localStorageServices.getUserStatistics();
       }
     } on Exception catch (_) {}
+  }
+
+  void toggleAppLockSettings() {
+    enableAppLock.value = !enableAppLock.value;
+  }
+
+  void toggleBiometricSettings() {
+    enableBiometric.value = !enableBiometric.value;
   }
 }

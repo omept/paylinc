@@ -57,7 +57,7 @@ class Sidebar extends StatelessWidget {
                     activeIcon: EvaIcons.calendar,
                     icon: EvaIcons.calendarOutline,
                     label: "Alerts",
-                    totalNotif: 20,
+                    // totalNotif: 20,
                   ),
                   RouteButtonData(
                     activeIcon: EvaIcons.email,
@@ -65,8 +65,8 @@ class Sidebar extends StatelessWidget {
                     label: "Transactions",
                   ),
                   RouteButtonData(
-                    activeIcon: EvaIcons.settings,
-                    icon: EvaIcons.settings2,
+                    activeIcon: EvaIcons.settings2,
+                    icon: EvaIcons.settings2Outline,
                     label: "Settings",
                   ),
                   // RouteButtonData(

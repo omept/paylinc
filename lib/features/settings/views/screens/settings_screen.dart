@@ -1,6 +1,7 @@
 library settings;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -12,6 +13,7 @@ import 'package:paylinc/shared_components/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
 
 // binding
@@ -156,12 +158,42 @@ class SettingsScreen extends GetView<SettingsController> {
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
-            iconData: EvaIcons.lock,
+            iconData: EvaIcons.shield,
             data: "Password",
             subData: "Last updated on: 22/12/2021",
             subDataColor: td.textTheme.caption?.color,
             onTap: () => null,
           ),
+          const SizedBox(height: kSpacing / 2.5),
+          Obx(() => _settingsBtn(
+                iconData: EvaIcons.eye,
+                data: "Biometric",
+                subData: "Unlock app and confirm transactions",
+                subDataColor: td.textTheme.caption?.color,
+                useRadioBtn: true,
+                radioSelected: controller.authCtrl.enableBiometric.value,
+                onTap: () {
+                  controller.authCtrl.toggleBiometricSettings();
+                },
+              )),
+          Obx(() => _settingsBtn(
+              iconData: EvaIcons.lock,
+              data: "App Lock",
+              subData: "Use PIN or Biometric to unlock app",
+              subDataColor: td.textTheme.caption?.color,
+              useRadioBtn: true,
+              radioSelected: controller.authCtrl.enableAppLock.value,
+              onTap: () {
+                controller.authCtrl.toggleAppLockSettings();
+              })),
+          Divider(),
+          _settingsBtn(
+            iconData: EvaIcons.logOut,
+            data: "Log Out",
+            onTap: () => controller.authCtrl.logout(),
+          ),
+          const SizedBox(height: kSpacing * 2),
+          appVersion(td),
         ]);
   }
 
@@ -170,31 +202,55 @@ class SettingsScreen extends GetView<SettingsController> {
       required String data,
       required Function onTap,
       String? subData,
-      Color? subDataColor}) {
-    return SizedBox(
-      height: 50.0,
-      child: InkWell(
-        onTap: () => onTap,
-        // borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kSpacing + 10,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Wrap(
+      Color? subDataColor,
+      bool useRadioBtn = false,
+      bool radioSelected = false}) {
+    return Stack(
+      children: [
+        SizedBox(
+          height: !useRadioBtn ? 50.0 : 70.0,
+          child: InkWell(
+            onTap: () => onTap(),
+            // borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kSpacing + 10,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _icon(iconData),
-                  const SizedBox(width: kSpacing / 2),
-                  _labelText(data,
-                      subData: subData, subDataColor: subDataColor),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      _icon(iconData),
+                      const SizedBox(width: kSpacing / 2),
+                      _labelText(data,
+                          subData: subData, subDataColor: subDataColor),
+                    ],
+                  ),
+                  if (!useRadioBtn) Icon(EvaIcons.arrowRight)
                 ],
               ),
-              Icon(EvaIcons.arrowRight)
-            ],
+            ),
           ),
         ),
+        if (useRadioBtn)
+          Align(
+            alignment: Alignment.centerRight,
+            child: _switchIcon(radioSelected, onTap),
+          )
+      ],
+    );
+  }
+
+  _switchIcon(bool radioSelected, Function onTap) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, right: kSpacing),
+      child: Switch(
+        value: radioSelected,
+        onChanged: (val) {
+          onTap();
+        },
       ),
     );
   }
@@ -224,6 +280,7 @@ class SettingsScreen extends GetView<SettingsController> {
             subData,
             style: TextStyle(
               color: subDataColor,
+              fontSize: 13,
             ),
           ),
       ],
