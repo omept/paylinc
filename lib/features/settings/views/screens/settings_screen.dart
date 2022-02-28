@@ -192,7 +192,8 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsBtn(
             iconData: EvaIcons.shield,
             data: "Password",
-            subData: "Last updated on: 22/12/2021",
+            subData:
+                "Last updated on: ${controller.authCtrl.user.passwordUpdatedAt ?? 'Unavailable'}",
             subDataColor: td.textTheme.caption?.color,
             onTap: () => Get.offNamed(Routes.password_update),
           ),

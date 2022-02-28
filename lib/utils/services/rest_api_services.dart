@@ -52,7 +52,7 @@ class RestApiServices {
 
       switch (response.statusCode) {
         case 400:
-          print(response.body);
+          // print(response.body);
           responseModel.message = "Bad request.";
           break;
         case 401:
