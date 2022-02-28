@@ -76,7 +76,7 @@ class User {
       email: map['email'],
       paytag: map['paytag'],
       stashBalance: map['stash_balance']?.toInt(),
-      otpVerified: map['otp_verified'].toString() == "1",
+      otpVerified: map['otp_verified'].toString() == "true",
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))

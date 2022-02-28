@@ -176,6 +176,14 @@ class SettingsScreen extends GetView<SettingsController> {
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
+            iconData: EvaIcons.hardDriveOutline,
+            data: "2FA",
+            subData: "Two-factor authentication",
+            subDataColor: td.textTheme.caption?.color,
+            onTap: () => null,
+          ),
+          const SizedBox(height: kSpacing / 2.5),
+          _settingsBtn(
             iconData: EvaIcons.shield,
             data: "Password",
             subData: "Last updated on: 22/12/2021",
@@ -197,7 +205,7 @@ class SettingsScreen extends GetView<SettingsController> {
           Obx(() => _settingsBtn(
               iconData: EvaIcons.lock,
               data: "App Lock",
-              subData: "Use PIN or Biometric to unlock app",
+              subData: "Lock app when not in use",
               subDataColor: td.textTheme.caption?.color,
               useRadioBtn: true,
               radioSelected: controller.authCtrl.enableAppLock.value,
@@ -210,7 +218,7 @@ class SettingsScreen extends GetView<SettingsController> {
             data: "Log Out",
             onTap: () => controller.authCtrl.logout(),
           ),
-          const SizedBox(height: kSpacing * 2),
+          const SizedBox(height: kSpacing * 1.7),
           appVersion(td),
         ]);
   }
