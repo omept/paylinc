@@ -9,4 +9,21 @@ class SettingsController extends GetxController {
       scaffoldKey.currentState!.openDrawer();
     }
   }
+
+  void customerVerification() async {
+    try {
+      var api = UserApi.withAuthRepository(authCtrl.authenticationRepository);
+      ResponseModel res = await api.customerVerification();
+      if (res.status == true) {
+        Snackbar.successSnackBar(
+            'Request sent.', "Account verification request sent.");
+      } else {
+        Snackbar.errSnackBar('Account Verification request failed',
+            res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      Snackbar.errSnackBar(
+          'Account Verification request failed', SettingsApi.errMessage);
+    }
+  }
 }

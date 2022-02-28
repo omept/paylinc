@@ -3,6 +3,7 @@ library settings;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/shared_components/header.dart';
+import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/selected_project.dart';
@@ -15,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/helpers/get_profile.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
 
 // binding
 part '../../bindings/settings_binding.dart';
@@ -160,11 +162,14 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsBtn(
             iconData: EvaIcons.personDoneOutline,
             data: "Verification",
-            subData: controller.authCtrl.user.otpVerified == true
+            subData: controller.authCtrl.user.customerVerified == true
                 ? "Verified"
                 : "Not verified",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => null,
+            onTap: () {
+              if (controller.authCtrl.user.customerVerified != true)
+                controller.customerVerification();
+            },
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
@@ -188,7 +193,7 @@ class SettingsScreen extends GetView<SettingsController> {
             data: "Password",
             subData: "Last updated on: 22/12/2021",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => null,
+            onTap: () => controller.authCtrl.toggleBiometricSettings(),
           ),
           const SizedBox(height: kSpacing / 2.5),
           Obx(() => _settingsBtn(
@@ -198,9 +203,7 @@ class SettingsScreen extends GetView<SettingsController> {
                 subDataColor: td.textTheme.caption?.color,
                 useRadioBtn: true,
                 radioSelected: controller.authCtrl.enableBiometric.value,
-                onTap: () {
-                  controller.authCtrl.toggleBiometricSettings();
-                },
+                onTap: () => controller.authCtrl.toggleBiometricSettings(),
               )),
           Obx(() => _settingsBtn(
               iconData: EvaIcons.lock,
@@ -209,9 +212,7 @@ class SettingsScreen extends GetView<SettingsController> {
               subDataColor: td.textTheme.caption?.color,
               useRadioBtn: true,
               radioSelected: controller.authCtrl.enableAppLock.value,
-              onTap: () {
-                controller.authCtrl.toggleAppLockSettings();
-              })),
+              onTap: () => controller.authCtrl.toggleAppLockSettings())),
           Divider(),
           _settingsBtn(
             iconData: EvaIcons.logOut,

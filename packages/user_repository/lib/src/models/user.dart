@@ -10,6 +10,7 @@ class User {
   String? paytag;
   int? stashBalance;
   bool? otpVerified;
+  bool? customerVerified;
   Country? country;
   List<Wallet?>? wallets;
   String? createdAt;
@@ -21,6 +22,7 @@ class User {
     this.paytag,
     this.stashBalance,
     this.otpVerified,
+    this.customerVerified,
     this.country,
     this.wallets,
     this.createdAt,
@@ -35,6 +37,7 @@ class User {
     String? paytag,
     int? stashBalance,
     bool? otpVerified,
+    bool? customerVerified,
     Country? country,
     List<Wallet?>? wallets,
     String? createdAt,
@@ -47,6 +50,7 @@ class User {
       paytag: paytag ?? this.paytag,
       stashBalance: stashBalance ?? this.stashBalance,
       otpVerified: otpVerified ?? this.otpVerified,
+      customerVerified: customerVerified ?? this.customerVerified,
       country: country ?? this.country,
       wallets: wallets ?? this.wallets,
       createdAt: createdAt ?? this.createdAt,
@@ -62,6 +66,7 @@ class User {
       'paytag': paytag,
       'stash_balance': stashBalance,
       'otp_verified': otpVerified,
+      'customer_verified': customerVerified,
       'country': country?.toMap(),
       'wallets': wallets?.map((x) => x?.toMap()).toList(),
       'createdAt': createdAt,
@@ -77,6 +82,7 @@ class User {
       paytag: map['paytag'],
       stashBalance: map['stash_balance']?.toInt(),
       otpVerified: map['otp_verified'].toString() == "true",
+      customerVerified: map['customer_verified'].toString() == "true",
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))
@@ -101,7 +107,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified, country: $country, wallets: $wallets, createdAt: $createdAt)';
+    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, createdAt: $createdAt)';
   }
 
   @override
@@ -116,6 +122,7 @@ class User {
         other.paytag == paytag &&
         other.stashBalance == stashBalance &&
         other.otpVerified == otpVerified &&
+        other.customerVerified == customerVerified &&
         other.country == country &&
         eq(other.wallets, wallets) &&
         other.createdAt == createdAt;
@@ -130,6 +137,7 @@ class User {
         paytag.hashCode ^
         stashBalance.hashCode ^
         otpVerified.hashCode ^
+        customerVerified.hashCode ^
         country.hashCode ^
         wallets.hashCode ^
         createdAt.hashCode;

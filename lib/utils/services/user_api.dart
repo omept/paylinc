@@ -42,12 +42,7 @@ class UserApi extends RestApiServices {
     return makePost(data: data, url: "auth/user");
   }
 
-  // Future<ResponseModel> makePost(Map<String, dynamic>? data, url) async {
-  //   try {
-  //     var response = await post(url, data, headers: this.requestHeader());
-  //     return this.responseHandler(response);
-  //   } on Exception catch (_) {
-  //     return ResponseModel(message: WalletsApi.errMessage);
-  //   }
-  // }
+  Future<ResponseModel> customerVerification() async {
+    return makePost(url: "auth/user/request-account-verification");
+  }
 }
