@@ -7,6 +7,7 @@ import 'package:paylinc/features/initialized_transaction/views/screens/initializ
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
+import 'package:paylinc/features/password_update/view/password_update_screen.dart';
 import 'package:paylinc/features/request_money/view/request_money_screen.dart';
 import 'package:paylinc/features/send_money/view/send_money_screen.dart';
 import 'package:paylinc/features/settings/views/screens/settings_screen.dart';
@@ -144,6 +145,12 @@ class AppPages {
       page: () => const SettingsScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.password_update,
+      page: () => const PasswordUpdateScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: PasswordUpdateBindings(),
     ),
     GetPage(
       name: _Paths.feed_back,

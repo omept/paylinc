@@ -2,6 +2,7 @@ library settings;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
 import 'package:paylinc/shared_components/responsive_builder.dart';
@@ -193,7 +194,7 @@ class SettingsScreen extends GetView<SettingsController> {
             data: "Password",
             subData: "Last updated on: 22/12/2021",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => controller.authCtrl.toggleBiometricSettings(),
+            onTap: () => Get.offNamed(Routes.password_update),
           ),
           const SizedBox(height: kSpacing / 2.5),
           Obx(() => _settingsBtn(
