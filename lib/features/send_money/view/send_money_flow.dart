@@ -680,7 +680,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   TextEditingController textEditingController = TextEditingController();
   SendMoneyController controller = Get.find<SendMoneyController>();
 
-  String currentText = '';
   @override
   void initState() {
     super.initState();
@@ -707,7 +706,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
         if (canBeInteger(value) && (value.length > 0)) {
           controller.updateOtp(value);
           setState(() {
-            currentText = value;
+            textEditingController.text = value;
           });
         } else {
           errorController.add(ErrorAnimationType.shake);

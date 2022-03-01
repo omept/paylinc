@@ -418,7 +418,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   TextEditingController textEditingController = TextEditingController();
   PinUpdateController controller = Get.find();
 
-  String currentText = '';
   @override
   void initState() {
     super.initState();
@@ -445,7 +444,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
         if (canBeInteger(value) && (value.length > 0)) {
           controller.newPin.value = value.toInt();
           setState(() {
-            currentText = value;
+            textEditingController.text = value;
           });
         } else {
           errorController.add(ErrorAnimationType.shake);
@@ -468,7 +467,6 @@ class _NewTransferPinInputState extends State<_NewTransferPinInput> {
   TextEditingController textEditingController = TextEditingController();
   PinUpdateController controller = Get.find();
 
-  String currentText = '';
   @override
   void initState() {
     super.initState();
@@ -495,7 +493,7 @@ class _NewTransferPinInputState extends State<_NewTransferPinInput> {
         if (canBeInteger(value) && (value.length > 0)) {
           controller.newPin.value = value.toInt();
           setState(() {
-            currentText = value;
+            textEditingController.text = value;
           });
         } else {
           errorController.add(ErrorAnimationType.shake);
@@ -518,7 +516,6 @@ class _CNewTransferPinInputState extends State<_CNewTransferPinInput> {
   TextEditingController textEditingController = TextEditingController();
   PinUpdateController controller = Get.find();
 
-  String currentText = '';
   @override
   void initState() {
     super.initState();
@@ -545,7 +542,7 @@ class _CNewTransferPinInputState extends State<_CNewTransferPinInput> {
           if (canBeInteger(value) && (value.length > 0)) {
             controller.cNewPin.value = value.toInt();
             setState(() {
-              currentText = value;
+              textEditingController.text = value;
             });
           } else {
             errorController.add(ErrorAnimationType.shake);

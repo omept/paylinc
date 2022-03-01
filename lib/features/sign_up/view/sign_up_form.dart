@@ -204,7 +204,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
   StreamController<ErrorAnimationType> errorController =
       StreamController<ErrorAnimationType>();
   TextEditingController textEditingController = TextEditingController();
-  String currentText = '';
+
   @override
   void initState() {
     super.initState();
@@ -222,7 +222,6 @@ class _TransferPinInputState extends State<TransferPinInput> {
       // buildWhen: (previous, current) =>
       //     previous.transferPin.value != current.transferPin.value,
       builder: (context, state) {
-        // String currentText = state.transferPin.value;
         return PinCodeTextField(
           appContext: context,
           length: 6,
@@ -238,7 +237,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
             }
             context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
             setState(() {
-              currentText = value;
+              textEditingController.text = value;
             });
           },
           beforeTextPaste: (text) => true,
