@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';

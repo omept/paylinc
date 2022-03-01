@@ -1,8 +1,4 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+part of shared_components;
 
 class WebViewStack extends StatefulWidget {
   WebViewStack({Key? key, this.onError, this.initialUrl}) : super(key: key);

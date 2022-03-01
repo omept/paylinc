@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+part of shared_components;
 
 class ProjectCardData {
   final double percent;

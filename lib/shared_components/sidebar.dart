@@ -1,11 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/route_button.dart';
-import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
+part of shared_components;
 
 class Sidebar extends StatelessWidget {
   const Sidebar({

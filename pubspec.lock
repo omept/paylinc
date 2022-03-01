@@ -272,6 +272,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.3.3"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -403,6 +410,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  local_auth:
+    dependency: "direct main"
+    description:
+      name: local_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.11"
   logging:
     dependency: transitive
     description:
@@ -466,13 +480,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  password_strength:
-    dependency: "direct main"
-    description:
-      name: password_strength
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   path:
     dependency: transitive
     description:

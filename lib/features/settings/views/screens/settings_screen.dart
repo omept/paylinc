@@ -3,15 +3,10 @@ library settings;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/header.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/selected_project.dart';
-import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/shared_components/today_text.dart';
 import 'package:paylinc/shared_components/models/profile.dart';
-import 'package:paylinc/shared_components/profile_tile.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -144,35 +139,46 @@ class SettingsScreen extends GetView<SettingsController> {
             padding: const EdgeInsets.symmetric(horizontal: kSpacing),
             child: Text("Account", style: kFHeadingTextStyle(td)),
           ),
-          _settingsBtn(
-            iconData: EvaIcons.person,
-            data: "Profile",
+          _settingsTile(
+            iconData: EvaIcons.email,
+            data: "Email",
+            subData: controller.authCtrl.user.email,
+            subDataColor: td.textTheme.caption?.color,
             onTap: () => null,
           ),
+          const SizedBox(height: kSpacing / 2.5),
+          _settingsTile(
+            iconData: EvaIcons.attach2Outline,
+            data: "Payment Tag",
+            subData: controller.authCtrl.user.paytag,
+            subDataColor: td.textTheme.caption?.color,
+            onTap: () => null,
+          ),
+          const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
             iconData: EvaIcons.npm,
             data: "Banks",
             onTap: () => null,
           ),
-          const SizedBox(height: kSpacing + 10),
+          const SizedBox(height: kSpacing / 2.5),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kSpacing),
             child: Text("Security", style: kFHeadingTextStyle(td)),
           ),
           const SizedBox(height: kSpacing / 2.5),
-          _settingsBtn(
-            iconData: EvaIcons.personDoneOutline,
-            data: "Verification",
-            subData: controller.authCtrl.user.customerVerified == true
-                ? "Verified"
-                : "Not verified",
-            subDataColor: td.textTheme.caption?.color,
-            onTap: () {
-              if (controller.authCtrl.user.customerVerified != true)
-                controller.customerVerification();
-            },
-          ),
-          const SizedBox(height: kSpacing / 2.5),
+          // _settingsBtn(
+          //   iconData: EvaIcons.personDoneOutline,
+          //   data: "Verification",
+          //   subData: controller.authCtrl.user.customerVerified == true
+          //       ? "Verified"
+          //       : "Not verified",
+          //   subDataColor: td.textTheme.caption?.color,
+          //   onTap: () {
+          //     if (controller.authCtrl.user.customerVerified != true)
+          //       controller.customerVerification();
+          //   },
+          // ),
+          // const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
             iconData: EvaIcons.moreHorizontal,
             data: "PIN",
@@ -260,6 +266,41 @@ class SettingsScreen extends GetView<SettingsController> {
             alignment: Alignment.centerRight,
             child: _switchIcon(radioSelected, onTap),
           )
+      ],
+    );
+  }
+
+  Widget _settingsTile(
+      {required IconData iconData,
+      required String data,
+      required Function onTap,
+      String? subData,
+      Color? subDataColor,
+      bool useRadioBtn = false}) {
+    return Stack(
+      children: [
+        SizedBox(
+          height: !useRadioBtn ? 50.0 : 70.0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kSpacing + 10,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    _icon(iconData),
+                    const SizedBox(width: kSpacing / 2),
+                    _labelText(data,
+                        subData: subData, subDataColor: subDataColor),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

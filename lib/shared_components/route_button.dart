@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:get/get.dart';
+part of shared_components;
 
 class RouteButtonData {
   final IconData activeIcon;

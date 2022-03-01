@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 
