@@ -225,7 +225,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
         // String currentText = state.transferPin.value;
         return PinCodeTextField(
           appContext: context,
-          length: 4,
+          length: 6,
           obscureText: true,
           animationType: AnimationType.fade,
           animationDuration: Duration(milliseconds: 300),
@@ -237,6 +237,9 @@ class _TransferPinInputState extends State<TransferPinInput> {
               errorController.add(ErrorAnimationType.shake);
             }
             context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
+            setState(() {
+              currentText = value;
+            });
           },
           beforeTextPaste: (text) => true,
         );

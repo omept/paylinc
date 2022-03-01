@@ -178,15 +178,7 @@ class SettingsScreen extends GetView<SettingsController> {
             data: "PIN",
             subData: "Update your transaction PIN",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => null,
-          ),
-          const SizedBox(height: kSpacing / 2.5),
-          _settingsBtn(
-            iconData: EvaIcons.hardDriveOutline,
-            data: "2FA",
-            subData: "Two-factor authentication",
-            subDataColor: td.textTheme.caption?.color,
-            onTap: () => null,
+            onTap: () => Get.offNamed(Routes.pin_update),
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(

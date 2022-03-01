@@ -1,7 +1,7 @@
 part of app_helpers;
 
 extension DynamicHelper on String {
-  int? toInt() {
+  int toInt() {
     return _toInt(this);
   }
 }

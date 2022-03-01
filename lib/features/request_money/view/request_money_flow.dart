@@ -1072,7 +1072,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   Widget build(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
-      length: 4,
+      length: 6,
       obscureText: true,
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
@@ -1082,6 +1082,11 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       onChanged: (value) {
         if (canBeInteger(value) && (value.length > 0)) {
           controller.updateOtp(value);
+          setState(() {
+            currentText = value;
+          });
+        } else {
+          errorController.add(ErrorAnimationType.shake);
         }
       },
       beforeTextPaste: (text) => canBeInteger(text ?? ''),

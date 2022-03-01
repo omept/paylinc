@@ -46,6 +46,10 @@ class UserApi extends RestApiServices {
     return makePost(data: data, url: "auth/update-password");
   }
 
+  Future<ResponseModel> updatePin(Map<String, String> data) async {
+    return makePost(data: data, url: "auth/change-transfer-pin");
+  }
+
   Future<ResponseModel> customerVerification() async {
     return makePost(url: "auth/user/request-account-verification");
   }

@@ -183,7 +183,7 @@ class ViewStashScreen extends GetView<ViewStashController> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
-                  onTap: () => Get.offAllNamed(Routes.transfer),
+                  onTap: () => Get.offNamed(Routes.transfer),
                   child: Container(
                     width: 100.0,
                     height: 50.0,

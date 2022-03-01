@@ -1,31 +1,31 @@
-part of password_update;
+part of pin_update;
 
-class PasswordUpdateController extends GetxController {
+class PinUpdateController extends GetxController {
   var _status = FormzStatus.pure.obs;
-  var currentPassword = "".obs;
-  var newPassword = "".obs;
-  var cNewPassword = "".obs;
+  var currentPin = 0.obs;
+  var newPin = 0.obs;
+  var cNewPin = 0.obs;
   AuthController authController = Get.find<AuthController>();
 
   FormzStatus get status => _status.value;
   set status(val) => _status.value = val;
 
-  void passwordUpdate() async {
+  void pinUpdate() async {
     _status.value = FormzStatus.submissionInProgress;
     try {
       UserApi api =
           UserApi.withAuthRepository(authController.authenticationRepository);
-      var res = await api.updatePassword({
-        // 'old_password': currentPassword.value,
-        'password': newPassword.value,
-        'confirm_password': cNewPassword.value
+      var res = await api.updatePin({
+        'current_pin': currentPin.value.toString(),
+        'new_pin': newPin.value.toString(),
+        'confirm_new_pin': cNewPin.value.toString()
       });
 
       if (res.status == true) {
-        authController.fetUserFromToken();
         _status.value = FormzStatus.submissionSuccess;
-        Snackbar.errSnackBar(
-            'Updated', res.message ?? RestApiServices.errMessage);
+        Snackbar.errSnackBar('Your pin has been updated',
+            res.message ?? RestApiServices.errMessage);
+
         Get.offNamed(Routes.settings);
       } else {
         _status.value = FormzStatus.submissionFailure;

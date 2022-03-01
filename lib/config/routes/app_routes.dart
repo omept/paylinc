@@ -6,6 +6,7 @@ class Routes {
   static const String wallets = _Paths.wallets;
   static const String settings = _Paths.settings;
   static const String password_update = _Paths.password_update;
+  static const String pin_update = _Paths.pin_update;
   static const String splash = _Paths.splash;
   static const String initialized_transactions =
       _Paths.initialized_transactions;
@@ -40,6 +41,7 @@ class _Paths {
   static const String view_stash = '/view-stash';
   static const String settings = '/settings';
   static const String password_update = '/password-update';
+  static const String pin_update = '/pin-update';
   static const String splash = '/splash';
   static const String welcome = '/welcome';
   static const String login = '/login';
