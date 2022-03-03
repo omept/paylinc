@@ -49,6 +49,7 @@ dependencies:
   webview_flutter: ^3.0.0
   http: ^0.13.4
   local_auth: ^1.1.11
+  flutter_app_lock: ^2.0.0
 
 dev_dependencies:
   flutter_test:

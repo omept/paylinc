@@ -5,6 +5,7 @@ import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transaction/views/screens/initialized_transaction_screen.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
+import 'package:paylinc/features/lock_screen/views/screens/lock_screen_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
 import 'package:paylinc/features/password_update/view/password_update_screen.dart';
@@ -152,6 +153,12 @@ class AppPages {
       page: () => const PasswordUpdateScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: PasswordUpdateBindings(),
+    ),
+    GetPage(
+      name: _Paths.lock_screen,
+      page: () => const LockScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: LockScreenBinding(),
     ),
     GetPage(
       name: _Paths.pin_update,

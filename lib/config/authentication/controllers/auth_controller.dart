@@ -2,11 +2,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/utils/services/rest_api_services.dart';
+import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'package:paylinc/shared_components/models/user_statistics.dart';
-import 'package:paylinc/utils/services/local_storage_services.dart';
 
 class AuthController extends GetxController {
   AuthController({
@@ -81,7 +80,12 @@ class AuthController extends GetxController {
     enableAppLock.value = !enableAppLock.value;
   }
 
-  void toggleBiometricSettings() {
+  void toggleBiometricSettings() async {
     enableBiometric.value = !enableBiometric.value;
+
+    bool biomtcEnbld = await LocalAuthApi.hasBiometrics();
+    if (enableBiometric.value && biomtcEnbld) {
+      print("biomtcEnbld: $biomtcEnbld");
+    }
   }
 }

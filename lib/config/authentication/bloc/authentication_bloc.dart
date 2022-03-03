@@ -62,6 +62,8 @@ class AuthenticationBloc
         return ForgotPassword(user: user);
       case AuthenticationStatus.validate_email:
         return ValidateEmail(user: user);
+      case AuthenticationStatus.lock_screen:
+        return AppLockScreen(user: user);
       default:
         return UnknownAuth(user: user);
     }

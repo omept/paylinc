@@ -10,6 +10,7 @@ enum AuthenticationStatus {
   unauthenticated, // not logged in
   validate_otp,
   forgot_password,
+  lock_screen,
   validate_email
 }
 
@@ -72,51 +73,55 @@ class AuthenticationRepository {
   }
 
   hiveStringToAuth(authString) {
-    AuthenticationStatus as;
+    AuthenticationStatus _as;
     if (authString == 'unknown') {
-      as = AuthenticationStatus.unknown;
+      _as = AuthenticationStatus.unknown;
     } else if (authString == 'signup') {
-      as = AuthenticationStatus.signup;
+      _as = AuthenticationStatus.signup;
     } else if (authString == 'forgotPassword') {
-      as = AuthenticationStatus.forgotPassword;
+      _as = AuthenticationStatus.forgotPassword;
     } else if (authString == 'authenticated') {
-      as = AuthenticationStatus.authenticated;
+      _as = AuthenticationStatus.authenticated;
     } else if (authString == 'unauthenticated') {
-      as = AuthenticationStatus.unauthenticated;
+      _as = AuthenticationStatus.unauthenticated;
     } else if (authString == 'validate_otp') {
-      as = AuthenticationStatus.validate_otp;
+      _as = AuthenticationStatus.validate_otp;
     } else if (authString == 'forgot_password') {
-      as = AuthenticationStatus.forgot_password;
+      _as = AuthenticationStatus.forgot_password;
     } else if (authString == 'validate_email') {
-      as = AuthenticationStatus.validate_email;
+      _as = AuthenticationStatus.validate_email;
+    } else if (authString == 'lock_screen') {
+      _as = AuthenticationStatus.lock_screen;
     } else {
-      as = AuthenticationStatus.unknown;
+      _as = AuthenticationStatus.unknown;
     }
-    return as;
+    return _as;
   }
 
   hiveAuthToString(auth) {
-    String as;
+    String _as;
     if (auth == AuthenticationStatus.unknown) {
-      as = 'unknown';
+      _as = 'unknown';
     } else if (auth == AuthenticationStatus.signup) {
-      as = 'signup';
+      _as = 'signup';
     } else if (auth == AuthenticationStatus.forgotPassword) {
-      as = 'forgotPassword';
+      _as = 'forgotPassword';
     } else if (auth == AuthenticationStatus.authenticated) {
-      as = 'authenticated';
+      _as = 'authenticated';
     } else if (auth == AuthenticationStatus.unauthenticated) {
-      as = 'unauthenticated';
+      _as = 'unauthenticated';
     } else if (auth == AuthenticationStatus.validate_otp) {
-      as = 'validate_otp';
+      _as = 'validate_otp';
     } else if (auth == AuthenticationStatus.forgot_password) {
-      as = 'forgot_password';
+      _as = 'forgot_password';
     } else if (auth == AuthenticationStatus.validate_email) {
-      as = 'validate_email';
+      _as = 'validate_email';
+    } else if (auth == AuthenticationStatus.lock_screen) {
+      _as = 'lock_screen';
     } else {
-      as = 'unknown';
+      _as = 'unknown';
     }
-    return as;
+    return _as;
   }
 
   void logOut() async {

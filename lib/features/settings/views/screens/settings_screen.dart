@@ -197,7 +197,7 @@ class SettingsScreen extends GetView<SettingsController> {
           ),
           const SizedBox(height: kSpacing / 2.5),
           Obx(() => _settingsBtn(
-                iconData: EvaIcons.eye,
+                iconData: Icons.fingerprint,
                 data: "Biometric",
                 subData: "Unlock app and confirm transactions",
                 subDataColor: td.textTheme.caption?.color,

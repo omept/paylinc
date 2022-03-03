@@ -99,6 +99,9 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.validate_otp:
                 Get.offNamed(Routes.validate_otp);
                 break;
+              case AuthenticationStatus.lock_screen:
+                Get.offNamed(Routes.lock_screen);
+                break;
               default:
                 break;
             }

@@ -22,6 +22,7 @@ class Routes {
   static const String forgot_password = _Paths.forgot_password;
   static const String confirm_forgot_password = _Paths.confirm_forgot_password;
   static const String validate_otp = _Paths.validate_otp;
+  static const String lock_screen = _Paths.lock_screen;
 
   static const String request_money = _Paths.request_money;
   static const String send_money = _Paths.send_money;
@@ -61,4 +62,5 @@ class _Paths {
   static const String request_money = '/request-money';
   static const String send_money = '/send-money';
   static const String create_wallet = '/create-wallet';
+  static const String lock_screen = '/lock-screen';
 }
