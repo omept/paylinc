@@ -3,16 +3,12 @@ library settings;
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
+import 'package:paylinc/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/helpers/get_profile.dart';
-import 'package:paylinc/utils/services/rest_api_services.dart';
+import 'package:paylinc/utils/utils.dart';
 
 // binding
 part '../../bindings/settings_binding.dart';

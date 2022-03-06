@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
+import 'package:paylinc/shared_components/models/models.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:intl/intl.dart' as intl;
@@ -15,6 +15,7 @@ import 'dart:io';
 import 'package:webview_flutter/webview_flutter.dart';
 
 export 'models/models.dart';
+export 'form_inputs/form_inputs.dart';
 
 part 'get_premium_card.dart';
 part 'guest_header_items.dart';

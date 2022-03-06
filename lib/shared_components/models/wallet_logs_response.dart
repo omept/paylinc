@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
+part of models;
 
 class WalletLogsResponse {
   List<WalletLogData?>? walletLogsData;

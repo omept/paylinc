@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/form_inputs/email.dart';
-import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/shared_components/form_inputs/form_inputs.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/helpers/app_helpers.dart';
 import 'package:paylinc/utils/services/rest_api_services.dart';
 

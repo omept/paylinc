@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of models;
 
 class HeaderItem {
   final String title;

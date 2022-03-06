@@ -69,8 +69,38 @@ class AppView extends StatefulWidget {
   _AppViewState createState() => _AppViewState();
 }
 
-class _AppViewState extends State<AppView> {
+class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _resumed();
+        break;
+      case AppLifecycleState.paused:
+        _paused();
+        break;
+      case AppLifecycleState.inactive:
+        _inactive();
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,5 +144,17 @@ class _AppViewState extends State<AppView> {
       getPages: AppPages.routes,
       transitionDuration: Duration(milliseconds: 700),
     );
+  }
+
+  void _resumed() {
+    print("App Resumed");
+  }
+
+  void _paused() {
+    print("App Paused");
+  }
+
+  void _inactive() {
+    print("App Inactive");
   }
 }

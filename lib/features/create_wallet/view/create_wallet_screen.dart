@@ -10,9 +10,6 @@ import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
-
-import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/shared_components/models/supported_category.dart';
 import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 

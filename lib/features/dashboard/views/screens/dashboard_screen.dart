@@ -9,8 +9,7 @@ import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/utils/helpers/get_profile.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
+import 'package:paylinc/utils/utils.dart';
 
 // binding
 part '../../bindings/dashboard_binding.dart';

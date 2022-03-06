@@ -1,21 +1,15 @@
 library admin_dashboard;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
-// import 'package:paylinc/shared_components/profile_tile.dart';
-// import 'package:paylinc/shared_components/header.dart';
-// import 'package:paylinc/shared_components/responsive_builder.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/constants/app_constants.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:paylinc/shared_components/shared_components.dart';
-import 'package:paylinc/utils/helpers/get_profile.dart';
+import 'package:paylinc/utils/utils.dart';
 
 // binding
 part '../../bindings/admin_dashboard_binding.dart';
-
 // controller
 part '../../controllers/admin_dashboard_controller.dart';
 

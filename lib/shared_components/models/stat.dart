@@ -1,3 +1,5 @@
+part of models;
+
 class Stat {
   final String count;
   final String text;

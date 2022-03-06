@@ -1,1 +1,31 @@
 library models;
+
+import 'package:flutter/material.dart';
+import 'package:paylinc/constants/app_constants.dart';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
+import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:paylinc/utils/services/rest_api_services.dart';
+
+part 'biometric_settings.dart';
+part 'carousel_item_model.dart';
+part 'design_process.dart';
+part 'education.dart';
+part 'empty_list_indicator.dart';
+part 'footer_item.dart';
+part 'header_item.dart';
+part 'initialized_transactions_response.dart';
+part 'initialized_transaction_b64.dart';
+part 'profile.dart';
+part 'response_model.dart';
+part 'review_request.dart';
+part 'skill.dart';
+part 'stash_logs_response.dart';
+part 'stat.dart';
+part 'supported_category.dart';
+part 'testimonial.dart';
+part 'user_alerts_response.dart';
+part 'user_statistics.dart';
+part 'wallet_logs_response.dart';

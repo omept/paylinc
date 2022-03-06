@@ -1,12 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
-import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
-import 'package:paylinc/shared_components/models/stash_logs_response.dart';
-import 'package:paylinc/shared_components/models/user_alerts_response.dart';
-import 'package:paylinc/shared_components/models/user_statistics.dart';
-import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// contains all service to get data from local
@@ -131,5 +126,15 @@ class LocalStorageServices {
   Future<String?> getInitializedTransactionB64() async {
     var box = await Hive.openBox('intialized_transaction');
     return box.get('initializedTransactionB64', defaultValue: null);
+  }
+
+  void saveBiometricSettings(Map<String, bool> value) async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.put('biometric_settings', json.encode(value));
+  }
+
+  void saveApplockSettings(bool value) async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.put('applock_enabled', value);
   }
 }

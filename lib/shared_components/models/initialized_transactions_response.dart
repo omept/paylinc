@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:paylinc/shared_components/models/user_alerts_response.dart';
+part of models;
 
 class InitializedTransactionsResponse {
   List<InitializedTransaction?>? incomingInitializedTransactions;

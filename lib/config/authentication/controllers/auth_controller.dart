@@ -1,11 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:paylinc/shared_components/models/response_model.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
-
-import 'package:paylinc/shared_components/models/user_statistics.dart';
 
 class AuthController extends GetxController {
   AuthController({
@@ -48,8 +46,18 @@ class AuthController extends GetxController {
   void logout() async {
     _authenticated.value = false;
     _token.value = "";
+    // backup the app lock and biometric settings if they exist
+    applockBiometricBackup();
+
     await Hive.deleteFromDisk();
     authenticationRepository.onboardingReqLogin();
+  }
+
+  void applockBiometricBackup() async {
+    bool enableAppLockExist = await Hive.boxExists("applock_settings");
+    if (enableAppLockExist) {
+      enableAppLock.value = Hive.box("applock_settings").get("enableAppLock");
+    }
   }
 
   void updateUserWallets(List<Wallet> wallets) {
@@ -82,10 +90,11 @@ class AuthController extends GetxController {
 
   void toggleBiometricSettings() async {
     enableBiometric.value = !enableBiometric.value;
+    // localStorageServices.saveBiometricSettings(enableBiometric.value);
 
-    bool biomtcEnbld = await LocalAuthApi.hasBiometrics();
-    if (enableBiometric.value && biomtcEnbld) {
-      print("biomtcEnbld: $biomtcEnbld");
-    }
+    // bool biomtcEnbld = await LocalAuthApi.hasBiometrics();
+    // if (enableBiometric.value && biomtcEnbld) {
+    //   print("biomtcEnbld: $biomtcEnbld");
+    // }
   }
 }

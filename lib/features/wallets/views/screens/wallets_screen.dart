@@ -2,18 +2,14 @@ library wallets;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
-
-import 'package:paylinc/shared_components/models/profile.dart';
 import 'package:paylinc/constants/app_constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
-import 'package:paylinc/utils/helpers/get_profile.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 
 // binding
@@ -33,8 +29,6 @@ class WalletsScreen extends GetView<WalletsController> {
 
   @override
   Widget build(BuildContext context) {
-    // return Container();
-
     return Scaffold(
       key: controller.scaffoldKey,
       drawer: (ResponsiveBuilder.isDesktop(context))

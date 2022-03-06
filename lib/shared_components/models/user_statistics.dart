@@ -1,4 +1,4 @@
-import 'dart:convert';
+part of models;
 
 class UserStatistics {
   late int? totalTransactions;
