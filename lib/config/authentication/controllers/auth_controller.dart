@@ -39,6 +39,8 @@ class AuthController extends GetxController {
     _user(userClass);
     var userStatisticsClass = await localStorageServices.getUserStatistics();
     _userStatistics(userStatisticsClass);
+    enableAppLock.value = await localStorageServices.getApplockSettings();
+    enableBiometric.value = await localStorageServices.getBiometricSettings();
 
     super.onInit();
   }
@@ -47,17 +49,32 @@ class AuthController extends GetxController {
     _authenticated.value = false;
     _token.value = "";
     // backup the app lock and biometric settings if they exist
-    applockBiometricBackup();
-
-    await Hive.deleteFromDisk();
+    await clearStorage();
     authenticationRepository.onboardingReqLogin();
   }
 
-  void applockBiometricBackup() async {
-    bool enableAppLockExist = await Hive.boxExists("applock_settings");
-    if (enableAppLockExist) {
-      enableAppLock.value = Hive.box("applock_settings").get("enableAppLock");
+  Future<void> clearStorage() async {
+    var aplkBiomtr = await getApplckBiomtrc();
+    await Hive.deleteFromDisk();
+    localStorageServices
+        .saveBiometricSettings(aplkBiomtr['biometricsEnabled']!);
+    localStorageServices.saveApplockSettings(aplkBiomtr['applockEnabled']!);
+  }
+
+  Future<Map<String, bool>> getApplckBiomtrc() async {
+    bool applockBmtrcStngsBx =
+        await Hive.boxExists("applock_biometric_settings");
+    bool applockEnabled = false;
+    bool biometricsEnabled = false;
+    // biometrics_enabled
+    if (applockBmtrcStngsBx) {
+      applockEnabled = await localStorageServices.getApplockSettings();
+      biometricsEnabled = await localStorageServices.getBiometricSettings();
     }
+    return {
+      'applockEnabled': applockEnabled,
+      'biometricsEnabled': biometricsEnabled,
+    };
   }
 
   void updateUserWallets(List<Wallet> wallets) {
@@ -86,15 +103,16 @@ class AuthController extends GetxController {
 
   void toggleAppLockSettings() {
     enableAppLock.value = !enableAppLock.value;
+    localStorageServices.saveApplockSettings(enableAppLock.value);
   }
 
   void toggleBiometricSettings() async {
     enableBiometric.value = !enableBiometric.value;
-    // localStorageServices.saveBiometricSettings(enableBiometric.value);
-
-    // bool biomtcEnbld = await LocalAuthApi.hasBiometrics();
-    // if (enableBiometric.value && biomtcEnbld) {
-    //   print("biomtcEnbld: $biomtcEnbld");
-    // }
+    bool hasBiomtrk = await LocalAuthApi.hasBiometrics();
+    if (hasBiomtrk) {
+      localStorageServices.saveBiometricSettings(enableBiometric.value);
+    } else {
+      Snackbar.errSnackBar("Device Info", "no biometrics found");
+    }
   }
 }

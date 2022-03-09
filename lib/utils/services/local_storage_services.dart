@@ -128,13 +128,23 @@ class LocalStorageServices {
     return box.get('initializedTransactionB64', defaultValue: null);
   }
 
-  void saveBiometricSettings(Map<String, bool> value) async {
+  void saveBiometricSettings(bool value) async {
     var box = await Hive.openBox('applock_biometric_settings');
-    return box.put('biometric_settings', json.encode(value));
+    return box.put('biometrics_enabled', value);
+  }
+
+  Future<bool> getBiometricSettings() async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.get('biometrics_enabled', defaultValue: false);
   }
 
   void saveApplockSettings(bool value) async {
     var box = await Hive.openBox('applock_biometric_settings');
     return box.put('applock_enabled', value);
+  }
+
+  Future<bool> getApplockSettings() async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.get('applock_enabled', defaultValue: false);
   }
 }

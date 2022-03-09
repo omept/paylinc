@@ -153,11 +153,11 @@ class User {
 }
 
 class Country {
-  String? currencyAbr;
-  String? currencyName;
-  int? countryId;
-  String? countryName;
-  Country({
+  final String? currencyAbr;
+  final String? currencyName;
+  final int? countryId;
+  final String? countryName;
+  const Country({
     this.currencyAbr,
     this.currencyName,
     this.countryId,
@@ -233,29 +233,6 @@ class Wallet {
     this.walletPaytag,
     this.balance,
   });
-
-  // Wallet({this.walletPaytag, this.balance});
-
-  // Wallet.fromJson(Map<String, dynamic> json) {
-  //   walletPaytag = json['wallet_paytag'];
-  //   balance = json['balance'];
-  // }
-
-  // factory Wallet.fromMap(Map<String, dynamic> map) {
-  //   return Wallet(
-  //     walletPaytag: map['walletPaytag'] != null ? map['walletPaytag'] : null,
-  //     balance: map['balance'] != null ? map['balance'] : null,
-  //   );
-  // }
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['wallet_paytag'] = this.walletPaytag;
-  //   data['balance'] = this.balance;
-  //   return data;
-  // }
-
-  // @override
-  // String toString() => 'Wallet(walletPaytag: $walletPaytag, balance: $balance)';
 
   Wallet copyWith({
     String? walletPaytag,

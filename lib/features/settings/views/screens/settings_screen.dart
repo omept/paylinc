@@ -162,19 +162,6 @@ class SettingsScreen extends GetView<SettingsController> {
             child: Text("Security", style: kFHeadingTextStyle(td)),
           ),
           const SizedBox(height: kSpacing / 2.5),
-          // _settingsBtn(
-          //   iconData: EvaIcons.personDoneOutline,
-          //   data: "Verification",
-          //   subData: controller.authCtrl.user.customerVerified == true
-          //       ? "Verified"
-          //       : "Not verified",
-          //   subDataColor: td.textTheme.caption?.color,
-          //   onTap: () {
-          //     if (controller.authCtrl.user.customerVerified != true)
-          //       controller.customerVerification();
-          //   },
-          // ),
-          // const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
             iconData: EvaIcons.moreHorizontal,
             data: "PIN",
@@ -301,7 +288,7 @@ class SettingsScreen extends GetView<SettingsController> {
     );
   }
 
-  _switchIcon(bool radioSelected, Function onTap) {
+  Widget _switchIcon(bool radioSelected, Function onTap) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, right: kSpacing),
       child: Switch(
