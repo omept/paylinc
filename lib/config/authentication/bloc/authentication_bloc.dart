@@ -48,7 +48,6 @@ class AuthenticationBloc
   ) async {
     var user = await _fetchUser();
     _authenticationRepository.saveAuthStatus(event.status);
-
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return Unauthenticated(user: user);

@@ -41,7 +41,6 @@ class AuthController extends GetxController {
     _userStatistics(userStatisticsClass);
     enableAppLock.value = await localStorageServices.getApplockSettings();
     enableBiometric.value = await localStorageServices.getBiometricSettings();
-
     super.onInit();
   }
 
@@ -113,6 +112,13 @@ class AuthController extends GetxController {
       localStorageServices.saveBiometricSettings(enableBiometric.value);
     } else {
       Snackbar.errSnackBar("Device Info", "no biometrics found");
+    }
+  }
+
+  void lockScreenAction() {
+    bool firstUse = true;
+    if (enableAppLock.value && !firstUse) {
+      authenticationRepository.lockApp();
     }
   }
 }

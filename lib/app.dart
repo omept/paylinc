@@ -88,12 +88,6 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     switch (state) {
-      case AppLifecycleState.resumed:
-        _resumed();
-        break;
-      case AppLifecycleState.paused:
-        _paused();
-        break;
       case AppLifecycleState.inactive:
         _inactive();
         break;
@@ -146,15 +140,8 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
     );
   }
 
-  void _resumed() {
-    print("App Resumed");
-  }
-
-  void _paused() {
-    print("App Paused");
-  }
-
   void _inactive() {
-    print("App Inactive");
+    AuthController authController = Get.find();
+    authController.lockScreenAction();
   }
 }

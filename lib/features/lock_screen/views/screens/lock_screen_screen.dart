@@ -3,6 +3,8 @@ library lock_screen;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 // binding
 part '../../bindings/lock_screen_binding.dart';
 
@@ -19,17 +21,39 @@ class LockScreen extends GetView<LockScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 100,
-        width: 100,
-        child: Center(
-          child: Icon(
-            Icons.fingerprint,
-            size: 100,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: ResponsiveBuilder(
+          mobileBuilder: _applockMobileScreenWidget,
+          tabletBuilder: _applockMobileScreenWidget,
+          desktopBuilder: _applockMobileScreenWidget,
+        )),
+      ),
+    );
+  }
+
+  Widget _applockMobileScreenWidget(context, constraints) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 400, width: double.infinity),
+        SizedBox(
+          height: 100,
+          width: 100,
+          child: Center(
+            child: GestureDetector(
+              onTap: () => () {
+                Get.offAll(Routes.admin_dashboard);
+              },
+              child: Icon(
+                Icons.fingerprint,
+                size: 100,
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

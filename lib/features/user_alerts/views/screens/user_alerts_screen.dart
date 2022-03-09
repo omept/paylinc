@@ -384,9 +384,6 @@ class _PaymentAlertListItem extends StatelessWidget {
                 initializedTransaction: uAC
                     .paymentAlertList[selectedIndex]?.initializedTransaction);
           },
-          // onDoubleTap: () {
-          //   print('Double Tapped');
-          // },
           child: SizedBox(
             height: canBeInteger(transactionAmount) ? 110.0 : 88,
             child: Row(
