@@ -18,11 +18,20 @@ class Paylinc extends StatelessWidget {
 
   const Paylinc({Key? key, required this.authenticationRepository})
       : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // register controllers
+    // register controllers, blocs, providers, etc
+    return serviceRegistrations();
+  }
+
+  //
+  Widget serviceRegistrations() {
+    // Auth Controller
     Get.put(AuthController(authenticationRepository: authenticationRepository));
+
+    // add Blocs
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider.value(value: authenticationRepository),
@@ -71,6 +80,7 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  AuthController authController = Get.find();
 
   @override
   void dispose() {
@@ -90,6 +100,9 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.inactive:
         _inactive();
+        break;
+      case AppLifecycleState.resumed:
+        _resumed();
         break;
       default:
         break;
@@ -141,7 +154,10 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   }
 
   void _inactive() {
-    AuthController authController = Get.find();
-    authController.lockScreenAction();
+    authController.appInactive();
+  }
+
+  void _resumed() {
+    authController.appResumed();
   }
 }

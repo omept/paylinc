@@ -3,7 +3,6 @@ library lock_screen;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 // binding
 part '../../bindings/lock_screen_binding.dart';
@@ -42,9 +41,9 @@ class LockScreen extends GetView<LockScreenController> {
           height: 100,
           width: 100,
           child: Center(
-            child: GestureDetector(
-              onTap: () => () {
-                Get.offAll(Routes.admin_dashboard);
+            child: InkWell(
+              onTap: () {
+                controller.unlock();
               },
               child: Icon(
                 Icons.fingerprint,

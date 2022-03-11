@@ -44,7 +44,7 @@ class AuthenticationRepository {
     _controller.add(AuthenticationStatus.validate_otp);
   }
 
-  currentAuthenticationState() async {
+  Future<AuthenticationStatus> currentAuthenticationState() async {
     // Determine the anthentication status.
     this._authStatus = await retrieveAuthStatus();
     return this._authStatus;

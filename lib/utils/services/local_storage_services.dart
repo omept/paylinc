@@ -147,4 +147,14 @@ class LocalStorageServices {
     var box = await Hive.openBox('applock_biometric_settings');
     return box.get('applock_enabled', defaultValue: false);
   }
+
+  void saveAppInactiveAt() async {
+    var box = await Hive.openBox('app_inactive');
+    box.put('inactive_at', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  Future<int?> getAppInactiveAt() async {
+    var box = await Hive.openBox('app_inactive');
+    return box.get('inactive_at');
+  }
 }

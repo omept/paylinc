@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
@@ -10,8 +11,11 @@ class AuthController extends GetxController {
     required this.authenticationRepository,
   });
 
+  //
+
   final AuthenticationRepository authenticationRepository;
   final _authenticated = false.obs;
+  final _appLocked = false.obs;
   final _token = "".obs;
   final _user = User().obs;
   final _userStatistics = UserStatistics().obs;
@@ -20,6 +24,8 @@ class AuthController extends GetxController {
 
   var enableAppLock = false.obs;
   var enableBiometric = false.obs;
+
+  bool get appLocked => _appLocked.value;
 
   set authenticated(bool value) => _authenticated.value = value;
   String get token => _token.value;
@@ -115,10 +121,34 @@ class AuthController extends GetxController {
     }
   }
 
-  void lockScreenAction() {
-    bool firstUse = true;
-    if (enableAppLock.value && !firstUse) {
-      authenticationRepository.lockApp();
+  void appInactive() async {
+    AuthenticationStatus currentState =
+        await authenticationRepository.currentAuthenticationState();
+
+    if (currentState == AuthenticationStatus.authenticated) {
+      // save the current time of entering inactivity while in authenticated state
+      localStorageServices.saveAppInactiveAt();
     }
   }
+
+// checks if the app was in the background for more than 10 secs and changes the state to lock app
+// Auth state if true
+  void appResumed() async {
+    try {
+      // get the time app entered inactivity while in authenticated state
+      var inactiveAt = await localStorageServices.getAppInactiveAt();
+
+      if (inactiveAt != null) {
+        int timeToLock = inactiveAt + lockAppIn;
+        if (DateTime.now().millisecondsSinceEpoch >= timeToLock) {
+          // if the app was in the background for more than "lockAppIn" secs
+          // change the state to lock screen
+          _appLocked.value = true;
+          authenticationRepository.lockApp();
+        }
+      }
+    } catch (_) {}
+  }
+
+  void unlock() {}
 }

@@ -24,8 +24,7 @@ import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
 import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
-import 'package:paylinc/utils/middlewares/authenticated.dart';
-import 'package:paylinc/utils/middlewares/guest.dart';
+import 'package:paylinc/utils/utils.dart';
 
 part 'app_routes.dart';
 
