@@ -1,15 +1,24 @@
-# paylinc
+# Paylinc
 
-A new Flutter project.
+This project is a flutter Escrow Frontend Application Template.
 
-## Getting Started
+I built the backend with Laravel but we never saw the daylight of production and I left the team. I decided to build the mobile project out with flutter. I hope you can copy and use this for your own work. I'm also welcoming feedback and corrections to my design/architecture.
 
-This project is a starting point for a Flutter application.
+My intention is to allow people build and scaffold apps quickly. Feel free to use, edit, modify, clone. etc. 
 
-A few resources to get you started if this is your first Flutter project:
+I'll keep updating this project.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+I can try and answer questions, so feel free to ask.
+
+God bless you. (yeah! I'm a child of God)
+
+PICTURES: (Coming Soon)
+
+
+
+
+
+
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
