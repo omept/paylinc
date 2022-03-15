@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of models;
 
 Widget emptyListIndicator() {
   return Center(

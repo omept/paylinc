@@ -1,3 +1,5 @@
+part of app_helpers;
+
 bool canBeInteger(String value) {
   try {
     int.parse(value);

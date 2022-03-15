@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:user_repository/user_repository.dart';
+part of models;
 
 enum TransactionType {
   SEND_MONEY,

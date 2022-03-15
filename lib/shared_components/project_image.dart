@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class ProjetImage extends StatelessWidget {
   const ProjetImage({required this.image, Key? key}) : super(key: key);

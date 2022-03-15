@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of shared_components;
 
 class HeaderItem {
   final String title;

@@ -1,5 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
+part of shared_components;
 
 class SearchField extends StatelessWidget {
   SearchField({this.onSearch, Key? key}) : super(key: key);

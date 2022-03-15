@@ -1,3 +1,5 @@
+part of models;
+
 class Testimonial {
   final String text;
   final String occupation;

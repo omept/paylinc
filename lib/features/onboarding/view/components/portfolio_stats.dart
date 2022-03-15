@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
-import 'package:paylinc/shared_components/models/stat.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 
 final List<Stat> stats = [
   Stat(count: "43", text: "Clients"),

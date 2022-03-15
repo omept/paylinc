@@ -5,8 +5,11 @@ import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transaction/views/screens/initialized_transaction_screen.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
+import 'package:paylinc/features/lock_screen/views/screens/lock_screen_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
+import 'package:paylinc/features/password_update/view/password_update_screen.dart';
+import 'package:paylinc/features/pin_update/view/pin_update_screen.dart';
 import 'package:paylinc/features/request_money/view/request_money_screen.dart';
 import 'package:paylinc/features/send_money/view/send_money_screen.dart';
 import 'package:paylinc/features/settings/views/screens/settings_screen.dart';
@@ -21,8 +24,7 @@ import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
 import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
-import 'package:paylinc/utils/middlewares/authenticated.dart';
-import 'package:paylinc/utils/middlewares/guest.dart';
+import 'package:paylinc/utils/utils.dart';
 
 part 'app_routes.dart';
 
@@ -144,6 +146,24 @@ class AppPages {
       page: () => const SettingsScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.password_update,
+      page: () => const PasswordUpdateScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: PasswordUpdateBindings(),
+    ),
+    GetPage(
+      name: _Paths.lock_screen,
+      page: () => LockScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: LockScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.pin_update,
+      page: () => const PinUpdateScreen(),
+      middlewares: [AuthenticatedMiddleware()],
+      binding: PinUpdateBindings(),
     ),
     GetPage(
       name: _Paths.feed_back,

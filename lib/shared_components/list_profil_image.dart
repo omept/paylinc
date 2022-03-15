@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+part of shared_components;
 
 class ListProfilImage extends StatelessWidget {
   const ListProfilImage({

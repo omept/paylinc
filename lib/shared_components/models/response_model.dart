@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:paylinc/utils/services/rest_api_services.dart';
+part of models;
 
 class ResponseModel {
   Map? data;

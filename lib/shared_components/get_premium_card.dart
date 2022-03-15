@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class GetPremiumCard extends StatelessWidget {
   const GetPremiumCard({

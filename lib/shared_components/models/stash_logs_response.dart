@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:user_repository/user_repository.dart';
+part of models;
 
 class StashLogsResponse {
   List<StashLogData?>? stashLogsData;

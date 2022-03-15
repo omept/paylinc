@@ -1,3 +1,5 @@
+part of models;
+
 class DesignProcess {
   final String title;
   final String imagePath;

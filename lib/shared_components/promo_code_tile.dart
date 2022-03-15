@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class PromoCodeTile extends StatelessWidget {
   const PromoCodeTile({Key? key, required this.code, this.fontSize = 10})

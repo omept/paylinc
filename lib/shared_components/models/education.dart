@@ -1,3 +1,5 @@
+part of models;
+
 class Education {
   final String description;
   final String linkName;

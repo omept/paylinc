@@ -10,9 +10,11 @@ class User {
   String? paytag;
   int? stashBalance;
   bool? otpVerified;
+  bool? customerVerified;
   Country? country;
   List<Wallet?>? wallets;
   String? createdAt;
+  String? passwordUpdatedAt;
   User({
     this.userId,
     this.name,
@@ -21,9 +23,11 @@ class User {
     this.paytag,
     this.stashBalance,
     this.otpVerified,
+    this.customerVerified,
     this.country,
     this.wallets,
     this.createdAt,
+    this.passwordUpdatedAt,
   });
   static final empty = User();
 
@@ -35,9 +39,11 @@ class User {
     String? paytag,
     int? stashBalance,
     bool? otpVerified,
+    bool? customerVerified,
     Country? country,
     List<Wallet?>? wallets,
     String? createdAt,
+    String? passwordUpdatedAt,
   }) {
     return User(
       userId: userId ?? this.userId,
@@ -47,9 +53,11 @@ class User {
       paytag: paytag ?? this.paytag,
       stashBalance: stashBalance ?? this.stashBalance,
       otpVerified: otpVerified ?? this.otpVerified,
+      customerVerified: customerVerified ?? this.customerVerified,
       country: country ?? this.country,
       wallets: wallets ?? this.wallets,
       createdAt: createdAt ?? this.createdAt,
+      passwordUpdatedAt: passwordUpdatedAt ?? this.passwordUpdatedAt,
     );
   }
 
@@ -62,9 +70,11 @@ class User {
       'paytag': paytag,
       'stash_balance': stashBalance,
       'otp_verified': otpVerified,
+      'customer_verified': customerVerified,
       'country': country?.toMap(),
       'wallets': wallets?.map((x) => x?.toMap()).toList(),
-      'createdAt': createdAt,
+      'created_at': createdAt,
+      'password_updated_at': passwordUpdatedAt,
     };
   }
 
@@ -76,12 +86,14 @@ class User {
       email: map['email'],
       paytag: map['paytag'],
       stashBalance: map['stash_balance']?.toInt(),
-      otpVerified: map['otp_verified'].toString() == "1",
+      otpVerified: map['otp_verified'].toString() == "true",
+      customerVerified: map['customer_verified'].toString() == "true",
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))
           : null,
-      createdAt: map['createdAt'],
+      createdAt: map['created_at'],
+      passwordUpdatedAt: map['password_updated_at'],
     );
   }
 
@@ -101,7 +113,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified, country: $country, wallets: $wallets, createdAt: $createdAt)';
+    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, createdAt: $createdAt  password_updated_at: $passwordUpdatedAt )';
   }
 
   @override
@@ -116,9 +128,11 @@ class User {
         other.paytag == paytag &&
         other.stashBalance == stashBalance &&
         other.otpVerified == otpVerified &&
+        other.customerVerified == customerVerified &&
         other.country == country &&
-        eq(other.wallets, wallets) &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.passwordUpdatedAt == passwordUpdatedAt &&
+        eq(other.wallets, wallets);
   }
 
   @override
@@ -130,18 +144,20 @@ class User {
         paytag.hashCode ^
         stashBalance.hashCode ^
         otpVerified.hashCode ^
+        customerVerified.hashCode ^
         country.hashCode ^
         wallets.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        passwordUpdatedAt.hashCode;
   }
 }
 
 class Country {
-  String? currencyAbr;
-  String? currencyName;
-  int? countryId;
-  String? countryName;
-  Country({
+  final String? currencyAbr;
+  final String? currencyName;
+  final int? countryId;
+  final String? countryName;
+  const Country({
     this.currencyAbr,
     this.currencyName,
     this.countryId,
@@ -217,29 +233,6 @@ class Wallet {
     this.walletPaytag,
     this.balance,
   });
-
-  // Wallet({this.walletPaytag, this.balance});
-
-  // Wallet.fromJson(Map<String, dynamic> json) {
-  //   walletPaytag = json['wallet_paytag'];
-  //   balance = json['balance'];
-  // }
-
-  // factory Wallet.fromMap(Map<String, dynamic> map) {
-  //   return Wallet(
-  //     walletPaytag: map['walletPaytag'] != null ? map['walletPaytag'] : null,
-  //     balance: map['balance'] != null ? map['balance'] : null,
-  //   );
-  // }
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['wallet_paytag'] = this.walletPaytag;
-  //   data['balance'] = this.balance;
-  //   return data;
-  // }
-
-  // @override
-  // String toString() => 'Wallet(walletPaytag: $walletPaytag, balance: $balance)';
 
   Wallet copyWith({
     String? walletPaytag,

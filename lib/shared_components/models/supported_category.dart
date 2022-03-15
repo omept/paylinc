@@ -1,4 +1,4 @@
-import 'dart:convert';
+part of models;
 
 class SupportedCategory {
   final String title;

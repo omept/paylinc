@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
-import 'package:paylinc/shared_components/models/user_alerts_response.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
+part of models;
 
 class InitializedTransactionB64 {
   final AlertTagType? alertTagType;

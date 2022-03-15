@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/search_field.dart';
-import 'package:paylinc/shared_components/today_text.dart';
+part of shared_components;
 
 class Header extends StatelessWidget {
   final TodayText todayText;

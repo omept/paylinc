@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class WalletCardData {
   final int totalWallets;

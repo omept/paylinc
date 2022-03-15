@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class SendMoneyCard extends StatelessWidget {
   const SendMoneyCard({
@@ -38,7 +34,7 @@ class SendMoneyCard extends StatelessWidget {
               ),
               const Padding(
                 padding: EdgeInsets.all(15),
-                child: _Info(),
+                child: _InfoSM(),
               ),
             ],
           ),
@@ -48,8 +44,8 @@ class SendMoneyCard extends StatelessWidget {
   }
 }
 
-class _Info extends StatelessWidget {
-  const _Info({Key? key}) : super(key: key);
+class _InfoSM extends StatelessWidget {
+  const _InfoSM({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

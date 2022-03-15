@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
-import 'package:paylinc/shared_components/models/header_item.dart';
+part of shared_components;
 
 final List<HeaderItem> guestHeaderItems = [
   HeaderItem(
@@ -26,7 +21,7 @@ Widget guestHeaderRow() {
   return Builder(builder: (context) {
     var themeContext = Theme.of(context);
     return Row(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.ltr,
       children: guestHeaderItems
           .map(
             (item) => item.isButton

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:paylinc/constants/app_constants.dart';
+part of shared_components;
 
 class ProfileCompletionReportCardData {
   final double percent;
