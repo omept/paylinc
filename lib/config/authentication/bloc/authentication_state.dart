@@ -1,9 +1,9 @@
 part of 'authentication_bloc.dart';
 
 abstract class AuthenticationState extends Equatable {
-    AuthenticationState({
-     required this.status,
-     required  this.user,
+  AuthenticationState({
+    required this.status,
+    required this.user,
   });
 
   final AuthenticationStatus status;
@@ -19,23 +19,25 @@ class UnknownAuth extends AuthenticationState {
   }) : super(
           status: AuthenticationStatus.unknown,
           user: user,
-      );
+        );
 }
+
 class SignUpAuth extends AuthenticationState {
   SignUpAuth({
     required User user,
   }) : super(
           status: AuthenticationStatus.signup,
           user: user,
-      );
+        );
 }
+
 class Authenticated extends AuthenticationState {
   Authenticated({
     required User user,
   }) : super(
           status: AuthenticationStatus.authenticated,
           user: user,
-      );
+        );
 }
 
 class Unauthenticated extends AuthenticationState {
@@ -44,29 +46,41 @@ class Unauthenticated extends AuthenticationState {
   }) : super(
           status: AuthenticationStatus.unauthenticated,
           user: user,
-      );
+        );
 }
+
 class ValidateOtp extends AuthenticationState {
   ValidateOtp({
     required User user,
   }) : super(
           status: AuthenticationStatus.validate_otp,
           user: user,
-      );
+        );
 }
+
+class AppLockScreen extends AuthenticationState {
+  AppLockScreen({
+    required User user,
+  }) : super(
+          status: AuthenticationStatus.lock_screen,
+          user: user,
+        );
+}
+
 class ValidateEmail extends AuthenticationState {
   ValidateEmail({
     required User user,
   }) : super(
           status: AuthenticationStatus.validate_email,
           user: user,
-      );
+        );
 }
+
 class ForgotPassword extends AuthenticationState {
   ForgotPassword({
     required User user,
   }) : super(
           status: AuthenticationStatus.forgot_password,
           user: user,
-      );
+        );
 }

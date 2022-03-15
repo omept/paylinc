@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of models;
 
 class CarouselItemModel {
   final Widget text;

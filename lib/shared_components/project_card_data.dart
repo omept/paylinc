@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/project_card.dart';
+part of shared_components;
 
 ProjectCardData projectCardData() {
   return ProjectCardData(

@@ -1056,7 +1056,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   TextEditingController textEditingController = TextEditingController();
   RequestMoneyController controller = Get.find<RequestMoneyController>();
 
-  String currentText = '';
   @override
   void initState() {
     super.initState();
@@ -1072,7 +1071,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   Widget build(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
-      length: 4,
+      length: 6,
       obscureText: true,
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
@@ -1082,6 +1081,11 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       onChanged: (value) {
         if (canBeInteger(value) && (value.length > 0)) {
           controller.updateOtp(value);
+          setState(() {
+            textEditingController.text = value;
+          });
+        } else {
+          errorController.add(ErrorAnimationType.shake);
         }
       },
       beforeTextPaste: (text) => canBeInteger(text ?? ''),

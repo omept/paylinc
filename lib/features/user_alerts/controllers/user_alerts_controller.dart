@@ -40,7 +40,6 @@ class UserAlertsController extends GetxController {
             _usrAlrtRs.outgoingAlerts?.outgoingAlertsData ?? [];
         walletAlertList.value =
             _usrAlrtRs.incomingAlerts?.incomingAlertsData ?? [];
-        // log(_usrAlrtRs.toJson());
         // save to storage
         localStorageServices.saveUserAlertResponse(_usrAlrtRs);
       } else {

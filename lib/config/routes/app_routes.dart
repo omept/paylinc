@@ -5,6 +5,8 @@ class Routes {
   static const String dashboard = _Paths.dashboard;
   static const String wallets = _Paths.wallets;
   static const String settings = _Paths.settings;
+  static const String password_update = _Paths.password_update;
+  static const String pin_update = _Paths.pin_update;
   static const String splash = _Paths.splash;
   static const String initialized_transactions =
       _Paths.initialized_transactions;
@@ -20,6 +22,7 @@ class Routes {
   static const String forgot_password = _Paths.forgot_password;
   static const String confirm_forgot_password = _Paths.confirm_forgot_password;
   static const String validate_otp = _Paths.validate_otp;
+  static const String lock_screen = _Paths.lock_screen;
 
   static const String request_money = _Paths.request_money;
   static const String send_money = _Paths.send_money;
@@ -38,6 +41,8 @@ class _Paths {
   static const String view_wallet = '/view-wallet';
   static const String view_stash = '/view-stash';
   static const String settings = '/settings';
+  static const String password_update = '/password-update';
+  static const String pin_update = '/pin-update';
   static const String splash = '/splash';
   static const String welcome = '/welcome';
   static const String login = '/login';
@@ -57,4 +62,5 @@ class _Paths {
   static const String request_money = '/request-money';
   static const String send_money = '/send-money';
   static const String create_wallet = '/create-wallet';
+  static const String lock_screen = '/lock-screen';
 }

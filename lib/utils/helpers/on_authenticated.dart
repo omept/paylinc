@@ -1,6 +1,6 @@
 part of app_helpers;
 
-Future<User> onAuthenticated(ResponseModel loginRes,
+Future<User?> onAuthenticated(ResponseModel loginRes,
     AuthenticationRepository authenticationRepository) async {
   AuthController authController = Get.find();
   var locStorageServ = LocalStorageServices();
@@ -16,6 +16,7 @@ Future<User> onAuthenticated(ResponseModel loginRes,
 
   if (user.otpVerified != true) {
     authenticationRepository.shouldValidateOtp();
+    return null;
   }
 
   if ((user.userId is int) && (user.userId! > 0)) {

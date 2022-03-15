@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/models/carousel_item_model.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 
 List<CarouselItemModel> carouselItems = [
   CarouselItemModel(

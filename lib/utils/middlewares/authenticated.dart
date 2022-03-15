@@ -8,9 +8,14 @@ class AuthenticatedMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    if (!authController.authenticated) {
-      return RouteSettings(name: Routes.login);
+    if (authController.appLocked && route != Routes.lock_screen) {
+      return RouteSettings(name: Routes.lock_screen);
+    } else if (!authController.appLocked) {
+      if (!authController.authenticated) {
+        return RouteSettings(name: Routes.login);
+      }
     }
+
     return null;
   }
 }

@@ -10,6 +10,7 @@ enum AuthenticationStatus {
   unauthenticated, // not logged in
   validate_otp,
   forgot_password,
+  lock_screen,
   validate_email
 }
 
@@ -35,15 +36,6 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  Future<void> logIn({
-    required String username,
-    required String password,
-  }) async {
-    // await Future.delayed(
-    //   const Duration(milliseconds: 300),
-    //   () => _controller.add(AuthenticationStatus.authenticated),
-    // );
-  }
   Future<void> setLoggedIn() async {
     _controller.add(AuthenticationStatus.authenticated);
   }
@@ -52,8 +44,8 @@ class AuthenticationRepository {
     _controller.add(AuthenticationStatus.validate_otp);
   }
 
-  currentAuthenticationState() async {
-    // Determine their anthentication status.
+  Future<AuthenticationStatus> currentAuthenticationState() async {
+    // Determine the anthentication status.
     this._authStatus = await retrieveAuthStatus();
     return this._authStatus;
   }
@@ -71,52 +63,35 @@ class AuthenticationRepository {
     authRepository.put('status', hiveAuthToString(authStatus));
   }
 
-  hiveStringToAuth(authString) {
-    AuthenticationStatus as;
-    if (authString == 'unknown') {
-      as = AuthenticationStatus.unknown;
-    } else if (authString == 'signup') {
-      as = AuthenticationStatus.signup;
-    } else if (authString == 'forgotPassword') {
-      as = AuthenticationStatus.forgotPassword;
-    } else if (authString == 'authenticated') {
-      as = AuthenticationStatus.authenticated;
-    } else if (authString == 'unauthenticated') {
-      as = AuthenticationStatus.unauthenticated;
-    } else if (authString == 'validate_otp') {
-      as = AuthenticationStatus.validate_otp;
-    } else if (authString == 'forgot_password') {
-      as = AuthenticationStatus.forgot_password;
-    } else if (authString == 'validate_email') {
-      as = AuthenticationStatus.validate_email;
-    } else {
-      as = AuthenticationStatus.unknown;
-    }
-    return as;
+  hiveStringToAuth(String authString) {
+    Map<String, AuthenticationStatus> _as = {
+      'unknown': AuthenticationStatus.unknown,
+      'signup': AuthenticationStatus.signup,
+      'forgotPassword': AuthenticationStatus.forgotPassword,
+      'authenticated': AuthenticationStatus.authenticated,
+      'unauthenticated': AuthenticationStatus.unauthenticated,
+      'validate_otp': AuthenticationStatus.validate_otp,
+      'forgot_password': AuthenticationStatus.forgot_password,
+      'validate_email': AuthenticationStatus.validate_email,
+      'lock_screen': AuthenticationStatus.lock_screen,
+    };
+    return _as[authString] ?? 'unknown';
   }
 
-  hiveAuthToString(auth) {
-    String as;
-    if (auth == AuthenticationStatus.unknown) {
-      as = 'unknown';
-    } else if (auth == AuthenticationStatus.signup) {
-      as = 'signup';
-    } else if (auth == AuthenticationStatus.forgotPassword) {
-      as = 'forgotPassword';
-    } else if (auth == AuthenticationStatus.authenticated) {
-      as = 'authenticated';
-    } else if (auth == AuthenticationStatus.unauthenticated) {
-      as = 'unauthenticated';
-    } else if (auth == AuthenticationStatus.validate_otp) {
-      as = 'validate_otp';
-    } else if (auth == AuthenticationStatus.forgot_password) {
-      as = 'forgot_password';
-    } else if (auth == AuthenticationStatus.validate_email) {
-      as = 'validate_email';
-    } else {
-      as = 'unknown';
-    }
-    return as;
+  hiveAuthToString(AuthenticationStatus auth) {
+    Map<AuthenticationStatus, String> _as2 = {
+      AuthenticationStatus.unknown: 'unknown',
+      AuthenticationStatus.signup: 'signup',
+      AuthenticationStatus.forgotPassword: 'forgotPassword',
+      AuthenticationStatus.authenticated: 'authenticated',
+      AuthenticationStatus.unauthenticated: 'unauthenticated',
+      AuthenticationStatus.validate_otp: 'validate_otp',
+      AuthenticationStatus.forgot_password: 'forgot_password',
+      AuthenticationStatus.validate_email: 'validate_email',
+      AuthenticationStatus.lock_screen: 'lock_screen',
+    };
+
+    return _as2[auth] ?? AuthenticationStatus.unknown;
   }
 
   void logOut() async {
@@ -141,5 +116,9 @@ class AuthenticationRepository {
 
   void onboardingReqAcctVerification() {
     _controller.add(AuthenticationStatus.validate_otp);
+  }
+
+  void lockApp() {
+    _controller.add(AuthenticationStatus.lock_screen);
   }
 }

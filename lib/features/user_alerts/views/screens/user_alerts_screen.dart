@@ -2,28 +2,13 @@ library user_alerts;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
-import 'package:paylinc/shared_components/header.dart';
-import 'package:paylinc/shared_components/models/empty_list_indicator.dart';
-import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
-import 'package:paylinc/shared_components/models/response_model.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
-import 'package:paylinc/shared_components/models/user_alerts_response.dart';
-import 'package:paylinc/shared_components/profile_tile.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/shared_components/selected_project.dart';
-import 'package:paylinc/shared_components/sidebar.dart';
-import 'package:paylinc/shared_components/today_text.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
-import 'package:paylinc/utils/helpers/dateTimeDisplay.dart';
-import 'package:paylinc/utils/helpers/get_profile.dart';
-import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
-import 'package:paylinc/utils/services/local_storage_services.dart';
-import 'package:paylinc/utils/services/rest_api_services.dart';
+import 'package:paylinc/utils/utils.dart';
 
 // binding
 part '../../bindings/user_alerts_binding.dart';
@@ -110,7 +95,7 @@ class UserAlertsScreen extends GetView<UserAlertsController> {
   Sidebar _sideBar() {
     return Sidebar(
       data: getSelectedProject(),
-      initialSelected: 3,
+      initialSelected: 2,
     );
   }
 
@@ -399,9 +384,6 @@ class _PaymentAlertListItem extends StatelessWidget {
                 initializedTransaction: uAC
                     .paymentAlertList[selectedIndex]?.initializedTransaction);
           },
-          // onDoubleTap: () {
-          //   print('Double Tapped');
-          // },
           child: SizedBox(
             height: canBeInteger(transactionAmount) ? 110.0 : 88,
             child: Row(

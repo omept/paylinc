@@ -1,3 +1,5 @@
+part of models;
+
 class FooterItem {
   final String iconPath;
   final String title;

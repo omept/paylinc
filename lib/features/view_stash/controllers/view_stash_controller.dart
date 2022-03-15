@@ -30,7 +30,6 @@ class ViewStashController extends GetxController {
       ResponseModel res = await api.getStashLogs();
       if (res.status == true) {
         StashLogsResponse _sLRs = StashLogsResponse.fromMap(res.data!);
-        log(_sLRs.stashLogsData.toString());
 
         stashTransactionsList.value = _sLRs.stashLogsData ?? [];
         // save to storage

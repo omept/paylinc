@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of models;
 
 class Profile {
   final ImageProvider photo;

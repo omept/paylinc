@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+part of shared_components;
 
 class TodayText extends StatelessWidget {
   const TodayText({Key? key, required this.message}) : super(key: key);
@@ -16,7 +15,7 @@ class TodayText extends StatelessWidget {
             style: Theme.of(context).textTheme.caption,
           ),
           Text(
-            DateFormat.yMMMEd().format(DateTime.now()),
+            intl.DateFormat.yMMMEd().format(DateTime.now()),
           )
         ],
       ),

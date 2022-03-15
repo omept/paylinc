@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/sign_up/sign_up.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
-import 'package:paylinc/utils/helpers/is_text_an_integer.dart';
+import 'package:paylinc/utils/utils.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -204,7 +204,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
   StreamController<ErrorAnimationType> errorController =
       StreamController<ErrorAnimationType>();
   TextEditingController textEditingController = TextEditingController();
-  String currentText = '';
+
   @override
   void initState() {
     super.initState();
@@ -222,10 +222,9 @@ class _TransferPinInputState extends State<TransferPinInput> {
       // buildWhen: (previous, current) =>
       //     previous.transferPin.value != current.transferPin.value,
       builder: (context, state) {
-        // String currentText = state.transferPin.value;
         return PinCodeTextField(
           appContext: context,
-          length: 4,
+          length: 6,
           obscureText: true,
           animationType: AnimationType.fade,
           animationDuration: Duration(milliseconds: 300),
@@ -237,6 +236,9 @@ class _TransferPinInputState extends State<TransferPinInput> {
               errorController.add(ErrorAnimationType.shake);
             }
             context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
+            setState(() {
+              textEditingController.text = value;
+            });
           },
           beforeTextPaste: (text) => true,
         );

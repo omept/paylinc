@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_form.dart';
-import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/project_card_data.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 
 class ValidateOtpPage extends StatelessWidget {
   @override

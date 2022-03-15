@@ -1,9 +1,4 @@
-// Data
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:paylinc/constants/app_constants.dart';
-import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
-import 'package:paylinc/shared_components/models/profile.dart';
+part of app_helpers;
 
 Profile getProfile() {
   AuthController authController = Get.find();

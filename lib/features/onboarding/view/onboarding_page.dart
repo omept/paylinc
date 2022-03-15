@@ -5,16 +5,11 @@ import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
 import 'package:paylinc/features/onboarding/view/components/carousel.dart';
-import 'package:paylinc/features/onboarding/view/components/cv_section.dart';
 import 'package:paylinc/features/onboarding/view/components/education_section.dart';
 import 'package:paylinc/features/onboarding/view/components/footer.dart';
 import 'package:paylinc/features/onboarding/view/components/ios_app_ad.dart';
 import 'package:paylinc/features/onboarding/view/components/sponsors.dart';
-import 'package:paylinc/features/onboarding/view/components/website_ad.dart';
-import 'package:paylinc/shared_components/header_item.dart';
-import 'package:paylinc/shared_components/project_card.dart';
-import 'package:paylinc/shared_components/responsive_builder.dart';
-import 'package:paylinc/shared_components/project_image.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 
 class OnboardingPage extends StatelessWidget {
   @override
@@ -132,12 +127,12 @@ class OnboardingPage extends StatelessWidget {
               carouselSidePadding, 0, carouselSidePadding, 0),
           child: Column(
             children: [
-              CvSection(),
+              // CvSection(),
               IosAppAd(),
               SizedBox(
                 height: kSpacing * 3,
               ),
-              WebsiteAd(),
+              // WebsiteAd(),
               SizedBox(
                 height: kSpacing * 2,
               ),

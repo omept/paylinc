@@ -1,12 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:paylinc/shared_components/models/initializedTransactionB64.dart';
-import 'package:paylinc/shared_components/models/initialized_transactions_response.dart';
-import 'package:paylinc/shared_components/models/stash_logs_response.dart';
-import 'package:paylinc/shared_components/models/user_alerts_response.dart';
-import 'package:paylinc/shared_components/models/user_statistics.dart';
-import 'package:paylinc/shared_components/models/wallet_logs_response.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// contains all service to get data from local
@@ -131,5 +126,35 @@ class LocalStorageServices {
   Future<String?> getInitializedTransactionB64() async {
     var box = await Hive.openBox('intialized_transaction');
     return box.get('initializedTransactionB64', defaultValue: null);
+  }
+
+  void saveBiometricSettings(bool value) async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.put('biometrics_enabled', value);
+  }
+
+  Future<bool> getBiometricSettings() async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.get('biometrics_enabled', defaultValue: false);
+  }
+
+  void saveApplockSettings(bool value) async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.put('applock_enabled', value);
+  }
+
+  Future<bool> getApplockSettings() async {
+    var box = await Hive.openBox('applock_biometric_settings');
+    return box.get('applock_enabled', defaultValue: false);
+  }
+
+  void saveAppInactiveAt() async {
+    var box = await Hive.openBox('app_inactive');
+    box.put('inactive_at', DateTime.now().millisecondsSinceEpoch);
+  }
+
+  Future<int?> getAppInactiveAt() async {
+    var box = await Hive.openBox('app_inactive');
+    return box.get('inactive_at');
   }
 }

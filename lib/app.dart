@@ -18,11 +18,20 @@ class Paylinc extends StatelessWidget {
 
   const Paylinc({Key? key, required this.authenticationRepository})
       : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // register controllers
+    // register controllers, blocs, providers, etc
+    return serviceRegistrations();
+  }
+
+  //
+  Widget serviceRegistrations() {
+    // Auth Controller
     Get.put(AuthController(authenticationRepository: authenticationRepository));
+
+    // add Blocs
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider.value(value: authenticationRepository),
@@ -69,8 +78,63 @@ class AppView extends StatefulWidget {
   _AppViewState createState() => _AppViewState();
 }
 
-class _AppViewState extends State<AppView> {
+class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  AuthController authController = Get.find();
+  List<AppLifecycleState> stateArr = [];
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    // switch (state) {
+    //   case AppLifecycleState.inactive:
+    //     print("inactive");
+    //     break;
+    //   case AppLifecycleState.resumed:
+    //     print("resumed");
+    //     break;
+    //   case AppLifecycleState.detached:
+    //     print("detached");
+    //     break;
+    //   case AppLifecycleState.paused:
+    //     print("paused");
+    //     break;
+    //   default:
+    //     break;
+    // }
+    stateArr.add(state);
+
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print("inactive");
+        _inactive(stateArr);
+        break;
+      case AppLifecycleState.resumed:
+        print("resumed");
+        _resumed(stateArr);
+        break;
+
+      case AppLifecycleState.paused:
+        print("paused");
+        break;
+      case AppLifecycleState.detached:
+        print("detached");
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +163,9 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.validate_otp:
                 Get.offNamed(Routes.validate_otp);
                 break;
+              case AuthenticationStatus.lock_screen:
+                Get.offNamed(Routes.lock_screen);
+                break;
               default:
                 break;
             }
@@ -111,5 +178,13 @@ class _AppViewState extends State<AppView> {
       getPages: AppPages.routes,
       transitionDuration: Duration(milliseconds: 700),
     );
+  }
+
+  void _inactive(List<AppLifecycleState> stateArr) {
+    authController.appInactive(stateArr);
+  }
+
+  void _resumed(List<AppLifecycleState> stateArr) {
+    authController.appResumed(stateArr);
   }
 }

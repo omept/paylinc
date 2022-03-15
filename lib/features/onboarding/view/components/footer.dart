@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paylinc/features/onboarding/utils/screen_helper.dart';
-import 'package:paylinc/shared_components/models/footer_item.dart';
+import 'package:paylinc/shared_components/shared_components.dart';
 
 final List<FooterItem> footerItems = [
   FooterItem(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of shared_components;
 
 class ResponsiveBuilder extends StatelessWidget {
   const ResponsiveBuilder({

@@ -1,3 +1,5 @@
+part of models;
+
 class Skill {
   final String skill;
   final int percentage;
