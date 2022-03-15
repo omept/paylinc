@@ -9,7 +9,7 @@ part 'enums.dart';
 
 const kBorderRadius = 20.0;
 const kSpacing = 20.0;
-const lockAppIn = 5000; // millisecs
+const lockAppIn = 2000; // aim is to use millisecs here
 const kCountry = Country(countryName: "Nigeria", countryId: 1);
 const Color kNotifColor = Color.fromRGBO(74, 177, 120, 1);
 //const Color kGrayTextColor = Color.fromRGBO(170, 170, 170, 1);

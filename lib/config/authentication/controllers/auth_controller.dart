@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -121,34 +122,56 @@ class AuthController extends GetxController {
     }
   }
 
-  void appInactive() async {
+  void appInactive(List<AppLifecycleState> stateArr) async {
+    print("current `stateArr` called in appInactive : $stateArr");
+    // don't take any action if last index of stateArr isn't  AppLifecycleState.resumed
+    // if (stateArr.length > 1 && stateArr.last != AppLifecycleState.resumed) {
+    //   return;
+    // }
+    print('call pre-app lock logic');
     AuthenticationStatus currentState =
         await authenticationRepository.currentAuthenticationState();
 
     if (currentState == AuthenticationStatus.authenticated) {
+      print("reset inactiveAt");
       // save the current time of entering inactivity while in authenticated state
       localStorageServices.saveAppInactiveAt();
     }
   }
 
-// checks if the app was in the background for more than 10 secs and changes the state to lock app
+// checks if the app was in the background for more than `lockAppIn` secs and changes the state to lock app
 // Auth state if true
-  void appResumed() async {
+  void appResumed(List<AppLifecycleState> stateArr) async {
+    // don't take any action if last index of stateArr isn't  AppLifecycleState.inactive or AppLifecycleState.paused
+    // if (stateArr.length > 1) {
+    //   if (stateArr[stateArr.length - 1] != AppLifecycleState.inactive ||
+    //       stateArr[stateArr.length - 1] != AppLifecycleState.paused) {
+    //     return;
+    //   }
+    // }
+
+    print('executing app lock logic');
+
     try {
       // get the time app entered inactivity while in authenticated state
       var inactiveAt = await localStorageServices.getAppInactiveAt();
 
       if (inactiveAt != null) {
         int timeToLock = inactiveAt + lockAppIn;
-        if (DateTime.now().millisecondsSinceEpoch >= timeToLock) {
+        var now = DateTime.now().millisecondsSinceEpoch;
+
+        if (now >= timeToLock) {
           // if the app was in the background for more than "lockAppIn" secs
           // change the state to lock screen
           _appLocked.value = true;
           authenticationRepository.lockApp();
+          print(' app locked');
         }
       }
     } catch (_) {}
   }
 
-  void unlock() {}
+  void unlock() {
+    //TODO: unlock the app
+  }
 }

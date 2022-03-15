@@ -155,7 +155,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.lock_screen,
-      page: () => const LockScreen(),
+      page: () => LockScreen(),
       middlewares: [AuthenticatedMiddleware()],
       binding: LockScreenBinding(),
     ),

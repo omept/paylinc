@@ -81,7 +81,7 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
   AuthController authController = Get.find();
-
+  List<AppLifecycleState> stateArr = [];
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
@@ -97,12 +97,39 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    // switch (state) {
+    //   case AppLifecycleState.inactive:
+    //     print("inactive");
+    //     break;
+    //   case AppLifecycleState.resumed:
+    //     print("resumed");
+    //     break;
+    //   case AppLifecycleState.detached:
+    //     print("detached");
+    //     break;
+    //   case AppLifecycleState.paused:
+    //     print("paused");
+    //     break;
+    //   default:
+    //     break;
+    // }
+    stateArr.add(state);
+
     switch (state) {
       case AppLifecycleState.inactive:
-        _inactive();
+        print("inactive");
+        _inactive(stateArr);
         break;
       case AppLifecycleState.resumed:
-        _resumed();
+        print("resumed");
+        _resumed(stateArr);
+        break;
+
+      case AppLifecycleState.paused:
+        print("paused");
+        break;
+      case AppLifecycleState.detached:
+        print("detached");
         break;
       default:
         break;
@@ -153,11 +180,11 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
     );
   }
 
-  void _inactive() {
-    authController.appInactive();
+  void _inactive(List<AppLifecycleState> stateArr) {
+    authController.appInactive(stateArr);
   }
 
-  void _resumed() {
-    authController.appResumed();
+  void _resumed(List<AppLifecycleState> stateArr) {
+    authController.appResumed(stateArr);
   }
 }
