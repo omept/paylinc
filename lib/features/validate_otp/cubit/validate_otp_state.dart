@@ -12,14 +12,14 @@ class ValidateOtpState extends Equatable {
   });
 
   @override
-  List<Object> get props => [this.otp];
+  List<Object> get props => [otp];
 
   ValidateOtpState copyWith(
       {FormzStatus? status, OtpInput? otp, bool? resendCalled}) {
     return ValidateOtpState(
       status: status ?? this.status,
       otp: otp ?? this.otp,
-      resendCalled: resendCalled != null ? resendCalled : this.resendCalled,
+      resendCalled: resendCalled ?? this.resendCalled,
     );
   }
 }

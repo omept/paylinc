@@ -1,7 +1,7 @@
 part of create_wallet;
 
 class CreateWalletController extends GetxController {
-  var _status = FormzStatus.pure.obs;
+  final _status = FormzStatus.pure.obs;
   AuthController authController = Get.find<AuthController>();
 
   FormzStatus get status => _status.value;

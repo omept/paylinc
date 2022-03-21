@@ -27,8 +27,8 @@ class ConfirmForgotPasswordState extends Equatable {
       TextInput? emailT}) {
     return ConfirmForgotPasswordState(
       status: status ?? this.status,
-      emailI: email ?? this.emailI,
-      emailToken: emailT ?? this.emailToken,
+      emailI: email ?? emailI,
+      emailToken: emailT ?? emailToken,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
     );

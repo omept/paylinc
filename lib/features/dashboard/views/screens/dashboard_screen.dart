@@ -152,7 +152,7 @@ class DashboardScreen extends GetView<DashboardController> {
       child: ProfilTile(
         data: data,
         onPressedNotification: () {
-          Get.offNamed(Routes.user_alerts);
+          Get.offNamed(Routes.userAlerts);
         },
       ),
     );

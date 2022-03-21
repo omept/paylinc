@@ -213,8 +213,9 @@ class InitializedTransactionController extends GetxController {
   }
 
   void confirmCompletTransaction(InitializedTransaction load) async {
-    if (load.initializedTransactionStatus != TransactionStatus.acceptedNoCard)
+    if (load.initializedTransactionStatus != TransactionStatus.acceptedNoCard) {
       return;
+    }
 
     pageStatus.value = FormzStatus.submissionInProgress;
     try {

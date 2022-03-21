@@ -3,10 +3,10 @@ library transfer;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
-import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 
 part '../bindings/transfer_binding.dart';

@@ -34,9 +34,9 @@ class InitializedTransactionB64 {
   factory InitializedTransactionB64.fromMap(Map<String, dynamic> map) {
     return InitializedTransactionB64(
       alertTagType: map['alert_tag_type'] != null
-          ? (map['alert_tag_type'].toString() == "${AlertTagType.PAYMENT}"
-              ? AlertTagType.PAYMENT
-              : AlertTagType.WALLETS)
+          ? (map['alert_tag_type'].toString() == "${AlertTagType.payment}"
+              ? AlertTagType.payment
+              : AlertTagType.wallets)
           : null,
       alertId: map['alert_id']?.toInt(),
       initializedTransaction: map['initialized_transaction'] != null
@@ -71,7 +71,7 @@ class InitializedTransactionB64 {
       initializedTransaction.hashCode;
 
   String toBase64Str() {
-    return B64Encoder.base64Encode(this.toJson());
+    return B64Encoder.base64Encode(toJson());
   }
 
   InitializedTransactionB64 fromBase64Str(String intlzdTrnsctnB64Str) {
@@ -80,7 +80,7 @@ class InitializedTransactionB64 {
   }
 
   String toBase64UrlStr() {
-    return B64Encoder.base64UrlEncode(this.toJson());
+    return B64Encoder.base64UrlEncode(toJson());
   }
 
   InitializedTransactionB64 fromBase64UrlStr(String intlzdTrnsctnB64Str) {

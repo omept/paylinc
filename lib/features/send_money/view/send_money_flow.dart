@@ -526,7 +526,7 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                                         ),
                                         Obx(() {
                                           return Text(
-                                            '${c.purpose.value}',
+                                            c.purpose.value,
                                             style: kReviewSubHeaderValueStyle(
                                                 themeContext),
                                           );
@@ -703,7 +703,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
-        if (canBeInteger(value) && (value.length > 0)) {
+        if (canBeInteger(value) && (value.isNotEmpty)) {
           controller.updateOtp(value);
           setState(() {
             textEditingController.text = value;

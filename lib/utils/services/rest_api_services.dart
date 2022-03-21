@@ -27,7 +27,7 @@ class RestApiServices {
   Map<String, String> requestHeader() {
     Map<String, String> headers = {'Access-Control-Allow-Origin': '*'};
     String token = authCtrlr.token;
-    if (token.isNotEmpty || token.length > 0) {
+    if (token.isNotEmpty || token.isNotEmpty) {
       headers['AUTHORIZATION'] = 'Bearer ' + token;
       headers['HTTP-AUTHORIZATION'] = 'Bearer ' + token;
     }
@@ -57,7 +57,7 @@ class RestApiServices {
           break;
         case 401:
           if (responseModel.message == "Account is not yet verified.") {
-            this.authenticationRepository?.onboardingReqAcctVerification();
+            authenticationRepository?.onboardingReqAcctVerification();
             // } else if (responseModel.message == "Invalid credentials") {
           } else if (responseModel.message == "Expired Session" ||
               responseModel.message == "Token has expired" ||
@@ -92,15 +92,12 @@ class RestApiServices {
     try {
       return await post(url, data);
     } on Exception catch (_) {
-      return ResponseModel(
-          message: Runes(defaultMessage ?? "").length > 0
-              ? defaultMessage
-              : errMessage);
+      return ResponseModel(message: defaultMessage ?? errMessage);
     }
   }
 
   Future<ResponseModel> post(String url, Map<String, String>? data) async {
-    var headers = this.requestHeader();
+    var headers = requestHeader();
     var uri = Uri.parse('$apiBaseUrl$url/');
     var response = await http.post(uri, body: data, headers: headers);
     return responseHandler(response);
@@ -113,7 +110,7 @@ class RestApiServices {
     try {
       var uri = Uri.parse('$apiBaseUrl$url/');
       var response = await http.get(uri);
-      return this.responseHandler(response);
+      return responseHandler(response);
     } on Exception catch (_) {
       return ResponseModel(
           message: defaultMessage != "" ? defaultMessage : errMessage);
@@ -121,7 +118,7 @@ class RestApiServices {
   }
 
   Future<ResponseModel> get(String url) async {
-    var headers = this.requestHeader();
+    var headers = requestHeader();
     var uri = Uri.parse('$apiBaseUrl/$url');
     var response = await http.get(uri, headers: headers);
     return responseHandler(response);

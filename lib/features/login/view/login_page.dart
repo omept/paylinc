@@ -117,7 +117,7 @@ class LoginPage extends StatelessWidget {
                           child: ElevatedButton(
                             child: const Text('Forgot Password?'),
                             onPressed: () {
-                              Get.offNamed(Routes.forgot_password);
+                              Get.offNamed(Routes.forgotPassword);
                             },
                           ),
                         ),

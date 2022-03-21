@@ -12,7 +12,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        this.todayText,
+        todayText,
         SizedBox(width: kSpacing),
         showSearch ? Expanded(child: SearchField()) : Container(),
       ],

@@ -17,33 +17,33 @@ abstract class SignUpEvent {
 }
 
 class SignUpPasswordChanged extends SignUpEvent {
-  SignUpPasswordChanged(this.password);
+  SignUpPasswordChanged(this.newPassword);
 
-  final String password;
+  final String newPassword;
 }
 
 class SignUpNameChanged extends SignUpEvent {
-  SignUpNameChanged(this.name);
+  SignUpNameChanged(this.newName);
 
-  final String name;
+  final String newName;
 }
 
 class SignUpPaytagChanged extends SignUpEvent {
-  SignUpPaytagChanged(this.paytag);
+  SignUpPaytagChanged(this.newPaytag);
 
-  final String paytag;
+  final String newPaytag;
 }
 
 class SignUpEmailChanged extends SignUpEvent {
-  SignUpEmailChanged(this.email);
+  SignUpEmailChanged(this.newEmail);
 
-  final String email;
+  final String newEmail;
 }
 
 class SignUpCountryChanged extends SignUpEvent {
-  SignUpCountryChanged(this.country);
+  SignUpCountryChanged(this.newCountry);
 
-  final Country country;
+  final Country newCountry;
 }
 
 class SignUpTransferPinChanged extends SignUpEvent {

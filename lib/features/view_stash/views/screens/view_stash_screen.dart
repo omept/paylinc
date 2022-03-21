@@ -273,13 +273,13 @@ class _StashsTransactions extends StatelessWidget {
         return _StashTransactionListItem(
           selectedIndex: idx,
           transactionAmount: "${vWC.stashTransactionsList[idx]?.amount ?? ""}",
-          transactionAction: "${vWC.stashTransactionsList[idx]?.action ?? ""}",
+          transactionAction: vWC.stashTransactionsList[idx]?.action ?? "",
           bank: vWC.stashTransactionsList[idx]?.bank?.name,
           accountNumber: vWC.stashTransactionsList[idx]?.accountNumber,
           accountName: vWC.stashTransactionsList[idx]?.accountName,
           wallet: vWC.stashTransactionsList[idx]?.wallet?.walletPaytag,
           transactionCurrency:
-              "${vWC.authController.user.country?.currencyAbr ?? ""}",
+              vWC.authController.user.country?.currencyAbr ?? "",
           createdAt:
               dateTimeDisplay('${vWC.stashTransactionsList[idx]?.createdAt}'),
         );
@@ -287,7 +287,7 @@ class _StashsTransactions extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: stashTiles.length > 0 ? stashTiles : <Widget>[],
+        children: stashTiles.isNotEmpty ? stashTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -405,7 +405,7 @@ class _StashTransactionDescription extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
-                '$createdAt',
+                createdAt,
                 style: TextStyle(
                   color: themeCtx.textTheme.caption?.color,
                   fontSize: 12.0,
@@ -448,7 +448,7 @@ class _StashTransactionDescription extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 3.0),
                     child: Text(
-                      "$transactionAction",
+                      transactionAction,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

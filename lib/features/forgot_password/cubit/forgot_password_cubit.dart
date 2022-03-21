@@ -32,7 +32,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       emit(state.copyWith(
         status: FormzStatus.submissionSuccess,
       ));
-      Get.offNamed(Routes.confirm_forgot_password);
+      Get.offNamed(Routes.confirmForgotPassword);
     } else {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
 

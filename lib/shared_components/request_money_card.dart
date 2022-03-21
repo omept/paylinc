@@ -12,7 +12,7 @@ class RequestMoneyCard extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        onTap: () => Get.offNamed(Routes.request_money),
+        onTap: () => Get.offNamed(Routes.requestMoney),
         child: Container(
           constraints: const BoxConstraints(
             minWidth: 250,

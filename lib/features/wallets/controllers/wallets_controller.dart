@@ -20,7 +20,10 @@ class WalletsController extends GetxController {
     stashBal.value = authController.user.stashBalance ?? 0;
     currncy.value = authController.user.country?.currencyAbr ?? '';
     walletsList.value = authController.user.wallets ?? [];
-    walletsList.forEach((e) => combinedBal.value += e?.balance ?? 0);
+
+    for (var e in walletsList) {
+      combinedBal.value += e?.balance ?? 0;
+    }
   }
 
   void setSelectedWallet(int selectedIndex) {

@@ -149,7 +149,7 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
                 Get.offNamed(Routes.welcome);
                 break;
               case AuthenticationStatus.signup:
-                Get.offNamed(Routes.sign_up);
+                Get.offNamed(Routes.signUp);
                 break;
               case AuthenticationStatus.authenticated:
                 Get.offNamed(Routes.dashboard);
@@ -157,14 +157,14 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
               case AuthenticationStatus.unauthenticated:
                 Get.offNamed(Routes.login);
                 break;
-              case AuthenticationStatus.forgot_password:
-                Get.offNamed(Routes.forgot_password);
+              case AuthenticationStatus.forgotPassword:
+                Get.offNamed(Routes.forgotPassword);
                 break;
-              case AuthenticationStatus.validate_otp:
-                Get.offNamed(Routes.validate_otp);
+              case AuthenticationStatus.validateOtp:
+                Get.offNamed(Routes.validateOtp);
                 break;
-              case AuthenticationStatus.lock_screen:
-                Get.offNamed(Routes.lock_screen);
+              case AuthenticationStatus.lockScreen:
+                Get.offNamed(Routes.lockScreen);
                 break;
               default:
                 break;

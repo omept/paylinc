@@ -3,12 +3,12 @@ library create_wallet;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
-import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
@@ -328,7 +328,7 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
                 selectedValue: c.selectedCatValue,
                 choiceItems: c.categoryOptions,
                 // choiceLoader: c.categoryChoiceOpts,
-                onChange: (state) => c.selectedCatValue = state.value ?? '')),
+                onChange: (state) => c.selectedCatValue = state.value)),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );

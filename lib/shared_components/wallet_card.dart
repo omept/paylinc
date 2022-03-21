@@ -67,7 +67,7 @@ class WalletCard extends StatelessWidget {
                   const SizedBox(height: kSpacing / 2),
                   ElevatedButton(
                     onPressed: () {
-                      Get.offNamed(Routes.create_wallet);
+                      Get.offNamed(Routes.createWallet);
                     },
                     child: const Text("Add"),
                   )

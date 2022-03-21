@@ -417,43 +417,43 @@ class InitializedTransaction {
     this.transactionaActivityLogs,
   });
 
-  InitializedTransaction copyWith({
-    int? id,
-    int? initializedTransactionStatus,
-    String? initializedTransactionDescription,
-    String? initializedTransactionDeclinationReason,
-    String? initializedTransactionConflictReason,
-    User? recipient,
-    User? sender,
-    int? amount,
-    String? createdAt,
-    Wallet? wallet,
-    TransactionPromoCode? promoCode,
-  }) {
-    return InitializedTransaction(
-      id: id ?? this.id,
-      initializedTransactionStatus:
-          initializedTransactionStatus ?? this.initializedTransactionStatus,
-      initializedTransactionDescription: initializedTransactionDescription ??
-          this.initializedTransactionDescription,
-      initializedTransactionDeclinationReason:
-          initializedTransactionDeclinationReason ??
-              this.initializedTransactionDeclinationReason,
-      initializedTransactionConflictReason:
-          initializedTransactionConflictReason ??
-              this.initializedTransactionConflictReason,
-      recipient: recipient ?? this.recipient,
-      sender: sender ?? this.sender,
-      amount: amount ?? this.amount,
-      createdAt: createdAt ?? this.createdAt,
-      transactionCheckoutUrl:
-          transactionCheckoutUrl ?? this.transactionCheckoutUrl,
-      transactionMediationUrl:
-          transactionMediationUrl ?? this.transactionMediationUrl,
-      wallet: wallet ?? this.wallet,
-      promoCode: promoCode ?? this.promoCode,
-    );
-  }
+  // InitializedTransaction copyWith({
+  //   int? id,
+  //   int? initializedTransactionStatus,
+  //   String? initializedTransactionDescription,
+  //   String? initializedTransactionDeclinationReason,
+  //   String? initializedTransactionConflictReason,
+  //   User? recipient,
+  //   User? sender,
+  //   int? amount,
+  //   String? createdAt,
+  //   Wallet? wallet,
+  //   TransactionPromoCode? promoCode,
+  // }) {
+  //   return InitializedTransaction(
+  //     id: id ?? this.id,
+  //     initializedTransactionStatus:
+  //         initializedTransactionStatus ?? this.initializedTransactionStatus,
+  //     initializedTransactionDescription: initializedTransactionDescription ??
+  //         this.initializedTransactionDescription,
+  //     initializedTransactionDeclinationReason:
+  //         initializedTransactionDeclinationReason ??
+  //             this.initializedTransactionDeclinationReason,
+  //     initializedTransactionConflictReason:
+  //         initializedTransactionConflictReason ??
+  //             this.initializedTransactionConflictReason,
+  //     recipient: recipient ?? this.recipient,
+  //     sender: sender ?? this.sender,
+  //     amount: amount ?? this.amount,
+  //     createdAt: createdAt ?? this.createdAt,
+  //     transactionCheckoutUrl:
+  //         transactionCheckoutUrl ?? this.transactionCheckoutUrl,
+  //     transactionMediationUrl:
+  //         transactionMediationUrl ?? this.transactionMediationUrl,
+  //     wallet: wallet ?? this.wallet,
+  //     promoCode: promoCode ?? this.promoCode,
+  //   );
+  // }
 
   Map<String, dynamic> toMap() {
     return {
@@ -1050,11 +1050,17 @@ class TransactionLogStructure {
 }
 
 class Incoming implements TransactionLogStructure {
+  @override
   int? userTransactionActivityLogId;
+  @override
   int? initializedTransactionId;
+  @override
   int? senderId;
+  @override
   int? recipientId;
+  @override
   String? activityTag;
+  @override
   String? createdAt;
   Incoming({
     this.userTransactionActivityLogId,
@@ -1143,11 +1149,17 @@ class Incoming implements TransactionLogStructure {
 }
 
 class Outgiong implements TransactionLogStructure {
+  @override
   int? userTransactionActivityLogId;
+  @override
   int? initializedTransactionId;
+  @override
   int? senderId;
+  @override
   int? recipientId;
+  @override
   String? activityTag;
+  @override
   String? createdAt;
   Outgiong({
     this.userTransactionActivityLogId,

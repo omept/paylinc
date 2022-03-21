@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
     // );
 
     return GetMaterialApp(
-      key: this.key,
+      key: key,
       title: 'Paylinc',
       theme: AppTheme.basic,
       debugShowCheckedModeBanner: false,

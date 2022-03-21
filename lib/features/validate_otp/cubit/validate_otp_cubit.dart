@@ -67,7 +67,7 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
       if (rOtpRes.status == true) {
         Snackbar.successSnackBar(
             'Done', rOtpRes.message ?? RestApiServices.errMessage);
-        this.resendCalled(true);
+        resendCalled(true);
       } else {
         Snackbar.errSnackBar(
             'Failed', rOtpRes.message ?? RestApiServices.errMessage);

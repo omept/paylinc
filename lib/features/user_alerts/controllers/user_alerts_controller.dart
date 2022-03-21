@@ -59,7 +59,7 @@ class UserAlertsController extends GetxController {
       InitializedTransaction? initializedTransaction}) async {
     // set the default initialized transaction page data to storage
 
-    if (alertTagType == AlertTagType.PAYMENT) {
+    if (alertTagType == AlertTagType.payment) {
       initializedTransaction?.createdAt =
           paymentAlertList[alertIndex]?.createdAt;
     } else {
@@ -75,7 +75,7 @@ class UserAlertsController extends GetxController {
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    await Get.toNamed(Routes.initialized_transaction_no_id);
+    await Get.toNamed(Routes.initializedTransactionNoId);
 
     // simulate url
     // var id = (initializedTransaction?.id) ?? 0;

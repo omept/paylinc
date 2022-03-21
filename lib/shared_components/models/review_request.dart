@@ -1,15 +1,12 @@
 part of models;
 
-enum TransactionType {
-  SEND_MONEY,
-  REQUEST_MONEY,
-}
+enum TransactionType { sendMoney, requestMoney }
 
 extension FromTransactionType on String {
   TransactionType fromTransactionTypeString() {
-    return this.toString() == 'SEND_MONEY'
-        ? TransactionType.SEND_MONEY
-        : TransactionType.REQUEST_MONEY;
+    return toString() == 'SEND_MONEY'
+        ? TransactionType.sendMoney
+        : TransactionType.requestMoney;
   }
 }
 
@@ -134,9 +131,8 @@ class ReviewRequest {
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
       amount: int.parse(map['amount'].toString()),
       purpose: map['purpose'],
-      transactionType: map['transaction_type'] != null
-          ? map['transaction_type'].toString().fromTransactionTypeString()
-          : null,
+      transactionType:
+          map['transaction_type']?.toString().fromTransactionTypeString(),
       promoApplied: map['promo_applied'],
       promoCode: map['promo_code'],
       providerChargeLoc: map['provider_charge_loc'] == null

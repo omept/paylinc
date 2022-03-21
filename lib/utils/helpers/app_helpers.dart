@@ -22,29 +22,29 @@ part 'is_text_an_integer.dart';
 
 extension IntHumanFormat on int {
   String intHumanFormat() {
-    return _humanFormat(this.toStringAsFixed(2));
+    return _humanFormat(toStringAsFixed(2));
   }
 }
 
 extension ToShortHumanFormat on String {
   String toShortHumanFormat({String? currency}) {
-    return canBeInteger(this.toString()) || canBeDouble(this.toString())
-        ? _shortHumanFormat(val: this.toString(), currency: currency)
+    return canBeInteger(toString()) || canBeDouble(toString())
+        ? _shortHumanFormat(val: toString(), currency: currency)
         : '';
   }
 }
 
 extension ToHumanFormat on String {
   String toHumanFormat({String? currency}) {
-    return canBeInteger(this.toString()) || canBeDouble(this.toString())
-        ? "${currency ?? ""} ${_humanFormat(this.toString())}"
+    return canBeInteger(toString()) || canBeDouble(toString())
+        ? "${currency ?? ""} ${_humanFormat(toString())}"
         : '';
   }
 }
 
 extension DoubleHumanFormat on double {
   String doubleHumanFormat() {
-    return _humanFormat(this.toStringAsFixed(2));
+    return _humanFormat(toStringAsFixed(2));
   }
 }
 
@@ -56,7 +56,7 @@ String _humanFormat(String val) {
 String _shortHumanFormat({dynamic val, String? currency}) {
   return NumberFormat.compactCurrency(
     decimalDigits: 2,
-    symbol: "${currency ?? ''}",
+    symbol: currency ?? '',
   ).format(double.parse(val));
 }
 

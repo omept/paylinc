@@ -57,7 +57,7 @@ class InitializedTransactionsController extends GetxController {
       required int selectedIndex,
       required InitializedTransaction? initializedTransaction}) async {
     // set the default initialized transaction page data to storage
-    if (selectedType == AlertTagType.PAYMENT) {
+    if (selectedType == AlertTagType.payment) {
       initializedTransaction?.createdAt =
           paymentTransactionsList[selectedIndex]?.createdAt;
     } else {
@@ -73,6 +73,6 @@ class InitializedTransactionsController extends GetxController {
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    await Get.toNamed(Routes.initialized_transaction_no_id);
+    await Get.toNamed(Routes.initializedTransactionNoId);
   }
 }

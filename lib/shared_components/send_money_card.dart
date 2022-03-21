@@ -12,7 +12,7 @@ class SendMoneyCard extends StatelessWidget {
       color: Theme.of(context).cardColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        onTap: () => {Get.offNamed(Routes.send_money)},
+        onTap: () => {Get.offNamed(Routes.sendMoney)},
         child: Container(
           constraints: const BoxConstraints(
             minWidth: 250,
