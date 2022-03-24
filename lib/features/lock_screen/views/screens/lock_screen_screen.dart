@@ -1,5 +1,6 @@
 library lock_screen;
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
@@ -47,8 +48,8 @@ class LockScreen extends GetView<LockScreenController> {
           width: 100,
           child: Center(
             child: InkWell(
-              onTap: () {
-                controller.unlock();
+              onTap: () async {
+                await controller.unlock();
               },
               child: Icon(
                 Icons.fingerprint,
@@ -59,7 +60,7 @@ class LockScreen extends GetView<LockScreenController> {
         ),
         Text("App Locked", style: kTitleStyle),
         SizedBox(height: kSpacing / 3),
-        Text("Tab biometric icon to unlock", style: kSubTitleStyle)
+        Text("Tap biometric icon to unlock", style: kSubTitleStyle)
       ],
     );
   }

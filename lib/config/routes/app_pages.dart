@@ -35,7 +35,11 @@ class AppPages {
 
   static final routes = [
     GetPage(name: _Paths.splash, page: () => SplashPage()),
-    GetPage(name: _Paths.welcome, page: () => OnboardingPage()),
+    GetPage(
+      name: _Paths.welcome,
+      page: () => OnboardingPage(),
+      middlewares: [GuestMiddleware()],
+    ),
     GetPage(
       name: _Paths.login,
       middlewares: [GuestMiddleware()],

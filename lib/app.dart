@@ -97,39 +97,14 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    // switch (state) {
-    //   case AppLifecycleState.inactive:
-    //     print("inactive");
-    //     break;
-    //   case AppLifecycleState.resumed:
-    //     print("resumed");
-    //     break;
-    //   case AppLifecycleState.detached:
-    //     print("detached");
-    //     break;
-    //   case AppLifecycleState.paused:
-    //     print("paused");
-    //     break;
-    //   default:
-    //     break;
-    // }
     stateArr.add(state);
 
     switch (state) {
       case AppLifecycleState.inactive:
-        print("inactive");
         _inactive(stateArr);
         break;
       case AppLifecycleState.resumed:
-        print("resumed");
         _resumed(stateArr);
-        break;
-
-      case AppLifecycleState.paused:
-        print("paused");
-        break;
-      case AppLifecycleState.detached:
-        print("detached");
         break;
       default:
         break;
@@ -144,6 +119,7 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
+            print("BlocListener state: $state");
             switch (state.status) {
               case AuthenticationStatus.unknown:
                 Get.offNamed(Routes.welcome);
@@ -164,9 +140,15 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
                 Get.offNamed(Routes.validateOtp);
                 break;
               case AuthenticationStatus.lockScreen:
-                Get.offNamed(Routes.lockScreen);
+                Get.offAllNamed(Routes.lockScreen);
+                break;
+              case AuthenticationStatus.unlockScreen:
+                print('unlockScreen state');
+                Get.offNamed(Routes.splash);
                 break;
               default:
+                print('unknown state');
+
                 break;
             }
           },
