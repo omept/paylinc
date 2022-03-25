@@ -1,6 +1,5 @@
 library lock_screen;
 
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
@@ -26,6 +27,7 @@ class AuthController extends GetxController {
 
   var enableAppLock = false.obs;
   var enableBiometric = false.obs;
+  var lockedAtRoute = Routes.dashboard;
 
   bool get appLocked => _appLocked.value;
 
@@ -41,7 +43,6 @@ class AuthController extends GetxController {
 
   @override
   void onInit() async {
-    // currentAuthenticationState
     var curAuthSt = currentAuthenticationState();
 
     _token.value = await localStorageServices.getToken();
@@ -150,6 +151,9 @@ class AuthController extends GetxController {
 // checks if the app was in the background while authenticated for more than `lockAppIn` secs and changes the auth state to "lock app"
   void appResumed(List<AppLifecycleState> stateArr) async {
     try {
+      if (!enableAppLock.value) {
+        return;
+      }
       // get the time app entered inactivity while in authenticated state
       var inactiveAt = await localStorageServices.getAppInactiveAt();
 
@@ -159,9 +163,10 @@ class AuthController extends GetxController {
 
         if (now >= timeToLock) {
           // if the app was in the background for more than "lockAppIn" secs
-          // change the state to lock screen
+          // lock app screen (i.e set appLocked to true and reload the page to trigger lock middleware check)
           _appLocked.value = true;
-          authenticationRepository.lockApp();
+          lockedAtRoute = Get.currentRoute;
+          Get.offAllNamed(Get.currentRoute);
         }
       }
     } catch (_) {}
@@ -184,7 +189,7 @@ class AuthController extends GetxController {
 
   Future<void> innerUnlock() async {
     _appLocked.value = false;
-    authenticationRepository.setUnlocked();
+    Get.offAllNamed(lockedAtRoute);
   }
 
   currentAuthenticationState() async {

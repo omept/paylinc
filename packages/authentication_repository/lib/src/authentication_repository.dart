@@ -9,8 +9,6 @@ enum AuthenticationStatus {
   authenticated, // logged in
   unauthenticated, // not logged in
   validateOtp,
-  lockScreen,
-  unlockScreen,
   validateEmail
 }
 
@@ -63,7 +61,7 @@ class AuthenticationRepository {
     authRepository.put('status', hiveAuthToString(authStatus));
   }
 
-  AuthenticationStatus hiveStringToAuth(String authString) {
+  AuthenticationStatus hiveStringToAuth(String? authString) {
     Map<String, AuthenticationStatus> _as = {
       'unknown': AuthenticationStatus.unknown,
       'signup': AuthenticationStatus.signup,
@@ -72,8 +70,6 @@ class AuthenticationRepository {
       'unauthenticated': AuthenticationStatus.unauthenticated,
       'validateOtp': AuthenticationStatus.validateOtp,
       'validateEmail': AuthenticationStatus.validateEmail,
-      'lockScreen': AuthenticationStatus.lockScreen,
-      'unlockScreen': AuthenticationStatus.unlockScreen,
     };
     return _as[authString] ?? AuthenticationStatus.unknown;
   }
@@ -87,8 +83,6 @@ class AuthenticationRepository {
       AuthenticationStatus.unauthenticated: 'unauthenticated',
       AuthenticationStatus.validateOtp: 'validateOtp',
       AuthenticationStatus.validateEmail: 'validateEmail',
-      AuthenticationStatus.lockScreen: 'lockScreen',
-      AuthenticationStatus.unlockScreen: 'unlockScreen',
     };
 
     return _as2[auth] ?? AuthenticationStatus.unknown;
@@ -116,13 +110,5 @@ class AuthenticationRepository {
 
   void onboardingReqAcctVerification() {
     _controller.add(AuthenticationStatus.validateOtp);
-  }
-
-  void lockApp() {
-    _controller.add(AuthenticationStatus.lockScreen);
-  }
-
-  Future<void> setUnlocked() async {
-    _controller.add(AuthenticationStatus.unlockScreen);
   }
 }

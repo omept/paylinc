@@ -6,10 +6,10 @@ class LockScreenController extends GetxController {
 
   unlock() async {
     await authController.unlock();
-    print('app unlocked');
-    AuthenticationStatus currentState =
-        await authController.currentAuthenticationState();
+    // print('app unlocked');
+    // AuthenticationStatus currentState =
+    //     await authController.currentAuthenticationState();
 
-    print("currentState: $currentState");
+    // print("currentState: $currentState");
   }
 }
