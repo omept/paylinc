@@ -5,7 +5,7 @@ import 'package:paylinc/features/feed_back/views/screens/feed_back_screen.dart';
 import 'package:paylinc/features/forgot_password/forgot_password.dart';
 import 'package:paylinc/features/initialized_transaction/views/screens/initialized_transaction_screen.dart';
 import 'package:paylinc/features/initialized_transactions/views/screens/initialized_transactions_screen.dart';
-import 'package:paylinc/features/lock_screen/views/screens/lock_screen_screen.dart';
+import 'package:paylinc/features/lock_screen/views/screens/lock_screen.dart';
 import 'package:paylinc/features/login/login.dart';
 import 'package:paylinc/features/onboarding/view/onboarding_page.dart';
 import 'package:paylinc/features/password_update/view/password_update_screen.dart';
@@ -24,6 +24,7 @@ import 'package:paylinc/features/wallets/views/screens/wallets_screen.dart';
 
 import 'package:paylinc/features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
+import 'package:paylinc/utils/middlewares/check_locked.dart';
 import 'package:paylinc/utils/utils.dart';
 
 part 'app_routes.dart';
@@ -35,7 +36,11 @@ class AppPages {
 
   static final routes = [
     GetPage(name: _Paths.splash, page: () => SplashPage()),
-    GetPage(name: _Paths.welcome, page: () => OnboardingPage()),
+    GetPage(
+      name: _Paths.welcome,
+      page: () => OnboardingPage(),
+      middlewares: [GuestMiddleware()],
+    ),
     GetPage(
       name: _Paths.login,
       middlewares: [GuestMiddleware()],
@@ -56,71 +61,74 @@ class AppPages {
       page: () => ConfirmForgotPasswordPage(),
       middlewares: [GuestMiddleware()],
     ),
-    GetPage(name: _Paths.validateOtp, page: () => ValidateOtpPage()),
+    GetPage(
+        name: _Paths.validateOtp,
+        page: () => ValidateOtpPage(),
+        middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()]),
     GetPage(
       name: _Paths.dashboard,
       page: () => const DashboardScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: DashboardBinding(),
     ),
     GetPage(
       name: _Paths.wallets,
       page: () => WalletsScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: WalletsBinding(),
     ),
     GetPage(
       name: _Paths.viewWallet,
       page: () => ViewWalletScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: ViewWalletBinding(),
     ),
     GetPage(
       name: _Paths.viewStash,
       page: () => ViewStashScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: ViewStashBinding(),
     ),
     GetPage(
       name: _Paths.adminDashboard,
       page: () => const AdminDashboardScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: AdminDashboardBinding(),
     ),
     GetPage(
       name: _Paths.requestMoney,
       page: () => const RequestMoneyScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: RequestMoneyBindings(),
     ),
     GetPage(
       name: _Paths.sendMoney,
       page: () => const SendMoneyScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: SendMoneyBindings(),
     ),
     GetPage(
       name: _Paths.createWallet,
       page: () => const CreateWalletScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: CreateWalletBindings(),
     ),
     GetPage(
       name: _Paths.userAlerts,
       page: () => const UserAlertsScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: UserAlertsBinding(),
     ),
     GetPage(
       name: _Paths.initializedTransactions,
       page: () => const InitializedTransactionsScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionsBinding(),
     ),
     GetPage(
       name: _Paths.initializedTransaction,
       page: () => const InitializedTransactionScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionBinding(),
       transition: Transition.cupertinoDialog,
       fullscreenDialog: true,
@@ -128,7 +136,7 @@ class AppPages {
     GetPage(
       name: _Paths.initializedTransactionNoId,
       page: () => const InitializedTransactionScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionBinding(),
       transition: Transition.cupertinoDialog,
       fullscreenDialog: true,
@@ -136,7 +144,7 @@ class AppPages {
     GetPage(
       name: _Paths.transfer,
       page: () => const TransferScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: TransferBinding(),
       transition: Transition.cupertinoDialog,
       fullscreenDialog: true,
@@ -144,31 +152,31 @@ class AppPages {
     GetPage(
       name: _Paths.settings,
       page: () => const SettingsScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: SettingsBinding(),
     ),
     GetPage(
       name: _Paths.passwordUpdate,
       page: () => const PasswordUpdateScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: PasswordUpdateBindings(),
     ),
     GetPage(
       name: _Paths.lockScreen,
       page: () => LockScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: LockScreenBinding(),
     ),
     GetPage(
       name: _Paths.pinUpdate,
       page: () => const PinUpdateScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: PinUpdateBindings(),
     ),
     GetPage(
       name: _Paths.feedBack,
       page: () => const FeedBackScreen(),
-      middlewares: [AuthenticatedMiddleware()],
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: FeedBackBinding(),
     )
   ];

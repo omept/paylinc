@@ -9,7 +9,6 @@ enum AuthenticationStatus {
   authenticated, // logged in
   unauthenticated, // not logged in
   validateOtp,
-  lockScreen,
   validateEmail
 }
 
@@ -49,7 +48,7 @@ class AuthenticationRepository {
     return _authStatus;
   }
 
-  retrieveAuthStatus() async {
+  Future<AuthenticationStatus> retrieveAuthStatus() async {
     // Get auth status from hive storage
     var authRepBox = await Hive.openBox('auth_repository');
     var status = authRepBox.get('status');
@@ -62,19 +61,17 @@ class AuthenticationRepository {
     authRepository.put('status', hiveAuthToString(authStatus));
   }
 
-  hiveStringToAuth(String authString) {
+  AuthenticationStatus hiveStringToAuth(String? authString) {
     Map<String, AuthenticationStatus> _as = {
       'unknown': AuthenticationStatus.unknown,
       'signup': AuthenticationStatus.signup,
       'forgotPassword': AuthenticationStatus.forgotPassword,
       'authenticated': AuthenticationStatus.authenticated,
       'unauthenticated': AuthenticationStatus.unauthenticated,
-      'validate_otp': AuthenticationStatus.validateOtp,
-      'forgot_password': AuthenticationStatus.forgotPassword,
-      'validate_email': AuthenticationStatus.validateEmail,
-      'lock_screen': AuthenticationStatus.lockScreen,
+      'validateOtp': AuthenticationStatus.validateOtp,
+      'validateEmail': AuthenticationStatus.validateEmail,
     };
-    return _as[authString] ?? 'unknown';
+    return _as[authString] ?? AuthenticationStatus.unknown;
   }
 
   hiveAuthToString(AuthenticationStatus auth) {
@@ -86,7 +83,6 @@ class AuthenticationRepository {
       AuthenticationStatus.unauthenticated: 'unauthenticated',
       AuthenticationStatus.validateOtp: 'validateOtp',
       AuthenticationStatus.validateEmail: 'validateEmail',
-      AuthenticationStatus.lockScreen: 'lockScreen',
     };
 
     return _as2[auth] ?? AuthenticationStatus.unknown;
@@ -114,9 +110,5 @@ class AuthenticationRepository {
 
   void onboardingReqAcctVerification() {
     _controller.add(AuthenticationStatus.validateOtp);
-  }
-
-  void lockApp() {
-    _controller.add(AuthenticationStatus.lockScreen);
   }
 }

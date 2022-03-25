@@ -58,15 +58,6 @@ class ValidateOtp extends AuthenticationState {
         );
 }
 
-class AppLockScreen extends AuthenticationState {
-  AppLockScreen({
-    required User user,
-  }) : super(
-          status: AuthenticationStatus.lockScreen,
-          user: user,
-        );
-}
-
 class ValidateEmail extends AuthenticationState {
   ValidateEmail({
     required User user,
