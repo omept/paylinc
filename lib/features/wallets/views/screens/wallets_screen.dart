@@ -173,7 +173,7 @@ class WalletsScreen extends GetView<WalletsController> {
               Card(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
                 child: InkWell(
-                  onTap: () => Get.toNamed(Routes.view_stash),
+                  onTap: () => Get.toNamed(Routes.viewStash),
                   child: Container(
                     height: 40.0,
                     width: mediaQueryData.size.width,
@@ -269,14 +269,14 @@ class _WalletsList extends StatelessWidget {
           return _WalletListItem(
             selectedIndex: idx,
             balance: "${ctrl.walletsList[idx]?.balance}",
-            currency: "${ctrl.currncy.value}",
+            currency: ctrl.currncy.value,
             walletPaytag: "${ctrl.walletsList[idx]?.walletPaytag}",
           );
         }).toList();
 
         return ListView(
           physics: NeverScrollableScrollPhysics(),
-          children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+          children: walletTiles.isNotEmpty ? walletTiles : <Widget>[],
           shrinkWrap: true,
           padding: EdgeInsets.symmetric(vertical: 5.0),
         );
@@ -364,7 +364,7 @@ class _WalletListItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             ctrl.setSelectedWallet(selectedIndex);
-            Get.toNamed(Routes.view_wallet);
+            Get.toNamed(Routes.viewWallet);
           },
           child: SizedBox(
             height: 68.0,

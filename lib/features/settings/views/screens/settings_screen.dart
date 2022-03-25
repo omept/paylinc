@@ -167,7 +167,7 @@ class SettingsScreen extends GetView<SettingsController> {
             data: "PIN",
             subData: "Update your transaction PIN",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => Get.offNamed(Routes.pin_update),
+            onTap: () => Get.offNamed(Routes.pinUpdate),
           ),
           const SizedBox(height: kSpacing / 2.5),
           _settingsBtn(
@@ -176,7 +176,7 @@ class SettingsScreen extends GetView<SettingsController> {
             subData:
                 "Last updated on: ${controller.authCtrl.user.passwordUpdatedAt ?? 'Unavailable'}",
             subDataColor: td.textTheme.caption?.color,
-            onTap: () => Get.offNamed(Routes.password_update),
+            onTap: () => Get.offNamed(Routes.passwordUpdate),
           ),
           const SizedBox(height: kSpacing / 2.5),
           Obx(() => _settingsBtn(

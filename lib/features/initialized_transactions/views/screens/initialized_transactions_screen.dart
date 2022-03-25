@@ -248,7 +248,7 @@ class _PaymentTransactions extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: paymentTiles.length > 0 ? paymentTiles : <Widget>[],
+        children: paymentTiles.isNotEmpty ? paymentTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -314,7 +314,7 @@ class _PaymentTransactionDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$createdAt',
+                    createdAt,
                     style: TextStyle(
                       color: themeCtx.textTheme.caption?.color,
                       fontSize: 12.0,
@@ -368,7 +368,7 @@ class _PaymentTransactionListItem extends StatelessWidget {
           onTap: () {
             uITC.viewInititalizedTransaction(
                 selectedIndex: selectedIndex,
-                selectedType: AlertTagType.PAYMENT,
+                selectedType: AlertTagType.payment,
                 initializedTransaction:
                     uITC.paymentTransactionsList[selectedIndex]);
           },
@@ -432,7 +432,7 @@ class _WalletsTransactions extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+        children: walletTiles.isNotEmpty ? walletTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -500,7 +500,7 @@ class _WalletTransactionDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$createdAt',
+                    createdAt,
                     style: TextStyle(
                       color: themeCtx.textTheme.caption?.color,
                       fontSize: 12.0,
@@ -556,7 +556,7 @@ class _WalletTransactionListItem extends StatelessWidget {
           onTap: () {
             uITC.viewInititalizedTransaction(
                 selectedIndex: selectedIndex,
-                selectedType: AlertTagType.WALLETS,
+                selectedType: AlertTagType.wallets,
                 initializedTransaction:
                     uITC.walletTransactionsList[selectedIndex]);
           },

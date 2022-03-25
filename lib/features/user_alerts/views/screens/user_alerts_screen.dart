@@ -242,7 +242,7 @@ class _PaymentAlerts extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: paymentTiles.length > 0 ? paymentTiles : <Widget>[],
+        children: paymentTiles.isNotEmpty ? paymentTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -318,7 +318,7 @@ class _PaymentAlertDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$createdAt',
+                    createdAt,
                     style: TextStyle(
                       color: themeCtx.textTheme.caption?.color,
                       fontSize: 12.0,
@@ -379,7 +379,7 @@ class _PaymentAlertListItem extends StatelessWidget {
           onTap: () {
             uAC.viewInititalizedTransaction(
                 alertIndex: selectedIndex,
-                alertTagType: AlertTagType.PAYMENT,
+                alertTagType: AlertTagType.payment,
                 alertId: uAC.paymentAlertList[selectedIndex]?.alertId,
                 initializedTransaction: uAC
                     .paymentAlertList[selectedIndex]?.initializedTransaction);
@@ -431,7 +431,7 @@ class _WalletsAlerts extends StatelessWidget {
           selectedIndex: idx,
           alertTagMessage: AlertTagHelper.alertTagObj(
                   title: "${uAC.walletAlertList[idx]?.alertTag}",
-                  tag: AlertTagType.WALLETS)?['message'] ??
+                  tag: AlertTagType.wallets)?['message'] ??
               '',
           transactionAmount: "${uAC.walletAlertList[idx]?.amount}",
           transactionCurrency:
@@ -446,7 +446,7 @@ class _WalletsAlerts extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+        children: walletTiles.isNotEmpty ? walletTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -524,7 +524,7 @@ class _WalletAlertDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$createdAt',
+                    createdAt,
                     style: TextStyle(
                       color: themeCtx.textTheme.caption?.color,
                       fontSize: 12.0,
@@ -584,7 +584,7 @@ class _WalletAlertListItem extends StatelessWidget {
           onTap: () {
             uAC.viewInititalizedTransaction(
                 alertIndex: selectedIndex,
-                alertTagType: AlertTagType.WALLETS,
+                alertTagType: AlertTagType.wallets,
                 alertId: uAC.walletAlertList[selectedIndex]?.alertId,
                 initializedTransaction:
                     uAC.walletAlertList[selectedIndex]?.initializedTransaction);
@@ -617,11 +617,11 @@ class _WalletAlertListItem extends StatelessWidget {
   }
 }
 
-enum AlertTagType { PAYMENT, WALLETS }
+enum AlertTagType { payment, wallets }
 
 class AlertTagHelper {
   static alertTagObj(
-      {required String title, AlertTagType tag = AlertTagType.PAYMENT}) {
+      {required String title, AlertTagType tag = AlertTagType.payment}) {
     Map<String?, Map<String, String>?> paymentAlertTagMap = {
       'REQUEST MONEY': {
         'message': 'New  requested  charge',
@@ -636,7 +636,7 @@ class AlertTagHelper {
       }
     };
 
-    if (tag == AlertTagType.WALLETS) {
+    if (tag == AlertTagType.wallets) {
       return walletAlertTagMap[title] ??
           {
             'message': title,

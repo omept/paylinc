@@ -145,9 +145,9 @@ class InitializedTransactionScreen
                           onTap: () {
                             String prvRoute = Get.previousRoute;
                             var canGoBack = [
-                              Routes.user_alerts,
-                              Routes.initialized_transactions,
-                              Routes.view_wallet,
+                              Routes.userAlerts,
+                              Routes.initializedTransactions,
+                              Routes.viewWallet,
                             ];
                             if (canGoBack.contains(prvRoute)) {
                               Get.back();
@@ -389,7 +389,7 @@ class _TransactionActivityLogs extends StatelessWidget {
 
     return ListView(
       physics: NeverScrollableScrollPhysics(),
-      children: activityTiles.length > 0 ? activityTiles : <Widget>[],
+      children: activityTiles.isNotEmpty ? activityTiles : <Widget>[],
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(vertical: 5.0),
     );

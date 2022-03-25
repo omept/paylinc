@@ -1,7 +1,7 @@
 part of request_money;
 
 class RequestMoneyController extends GetxController {
-  Rx<FormzStatus> _status = FormzStatus.pure.obs;
+  final Rx<FormzStatus> _status = FormzStatus.pure.obs;
   FormzStatus get status => _status.value;
   AuthController authController = Get.find<AuthController>();
 

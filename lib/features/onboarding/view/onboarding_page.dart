@@ -35,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
     HeaderItem(
         title: "Sign up",
         onTap: () {
-          Get.offNamed(Routes.sign_up);
+          Get.offNamed(Routes.signUp);
         }),
     HeaderItem(
       title: "Learn More",

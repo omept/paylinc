@@ -97,39 +97,14 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    // switch (state) {
-    //   case AppLifecycleState.inactive:
-    //     print("inactive");
-    //     break;
-    //   case AppLifecycleState.resumed:
-    //     print("resumed");
-    //     break;
-    //   case AppLifecycleState.detached:
-    //     print("detached");
-    //     break;
-    //   case AppLifecycleState.paused:
-    //     print("paused");
-    //     break;
-    //   default:
-    //     break;
-    // }
     stateArr.add(state);
 
     switch (state) {
       case AppLifecycleState.inactive:
-        print("inactive");
         _inactive(stateArr);
         break;
       case AppLifecycleState.resumed:
-        print("resumed");
         _resumed(stateArr);
-        break;
-
-      case AppLifecycleState.paused:
-        print("paused");
-        break;
-      case AppLifecycleState.detached:
-        print("detached");
         break;
       default:
         break;
@@ -144,27 +119,25 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
+            print("BlocListener state: $state");
             switch (state.status) {
               case AuthenticationStatus.unknown:
-                Get.offNamed(Routes.welcome);
+                Get.offAllNamed(Routes.welcome);
                 break;
               case AuthenticationStatus.signup:
-                Get.offNamed(Routes.sign_up);
+                Get.offAllNamed(Routes.signUp);
                 break;
               case AuthenticationStatus.authenticated:
-                Get.offNamed(Routes.dashboard);
+                Get.offAllNamed(Routes.dashboard);
                 break;
               case AuthenticationStatus.unauthenticated:
-                Get.offNamed(Routes.login);
+                Get.offAllNamed(Routes.login);
                 break;
-              case AuthenticationStatus.forgot_password:
-                Get.offNamed(Routes.forgot_password);
+              case AuthenticationStatus.forgotPassword:
+                Get.offAllNamed(Routes.forgotPassword);
                 break;
-              case AuthenticationStatus.validate_otp:
-                Get.offNamed(Routes.validate_otp);
-                break;
-              case AuthenticationStatus.lock_screen:
-                Get.offNamed(Routes.lock_screen);
+              case AuthenticationStatus.validateOtp:
+                Get.offAllNamed(Routes.validateOtp);
                 break;
               default:
                 break;

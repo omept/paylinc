@@ -63,7 +63,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: Password.dirty(state.password.value),
       );
       try {
-        var api = UserApi.withAuthRepository(this._authenticationRepository);
+        var api = UserApi.withAuthRepository(_authenticationRepository);
         ResponseModel loginRes = await api.login({
           'email_or_paytag': state.username.value,
           'password': state.password.value,

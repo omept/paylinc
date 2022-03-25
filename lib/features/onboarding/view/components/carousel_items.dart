@@ -77,7 +77,7 @@ List<CarouselItemModel> carouselItems = [
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.offNamed(Routes.sign_up);
+                    Get.offNamed(Routes.signUp);
                   },
                   child: Text(
                     "GET STARTED",

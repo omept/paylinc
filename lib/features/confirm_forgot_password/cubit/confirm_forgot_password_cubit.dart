@@ -54,25 +54,24 @@ class ConfirmForgotPasswordCubit extends Cubit<ConfirmForgotPasswordState> {
 
   updateEmail(String email) {
     emit(state.copyWith(
-        status: Formz.validate(this.formInputs()),
-        email: EmailInput.dirty(email)));
+        status: Formz.validate(formInputs()), email: EmailInput.dirty(email)));
   }
 
   updateEmailToken(String emailTok) {
     emit(state.copyWith(
-        status: Formz.validate(this.formInputs()),
+        status: Formz.validate(formInputs()),
         emailT: TextInput.dirty(emailTok)));
   }
 
   updateNewPassWord(String password) {
     emit(state.copyWith(
-        status: Formz.validate(this.formInputs()),
+        status: Formz.validate(formInputs()),
         password: Password.dirty(password)));
   }
 
   updateConfirmNewPassWord(String password) {
     emit(state.copyWith(
-        status: Formz.validate(this.formInputs()),
+        status: Formz.validate(formInputs()),
         confirmPassword: Password.dirty(password)));
   }
 

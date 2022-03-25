@@ -47,7 +47,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpPasswordChanged event,
     SignUpState state,
   ) {
-    final password = TextInput.dirty(event.password);
+    final password = TextInput.dirty(event.newPassword);
     return state.copyWith(
       password: password,
     );
@@ -57,7 +57,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpCountryChanged event,
     SignUpState state,
   ) {
-    final countryID = TextInput.dirty(event.country.countryId.toString());
+    final countryID = TextInput.dirty(event.newCountry.countryId.toString());
     return state.copyWith(countryId: countryID);
   }
 
@@ -65,7 +65,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpNameChanged event,
     SignUpState state,
   ) {
-    final name = TextInput.dirty(event.name);
+    final name = TextInput.dirty(event.newName);
     return state.copyWith(
       name: name,
     );
@@ -85,7 +85,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpPaytagChanged event,
     SignUpState state,
   ) {
-    final paytag = TextInput.dirty(event.paytag);
+    final paytag = TextInput.dirty(event.newPaytag);
     return state.copyWith(
       paytag: paytag,
     );
@@ -95,7 +95,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpEmailChanged event,
     SignUpState state,
   ) {
-    final email = TextInput.dirty(event.email);
+    final email = TextInput.dirty(event.newEmail);
     return state.copyWith(
       email: email,
     );
@@ -110,7 +110,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
 
       try {
-        var api = UserApi.withAuthRepository(this._authenticationRepository);
+        var api = UserApi.withAuthRepository(_authenticationRepository);
         var signUpRes = await api.signUp({
           'email': state.email.value,
           'name': state.name.value,
@@ -143,12 +143,12 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Stream<SignUpState> _checkPaytagAvailability(
       SignUpPaytagChanged event, SignUpState state) async* {
     yield state.copyWith(
-      paytagUsageMessage: 'checking ' + event.paytag,
+      paytagUsageMessage: 'checking ' + event.newPaytag,
     );
     try {
-      var api = UserApi.withAuthRepository(this._authenticationRepository);
+      var api = UserApi.withAuthRepository(_authenticationRepository);
       var loginRes = await api.isPaytagUsable({
-        'paytag': event.paytag,
+        'paytag': event.newPaytag,
       });
       yield state.copyWith(
         paytagUsageMessage: loginRes.message?.toLowerCase(),

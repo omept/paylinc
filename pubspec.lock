@@ -36,13 +36,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  awesome_select:
-    dependency: "direct main"
-    description:
-      name: awesome_select
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.1.0"
   bloc:
     dependency: transitive
     description:
@@ -265,6 +258,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_awesome_select:
+    dependency: "direct main"
+    description:
+      name: flutter_awesome_select
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.2-beta"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -410,6 +410,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  lints:
+    dependency: "direct dev"
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   local_auth:
     dependency: "direct main"
     description:

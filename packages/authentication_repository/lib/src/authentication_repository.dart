@@ -8,10 +8,8 @@ enum AuthenticationStatus {
   forgotPassword,
   authenticated, // logged in
   unauthenticated, // not logged in
-  validate_otp,
-  forgot_password,
-  lock_screen,
-  validate_email
+  validateOtp,
+  validateEmail
 }
 
 /// Thrown if during the sign up process if a failure occurs.
@@ -31,7 +29,7 @@ class AuthenticationRepository {
   AuthenticationStatus _authStatus = AuthenticationStatus.unknown;
 
   Stream<AuthenticationStatus> get status async* {
-    AuthenticationStatus cAS = await this.currentAuthenticationState();
+    AuthenticationStatus cAS = await currentAuthenticationState();
     yield cAS;
     yield* _controller.stream;
   }
@@ -41,16 +39,16 @@ class AuthenticationRepository {
   }
 
   Future<void> shouldValidateOtp() async {
-    _controller.add(AuthenticationStatus.validate_otp);
+    _controller.add(AuthenticationStatus.validateOtp);
   }
 
   Future<AuthenticationStatus> currentAuthenticationState() async {
     // Determine the anthentication status.
-    this._authStatus = await retrieveAuthStatus();
-    return this._authStatus;
+    _authStatus = await retrieveAuthStatus();
+    return _authStatus;
   }
 
-  retrieveAuthStatus() async {
+  Future<AuthenticationStatus> retrieveAuthStatus() async {
     // Get auth status from hive storage
     var authRepBox = await Hive.openBox('auth_repository');
     var status = authRepBox.get('status');
@@ -63,19 +61,17 @@ class AuthenticationRepository {
     authRepository.put('status', hiveAuthToString(authStatus));
   }
 
-  hiveStringToAuth(String authString) {
+  AuthenticationStatus hiveStringToAuth(String? authString) {
     Map<String, AuthenticationStatus> _as = {
       'unknown': AuthenticationStatus.unknown,
       'signup': AuthenticationStatus.signup,
       'forgotPassword': AuthenticationStatus.forgotPassword,
       'authenticated': AuthenticationStatus.authenticated,
       'unauthenticated': AuthenticationStatus.unauthenticated,
-      'validate_otp': AuthenticationStatus.validate_otp,
-      'forgot_password': AuthenticationStatus.forgot_password,
-      'validate_email': AuthenticationStatus.validate_email,
-      'lock_screen': AuthenticationStatus.lock_screen,
+      'validateOtp': AuthenticationStatus.validateOtp,
+      'validateEmail': AuthenticationStatus.validateEmail,
     };
-    return _as[authString] ?? 'unknown';
+    return _as[authString] ?? AuthenticationStatus.unknown;
   }
 
   hiveAuthToString(AuthenticationStatus auth) {
@@ -85,10 +81,8 @@ class AuthenticationRepository {
       AuthenticationStatus.forgotPassword: 'forgotPassword',
       AuthenticationStatus.authenticated: 'authenticated',
       AuthenticationStatus.unauthenticated: 'unauthenticated',
-      AuthenticationStatus.validate_otp: 'validate_otp',
-      AuthenticationStatus.forgot_password: 'forgot_password',
-      AuthenticationStatus.validate_email: 'validate_email',
-      AuthenticationStatus.lock_screen: 'lock_screen',
+      AuthenticationStatus.validateOtp: 'validateOtp',
+      AuthenticationStatus.validateEmail: 'validateEmail',
     };
 
     return _as2[auth] ?? AuthenticationStatus.unknown;
@@ -103,7 +97,7 @@ class AuthenticationRepository {
   }
 
   void onboardingReqLogin() {
-    this.logOut();
+    logOut();
   }
 
   void onboardingReqSignUp() {
@@ -115,10 +109,6 @@ class AuthenticationRepository {
   }
 
   void onboardingReqAcctVerification() {
-    _controller.add(AuthenticationStatus.validate_otp);
-  }
-
-  void lockApp() {
-    _controller.add(AuthenticationStatus.lock_screen);
+    _controller.add(AuthenticationStatus.validateOtp);
   }
 }

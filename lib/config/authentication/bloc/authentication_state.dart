@@ -53,16 +53,7 @@ class ValidateOtp extends AuthenticationState {
   ValidateOtp({
     required User user,
   }) : super(
-          status: AuthenticationStatus.validate_otp,
-          user: user,
-        );
-}
-
-class AppLockScreen extends AuthenticationState {
-  AppLockScreen({
-    required User user,
-  }) : super(
-          status: AuthenticationStatus.lock_screen,
+          status: AuthenticationStatus.validateOtp,
           user: user,
         );
 }
@@ -71,7 +62,7 @@ class ValidateEmail extends AuthenticationState {
   ValidateEmail({
     required User user,
   }) : super(
-          status: AuthenticationStatus.validate_email,
+          status: AuthenticationStatus.validateEmail,
           user: user,
         );
 }
@@ -80,7 +71,7 @@ class ForgotPassword extends AuthenticationState {
   ForgotPassword({
     required User user,
   }) : super(
-          status: AuthenticationStatus.forgot_password,
+          status: AuthenticationStatus.forgotPassword,
           user: user,
         );
 }

@@ -5,31 +5,30 @@ class Routes {
   static const String dashboard = _Paths.dashboard;
   static const String wallets = _Paths.wallets;
   static const String settings = _Paths.settings;
-  static const String password_update = _Paths.password_update;
-  static const String pin_update = _Paths.pin_update;
+  static const String passwordUpdate = _Paths.passwordUpdate;
+  static const String pinUpdate = _Paths.pinUpdate;
   static const String splash = _Paths.splash;
-  static const String initialized_transactions =
-      _Paths.initialized_transactions;
-  static const String initialized_transaction = _Paths.initialized_transaction;
-  static const String initialized_transaction_no_id =
-      _Paths.initialized_transaction_no_id;
-  static const String admin_dashboard = _Paths.admin_dashboard;
-  static const String user_alerts = _Paths.user_alerts;
-  static const String feed_back = _Paths.feed_back;
+  static const String initializedTransactions = _Paths.initializedTransactions;
+  static const String initializedTransaction = _Paths.initializedTransaction;
+  static const String initializedTransactionNoId =
+      _Paths.initializedTransactionNoId;
+  static const String adminDashboard = _Paths.adminDashboard;
+  static const String userAlerts = _Paths.userAlerts;
+  static const String feedBack = _Paths.feedBack;
   static const String welcome = _Paths.welcome;
   static const String login = _Paths.login;
-  static const String sign_up = _Paths.sign_up;
-  static const String forgot_password = _Paths.forgot_password;
-  static const String confirm_forgot_password = _Paths.confirm_forgot_password;
-  static const String validate_otp = _Paths.validate_otp;
-  static const String lock_screen = _Paths.lock_screen;
+  static const String signUp = _Paths.signUp;
+  static const String forgotPassword = _Paths.forgotPassword;
+  static const String confirmForgotPassword = _Paths.confirmForgotPassword;
+  static const String validateOtp = _Paths.validateOtp;
+  static const String lockScreen = _Paths.lockScreen;
 
-  static const String request_money = _Paths.request_money;
-  static const String send_money = _Paths.send_money;
+  static const String requestMoney = _Paths.requestMoney;
+  static const String sendMoney = _Paths.sendMoney;
 
-  static const String create_wallet = _Paths.create_wallet;
-  static const String view_wallet = _Paths.view_wallet;
-  static const String view_stash = _Paths.view_stash;
+  static const String createWallet = _Paths.createWallet;
+  static const String viewWallet = _Paths.viewWallet;
+  static const String viewStash = _Paths.viewStash;
   static const String transfer = _Paths.transfer;
 }
 
@@ -38,29 +37,28 @@ class Routes {
 class _Paths {
   static const String dashboard = '/dashboard';
   static const String wallets = '/wallets';
-  static const String view_wallet = '/view-wallet';
-  static const String view_stash = '/view-stash';
+  static const String viewWallet = '/view-wallet';
+  static const String viewStash = '/view-stash';
   static const String settings = '/settings';
-  static const String password_update = '/password-update';
-  static const String pin_update = '/pin-update';
+  static const String passwordUpdate = '/password-update';
+  static const String pinUpdate = '/pin-update';
   static const String splash = '/splash';
   static const String welcome = '/welcome';
   static const String login = '/login';
-  static const String sign_up = '/sign-up';
-  static const String forgot_password = '/forgot-password';
-  static const String confirm_forgot_password = '/confirm-forgot-password';
-  static const String validate_otp = '/validate-otp';
-  static const String initialized_transactions = '/initialized-transactions';
-  static const String initialized_transaction =
+  static const String signUp = '/sign-up';
+  static const String forgotPassword = '/forgot-password';
+  static const String confirmForgotPassword = '/confirm-forgot-password';
+  static const String validateOtp = '/validate-otp';
+  static const String initializedTransactions = '/initialized-transactions';
+  static const String initializedTransaction =
       '/initialized-transaction/:b64UrlStr';
-  static const String initialized_transaction_no_id =
-      '/initialized-transaction';
-  static const String admin_dashboard = '/admin-dashboard';
-  static const String user_alerts = '/user-alerts';
+  static const String initializedTransactionNoId = '/initialized-transaction';
+  static const String adminDashboard = '/admin-dashboard';
+  static const String userAlerts = '/user-alerts';
   static const String transfer = '/transfer';
-  static const String feed_back = '/feed-back';
-  static const String request_money = '/request-money';
-  static const String send_money = '/send-money';
-  static const String create_wallet = '/create-wallet';
-  static const String lock_screen = '/lock-screen';
+  static const String feedBack = '/feed-back';
+  static const String requestMoney = '/request-money';
+  static const String sendMoney = '/send-money';
+  static const String createWallet = '/create-wallet';
+  static const String lockScreen = '/lock-screen';
 }

@@ -80,7 +80,7 @@ class EmailInputField extends StatelessWidget {
             errorText:
                 !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(state.email.value) &&
-                        (state.email.value.toString().length > 0)
+                        (state.email.value.toString().isNotEmpty)
                     ? 'invalid email'
                     : null,
           ),
@@ -232,7 +232,7 @@ class _TransferPinInputState extends State<TransferPinInput> {
           keyboardType: TextInputType.number,
           controller: textEditingController,
           onChanged: (value) {
-            if (!canBeInteger(value) && (value.length > 0)) {
+            if (!canBeInteger(value) && (value.isNotEmpty)) {
               errorController.add(ErrorAnimationType.shake);
             }
             context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));

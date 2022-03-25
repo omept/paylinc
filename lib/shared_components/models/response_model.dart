@@ -38,9 +38,9 @@ class ResponseModel {
   factory ResponseModel.fromMap(Map<String, dynamic> map) {
     return ResponseModel(
       data: map['data'] != null ? Map.from(map['data']) : null,
-      message: map['message'] != null ? map['message'] : null,
-      status: map['status'] != null ? map['status'] : null,
-      statusCode: map['status_code'] != null ? map['status_code'] : null,
+      message: map['message'],
+      status: map['status'],
+      statusCode: map['status_code'],
     );
   }
 

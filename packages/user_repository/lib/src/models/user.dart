@@ -102,7 +102,7 @@ class User {
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 
   factory User.fromDynamic(source) {
-    return new User().copyWith(
+    return User().copyWith(
       userId: source?['user_id'],
       name: source?['name'],
       profilePicUrl: source?['profile_pic_url'],

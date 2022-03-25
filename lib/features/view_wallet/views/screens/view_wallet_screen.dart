@@ -274,7 +274,7 @@ class _WalletsTransactions extends StatelessWidget {
           transactionAmount: "${vWC.walletTransactionsList[idx]?.amount}",
           transactionAction: "${vWC.walletTransactionsList[idx]?.action}",
           transactionCurrency:
-              "${vWC.authController.user.country?.currencyAbr ?? ""}",
+              vWC.authController.user.country?.currencyAbr ?? "",
           createdAt:
               dateTimeDisplay('${vWC.walletTransactionsList[idx]?.createdAt}'),
         );
@@ -282,7 +282,7 @@ class _WalletsTransactions extends StatelessWidget {
 
       return ListView(
         physics: NeverScrollableScrollPhysics(),
-        children: walletTiles.length > 0 ? walletTiles : <Widget>[],
+        children: walletTiles.isNotEmpty ? walletTiles : <Widget>[],
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(vertical: 5.0),
       );
@@ -334,7 +334,7 @@ class _WalletTransactionDescription extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                "$transactionAction",
+                transactionAction,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -346,7 +346,7 @@ class _WalletTransactionDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$createdAt',
+                    createdAt,
                     style: TextStyle(
                       color: themeCtx.textTheme.caption?.color,
                       fontSize: 12.0,
@@ -398,7 +398,7 @@ class _WalletTransactionListItem extends StatelessWidget {
           onTap: () {
             vWC.viewInititalizedTransaction(
                 selectedIndex: selectedIndex,
-                selectedType: AlertTagType.WALLETS,
+                selectedType: AlertTagType.wallets,
                 initializedTransactionId: vWC
                     .walletTransactionsList[selectedIndex]
                     ?.initializedTransactionId);

@@ -1,7 +1,7 @@
 part of pin_update;
 
 class PinUpdateController extends GetxController {
-  var _status = FormzStatus.pure.obs;
+  final _status = FormzStatus.pure.obs;
   var currentPin = 0.obs;
   var newPin = 0.obs;
   var cNewPin = 0.obs;

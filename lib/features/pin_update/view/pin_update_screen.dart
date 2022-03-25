@@ -439,7 +439,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
-        if (canBeInteger(value) && (value.length > 0)) {
+        if (canBeInteger(value) && (value.isNotEmpty)) {
           controller.newPin.value = value.toInt();
           setState(() {
             textEditingController.text = value;
@@ -488,7 +488,7 @@ class _NewTransferPinInputState extends State<_NewTransferPinInput> {
       keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
-        if (canBeInteger(value) && (value.length > 0)) {
+        if (canBeInteger(value) && (value.isNotEmpty)) {
           controller.newPin.value = value.toInt();
           setState(() {
             textEditingController.text = value;
@@ -537,7 +537,7 @@ class _CNewTransferPinInputState extends State<_CNewTransferPinInput> {
         keyboardType: TextInputType.number,
         controller: textEditingController,
         onChanged: (value) {
-          if (canBeInteger(value) && (value.length > 0)) {
+          if (canBeInteger(value) && (value.isNotEmpty)) {
             controller.cNewPin.value = value.toInt();
             setState(() {
               textEditingController.text = value;

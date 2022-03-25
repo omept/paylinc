@@ -11,7 +11,7 @@ class TodayText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            this.message,
+            message,
             style: Theme.of(context).textTheme.caption,
           ),
           Text(

@@ -58,6 +58,6 @@ class ViewWalletController extends GetxController {
     localStorageServices.saveInitializedTransactionB64(
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
-    await Get.toNamed(Routes.initialized_transaction_no_id);
+    await Get.toNamed(Routes.initializedTransactionNoId);
   }
 }

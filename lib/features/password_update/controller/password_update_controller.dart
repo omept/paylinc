@@ -1,7 +1,7 @@
 part of password_update;
 
 class PasswordUpdateController extends GetxController {
-  var _status = FormzStatus.pure.obs;
+  final _status = FormzStatus.pure.obs;
   var currentPassword = "".obs;
   var newPassword = "".obs;
   var cNewPassword = "".obs;

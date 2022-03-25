@@ -79,22 +79,22 @@ class Sidebar extends StatelessWidget {
                     Get.offNamed(Routes.dashboard);
                   } else if (value.label == "Admin Dashboard") {
                     // 1
-                    Get.offNamed(Routes.admin_dashboard);
+                    Get.offNamed(Routes.adminDashboard);
                   } else if (value.label == "Wallets") {
                     // 2
                     Get.offNamed(Routes.wallets);
                   } else if (value.label == "Alerts") {
                     // 3
-                    Get.offNamed(Routes.user_alerts);
+                    Get.offNamed(Routes.userAlerts);
                   } else if (value.label == "Transactions") {
                     // 4
-                    Get.offNamed(Routes.initialized_transactions);
+                    Get.offNamed(Routes.initializedTransactions);
                   } else if (value.label == "Settings") {
                     // 5
                     Get.offNamed(Routes.settings);
                   } else if (value.label == "Feed Back") {
                     // 6
-                    Get.offNamed(Routes.feed_back);
+                    Get.offNamed(Routes.feedBack);
                   } else if (value.label == "Log Out") {
                     // 6
                     authController.logout();

@@ -2,6 +2,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
@@ -25,6 +27,7 @@ class AuthController extends GetxController {
 
   var enableAppLock = false.obs;
   var enableBiometric = false.obs;
+  var lockedAtRoute = Routes.dashboard;
 
   bool get appLocked => _appLocked.value;
 
@@ -40,8 +43,11 @@ class AuthController extends GetxController {
 
   @override
   void onInit() async {
+    var curAuthSt = currentAuthenticationState();
+
     _token.value = await localStorageServices.getToken();
-    authenticated = _token.value.isNotEmpty;
+    authenticated = _token.value.isNotEmpty &&
+        curAuthSt == AuthenticationStatus.authenticated;
     var userClass = await localStorageServices.getUser();
     _user(userClass);
     var userStatisticsClass = await localStorageServices.getUserStatistics();
@@ -123,36 +129,31 @@ class AuthController extends GetxController {
   }
 
   void appInactive(List<AppLifecycleState> stateArr) async {
-    print("current `stateArr` called in appInactive : $stateArr");
-    // don't take any action if last index of stateArr isn't  AppLifecycleState.resumed
-    // if (stateArr.length > 1 && stateArr.last != AppLifecycleState.resumed) {
-    //   return;
-    // }
-    print('call pre-app lock logic');
     AuthenticationStatus currentState =
         await authenticationRepository.currentAuthenticationState();
 
-    if (currentState == AuthenticationStatus.authenticated) {
-      print("reset inactiveAt");
-      // save the current time of entering inactivity while in authenticated state
-      localStorageServices.saveAppInactiveAt();
+    // if any of the last two indexes of stateArr is either AppLifecycleState.paused or AppLifecycleState.inactive and not AppLifecycleState.resumed return false
+    if (!((stateArr.isNotEmpty &&
+            (stateArr[stateArr.length - 1] == AppLifecycleState.paused ||
+                stateArr[stateArr.length - 1] == AppLifecycleState.inactive) &&
+            stateArr[stateArr.length - 1] != AppLifecycleState.resumed) &&
+        (stateArr.length > 1 &&
+            (stateArr[stateArr.length - 2] == AppLifecycleState.paused ||
+                stateArr[stateArr.length - 2] == AppLifecycleState.inactive) &&
+            stateArr[stateArr.length - 2] != AppLifecycleState.resumed))) {
+      if (currentState == AuthenticationStatus.authenticated) {
+        // save the current time of entering inactivity while in authenticated state
+        localStorageServices.saveAppInactiveAt();
+      }
     }
   }
 
-// checks if the app was in the background for more than `lockAppIn` secs and changes the state to lock app
-// Auth state if true
+// checks if the app was in the background while authenticated for more than `lockAppIn` secs and changes the auth state to "lock app"
   void appResumed(List<AppLifecycleState> stateArr) async {
-    // don't take any action if last index of stateArr isn't  AppLifecycleState.inactive or AppLifecycleState.paused
-    // if (stateArr.length > 1) {
-    //   if (stateArr[stateArr.length - 1] != AppLifecycleState.inactive ||
-    //       stateArr[stateArr.length - 1] != AppLifecycleState.paused) {
-    //     return;
-    //   }
-    // }
-
-    print('executing app lock logic');
-
     try {
+      if (!enableAppLock.value) {
+        return;
+      }
       // get the time app entered inactivity while in authenticated state
       var inactiveAt = await localStorageServices.getAppInactiveAt();
 
@@ -162,16 +163,36 @@ class AuthController extends GetxController {
 
         if (now >= timeToLock) {
           // if the app was in the background for more than "lockAppIn" secs
-          // change the state to lock screen
+          // lock app screen (i.e set appLocked to true and reload the page to trigger lock middleware check)
           _appLocked.value = true;
-          authenticationRepository.lockApp();
-          print(' app locked');
+          lockedAtRoute = Get.currentRoute;
+          Get.offAllNamed(Get.currentRoute);
         }
       }
     } catch (_) {}
   }
 
-  void unlock() {
-    //TODO: unlock the app
+  Future<void> unlock() async {
+    if (enableBiometric.isTrue) {
+      var localAuth = LocalAuthentication();
+      bool didBioAuthntct = await localAuth.authenticate(
+          localizedReason: 'Please authenticate to gain access',
+          biometricOnly: true);
+      // print("didBioAuthntct: $didBioAuthntct");
+      if (didBioAuthntct) {
+        await innerUnlock();
+      }
+    } else {
+      await innerUnlock();
+    }
+  }
+
+  Future<void> innerUnlock() async {
+    _appLocked.value = false;
+    Get.offAllNamed(lockedAtRoute);
+  }
+
+  currentAuthenticationState() async {
+    return await authenticationRepository.currentAuthenticationState();
   }
 }
