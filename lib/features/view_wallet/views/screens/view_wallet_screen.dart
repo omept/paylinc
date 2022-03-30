@@ -152,7 +152,7 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.back();
+                      Get.offAllNamed(Routes.wallets);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),

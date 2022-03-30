@@ -119,7 +119,6 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
-            print("BlocListener state: $state");
             switch (state.status) {
               case AuthenticationStatus.unknown:
                 Get.offAllNamed(Routes.welcome);

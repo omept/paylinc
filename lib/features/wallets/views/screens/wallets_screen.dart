@@ -21,8 +21,14 @@ part '../../controllers/wallets_controller.dart';
 class WalletsScreen extends GetView<WalletsController> {
   WalletsScreen({Key? key}) : super(key: key);
 
-  final alrtAmountStyle = TextStyle(
-    fontSize: 30.0,
+  final combinedAmountStyle = TextStyle(
+    fontSize: 25.0,
+    fontWeight: FontWeight.w600,
+    // color: themeContext.textTheme.caption?.color,
+  );
+
+  final stashAmountStyle = TextStyle(
+    fontSize: 18.0,
     fontWeight: FontWeight.w600,
     // color: themeContext.textTheme.caption?.color,
   );
@@ -138,7 +144,7 @@ class WalletsScreen extends GetView<WalletsController> {
           Obx(
             () => Text(
               "${ctrl.currncy.value} ${ctrl.combinedBal.value.doubleHumanFormat()} ",
-              style: alrtAmountStyle,
+              style: combinedAmountStyle,
             ),
           ),
           Text(
@@ -150,9 +156,14 @@ class WalletsScreen extends GetView<WalletsController> {
             height: 50.0,
             child: Card(
               child: Center(
-                child: Icon(
-                  EvaIcons.paperPlane,
-                  color: themeData.colorScheme.secondary,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.offAllNamed(Routes.transfer);
+                  },
+                  child: Icon(
+                    EvaIcons.paperPlane,
+                    color: themeData.colorScheme.secondary,
+                  ),
                 ),
               ),
             ),
@@ -173,9 +184,9 @@ class WalletsScreen extends GetView<WalletsController> {
               Card(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 7.0),
                 child: InkWell(
-                  onTap: () => Get.toNamed(Routes.viewStash),
+                  onTap: () => Get.offAllNamed(Routes.viewStash),
                   child: Container(
-                    height: 40.0,
+                    height: 45.0,
                     width: mediaQueryData.size.width,
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -183,7 +194,8 @@ class WalletsScreen extends GetView<WalletsController> {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Obx(
                           () => Text(
-                            "${ctrl.currncy.value} ${ctrl.stashBal.value.intHumanFormat()}",
+                            "${ctrl.currncy.value} ${ctrl.stashBal.value.toString().toShortHumanFormat()}",
+                            style: stashAmountStyle,
                           ),
                         ),
                       ),
@@ -364,7 +376,7 @@ class _WalletListItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             ctrl.setSelectedWallet(selectedIndex);
-            Get.toNamed(Routes.viewWallet);
+            Get.offAllNamed(Routes.viewWallet);
           },
           child: SizedBox(
             height: 68.0,
