@@ -7,7 +7,7 @@ class TransferController extends GetxController {
   FormzStatus get status => _status.value;
   AuthController authController = Get.find<AuthController>();
 
-  static final defaultWalletChoice =
+  static var defaultWalletChoice =
       S2Choice<String>(value: '', title: 'Select one');
   var walletOptions = <S2Choice<String>>[defaultWalletChoice].obs;
   var selectedWalletValue = "".obs;
@@ -23,7 +23,7 @@ class TransferController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    wallets = authController.user.wallets;
+    wallets = authController.user.value.wallets;
     walletOptions.value = await fetchWalltOptns;
 
     transferOrigin.value =
@@ -49,19 +49,15 @@ class TransferController extends GetxController {
     }
   }
 
-  Wallet? getWalletFromPaytag(String selectedWllt) {
-    return wallets?.firstWhere(
-        (element) => element?.walletPaytag == selectedWllt,
-        orElse: () => wallets?.first);
-  }
+  Wallet? getWalletFromPaytag(String selectedWllt) =>
+      wallets?.firstWhere((element) => element?.walletPaytag == selectedWllt,
+          orElse: () => wallets?.first);
 
-  double getWalletPaytagMax(String selectedWllt) {
-    return paytagBals[selectedWllt] ?? 0;
-  }
+  double getWalletPaytagMax(String selectedWllt) =>
+      paytagBals[selectedWllt] ?? 0;
 
-  int getStashMax(String selectedWllt) {
-    return authController.user.stashBalance ?? 0;
-  }
+  int getStashMax(String selectedWllt) =>
+      authController.user.value.stashBalance ?? 0;
 
   Future<List<S2Choice<String>>> get fetchWalltOptns async {
     List<S2Choice<String>> s2Choices = [];
@@ -77,13 +73,9 @@ class TransferController extends GetxController {
     return s2Choices;
   }
 
-  void updatePurpose(String mes) {
-    purpose.value = mes;
-  }
+  void updatePurpose(String mes) => purpose.value = mes;
 
-  void updateOtp(String pin) {
-    transferPin.value = pin;
-  }
+  void updateOtp(String pin) => transferPin.value = pin;
 
-  void submitTransferMoney() {}
+  void submitTransferMoney() => print("transfer money");
 }

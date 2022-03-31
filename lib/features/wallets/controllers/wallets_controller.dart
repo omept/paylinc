@@ -17,9 +17,9 @@ class WalletsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    stashBal.value = authController.user.stashBalance ?? 0;
-    currncy.value = authController.user.country?.currencyAbr ?? '';
-    walletsList.value = authController.user.wallets ?? [];
+    stashBal.value = authController.user.value.stashBalance ?? 0;
+    currncy.value = authController.user.value.country?.currencyAbr ?? '';
+    walletsList.value = authController.user.value.wallets ?? [];
 
     for (var e in walletsList) {
       combinedBal.value += e?.balance ?? 0;

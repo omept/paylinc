@@ -13,6 +13,7 @@ class User {
   bool? customerVerified;
   Country? country;
   List<Wallet?>? wallets;
+  List<UserBank?>? userBanks;
   String? createdAt;
   String? passwordUpdatedAt;
   User({
@@ -26,6 +27,7 @@ class User {
     this.customerVerified,
     this.country,
     this.wallets,
+    this.userBanks,
     this.createdAt,
     this.passwordUpdatedAt,
   });
@@ -42,6 +44,7 @@ class User {
     bool? customerVerified,
     Country? country,
     List<Wallet?>? wallets,
+    List<UserBank?>? userBanks,
     String? createdAt,
     String? passwordUpdatedAt,
   }) {
@@ -56,6 +59,7 @@ class User {
       customerVerified: customerVerified ?? this.customerVerified,
       country: country ?? this.country,
       wallets: wallets ?? this.wallets,
+      userBanks: userBanks ?? this.userBanks,
       createdAt: createdAt ?? this.createdAt,
       passwordUpdatedAt: passwordUpdatedAt ?? this.passwordUpdatedAt,
     );
@@ -73,6 +77,7 @@ class User {
       'customer_verified': customerVerified,
       'country': country?.toMap(),
       'wallets': wallets?.map((x) => x?.toMap()).toList(),
+      'user_banks': userBanks?.map((x) => x?.toMap()).toList(),
       'created_at': createdAt,
       'password_updated_at': passwordUpdatedAt,
     };
@@ -91,6 +96,10 @@ class User {
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
       wallets: map['wallets'] != null
           ? List<Wallet?>.from(map['wallets']?.map((x) => Wallet?.fromMap(x)))
+          : null,
+      userBanks: map['user_banks'] != null
+          ? List<UserBank?>.from(
+              map['user_banks']?.map((x) => UserBank?.fromMap(x)))
           : null,
       createdAt: map['created_at'],
       passwordUpdatedAt: map['password_updated_at'],
@@ -113,7 +122,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, createdAt: $createdAt  password_updated_at: $passwordUpdatedAt )';
+    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, userBanks: $userBanks, createdAt: $createdAt  password_updated_at: $passwordUpdatedAt )';
   }
 
   @override
@@ -276,4 +285,120 @@ class Wallet {
 
   @override
   int get hashCode => walletPaytag.hashCode ^ balance.hashCode;
+}
+
+class UserBank {
+  int? id;
+  Bank? bank;
+  String? accountNumber;
+  String? accountName;
+  UserBank({
+    this.id,
+    this.bank,
+    this.accountNumber,
+    this.accountName,
+  });
+
+  UserBank copyWith({
+    int? id,
+    Bank? bank,
+    String? accountNumber,
+    String? accountName,
+  }) {
+    return UserBank(
+      id: id ?? this.id,
+      bank: bank ?? this.bank,
+      accountNumber: accountNumber ?? this.accountNumber,
+      accountName: accountName ?? this.accountName,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'bank': bank?.toMap(),
+      'account_number': accountNumber,
+      'account_name': accountName,
+    };
+  }
+
+  factory UserBank.fromMap(Map<String, dynamic> map) {
+    return UserBank(
+      id: map['id']?.toInt(),
+      bank: map['bank'] != null
+          ? Bank?.fromMap(map['bank'] as Map<String, dynamic>)
+          : null,
+      accountNumber: map['account_number'],
+      accountName: map['account_name'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserBank.fromJson(String source) =>
+      UserBank.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'UserBank(id: $id, bank: $bank, accountNumber: $accountNumber, accountName: $accountName)';
+  }
+}
+
+class Bank {
+  int? id;
+  String? name;
+  String? logoUrl;
+  Bank({
+    this.id,
+    this.name,
+    this.logoUrl,
+  });
+
+  Bank copyWith({
+    int? id,
+    String? name,
+    String? logoUrl,
+  }) {
+    return Bank(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      logoUrl: logoUrl ?? this.logoUrl,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'logo_url': logoUrl,
+    };
+  }
+
+  factory Bank.fromMap(Map<String, dynamic> map) {
+    return Bank(
+      id: map['id']?.toInt(),
+      name: map['name'],
+      logoUrl: map['logo_url'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Bank.fromJson(String source) => Bank.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Bank(id: $id, name: $name, logoUrl: $logoUrl)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Bank &&
+        other.id == id &&
+        other.name == name &&
+        other.logoUrl == logoUrl;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ logoUrl.hashCode;
 }

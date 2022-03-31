@@ -31,7 +31,7 @@ class RequestMoneyController extends GetxController {
   Future<List<S2Choice<String>>> get fetchOptions async {
     List<S2Choice<String>> s2Choices = [];
 
-    var wallets = authController.user.wallets;
+    var wallets = authController.user.value.wallets;
     if (wallets?.isNotEmpty ?? false) {
       s2Choices = List<S2Choice<String>>.from(wallets!.map((e) =>
           S2Choice<String>(
@@ -107,7 +107,8 @@ class RequestMoneyController extends GetxController {
           authController.authenticationRepository);
       var res = await walletsApi.preRequestMoney({
         'paytag': sender.value,
-        "country_id": authController.user.country?.countryId.toString() ?? '',
+        "country_id":
+            authController.user.value.country?.countryId.toString() ?? '',
         'wallet_paytag': selectedWalletValue,
         'amount': amount.value,
         'transfer_pin': transferPin.value,
@@ -135,7 +136,8 @@ class RequestMoneyController extends GetxController {
           authController.authenticationRepository);
       var res = await walletsApi.requestMoney({
         'paytag': sender.value,
-        "country_id": authController.user.country?.countryId.toString() ?? '',
+        "country_id":
+            authController.user.value.country?.countryId.toString() ?? '',
         'wallet_paytag': selectedWalletValue,
         'amount': amount.value,
         'transfer_pin': transferPin.value,

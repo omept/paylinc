@@ -191,7 +191,7 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${vwCtrl.authController.user.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
+                  '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: kTitleStyle,
@@ -274,7 +274,7 @@ class _WalletsTransactions extends StatelessWidget {
           transactionAmount: "${vWC.walletTransactionsList[idx]?.amount}",
           transactionAction: "${vWC.walletTransactionsList[idx]?.action}",
           transactionCurrency:
-              vWC.authController.user.country?.currencyAbr ?? "",
+              vWC.authController.user.value.country?.currencyAbr ?? "",
           createdAt:
               dateTimeDisplay('${vWC.walletTransactionsList[idx]?.createdAt}'),
         );

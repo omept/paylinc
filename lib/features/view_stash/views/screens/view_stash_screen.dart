@@ -192,7 +192,7 @@ class ViewStashScreen extends GetView<ViewStashController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${vwCtrl.authController.user.country?.currencyAbr ?? ""} ${vwCtrl.authController.user.stashBalance?.intHumanFormat() ?? ""}',
+                  '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.user.value.stashBalance?.intHumanFormat() ?? ""}',
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: kTitleStyle,
@@ -279,7 +279,7 @@ class _StashsTransactions extends StatelessWidget {
           accountName: vWC.stashTransactionsList[idx]?.accountName,
           wallet: vWC.stashTransactionsList[idx]?.wallet?.walletPaytag,
           transactionCurrency:
-              vWC.authController.user.country?.currencyAbr ?? "",
+              vWC.authController.user.value.country?.currencyAbr ?? "",
           createdAt:
               dateTimeDisplay('${vWC.stashTransactionsList[idx]?.createdAt}'),
         );

@@ -151,15 +151,15 @@ class WalletsScreen extends GetView<WalletsController> {
             "Combined balance",
           ),
           const SizedBox(height: kSpacing),
-          Container(
-            width: 100.0,
-            height: 50.0,
-            child: Card(
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Get.offAllNamed(Routes.transfer);
-                  },
+          GestureDetector(
+            onTap: () {
+              Get.offAllNamed(Routes.transfer);
+            },
+            child: Container(
+              width: 100.0,
+              height: 50.0,
+              child: Card(
+                child: Center(
                   child: Icon(
                     EvaIcons.paperPlane,
                     color: themeData.colorScheme.secondary,
