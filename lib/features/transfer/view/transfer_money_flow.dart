@@ -101,7 +101,7 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                     if (canGoBack.contains(prvRoute)) {
                       Get.offAllNamed(prvRoute);
                     } else {
-                      Get.offAllNamed(Routes.dashboard);
+                      Get.offAllNamed(Routes.wallets);
                     }
                   },
                   child: Row(
@@ -257,12 +257,10 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
   }
 
   Widget _selectBankPage(ThemeData themeContext, TransferController c) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          height: 150.0,
-          child: Padding(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
             padding: EdgeInsets.symmetric(vertical: kSpacing),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,17 +271,67 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'enter the account paytag you want to request money from.',
+                  'enter or select the account number you want to transfer to.',
                   style: kSubtitleStyle(themeContext),
                 ),
+                SizedBox(height: 15.0),
+                BankAccountInput(),
+                SizedBox(height: 15.0),
+                Obx(() {
+                  if (c.uBanksList.isEmpty) {
+                    return Row(
+                      children: [
+                        Container(
+                          color: themeContext.colorScheme.primary,
+                          child: InkWell(
+                            onTap: () {
+                              Get.offAllNamed(Routes.addBank);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Add a new bank account?',
+                                style: TextStyle(
+                                  color: themeContext.colorScheme.onBackground,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+
+                  if (c.sUBank.value.accountName != null) {
+                    return SizedBox(
+                      height: 50.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text((c.sUBank.value.accountName ?? '')),
+                          Text(c.sUBank.value.bank?.name ?? ''),
+                        ],
+                      ),
+                    );
+                  }
+
+                  List<Widget> bankTiles = c.uBanksList.map((entry) {
+                    return _RecipientBankListItem(uBank: entry ?? UserBank());
+                  }).toList();
+
+                  return ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    children: bankTiles.isNotEmpty ? bankTiles : <Widget>[],
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(vertical: 5.0),
+                  );
+                })
               ],
             ),
           ),
-          // ),
-        ),
-        Padding(padding: const EdgeInsets.all(kSpacing), child: Container()),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
     );
   }
 
@@ -674,10 +722,10 @@ class _AmountInput extends StatefulWidget {
 
 class _AmountInputState extends State<_AmountInput> {
   Timer? _debounce;
+  TransferController controller = Get.find<TransferController>();
 
   @override
   Widget build(BuildContext context) {
-    TransferController controller = Get.find<TransferController>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -685,18 +733,60 @@ class _AmountInputState extends State<_AmountInput> {
         Obx(() {
           return TextFormField(
             keyboardType: TextInputType.number,
-            initialValue: "0",
-            // initialValue: controller.amount.value,
+            // initialValue: "0",
+            initialValue: controller.amount.value.toString(),
             onChanged: (amount) {
               if (_debounce?.isActive ?? false) _debounce?.cancel();
               _debounce = Timer(const Duration(milliseconds: 500), () {
-                // controller.updateAmount(amount);
+                controller.updateAmount(amount);
               });
             },
             decoration: InputDecoration(
               labelText: 'Amount',
               errorStyle: TextStyle(color: kDangerColor),
               errorText: controller.amount.value <= 0 ? 'invalid amount' : null,
+            ),
+          );
+        })
+      ],
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class BankAccountInput extends StatelessWidget {
+  Timer? debounce;
+
+  BankAccountInput({
+    Key? key,
+    this.debounce,
+  }) : super(key: key);
+  TransferController controller = Get.find<TransferController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Obx(() {
+          return TextFormField(
+            key: Key(controller.acctNumber.value),
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            initialValue: controller.acctNumber.value,
+            onChanged: (acctNum) {
+              if (debounce?.isActive ?? false) debounce?.cancel();
+              debounce = Timer(const Duration(milliseconds: 500), () {
+                controller.updateAcountNumber(acctNum);
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Account Number',
+              errorStyle: TextStyle(color: kDangerColor),
+              errorText: controller.acctNumber.isEmpty
+                  ? 'invalid acount number'
+                  : null,
             ),
           );
         })
@@ -782,6 +872,103 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       onCompleted: (value) {
         controller.submitTransferMoney();
       },
+    );
+  }
+}
+
+class _RecipientBankListItem extends StatelessWidget {
+  _RecipientBankListItem({
+    Key? key,
+    required this.uBank,
+  }) : super(key: key);
+
+  final UserBank uBank;
+
+  final TransferController tCtrl = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        elevation: 1.0,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap: () {
+            tCtrl.selectUBank(uBank);
+          },
+          child: SizedBox(
+            height: 60.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 6.0, 2.0, 2.0),
+                    child: _RecipientBankDescription(
+                      uBank: uBank,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RecipientBankDescription extends StatelessWidget {
+  final acctNameStyle = TextStyle(
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+  );
+  final UserBank uBank;
+
+  _RecipientBankDescription({Key? key, required this.uBank}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeCtx = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+            Text(uBank.accountName ?? "", style: acctNameStyle),
+          ],
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: [
+                  Text(
+                    uBank.accountNumber ?? "",
+                    style: TextStyle(
+                      color: themeCtx.textTheme.caption?.color,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  SizedBox(width: kSpacing / 2),
+                  Text(
+                    uBank.bank?.name ?? "",
+                    style: TextStyle(
+                      color: themeCtx.textTheme.caption?.color,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

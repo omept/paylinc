@@ -1,6 +1,16 @@
 part of app_helpers;
 
-extension DynamicHelper on String {
+extension StringHelper on String {
+  int toInt() {
+    return _toInt(this);
+  }
+
+  double toDouble() {
+    return _toDouble(this);
+  }
+}
+
+extension DynamicHelper on dynamic {
   int toInt() {
     return _toInt(this);
   }

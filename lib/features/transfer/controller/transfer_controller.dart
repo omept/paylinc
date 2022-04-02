@@ -10,10 +10,12 @@ class TransferController extends GetxController {
   static var defaultWalletChoice =
       S2Choice<String>(value: '', title: 'Select one');
   var walletOptions = <S2Choice<String>>[defaultWalletChoice].obs;
-  var selectedWalletValue = "".obs;
   var purpose = "".obs;
   var amount = 0.obs;
   var transferPin = "".obs;
+  var acctNumber = "".obs;
+  var sUBank = UserBank().obs; // selected user bank
+  RxList<UserBank?> uBanksList = <UserBank?>[].obs;
 
   var transferOrigin = TransferOrigin.stash.obs; // stash or wallet
   Rx<Wallet?> selectedWallet = Wallet().obs; // specific wallet to transfer from
@@ -24,6 +26,7 @@ class TransferController extends GetxController {
   void onInit() async {
     super.onInit();
     wallets = authController.user.value.wallets;
+    uBanksList.value = defaultBankList();
     walletOptions.value = await fetchWalltOptns;
 
     transferOrigin.value =
@@ -75,7 +78,32 @@ class TransferController extends GetxController {
 
   void updatePurpose(String mes) => purpose.value = mes;
 
+  void updateAmount(String _amount) => amount.value = _amount.toInt();
+
   void updateOtp(String pin) => transferPin.value = pin;
 
   void submitTransferMoney() => print("transfer money");
+
+  List<UserBank?> defaultBankList() {
+    return authController.user.value.userBanks ?? [];
+  }
+
+  void updateAcountNumber(String acctNum) {
+    if (acctNum.isEmpty) {
+      uBanksList.value = defaultBankList();
+      return;
+    }
+    // reset selected user bank
+    sUBank.value = UserBank();
+    acctNumber.value = acctNum;
+    var bList = defaultBankList();
+    uBanksList.value = bList
+        .where((b) => b?.accountNumber?.contains(acctNum) ?? false)
+        .toList();
+  }
+
+  void selectUBank(UserBank _uBank) {
+    sUBank.value = _uBank;
+    acctNumber.value = _uBank.accountNumber ?? "";
+  }
 }
