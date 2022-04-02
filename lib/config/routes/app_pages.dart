@@ -1,3 +1,4 @@
+import 'package:paylinc/features/add_bank/views/screens/add_bank_screen.dart';
 import 'package:paylinc/features/admin_dashboard/views/screens/admin_dashboard_screen.dart';
 import 'package:paylinc/features/confirm_forgot_password/confirm_forgot_password.dart';
 import 'package:paylinc/features/create_wallet/view/create_wallet_screen.dart';
@@ -17,6 +18,7 @@ import 'package:paylinc/features/sign_up/view/sign_up_page.dart';
 import 'package:paylinc/features/splash/splash.dart';
 import 'package:paylinc/features/transfer/view/transfer_screen.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
+import 'package:paylinc/features/user_banks/views/screens/user_banks_screen.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_page.dart';
 import 'package:paylinc/features/view_stash/views/screens/view_stash_screen.dart';
 import 'package:paylinc/features/view_wallet/views/screens/view_wallet_screen.dart';
@@ -172,6 +174,18 @@ class AppPages {
       page: () => const PinUpdateScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: PinUpdateBindings(),
+    ),
+    GetPage(
+      name: _Paths.userBanks,
+      page: () => const UserBanksScreen(),
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
+      binding: UserBanksBindings(),
+    ),
+    GetPage(
+      name: _Paths.addBank,
+      page: () => const AddBankScreen(),
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
+      binding: AddBankBindings(),
     ),
     GetPage(
       name: _Paths.feedBack,
