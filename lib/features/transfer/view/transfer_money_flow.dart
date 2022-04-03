@@ -340,7 +340,7 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          height: 120.0,
+          height: 350.0,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: kSpacing),
             child: Column(
@@ -354,6 +354,59 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                 Text(
                   'Enter the amount you want to transfer.',
                   style: kSubtitleStyle(themeContext),
+                ),
+                SizedBox(height: 35.0),
+                Text(
+                  'Transfer settings :',
+                  style: kSubtitleStyle(themeContext),
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Obx(() {
+                    return SmartSelect<TransferOrigin>.single(
+                        modalType: S2ModalType.bottomSheet,
+                        tileBuilder: (context, state) {
+                          return S2Tile<dynamic>(
+                            title: state.titleWidget,
+                            value: Text(
+                              state.selected.toString(),
+                              style: kSelectionStyle(themeContext),
+                            ),
+                            onTap: state.showModal,
+                          );
+                        },
+                        title: 'origin',
+                        selectedValue: c.selectedTransferOrgn.value ??
+                            TransferOrigin.stash,
+                        // selectedValue: TransferOrigin.stash,
+                        choiceItems: c.transferOrigins,
+                        onChange: (state) => c.setTransferOrigin(state));
+                  }),
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Obx(() {
+                    if (c.walletOptions.isEmpty ||
+                        c.selectedTransferOrgn.value == TransferOrigin.stash) {
+                      return Container();
+                    }
+                    return SmartSelect<Wallet>.single(
+                        modalType: S2ModalType.bottomSheet,
+                        tileBuilder: (context, state) {
+                          return S2Tile<dynamic>(
+                            title: state.titleWidget,
+                            value: Text(state.selected.toString()),
+                            onTap: state.showModal,
+                          );
+                        },
+                        title: 'wallet',
+                        selectedValue: c.defaultWallet.value ?? Wallet(),
+                        choiceItems: c.walletOptions,
+                        onChange: (state) {});
+                  }),
+                  // Container()
                 ),
               ],
             ),
@@ -726,30 +779,51 @@ class _AmountInputState extends State<_AmountInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Obx(() {
-          return TextFormField(
-            keyboardType: TextInputType.number,
-            // initialValue: "0",
-            initialValue: controller.amount.value.toString(),
-            onChanged: (amount) {
-              if (_debounce?.isActive ?? false) _debounce?.cancel();
-              _debounce = Timer(const Duration(milliseconds: 500), () {
-                controller.updateAmount(amount);
-              });
+    ThemeData themeData = Theme.of(context);
+    return Stack(children: [
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Obx(() {
+            return TextFormField(
+              key: Key(controller.amount.value.toString()),
+              keyboardType: TextInputType.number,
+              initialValue: controller.amount.value.toString(),
+              onChanged: (amount) {
+                if (_debounce?.isActive ?? false) _debounce?.cancel();
+                _debounce = Timer(const Duration(milliseconds: 500), () {
+                  controller.updateAmount(amount);
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Amount',
+                errorStyle: TextStyle(color: kDangerColor),
+                errorText:
+                    controller.amount.value <= 0 ? 'invalid amount' : null,
+              ),
+            );
+          })
+        ],
+      ),
+      Align(
+        alignment: Alignment.bottomRight,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: InkWell(
+            onTap: () {
+              controller.maxAmount();
             },
-            decoration: InputDecoration(
-              labelText: 'Amount',
-              errorStyle: TextStyle(color: kDangerColor),
-              errorText: controller.amount.value <= 0 ? 'invalid amount' : null,
+            child: Container(
+              color: themeData.colorScheme.primary,
+              child: Padding(
+                  padding: const EdgeInsets.all(kSpacing / 3),
+                  child: Text("MAX")),
             ),
-          );
-        })
-      ],
-    );
+          ),
+        ),
+      ),
+    ]);
   }
 }
 

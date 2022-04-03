@@ -7,9 +7,13 @@ class TransferController extends GetxController {
   FormzStatus get status => _status.value;
   AuthController authController = Get.find<AuthController>();
 
-  static var defaultWalletChoice =
-      S2Choice<String>(value: '', title: 'Select one');
-  var walletOptions = <S2Choice<String>>[defaultWalletChoice].obs;
+  var transferOrigins = <S2Choice<TransferOrigin>>[
+    S2Choice<TransferOrigin>(value: TransferOrigin.stash, title: "Stash"),
+    S2Choice<TransferOrigin>(value: TransferOrigin.wallet, title: "Wallet")
+  ].obs;
+
+  var walletOptions = <S2Choice<Wallet>>[].obs;
+
   var purpose = "".obs;
   var amount = 0.obs;
   var transferPin = "".obs;
@@ -17,10 +21,15 @@ class TransferController extends GetxController {
   var sUBank = UserBank().obs; // selected user bank
   RxList<UserBank?> uBanksList = <UserBank?>[].obs;
 
-  var transferOrigin = TransferOrigin.stash.obs; // stash or wallet
-  Rx<Wallet?> selectedWallet = Wallet().obs; // specific wallet to transfer from
+  Rx<Wallet?> defaultWallet = Wallet().obs; // default wallet to load
+  Rx<Wallet?> selectedWallet = Wallet().obs; // selected wallet to transfer from
+  Rx<TransferOrigin?> selectedTransferOrgn =
+      TransferOrigin.stash.obs; // selected transfer origin
+  Rx<UserBank?> selectedUBank =
+      UserBank().obs; // specific user bank to transfer from
+
   List<Wallet?>? wallets;
-  Map<String, double> paytagBals = {};
+  Map<String, int> paytagBals = {};
 
   @override
   void onInit() async {
@@ -29,48 +38,29 @@ class TransferController extends GetxController {
     uBanksList.value = defaultBankList();
     walletOptions.value = await fetchWalltOptns;
 
-    transferOrigin.value =
-        evalTransferOrigin(Get.parameters['transferOrigin']?.toString() ?? '');
-    var selectedWllt = Get.parameters['selectedWallet']?.toString() ?? '';
-    selectedWallet.value = getWalletFromPaytag(selectedWllt);
-
     if (wallets != null && wallets?.isNotEmpty == true) {
       for (var w in wallets!) {
-        paytagBals["${w?.walletPaytag}"] = w?.balance ?? 0;
+        paytagBals["${w?.walletPaytag}"] = (w?.balance ?? 0).round();
       }
+      defaultWallet.value = wallets?.first;
+    } else {
+      transferOrigins.removeAt(1);
     }
   }
 
-  TransferOrigin evalTransferOrigin(String val) {
-    switch (val) {
-      case 'stash':
-        return TransferOrigin.stash;
-      case 'wallet':
-        return TransferOrigin.wallet;
-      default:
-        return TransferOrigin.stash;
-    }
-  }
+  int getWalletPaytagMax(String selectedWllt) => paytagBals[selectedWllt] ?? 0;
 
-  Wallet? getWalletFromPaytag(String selectedWllt) =>
-      wallets?.firstWhere((element) => element?.walletPaytag == selectedWllt,
-          orElse: () => wallets?.first);
+  int getStashMax() => authController.user.value.stashBalance ?? 0;
 
-  double getWalletPaytagMax(String selectedWllt) =>
-      paytagBals[selectedWllt] ?? 0;
-
-  int getStashMax(String selectedWllt) =>
-      authController.user.value.stashBalance ?? 0;
-
-  Future<List<S2Choice<String>>> get fetchWalltOptns async {
-    List<S2Choice<String>> s2Choices = [];
+  Future<List<S2Choice<Wallet>>> get fetchWalltOptns async {
+    List<S2Choice<Wallet>> s2Choices = [];
 
     if (wallets?.isNotEmpty ?? false) {
-      s2Choices = List<S2Choice<String>>.from(wallets!.map((e) =>
-          S2Choice<String>(
-              value: e!.walletPaytag ?? '', title: "@${(e.walletPaytag)}")));
+      s2Choices = List<S2Choice<Wallet>>.from(wallets!.map((e) =>
+          S2Choice<Wallet>(
+              value: e ?? Wallet(), title: "@${(e?.walletPaytag)}")));
     } else {
-      s2Choices = [defaultWalletChoice];
+      s2Choices = [];
     }
 
     return s2Choices;
@@ -105,5 +95,23 @@ class TransferController extends GetxController {
   void selectUBank(UserBank _uBank) {
     sUBank.value = _uBank;
     acctNumber.value = _uBank.accountNumber ?? "";
+  }
+
+  void maxAmount() {
+    if (selectedTransferOrgn.value == TransferOrigin.wallet) {
+      // print(paytagBals);
+      // print(selectedWallet.value);
+      amount.value =
+          getWalletPaytagMax(selectedWallet.value?.walletPaytag ?? "");
+    } else {
+      amount.value = getStashMax();
+    }
+  }
+
+  setTransferOrigin(S2SingleSelected<TransferOrigin> state) {
+    selectedTransferOrgn.value = state.value;
+    if (state.value == TransferOrigin.wallet) {
+      selectedWallet.value = defaultWallet.value;
+    }
   }
 }
