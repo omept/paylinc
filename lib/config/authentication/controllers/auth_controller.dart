@@ -26,6 +26,7 @@ class AuthController extends GetxController {
   bool get authenticated => _authenticated.value;
 
   var enableAppLock = false.obs;
+  var bankTransferCharge = 0.obs;
   var enableBiometric = false.obs;
   var lockedAtRoute = Routes.dashboard;
 

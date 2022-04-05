@@ -28,12 +28,6 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
       TextStyle(color: themeContext.textTheme.caption?.color, fontSize: 18.0);
   kReviewSubHeaderFaintStyle(ThemeData themeContext) =>
       TextStyle(color: themeContext.textTheme.caption?.color, fontSize: 15);
-  kReviewSubHeaderStyle(ThemeData themeContext, {bool withBold = false}) {
-    TextStyle(
-      color: themeContext.textTheme.caption?.color,
-      fontSize: 28.0,
-    );
-  }
 
   kReviewSubHeaderValueStyle(themeContext) => TextStyle(fontSize: 15.0);
   kSelectionStyle(themeContext) =>
@@ -182,72 +176,83 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Obx(() {
-                                return TextButton(
-                                  child: controller
-                                          .status.isSubmissionInProgress
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child:
-                                              const CircularProgressIndicator(),
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Accept',
-                                              style: TextStyle(
-                                                color: themeContext
-                                                    .colorScheme.onBackground,
-                                                fontSize: 22.0,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                  onPressed: () {
-                                    if (controller.status.isSubmissionSuccess) {
-                                      _pageController.nextPage(
-                                        duration: Duration(milliseconds: 500),
-                                        curve: Curves.ease,
-                                      );
-                                    }
-                                  },
-                                );
-                              }),
+                              TextButton(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Accept',
+                                      style: TextStyle(
+                                        color: themeContext
+                                            .colorScheme.onBackground,
+                                        fontSize: 22.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  _pageController.nextPage(
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.ease,
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
                       )
                     : Container(),
-                _currentPage < _numPages - 2
-                    ? Container(
-                        child: Align(
-                          alignment: FractionalOffset.bottomRight,
-                          child: TextButton(
-                            onPressed: () {
-                              _pageController.nextPage(
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease,
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                SizedBox(width: 10.0),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: themeContext.colorScheme.onBackground,
-                                  size: 30.0,
-                                ),
-                              ],
+                if (_currentPage < _numPages - 2)
+                  Container(
+                    child: Align(
+                      alignment: FractionalOffset.bottomRight,
+                      child: TextButton(
+                        onPressed: () {
+                          _pageController.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(width: 10.0),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: themeContext.colorScheme.onBackground,
+                              size: 30.0,
                             ),
-                          ),
+                          ],
                         ),
-                      )
-                    : Container(),
+                      ),
+                    ),
+                  ),
+                if (_currentPage == _numPages - 1)
+                  Container(
+                    child: Align(
+                      alignment: FractionalOffset.bottomRight,
+                      child: TextButton(
+                        onPressed: () {
+                          controller.submitTransferMoney();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Send',
+                              style: TextStyle(
+                                color: themeContext.colorScheme.onBackground,
+                                fontSize: 22.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
               ],
             )
           ],
@@ -458,37 +463,46 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
 
   Widget _transactionOtpPage(ThemeData themeContext, TransferController c,
       PageController pageController) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          height: 120.0,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: kSpacing),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "OTP",
-                  style: kTitleStyle,
-                ),
-                SizedBox(height: 15.0),
-                Text(
-                  'Enter your transaction otp.',
-                  style: kSubtitleStyle(themeContext),
-                ),
-              ],
+    return Obx(() {
+      if (c.status.value == FormzStatus.submissionInProgress) {
+        return Center(
+          child: Container(
+              height: 40.0, width: 40.0, child: CircularProgressIndicator()),
+        );
+      }
+
+      return Column(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            height: 120.0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: kSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "OTP",
+                    style: kTitleStyle,
+                  ),
+                  SizedBox(height: 15.0),
+                  Text(
+                    'Enter your transaction otp.',
+                    style: kSubtitleStyle(themeContext),
+                  ),
+                ],
+              ),
             ),
+            // ),
           ),
-          // ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(kSpacing),
-          child: _TransferPinInput(pageController: pageController),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    );
+          Padding(
+            padding: const EdgeInsets.all(kSpacing),
+            child: _TransferPinInput(pageController: pageController),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      );
+    });
   }
 
   Widget _transactionReviewPage(
@@ -510,251 +524,166 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                       style: kTitleStyle,
                     ),
                     SizedBox(height: 15.0),
-                    !c.status.isSubmissionSuccess
-                        ? Expanded(
-                            child: Container(
-                            height: 300,
-                            child: Center(child: CircularProgressIndicator()),
-                          ))
-                        : Expanded(
-                            child: Card(
-                            color: themeContext.cardColor,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
+                    Expanded(
+                        child: Card(
+                      color: themeContext.cardColor,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: kSpacing / 2,
+                            ),
+                            Container(
+                              child: Row(
                                 children: [
-                                  SizedBox(
-                                    height: kSpacing / 2,
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Transaction',
-                                          style:
-                                              kReviewHeaderStyle(themeContext),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: kSpacing / 2,
-                                  ),
-                                  // Sender
-                                  Container(
-                                    width: size.width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Sender',
-                                          style: kReviewSubHeaderFaintStyle(
-                                              themeContext),
-                                        ),
-                                        SizedBox(
-                                          width: kSpacing,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: kSpacing / 2,
-                                  ),
-                                  // Recipient
-                                  Container(
-                                    width: size.width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Recipient',
-                                          style: kReviewSubHeaderFaintStyle(
-                                              themeContext),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: kSpacing / 2,
-                                  ),
-                                  // Purpost
-                                  Container(
-                                    width: size.width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Purpose',
-                                          style: kReviewSubHeaderFaintStyle(
-                                              themeContext),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: kSpacing / 2,
-                                  ),
-                                  // Recipient
-                                  Container(
-                                    width: size.width,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            'Amount',
-                                            style: kReviewSubHeaderFaintStyle(
-                                                themeContext),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: kSpacing,
-                                        ),
-                                        Row(
-                                          textDirection: TextDirection.rtl,
-                                          children: [
-                                            Text('3849348',
-                                                style:
-                                                    kReviewSubHeaderValueStyle(
-                                                        themeContext)),
-                                            Text(
-                                              '#',
-                                              style: kReviewSubHeaderValueStyle(
-                                                  themeContext),
-                                            )
-                                          ],
-                                        ),
-                                        Divider(),
-                                        Text(
-                                          'Receive',
-                                          style:
-                                              kReviewHeaderStyle(themeContext),
-                                        ),
-                                        SizedBox(
-                                          height: kSpacing / 2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'International',
-                                              style: kReviewSubHeaderFaintStyle(
-                                                  themeContext),
-                                            ),
-                                            Row(
-                                              textDirection: TextDirection.rtl,
-                                              children: [
-                                                Text('48943040',
-                                                    style:
-                                                        kReviewSubHeaderValueStyle(
-                                                            themeContext)),
-                                                Text('#',
-                                                    style:
-                                                        kReviewSubHeaderValueStyle(
-                                                            themeContext)),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: kSpacing / 2,
-                                        ),
-
-                                        Divider(),
-                                        Text(
-                                          'Charge Info',
-                                          style:
-                                              kReviewHeaderStyle(themeContext),
-                                        ),
-                                        SizedBox(
-                                          height: kSpacing / 2,
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            'Paystack',
-                                            style: kReviewSubHeaderFaintStyle(
-                                                themeContext),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'International',
-                                              style: kReviewSubHeaderFaintStyle(
-                                                  themeContext),
-                                            ),
-                                            Row(
-                                              textDirection: TextDirection.rtl,
-                                              children: [
-                                                Text('3849348',
-                                                    style:
-                                                        kReviewSubHeaderValueStyle(
-                                                            themeContext)),
-                                                Text(
-                                                  '#',
-                                                  style:
-                                                      kReviewSubHeaderValueStyle(
-                                                          themeContext),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-
-                                        SizedBox(
-                                          height: kSpacing,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Service',
-                                              style: kReviewSubHeaderFaintStyle(
-                                                  themeContext),
-                                            ),
-                                            Row(
-                                              textDirection: TextDirection.rtl,
-                                              children: [
-                                                Text('3849348',
-                                                    style:
-                                                        kReviewSubHeaderValueStyle(
-                                                            themeContext)),
-                                                Text(
-                                                  '#',
-                                                  style:
-                                                      kReviewSubHeaderValueStyle(
-                                                          themeContext),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-
-                                        // Divider(),
-                                        SizedBox(
-                                          height: kSpacing / 2,
-                                        )
-                                      ],
-                                    ),
+                                  Text(
+                                    'Bank Transfer To : ',
+                                    style: kReviewHeaderStyle(themeContext),
                                   ),
                                 ],
                               ),
                             ),
-                          ))
+
+                            SizedBox(
+                              height: kSpacing / 2,
+                            ),
+                            // Purpost
+                            Container(
+                              width: size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Obx(() => Text(
+                                        c.sUBank.value.accountNumber.toString(),
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      )),
+                                  Obx(() => Text(
+                                        c.sUBank.value.accountName.toString(),
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      )),
+                                  Obx(() => Text(
+                                        c.sUBank.value.bank?.name?.toString() ??
+                                            "",
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: kSpacing / 2,
+                            ),
+                            // Recipient
+                            Container(
+                              width: size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      'Total',
+                                      style: kReviewSubHeaderFaintStyle(
+                                          themeContext),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: kSpacing,
+                                  ),
+                                  Row(
+                                    textDirection: TextDirection.rtl,
+                                    children: [
+                                      Obx(() => Text(
+                                          (c.amount.value +
+                                                  c.transferCharge.value)
+                                              .intHumanFormat(),
+                                          style: TextStyle(fontSize: 20))),
+                                    ],
+                                  ),
+                                  Divider(),
+                                  SizedBox(
+                                    height: kSpacing / 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Send',
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      ),
+                                      Row(
+                                        textDirection: TextDirection.rtl,
+                                        children: [
+                                          Obx(() => Text(
+                                              c.amount.value.toString(),
+                                              style: kReviewSubHeaderFaintStyle(
+                                                  themeContext))),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: kSpacing / 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Charge',
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      ),
+                                      Row(
+                                        textDirection: TextDirection.rtl,
+                                        children: [
+                                          Text(
+                                              c.transferCharge.value.toString(),
+                                              style: kReviewSubHeaderFaintStyle(
+                                                  themeContext)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: kSpacing / 2,
+                                  ),
+                                  Divider(),
+                                  SizedBox(
+                                    height: kSpacing / 2,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Purpose',
+                                        style: kReviewSubHeaderFaintStyle(
+                                            themeContext),
+                                      ),
+                                      Text(c.purpose.value.toString(),
+                                          style: kReviewSubHeaderFaintStyle(
+                                              themeContext))
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: kSpacing / 2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))
                   ],
                 ),
               ),
@@ -790,6 +719,7 @@ class _AmountInputState extends State<_AmountInput> {
               key: Key(controller.amount.value.toString()),
               keyboardType: TextInputType.number,
               initialValue: controller.amount.value.toString(),
+              autofocus: true,
               onChanged: (amount) {
                 if (_debounce?.isActive ?? false) _debounce?.cancel();
                 _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -924,6 +854,7 @@ class _TransferPinInputState extends State<_TransferPinInput> {
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
+      autoFocus: true,
       appContext: context,
       length: 6,
       obscureText: true,
@@ -943,9 +874,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
         }
       },
       beforeTextPaste: (text) => canBeInteger(text ?? ''),
-      onCompleted: (value) {
-        controller.submitTransferMoney();
-      },
     );
   }
 }

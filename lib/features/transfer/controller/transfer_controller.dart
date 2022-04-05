@@ -3,8 +3,7 @@ part of transfer;
 enum TransferOrigin { stash, wallet }
 
 class TransferController extends GetxController {
-  final Rx<FormzStatus> _status = FormzStatus.pure.obs;
-  FormzStatus get status => _status.value;
+  Rx<FormzStatus> status = FormzStatus.pure.obs;
   AuthController authController = Get.find<AuthController>();
 
   var transferOrigins = <S2Choice<TransferOrigin>>[
@@ -16,6 +15,7 @@ class TransferController extends GetxController {
 
   var purpose = "".obs;
   var amount = 0.obs;
+  var transferCharge = 50.obs;
   var transferPin = "".obs;
   var acctNumber = "".obs;
   var sUBank = UserBank().obs; // selected user bank
@@ -37,6 +37,7 @@ class TransferController extends GetxController {
     wallets = authController.user.value.wallets;
     uBanksList.value = defaultBankList();
     walletOptions.value = await fetchWalltOptns;
+    transferCharge.value = authController.bankTransferCharge.value;
 
     if (wallets != null && wallets?.isNotEmpty == true) {
       for (var w in wallets!) {
@@ -68,11 +69,11 @@ class TransferController extends GetxController {
 
   void updatePurpose(String mes) => purpose.value = mes;
 
-  void updateAmount(String _amount) => amount.value = _amount.toInt();
+  void updateAmount(String _amount) {
+    amount.value = _amount.toInt();
+  }
 
   void updateOtp(String pin) => transferPin.value = pin;
-
-  void submitTransferMoney() => print("transfer money");
 
   List<UserBank?> defaultBankList() {
     return authController.user.value.userBanks ?? [];
@@ -112,6 +113,42 @@ class TransferController extends GetxController {
     selectedTransferOrgn.value = state.value;
     if (state.value == TransferOrigin.wallet) {
       selectedWallet.value = defaultWallet.value;
+    }
+  }
+
+  Future<void> submitTransferMoney() async {
+    try {
+      status.value = FormzStatus.submissionInProgress;
+
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+      ResponseModel res;
+      if (selectedTransferOrgn.value == TransferOrigin.wallet) {
+        res = await walletsApi.walletTransferToBank({
+          'wallet_paytag': selectedWallet.value?.walletPaytag ?? "",
+          'amount': amount.value.toString(),
+          'user_bank_id': transferPin.value,
+          'purpose': purpose.value,
+          'otp': purpose.value,
+        });
+      } else {
+        res = await walletsApi.stashTransferToBank({
+          'amount': amount.value.toString(),
+          'user_bank_id': transferPin.value,
+          'purpose': purpose.value,
+          'otp': purpose.value,
+        });
+      }
+
+      if (res.status == true) {
+        Snackbar.successSnackBar('Successful', res.message ?? '');
+        status.value = FormzStatus.submissionSuccess;
+      } else {
+        Snackbar.errSnackBar(
+            'Failed', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      status.value = FormzStatus.submissionFailure;
     }
   }
 }

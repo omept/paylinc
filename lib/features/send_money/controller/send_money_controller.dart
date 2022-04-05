@@ -149,7 +149,7 @@ class SendMoneyController extends GetxController {
       }
     } on Exception catch (_) {
       rWalletPaytagUsageMessage.value = "network problem";
+      _status.value = FormzStatus.submissionFailure;
     }
-    _status.value = FormzStatus.submissionFailure;
   }
 }
