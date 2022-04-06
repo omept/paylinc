@@ -9,7 +9,7 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() {
-    totalWallet = authController.user.wallets?.length ?? 0;
+    totalWallet = authController.user.value.wallets?.length ?? 0;
     super.onInit();
     authController.fetUserFromToken();
   }

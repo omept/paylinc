@@ -69,7 +69,7 @@ class AuthenticationBloc
   Future<User> _fetchUser() async {
     try {
       AuthController authController = Get.find<AuthController>();
-      return authController.user;
+      return authController.user.value;
     } on Exception {
       return User.empty;
     }

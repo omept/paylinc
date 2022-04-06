@@ -57,7 +57,7 @@ class ValidateOtpCubit extends Cubit<ValidateOtpState> {
       return;
     }
 
-    var email = authController.user.email;
+    var email = authController.user.value.email;
     if (email != null) {
       AuthenticationRepository authenticationRepository =
           RepositoryProvider.of<AuthenticationRepository>(Get.context!);

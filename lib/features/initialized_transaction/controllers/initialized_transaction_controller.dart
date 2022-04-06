@@ -70,7 +70,7 @@ class InitializedTransactionController extends GetxController {
         intTVal = intTB64.initializedTransaction!;
       }
 
-      if (intTVal.sender?.userId == authController.user.userId) {
+      if (intTVal.sender?.userId == authController.user.value.userId) {
         intTVal.promoCode = null;
       }
 
@@ -83,7 +83,7 @@ class InitializedTransactionController extends GetxController {
 
   void managePromocode(Rx<InitializedTransaction> initializedTransaction) {
     var intTVal = initializedTransaction.value;
-    if (intTVal.sender?.userId == authController.user.userId) {
+    if (intTVal.sender?.userId == authController.user.value.userId) {
       intTVal.promoCode = null;
     }
 
@@ -202,7 +202,7 @@ class InitializedTransactionController extends GetxController {
   }
 
   void payTransaction(InitializedTransaction value) async {
-    if (value.sender?.userId != authController.user.userId) return;
+    if (value.sender?.userId != authController.user.value.userId) return;
 
     await Get.to(() => WebViewStack(
           initialUrl: value.transactionCheckoutUrl,
@@ -307,7 +307,7 @@ class InitializedTransactionController extends GetxController {
   }
 
   void requestTransactionMediation(InitializedTransaction value) async {
-    if (value.sender?.userId != authController.user.userId) return;
+    if (value.sender?.userId != authController.user.value.userId) return;
 
     await Get.to(() => WebViewStack(
           initialUrl: value.transactionMediationUrl,

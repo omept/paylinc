@@ -20,12 +20,13 @@ class AuthController extends GetxController {
   final _authenticated = false.obs;
   final _appLocked = false.obs;
   final _token = "".obs;
-  final _user = User().obs;
+  Rx<User> user = User().obs;
   final _userStatistics = UserStatistics().obs;
   var selectedWallet = Wallet().obs;
   bool get authenticated => _authenticated.value;
 
   var enableAppLock = false.obs;
+  var bankTransferCharge = 0.obs;
   var enableBiometric = false.obs;
   var lockedAtRoute = Routes.dashboard;
 
@@ -34,8 +35,7 @@ class AuthController extends GetxController {
   set authenticated(bool value) => _authenticated.value = value;
   String get token => _token.value;
   set token(String value) => _token.value = value;
-  User get user => _user.value;
-  set user(User value) => _user.value = value;
+
   UserStatistics get userStatistics => _userStatistics.value;
   set userStatistics(value) => _userStatistics.value = value;
 
@@ -43,18 +43,18 @@ class AuthController extends GetxController {
 
   @override
   void onInit() async {
+    super.onInit();
     var curAuthSt = currentAuthenticationState();
 
     _token.value = await localStorageServices.getToken();
     authenticated = _token.value.isNotEmpty &&
         curAuthSt == AuthenticationStatus.authenticated;
     var userClass = await localStorageServices.getUser();
-    _user(userClass);
+    user.value = userClass;
     var userStatisticsClass = await localStorageServices.getUserStatistics();
     _userStatistics(userStatisticsClass);
     enableAppLock.value = await localStorageServices.getApplockSettings();
     enableBiometric.value = await localStorageServices.getBiometricSettings();
-    super.onInit();
   }
 
   void logout() async {
@@ -90,10 +90,10 @@ class AuthController extends GetxController {
   }
 
   void updateUserWallets(List<Wallet> wallets) {
-    User user = _user.value;
-    user.wallets = wallets;
-    _user(user);
-    localStorageServices.saveUserFromMap(user.toMap());
+    User _user = user.value;
+    _user.wallets = wallets;
+    user.value = _user;
+    localStorageServices.saveUserFromMap(_user.toMap());
   }
 
   void fetUserFromToken() async {
@@ -107,7 +107,7 @@ class AuthController extends GetxController {
         User _user =
             await localStorageServices.saveUserFromMap(res.data?['user']);
         localStorageServices.saveUserStatisticsFromMap(res.data?['statistics']);
-        user = _user;
+        user.value = _user;
         userStatistics = await localStorageServices.getUserStatistics();
       }
     } on Exception catch (_) {}
