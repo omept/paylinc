@@ -1,6 +1,7 @@
 library view_wallet;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
@@ -190,11 +191,21 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: kTitleStyle,
+                InkWell(
+                  onLongPress: () => controller.sendWalletBallToStash(),
+                  child: Container(
+                    height: 55.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 5.0),
+                      child: Text(
+                        '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: kTitleStyle,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 8.0),
                 Text(
@@ -205,7 +216,7 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  'view recent wallet activities.',
+                  'Long press to wallet ballance send all to stash. ',
                   style: kSubtitleStyle(themeData),
                 ),
                 SizedBox(height: 15.0),

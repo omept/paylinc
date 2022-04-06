@@ -5,6 +5,7 @@ class ViewWalletController extends GetxController {
   AuthController authController = Get.find();
   LocalStorageServices localStorageServices = Get.find();
   var walletTransactionsList = <WalletLogData?>[].obs;
+  var pageStatus = FormzStatus.pure.obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -59,5 +60,31 @@ class ViewWalletController extends GetxController {
         initializedTransactionB64: initializedTransactionB64);
     // redirect to the initialized transaction page
     await Get.toNamed(Routes.initializedTransactionNoId);
+  }
+
+  Future<void> sendWalletBallToStash() async {
+    try {
+      pageStatus.value = FormzStatus.submissionInProgress;
+
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+      ResponseModel res;
+
+      res = await walletsApi.walletTransferToStash({
+        'wallet_paytag':
+            authController.selectedWallet.value.walletPaytag.toString(),
+        'amount': authController.selectedWallet.value.balance.toString(),
+      });
+
+      if (res.status == true) {
+        Snackbar.successSnackBar('Successful', res.message ?? '');
+        pageStatus.value = FormzStatus.submissionSuccess;
+      } else {
+        Snackbar.errSnackBar(
+            'Failed', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {
+      pageStatus.value = FormzStatus.submissionFailure;
+    }
   }
 }
