@@ -4,6 +4,7 @@ class UserBanksController extends GetxController {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   AuthController authController = Get.find();
   // LocalStorageServices localStorageServices = Get.find();
+  RxList<UserBank?> uBanksList = <UserBank?>[].obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -11,9 +12,12 @@ class UserBanksController extends GetxController {
     }
   }
 
-  // @override
-  // void onInit() async {
-  //   super.onInit();
-  // }
+  @override
+  void onInit() async {
+    super.onInit();
+    print(authController.user.value.userBanks);
+    uBanksList.value = authController.user.value.userBanks ?? [];
+  }
 
+  void deleteUserBank(UserBank uBank) {}
 }

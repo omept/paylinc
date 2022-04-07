@@ -154,7 +154,7 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsBtn(
             iconData: EvaIcons.npm,
             data: "Banks",
-            onTap: () => null,
+            onTap: () => Get.offNamed(Routes.userBanks),
           ),
           const SizedBox(height: kSpacing / 2.5),
           Padding(
