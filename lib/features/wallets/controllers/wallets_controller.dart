@@ -24,6 +24,8 @@ class WalletsController extends GetxController {
     for (var e in walletsList) {
       combinedBal.value += e?.balance ?? 0;
     }
+
+    combinedBal.value += stashBal.value;
   }
 
   void setSelectedWallet(int selectedIndex) {
