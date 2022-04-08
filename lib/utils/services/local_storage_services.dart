@@ -99,6 +99,8 @@ class LocalStorageServices {
     return userStatistics;
   }
 
+  Future<void> saveAppBanksFromMap(Map<String, dynamic> data) async {}
+
   Future<User> getUser() async {
     // Get auth status from hive storage
     var authTokBox = await Hive.openBox('auth_user');

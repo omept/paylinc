@@ -271,7 +271,7 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Select Bank",
+                  "Select Bank Account",
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 15.0),

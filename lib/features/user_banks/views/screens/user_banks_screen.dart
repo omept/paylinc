@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
-import 'package:paylinc/utils/helpers/app_helpers.dart';
+import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 // binding
 part '../../bindings/user_banks_bindings.dart';
@@ -227,10 +227,12 @@ class UserBanksScreen extends GetView<UserBanksController> {
                       ],
                     );
                   }
-
-                  List<Widget> bankTiles = controller.uBanksList.map((entry) {
-                    return _BankListItem(uBank: entry ?? UserBank());
-                  }).toList();
+                  List<Widget> bankTiles = [];
+                  var banksList = controller.uBanksList;
+                  for (var i = 0; i < controller.uBanksList.length; i++) {
+                    bankTiles.add(_BankListItem(
+                        uBank: banksList[i] ?? UserBank(), index: i));
+                  }
 
                   return ListView(
                     physics: NeverScrollableScrollPhysics(),
@@ -283,9 +285,11 @@ class _BankListItem extends StatelessWidget {
   _BankListItem({
     Key? key,
     required this.uBank,
+    required this.index,
   }) : super(key: key);
 
   final UserBank uBank;
+  final int index;
 
   final UserBanksController uBCtrl = Get.find();
 
@@ -297,7 +301,7 @@ class _BankListItem extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (contex) {
-              uBCtrl.deleteUserBank(uBank);
+              uBCtrl.deleteUserBank(uBank, index);
             },
             backgroundColor: Color.fromARGB(255, 188, 43, 69),
             foregroundColor: Colors.white,

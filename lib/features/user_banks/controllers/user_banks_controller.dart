@@ -15,9 +15,29 @@ class UserBanksController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print(authController.user.value.userBanks);
     uBanksList.value = authController.user.value.userBanks ?? [];
   }
 
-  void deleteUserBank(UserBank uBank) {}
+  Future<void> deleteUserBank(UserBank uBank, int index) async {
+    try {
+      // delete locally
+      uBanksList.removeAt(index);
+      authController.user.value.userBanks?.removeAt(index);
+
+      // make api call to delete from server
+      WalletsApi walletsApi = WalletsApi.withAuthRepository(
+          authController.authenticationRepository);
+
+      ResponseModel res =
+          await walletsApi.walletTransferToBank({'id': uBank.id.toString()});
+
+      if (res.status == true) {
+        authController.fetUserFromToken();
+        Snackbar.successSnackBar('Successful', res.message ?? '');
+      } else {
+        Snackbar.errSnackBar(
+            'Failed', res.message ?? RestApiServices.errMessage);
+      }
+    } on Exception catch (_) {}
+  }
 }
