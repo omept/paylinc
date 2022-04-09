@@ -56,4 +56,16 @@ class WalletsApi extends RestApiServices {
   Future<ResponseModel> walletTransferToStash(Map<String, String> data) async {
     return await makePost(data: data, url: "wallet/transfer-to-stash");
   }
+
+  Future<ResponseModel> deleteBank(Map<String, String> data) async {
+    return await makePost(data: data, url: "delete-user-bank");
+  }
+
+  Future<ResponseModel> resolveAcctName(Map<String, String> data) async {
+    return await makePost(data: data, url: "verify-user-bank-account");
+  }
+
+  Future<ResponseModel> saveUserBank(Map<String, String> data) async {
+    return await makePost(data: data, url: "add-user-bank");
+  }
 }

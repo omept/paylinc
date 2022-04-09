@@ -65,7 +65,7 @@ Widget appVersion(ThemeData td) {
   return Column(children: [
     Center(
       child: Text(
-        "Paylinc V4.0.0",
+        "Made with love",
         style: TextStyle(
           fontSize: 14,
           color: td.textTheme.caption?.color,
@@ -74,7 +74,7 @@ Widget appVersion(ThemeData td) {
     ),
     Center(
       child: Text(
-        " © $year Omept Technology Ltd",
+        " © $year",
         style: TextStyle(
           fontSize: 14,
           color: td.textTheme.caption?.color,

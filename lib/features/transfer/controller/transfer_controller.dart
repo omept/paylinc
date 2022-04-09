@@ -141,11 +141,13 @@ class TransferController extends GetxController {
       }
 
       if (res.status == true) {
+        authController.fetUserFromToken();
         Snackbar.successSnackBar('Successful', res.message ?? '');
         status.value = FormzStatus.submissionSuccess;
       } else {
         Snackbar.errSnackBar(
             'Failed', res.message ?? RestApiServices.errMessage);
+        status.value = FormzStatus.submissionFailure;
       }
     } on Exception catch (_) {
       status.value = FormzStatus.submissionFailure;

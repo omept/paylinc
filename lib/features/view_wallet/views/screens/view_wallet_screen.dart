@@ -139,96 +139,107 @@ class ViewWalletScreen extends GetView<ViewWalletController> {
     ThemeData themeData = Theme.of(context);
     ViewWalletController vwCtrl = Get.find();
     // MediaQueryData mediaQuery = MediaQuery.of(context);
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: kSpacing / 2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.offAllNamed(Routes.wallets);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: themeData.colorScheme.onBackground,
-                        size: 30.0,
+    return Obx(() {
+      if (controller.pageStatus.value == FormzStatus.submissionInProgress) {
+        return Padding(
+          padding: const EdgeInsets.only(top: kSpacing * 2),
+          child: Center(
+            child: Container(
+                height: 40.0, width: 40.0, child: CircularProgressIndicator()),
+          ),
+        );
+      }
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: kSpacing / 2,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.offAllNamed(Routes.wallets);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: themeData.colorScheme.onBackground,
+                          size: 30.0,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                  onTap: () => Get.offNamed(Routes.transfer),
-                  child: Container(
-                    width: 100.0,
-                    height: 50.0,
-                    child: Card(
-                      child: Center(
-                        child: Icon(
-                          EvaIcons.paperPlane,
-                          color: themeData.colorScheme.secondary,
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                    onTap: () => Get.offNamed(Routes.transfer),
+                    child: Container(
+                      width: 100.0,
+                      height: 50.0,
+                      child: Card(
+                        child: Center(
+                          child: Icon(
+                            EvaIcons.paperPlane,
+                            color: themeData.colorScheme.secondary,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(kSpacing),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onLongPress: () => controller.sendWalletBallToStash(),
-                  child: Container(
-                    height: 55.0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 5.0),
-                      child: Text(
-                        '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: kTitleStyle,
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(kSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onLongPress: () => controller.sendWalletBallToStash(),
+                    child: Container(
+                      height: 55.0,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
+                        child: Text(
+                          '${vwCtrl.authController.user.value.country?.currencyAbr ?? ""} ${vwCtrl.authController.selectedWallet.value.balance?.doubleHumanFormat() ?? ""}',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: kTitleStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  '@${vwCtrl.authController.selectedWallet.value.walletPaytag ?? ""}',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: kSubtitleStyle2(themeData),
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  'Long press to wallet ballance send all to stash. ',
-                  style: kSubtitleStyle(themeData),
-                ),
-                SizedBox(height: 15.0),
-                Divider(),
-                Container(
-                  height: 550,
-                  child: _WalletsTransactions(),
-                ),
-              ],
+                  SizedBox(height: 8.0),
+                  Text(
+                    '@${vwCtrl.authController.selectedWallet.value.walletPaytag ?? ""}',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: kSubtitleStyle2(themeData),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Long press to wallet ballance send all to stash. ',
+                    style: kSubtitleStyle(themeData),
+                  ),
+                  SizedBox(height: 15.0),
+                  Divider(),
+                  Container(
+                    height: 550,
+                    child: _WalletsTransactions(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ]);
+          ]);
+    });
   }
 
   Widget _buildHeader({Function()? onPressedMenu}) {

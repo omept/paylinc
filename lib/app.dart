@@ -16,8 +16,7 @@ import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
 class Paylinc extends StatelessWidget {
   final AuthenticationRepository authenticationRepository;
 
-  const Paylinc({Key? key, required this.authenticationRepository})
-      : super(key: key);
+  Paylinc({Key? key, required this.authenticationRepository}) : super(key: key);
 
   // This widget is the root of your application.
   @override
