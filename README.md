@@ -1,28 +1,46 @@
-# Paylinc
+# Free Flutter Escrow Application
 
-This project is a flutter Escrow Frontend Application Template.
 
-I built the backend with Laravel but we never saw the daylight of production and I left the team. I decided to build the mobile project out with flutter. I hope you can copy and use this for your own work. I'm also welcoming feedback and corrections to my design/architecture.
 
-My intention is to allow people build and scaffold apps quickly. Feel free to use, edit, modify, clone. etc. 
+This project is a flutter Escrow Frontend Application Template with the following features:
 
-I'll keep updating this project.
 
-I can try and answer questions, so feel free to ask.
+- Send Money
+- Request Money
+- Multiple Wallets
+- Bank Account Management
+- Transfer Money to Bank Account
+- Alerts management
+- Transactions Management
+- Security Management
 
-God bless you. (yeah! I'm a child of God)
+
+ Technology Stack 
+
+This application utilizes 
+- GetX
+- Hive
+- Bloc and
+- Flutter widgets from pub.dev
+
+(The app's backend is built with Laravel).
+
+
+
+Feedbacks are welcomed. (create issues on github 🙏🏽)
+
+Goal
+
+My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your mobile application delopment.
+
+
+❤️ Made with Love ❤️
 
 #Video Demo:
 
 Free Flutter Escrow Frontend Application Template
 
 https://youtu.be/vbRv68kFsyo
-
-
-
-
-
-
 
 
 For help getting started with Flutter, view our
