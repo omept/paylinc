@@ -30,7 +30,7 @@ class SendMoneyController extends GetxController {
   Future<List<S2Choice<String>>> get fetchOptions async {
     List<S2Choice<String>> s2Choices = [];
 
-    var wallets = authController.user.wallets;
+    var wallets = authController.user.value.wallets;
     if (wallets?.isNotEmpty ?? false) {
       s2Choices = List<S2Choice<String>>.from(wallets!.map((e) =>
           S2Choice<String>(
@@ -100,7 +100,8 @@ class SendMoneyController extends GetxController {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.preSendMoney({
-        "country_id": authController.user.country?.countryId.toString() ?? '',
+        "country_id":
+            authController.user.value.country?.countryId.toString() ?? '',
         'paytag': reviewSend.value.sender?.paytag ?? '',
         'wallet_paytag': selectedWalletValue.value,
         'amount': amount.value,
@@ -129,7 +130,8 @@ class SendMoneyController extends GetxController {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.sendMoney({
-        "country_id": authController.user.country?.countryId.toString() ?? '',
+        "country_id":
+            authController.user.value.country?.countryId.toString() ?? '',
         'paytag': reviewSend.value.sender?.paytag ?? '',
         'wallet_paytag': selectedWalletValue.value,
         'amount': amount.value,
@@ -147,7 +149,7 @@ class SendMoneyController extends GetxController {
       }
     } on Exception catch (_) {
       rWalletPaytagUsageMessage.value = "network problem";
+      _status.value = FormzStatus.submissionFailure;
     }
-    _status.value = FormzStatus.submissionFailure;
   }
 }

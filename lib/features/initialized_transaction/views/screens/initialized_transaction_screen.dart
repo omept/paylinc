@@ -358,18 +358,18 @@ class _TransactionActivityLogs extends StatelessWidget {
           initializedTransaction.transactionaActivityLogs?.outgoing ?? [];
 
       if (incoming.isEmpty &&
-          authC.user.userId == initializedTransaction.recipient?.userId) {
+          authC.user.value.userId == initializedTransaction.recipient?.userId) {
         return Center(child: Text("No incoming activity yet"));
       } else if (outgoing.isEmpty &&
-          authC.user.userId == initializedTransaction.sender?.userId) {
+          authC.user.value.userId == initializedTransaction.sender?.userId) {
         return Center(child: Text("No outgoing activity yet"));
       }
       List<TransactionLogStructure?> trnsDt;
       if (incoming.isNotEmpty &&
-          authC.user.userId == initializedTransaction.recipient?.userId) {
+          authC.user.value.userId == initializedTransaction.recipient?.userId) {
         trnsDt = incoming;
       } else if (outgoing.isNotEmpty &&
-          authC.user.userId == initializedTransaction.sender?.userId) {
+          authC.user.value.userId == initializedTransaction.sender?.userId) {
         trnsDt = outgoing;
       } else {
         return Center(child: Text("No activity"));
@@ -515,7 +515,7 @@ class _TransactionActivityAction extends StatelessWidget {
                         null) &&
                     (ctrl.payable.contains(initializedTransaction
                         .value.initializedTransactionStatus)) &&
-                    (ctrl.authController.user.userId ==
+                    (ctrl.authController.user.value.userId ==
                         initializedTransaction.value.sender?.userId);
 
             return shwClickable
@@ -581,13 +581,13 @@ class _TransactionActivityAction extends StatelessWidget {
         break;
       case TransactionStatus.completed: // STATUS_COMPLETE
         res = initializedTransaction.value.sender?.userId ==
-                ctrl.authController.user.userId
+                ctrl.authController.user.value.userId
             ? confrmCompltnAndConflctOpts(initializedTransaction, ctrl, themeDt)
             : refundOpt(initializedTransaction, ctrl, themeDt);
         break;
       case TransactionStatus.completeByPAT: // STATUS_COMPLETE_BY_PAT_COMMAND
         res = initializedTransaction.value.recipient?.userId ==
-                ctrl.authController.user.userId
+                ctrl.authController.user.value.userId
             ? compltAndConflctOpts(initializedTransaction, ctrl, themeDt)
             : conflctOpt(initializedTransaction, ctrl, themeDt);
         break;

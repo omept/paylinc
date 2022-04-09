@@ -1,3 +1,4 @@
+import 'package:paylinc/features/add_bank/views/screens/add_bank_screen.dart';
 import 'package:paylinc/features/admin_dashboard/views/screens/admin_dashboard_screen.dart';
 import 'package:paylinc/features/confirm_forgot_password/confirm_forgot_password.dart';
 import 'package:paylinc/features/create_wallet/view/create_wallet_screen.dart';
@@ -17,6 +18,7 @@ import 'package:paylinc/features/sign_up/view/sign_up_page.dart';
 import 'package:paylinc/features/splash/splash.dart';
 import 'package:paylinc/features/transfer/view/transfer_screen.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
+import 'package:paylinc/features/user_banks/views/screens/user_banks_screen.dart';
 import 'package:paylinc/features/validate_otp/view/validate_otp_page.dart';
 import 'package:paylinc/features/view_stash/views/screens/view_stash_screen.dart';
 import 'package:paylinc/features/view_wallet/views/screens/view_wallet_screen.dart';
@@ -67,7 +69,7 @@ class AppPages {
         middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()]),
     GetPage(
       name: _Paths.dashboard,
-      page: () => const DashboardScreen(),
+      page: () => DashboardScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: DashboardBinding(),
     ),
@@ -91,43 +93,43 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.adminDashboard,
-      page: () => const AdminDashboardScreen(),
+      page: () => AdminDashboardScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: AdminDashboardBinding(),
     ),
     GetPage(
       name: _Paths.requestMoney,
-      page: () => const RequestMoneyScreen(),
+      page: () => RequestMoneyScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: RequestMoneyBindings(),
     ),
     GetPage(
       name: _Paths.sendMoney,
-      page: () => const SendMoneyScreen(),
+      page: () => SendMoneyScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: SendMoneyBindings(),
     ),
     GetPage(
       name: _Paths.createWallet,
-      page: () => const CreateWalletScreen(),
+      page: () => CreateWalletScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: CreateWalletBindings(),
     ),
     GetPage(
       name: _Paths.userAlerts,
-      page: () => const UserAlertsScreen(),
+      page: () => UserAlertsScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: UserAlertsBinding(),
     ),
     GetPage(
       name: _Paths.initializedTransactions,
-      page: () => const InitializedTransactionsScreen(),
+      page: () => InitializedTransactionsScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionsBinding(),
     ),
     GetPage(
       name: _Paths.initializedTransaction,
-      page: () => const InitializedTransactionScreen(),
+      page: () => InitializedTransactionScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionBinding(),
       transition: Transition.cupertinoDialog,
@@ -135,7 +137,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.initializedTransactionNoId,
-      page: () => const InitializedTransactionScreen(),
+      page: () => InitializedTransactionScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: InitializedTransactionBinding(),
       transition: Transition.cupertinoDialog,
@@ -143,7 +145,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.transfer,
-      page: () => const TransferScreen(),
+      page: () => TransferScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: TransferBinding(),
       transition: Transition.cupertinoDialog,
@@ -151,13 +153,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.settings,
-      page: () => const SettingsScreen(),
+      page: () => SettingsScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: SettingsBinding(),
     ),
     GetPage(
       name: _Paths.passwordUpdate,
-      page: () => const PasswordUpdateScreen(),
+      page: () => PasswordUpdateScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: PasswordUpdateBindings(),
     ),
@@ -169,13 +171,25 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.pinUpdate,
-      page: () => const PinUpdateScreen(),
+      page: () => PinUpdateScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: PinUpdateBindings(),
     ),
     GetPage(
+      name: _Paths.userBanks,
+      page: () => UserBanksScreen(),
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
+      binding: UserBanksBindings(),
+    ),
+    GetPage(
+      name: _Paths.addBank,
+      page: () => AddBankScreen(),
+      middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
+      binding: AddBankBindings(),
+    ),
+    GetPage(
       name: _Paths.feedBack,
-      page: () => const FeedBackScreen(),
+      page: () => FeedBackScreen(),
       middlewares: [AuthenticatedMiddleware(), CheckLockedMiddleware()],
       binding: FeedBackBinding(),
     )

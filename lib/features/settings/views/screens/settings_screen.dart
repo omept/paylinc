@@ -138,7 +138,7 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsTile(
             iconData: EvaIcons.email,
             data: "Email",
-            subData: controller.authCtrl.user.email,
+            subData: controller.authCtrl.user.value.email,
             subDataColor: td.textTheme.caption?.color,
             onTap: () => null,
           ),
@@ -146,7 +146,7 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsTile(
             iconData: EvaIcons.attach2Outline,
             data: "Payment Tag",
-            subData: controller.authCtrl.user.paytag,
+            subData: controller.authCtrl.user.value.paytag,
             subDataColor: td.textTheme.caption?.color,
             onTap: () => null,
           ),
@@ -154,7 +154,7 @@ class SettingsScreen extends GetView<SettingsController> {
           _settingsBtn(
             iconData: EvaIcons.npm,
             data: "Banks",
-            onTap: () => null,
+            onTap: () => Get.offNamed(Routes.userBanks),
           ),
           const SizedBox(height: kSpacing / 2.5),
           Padding(
@@ -174,7 +174,7 @@ class SettingsScreen extends GetView<SettingsController> {
             iconData: EvaIcons.shield,
             data: "Password",
             subData:
-                "Last updated on: ${controller.authCtrl.user.passwordUpdatedAt ?? 'Unavailable'}",
+                "Last updated on: ${controller.authCtrl.user.value.passwordUpdatedAt ?? 'Unavailable'}",
             subDataColor: td.textTheme.caption?.color,
             onTap: () => Get.offNamed(Routes.passwordUpdate),
           ),

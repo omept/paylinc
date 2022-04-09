@@ -26,7 +26,7 @@ class RestApiServices {
 
   Map<String, String> requestHeader() {
     Map<String, String> headers = {'Access-Control-Allow-Origin': '*'};
-    String token = authCtrlr.token;
+    String token = authCtrlr.token.value;
     if (token.isNotEmpty || token.isNotEmpty) {
       headers['AUTHORIZATION'] = 'Bearer ' + token;
       headers['HTTP-AUTHORIZATION'] = 'Bearer ' + token;

@@ -9,7 +9,7 @@ class CheckLockedMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    if (authController.appLocked && route != Routes.lockScreen) {
+    if (authController.isAppLocked && route != Routes.lockScreen) {
       return RouteSettings(name: Routes.lockScreen);
     }
 

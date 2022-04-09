@@ -331,7 +331,7 @@ class IncomingAlertsData {
 
   factory IncomingAlertsData.fromMap(Map<String, dynamic> map) {
     return IncomingAlertsData(
-      alertId: map['alert_dd']?.toInt(),
+      alertId: map['alert_id']?.toInt(),
       alertTag: map['alert_tag'],
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
       referenceId: map['reference_id']?.toInt(),

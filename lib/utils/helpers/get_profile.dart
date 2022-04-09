@@ -4,8 +4,8 @@ Profile getProfile() {
   AuthController authController = Get.find();
   return Profile(
     photo: AssetImage(ImageRasterPath.avatar1),
-    name: authController.user.name?.toString() ?? '',
-    email: authController.user.email?.toString() ?? '',
-    paytag: authController.user.paytag?.toString() ?? '',
+    name: authController.user.value.name?.toString() ?? '',
+    email: authController.user.value.email?.toString() ?? '',
+    paytag: authController.user.value.paytag?.toString() ?? '',
   );
 }
