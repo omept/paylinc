@@ -280,7 +280,7 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                   style: kSubtitleStyle(themeContext),
                 ),
                 SizedBox(height: 15.0),
-                BankAccountInput(),
+                _BankAccountInput(),
                 SizedBox(height: 15.0),
                 Obx(() {
                   if (c.uBanksList.isEmpty) {
@@ -758,10 +758,10 @@ class _AmountInputState extends State<_AmountInput> {
 }
 
 // ignore: must_be_immutable
-class BankAccountInput extends StatelessWidget {
+class _BankAccountInput extends StatelessWidget {
   Timer? debounce;
 
-  BankAccountInput({
+  _BankAccountInput({
     Key? key,
     this.debounce,
   }) : super(key: key);

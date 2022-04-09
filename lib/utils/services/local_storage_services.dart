@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
+import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
 
 /// contains all service to get data from local
@@ -99,8 +100,6 @@ class LocalStorageServices {
     return userStatistics;
   }
 
-  Future<void> saveAppBanksFromMap(Map<String, dynamic> data) async {}
-
   Future<User> getUser() async {
     // Get auth status from hive storage
     var authTokBox = await Hive.openBox('auth_user');
@@ -158,5 +157,10 @@ class LocalStorageServices {
   Future<int?> getAppInactiveAt() async {
     var box = await Hive.openBox('app_inactive');
     return box.get('inactive_at');
+  }
+
+  Future<void> saveAppBanks(AppBanks data) async {
+    var userITBox = await Hive.openBox('app_settings');
+    userITBox.put('app_banks', data.toJson());
   }
 }

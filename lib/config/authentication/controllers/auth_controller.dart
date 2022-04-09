@@ -17,27 +17,23 @@ class AuthController extends GetxController {
   //
 
   final AuthenticationRepository authenticationRepository;
-  final _authenticated = false.obs;
-  final _appLocked = false.obs;
-  final _token = "".obs;
+  RxBool authenticated = false.obs;
+  var appLocked = false.obs;
+  var token = "".obs;
   Rx<User> user = User().obs;
-  final _userStatistics = UserStatistics().obs;
+  var userStatistics = UserStatistics().obs;
   var selectedWallet = Wallet().obs;
-  bool get authenticated => _authenticated.value;
+  bool get isAuthenticated => authenticated.value;
 
+  var appBanks = AppBanks().obs;
   var enableAppLock = false.obs;
   var bankTransferCharge = 0.obs;
   var enableBiometric = false.obs;
   var lockedAtRoute = Routes.dashboard;
 
-  bool get appLocked => _appLocked.value;
+  bool get isAppLocked => appLocked.value;
 
-  set authenticated(bool value) => _authenticated.value = value;
-  String get token => _token.value;
-  set token(String value) => _token.value = value;
-
-  UserStatistics get userStatistics => _userStatistics.value;
-  set userStatistics(value) => _userStatistics.value = value;
+  set isAuthenticated(bool value) => authenticated.value = value;
 
   LocalStorageServices localStorageServices = Get.put(LocalStorageServices());
 
@@ -46,20 +42,20 @@ class AuthController extends GetxController {
     super.onInit();
     var curAuthSt = currentAuthenticationState();
 
-    _token.value = await localStorageServices.getToken();
-    authenticated = _token.value.isNotEmpty &&
+    token.value = await localStorageServices.getToken();
+    isAuthenticated = token.value.isNotEmpty &&
         curAuthSt == AuthenticationStatus.authenticated;
     var userClass = await localStorageServices.getUser();
     user.value = userClass;
     var userStatisticsClass = await localStorageServices.getUserStatistics();
-    _userStatistics(userStatisticsClass);
+    userStatistics.value = userStatisticsClass;
     enableAppLock.value = await localStorageServices.getApplockSettings();
     enableBiometric.value = await localStorageServices.getBiometricSettings();
   }
 
   void logout() async {
-    _authenticated.value = false;
-    _token.value = "";
+    authenticated.value = false;
+    token.value = "";
     // backup the app lock and biometric settings if they exist
     await clearStorage();
     authenticationRepository.onboardingReqLogin();
@@ -100,7 +96,7 @@ class AuthController extends GetxController {
     try {
       var api = UserApi.withAuthRepository(authenticationRepository);
       ResponseModel res = await api.authUser({
-        'token': _token.value,
+        'token': token.value,
       });
 
       if (res.status == true) {
@@ -108,7 +104,7 @@ class AuthController extends GetxController {
             await localStorageServices.saveUserFromMap(res.data?['user']);
         localStorageServices.saveUserStatisticsFromMap(res.data?['statistics']);
         user.value = _user;
-        userStatistics = await localStorageServices.getUserStatistics();
+        userStatistics.value = await localStorageServices.getUserStatistics();
       }
     } on Exception catch (_) {}
   }
@@ -164,7 +160,7 @@ class AuthController extends GetxController {
         if (now >= timeToLock) {
           // if the app was in the background for more than "lockAppIn" secs
           // lock app screen (i.e set appLocked to true and reload the page to trigger lock middleware check)
-          _appLocked.value = true;
+          appLocked.value = true;
           lockedAtRoute = Get.currentRoute;
           Get.offAllNamed(Get.currentRoute);
         }
@@ -188,7 +184,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> innerUnlock() async {
-    _appLocked.value = false;
+    appLocked.value = false;
     Get.offAllNamed(lockedAtRoute);
   }
 
