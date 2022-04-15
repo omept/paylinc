@@ -38,7 +38,7 @@ class InitializedTransactionB64 {
               ? AlertTagType.payment
               : AlertTagType.wallets)
           : null,
-      alertId: map['alert_id']?.toInt(),
+      alertId: toInt(map['alert_id']),
       initializedTransaction: map['initialized_transaction'] != null
           ? InitializedTransaction.fromMap(map['initialized_transaction'])
           : null,

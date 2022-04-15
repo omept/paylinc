@@ -107,7 +107,7 @@ class StashLogData {
       accountName: map['account_name'],
       bank: map['bank'] != null ? Bank.fromMap(map['bank']) : null,
       wallet: map['wallet'] != null ? Wallet.fromMap(map['wallet']) : null,
-      amount: map['amount']?.toDouble(),
+      amount: toDouble(map['amount']),
     );
   }
 

@@ -1,5 +1,3 @@
-part of app_helpers;
-
 int toInt(dynamic val) {
   try {
     return int.parse(val.toString());

@@ -87,10 +87,10 @@ class WalletLogData {
 
   factory WalletLogData.fromMap(Map<String, dynamic> map) {
     return WalletLogData(
-      initializedTransactionId: map['initialized_transaction_id']?.toInt(),
+      initializedTransactionId: toInt(map['initialized_transaction_id']),
       createdAt: map['created_at'],
       action: map['action'],
-      amount: map['amount']?.toDouble(),
+      amount: toDouble(map['amount']),
     );
   }
 

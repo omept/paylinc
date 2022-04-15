@@ -70,7 +70,7 @@ class TransferController extends GetxController {
   void updatePurpose(String mes) => purpose.value = mes;
 
   void updateAmount(String _amount) {
-    amount.value = _amount.toInt();
+    amount.value = toInt(_amount);
   }
 
   void updateOtp(String pin) => transferPin.value = pin;

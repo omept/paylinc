@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:user_repository/src/extra/type_helper.dart';
 
 class User {
   int? userId;
@@ -85,12 +86,12 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      userId: map['user_id']?.toInt(),
+      userId: toInt(map['user_id']),
       name: map['name'],
       profilePicUrl: map['profile_pic_url'],
       email: map['email'],
       paytag: map['paytag'],
-      stashBalance: map['stash_balance']?.toInt(),
+      stashBalance: toInt(map['stash_balance']),
       otpVerified: map['otp_verified'].toString() == "true",
       customerVerified: map['customer_verified'].toString() == "true",
       country: map['country'] != null ? Country.fromMap(map['country']) : null,
@@ -200,7 +201,7 @@ class Country {
     return Country(
       currencyAbr: map['currency_abr'],
       currencyName: map['currency_name'],
-      countryId: map['country_id']?.toInt(),
+      countryId: toInt(map['country_id']),
       countryName: map['country_name'],
     );
   }
@@ -263,7 +264,7 @@ class Wallet {
   factory Wallet.fromMap(Map<String, dynamic> map) {
     return Wallet(
       walletPaytag: map['wallet_paytag'],
-      balance: map['balance']?.toDouble(),
+      balance: toDouble(map['balance']),
     );
   }
 
@@ -324,7 +325,7 @@ class UserBank {
 
   factory UserBank.fromMap(Map<String, dynamic> map) {
     return UserBank(
-      id: map['id']?.toInt(),
+      id: toInt(map['id']),
       bank: map['bank'] != null
           ? Bank?.fromMap(map['bank'] as Map<String, dynamic>)
           : null,
@@ -376,7 +377,7 @@ class Bank {
 
   factory Bank.fromMap(Map<String, dynamic> map) {
     return Bank(
-      id: map['id']?.toInt(),
+      id: toInt(map['id']),
       name: map['name'],
       logoUrl: map['logo_url'],
     );

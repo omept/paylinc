@@ -140,20 +140,20 @@ class IncomingAlerts {
 
   factory IncomingAlerts.fromMap(Map<String, dynamic> map) {
     return IncomingAlerts(
-      currentPage: map['current_page']?.toInt(),
+      currentPage: toInt(map['current_page']),
       firstPageUrl: map['first_page_url'],
-      from: map['from']?.toInt(),
-      lastPage: map['last_page']?.toInt(),
+      from: toInt(map['from']),
+      lastPage: toInt(map['last_page']),
       lastPageUrl: map['last_page_url'],
       links: map['links'] != null
           ? List<Links>.from(map['links']?.map((x) => Links.fromMap(x)))
           : null,
       nextPageUrl: map['next_page_url'],
       path: map['path'],
-      perPage: map['per_page']?.toInt(),
+      perPage: toInt(map['per_page']),
       prevPageUrl: map['prev_page_url'],
-      to: map['to']?.toInt(),
-      total: map['total']?.toInt(),
+      to: toInt(map['to']),
+      total: toInt(map['total']),
       incomingAlertsData: map['data'] != null
           ? List<IncomingAlertsData>.from(
               map['data']?.map((x) => IncomingAlertsData.fromMap(x)))
@@ -331,15 +331,15 @@ class IncomingAlertsData {
 
   factory IncomingAlertsData.fromMap(Map<String, dynamic> map) {
     return IncomingAlertsData(
-      alertId: map['alert_id']?.toInt(),
+      alertId: toInt(map['alert_id']),
       alertTag: map['alert_tag'],
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
-      referenceId: map['reference_id']?.toInt(),
+      referenceId: toInt(map['reference_id']),
       initializedTransaction: map['initialized_transaction'] != null
           ? InitializedTransaction.fromMap(map['initialized_transaction'])
           : null,
-      amount: map['amount']?.toInt(),
-      status: map['status']?.toInt(),
+      amount: toInt(map['amount']),
+      status: toInt(map['status']),
       createdAt: map['created_at'],
       readStatus: map['read_status'],
     );
@@ -478,9 +478,9 @@ class InitializedTransaction {
 
   factory InitializedTransaction.fromMap(Map<String, dynamic> map) {
     return InitializedTransaction(
-      id: map['id']?.toInt(),
+      id: toInt(map['id']),
       initializedTransactionStatus:
-          map['initialized_transaction_status']?.toInt(),
+          toInt(map['initialized_transaction_status']),
       initializedTransactionDescription:
           map['initialized_transaction_description'],
       initializedTransactionDeclinationReason:
@@ -490,7 +490,7 @@ class InitializedTransaction {
       recipient:
           map['recipient'] != null ? User.fromMap(map['recipient']) : null,
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
-      amount: map['amount']?.toInt(),
+      amount: toInt(map['amount']),
       createdAt: map['created_at']?.toString() ?? '',
       transactionCheckoutUrl: map['transaction_checkout_url']?.toString() ?? '',
       transactionMediationUrl:
@@ -640,20 +640,20 @@ class OutgoingAlerts {
 
   factory OutgoingAlerts.fromMap(Map<String, dynamic> map) {
     return OutgoingAlerts(
-      currentPage: map['current_page']?.toInt(),
+      currentPage: toInt(map['current_page']),
       firstPageUrl: map['first_page_url'],
-      from: map['from']?.toInt(),
-      lastPage: map['last_page']?.toInt(),
+      from: toInt(map['from']),
+      lastPage: toInt(map['last_page']),
       lastPageUrl: map['last_page_url'],
       links: map['links'] != null
           ? List<Links>.from(map['links']?.map((x) => Links.fromMap(x)))
           : null,
       nextPageUrl: map['next_page_url'],
       path: map['path'],
-      perPage: map['per_page']?.toInt(),
+      perPage: toInt(map['per_page']),
       prevPageUrl: map['prev_page_url'],
-      to: map['to']?.toInt(),
-      total: map['total']?.toInt(),
+      to: toInt(map['to']),
+      total: toInt(map['total']),
       outgoingAlertsData: map['data'] != null
           ? List<OutgoingAlertsData>.from(
               map['data']?.map((x) => OutgoingAlertsData.fromMap(x)))
@@ -822,15 +822,15 @@ class OutgoingAlertsData {
 
   factory OutgoingAlertsData.fromMap(Map<String, dynamic> map) {
     return OutgoingAlertsData(
-      alertId: map['alert_id']?.toInt(),
+      alertId: toInt(map['alert_id']),
       alertTag: map['alert_tag'],
       sender: map['sender'] != null ? User.fromMap(map['sender']) : null,
-      referenceId: map['reference_id']?.toInt(),
+      referenceId: toInt(map['reference_id']),
       initializedTransaction: map['initialized_transaction'] != null
           ? InitializedTransaction.fromMap(map['initialized_transaction'])
           : null,
-      amount: map['amount']?.toInt(),
-      status: map['status']?.toInt(),
+      amount: toInt(map['amount']),
+      status: toInt(map['status']),
       createdAt: map['created_at'],
       readStatus: map['read_status'],
     );
@@ -904,7 +904,7 @@ class TransactionWallet {
 
   factory TransactionWallet.fromMap(Map<String, dynamic> map) {
     return TransactionWallet(
-      id: map['id']?.toInt(),
+      id: toInt(map['id']),
       walletPaytag: map['wallet_paytag'],
     );
   }
@@ -958,7 +958,7 @@ class TransactionPromoCode {
 
   factory TransactionPromoCode.fromMap(Map<String, dynamic> map) {
     return TransactionPromoCode(
-      id: map['id']?.toInt(),
+      id: toInt(map['id']),
       promoCode: map['promo_code'],
     );
   }
@@ -1105,10 +1105,10 @@ class Incoming implements TransactionLogStructure {
   factory Incoming.fromMap(Map<String, dynamic> map) {
     return Incoming(
       userTransactionActivityLogId:
-          map['user_transaction_activity_log_id']?.toInt(),
-      initializedTransactionId: map['initialized_transaction_id']?.toInt(),
-      senderId: map['sender_id']?.toInt(),
-      recipientId: map['recipient_id']?.toInt(),
+          toInt(map['user_transaction_activity_log_id']),
+      initializedTransactionId: toInt(map['initialized_transaction_id']),
+      senderId: toInt(map['sender_id']),
+      recipientId: toInt(map['recipient_id']),
       activityTag: map['activity_tag'],
       createdAt: map['created_at'],
     );
@@ -1204,10 +1204,10 @@ class Outgiong implements TransactionLogStructure {
   factory Outgiong.fromMap(Map<String, dynamic> map) {
     return Outgiong(
       userTransactionActivityLogId:
-          map['user_transaction_activity_log_id']?.toInt(),
-      initializedTransactionId: map['initialized_transaction_id']?.toInt(),
-      senderId: map['sender_id']?.toInt(),
-      recipientId: map['recipient_id']?.toInt(),
+          toInt(map['user_transaction_activity_log_id']),
+      initializedTransactionId: toInt(map['initialized_transaction_id']),
+      senderId: toInt(map['sender_id']),
+      recipientId: toInt(map['recipient_id']),
       activityTag: map['activity_tag'],
       createdAt: map['created_at'],
     );

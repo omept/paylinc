@@ -48,7 +48,7 @@ class ConfirmForgotPasswordCubit extends Cubit<ConfirmForgotPasswordState> {
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    print('$error, $stackTrace');
+    // print('$error, $stackTrace');
     super.onError(error, stackTrace);
   }
 

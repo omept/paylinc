@@ -14,7 +14,7 @@ part 'initialized_transactions_api.dart';
 
 /// contains all service to get data from Server
 class RestApiServices {
-  String apiBaseUrl = 'https://paylinc.test/api/';
+  String apiBaseUrl = 'https://paylinc.herokuapp.com/api/';
   AuthenticationRepository? authenticationRepository;
   AuthController authCtrlr = Get.find();
 
@@ -31,6 +31,7 @@ class RestApiServices {
       headers['AUTHORIZATION'] = 'Bearer ' + token;
       headers['HTTP-AUTHORIZATION'] = 'Bearer ' + token;
     }
+    headers['Content-Type'] = 'application/json';
 
     return headers;
   }
@@ -98,8 +99,10 @@ class RestApiServices {
 
   Future<ResponseModel> post(String url, Map<String, String>? data) async {
     var headers = requestHeader();
-    var uri = Uri.parse('$apiBaseUrl$url/');
-    var response = await http.post(uri, body: data, headers: headers);
+    var uri = Uri.parse('$apiBaseUrl$url');
+    var response =
+        await http.post(uri, body: jsonEncode(data), headers: headers);
+
     return responseHandler(response);
   }
 
