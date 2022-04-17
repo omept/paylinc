@@ -717,7 +717,6 @@ class _AmountInputState extends State<_AmountInput> {
           Obx(() {
             return TextFormField(
               key: Key(controller.amount.value.toString()),
-              keyboardType: TextInputType.number,
               initialValue: controller.amount.value.toString(),
               autofocus: true,
               onChanged: (amount) {
@@ -777,7 +776,6 @@ class _BankAccountInput extends StatelessWidget {
           return TextFormField(
             key: Key(controller.acctNumber.value),
             autofocus: true,
-            keyboardType: TextInputType.number,
             initialValue: controller.acctNumber.value,
             onChanged: (acctNum) {
               if (debounce?.isActive ?? false) debounce?.cancel();
@@ -861,7 +859,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {

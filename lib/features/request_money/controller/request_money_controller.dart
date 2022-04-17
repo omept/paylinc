@@ -134,7 +134,7 @@ class RequestMoneyController extends GetxController {
       _status.value = FormzStatus.submissionInProgress;
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      var res = await walletsApi.requestMoney({
+      var data = {
         'paytag': sender.value,
         "country_id":
             authController.user.value.country?.countryId.toString() ?? '',
@@ -142,8 +142,8 @@ class RequestMoneyController extends GetxController {
         'amount': amount.value,
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
-      });
-
+      };
+      var res = await walletsApi.requestMoney(data);
       if (res.status == true) {
         Snackbar.successSnackBar('Successful', res.message ?? '');
         _status.value = FormzStatus.submissionSuccess;

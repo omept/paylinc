@@ -285,7 +285,6 @@ class _BankAccountInput extends StatelessWidget {
           return TextFormField(
             key: Key(controller.acctNumber.value),
             autofocus: true,
-            keyboardType: TextInputType.number,
             initialValue: controller.acctNumber.value,
             onChanged: (acctNum) {
               if (debounce?.isActive ?? false) debounce?.cancel();

@@ -229,7 +229,6 @@ class _TransferPinInputState extends State<TransferPinInput> {
           animationType: AnimationType.fade,
           animationDuration: Duration(milliseconds: 300),
           errorAnimationController: errorController,
-          keyboardType: TextInputType.number,
           controller: textEditingController,
           onChanged: (value) {
             if (!canBeInteger(value) && (value.isNotEmpty)) {

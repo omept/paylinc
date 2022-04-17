@@ -42,7 +42,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.4.1
   carousel_slider: ^4.0.0
   responsive_framework: ^0.1.5
-  pin_code_fields: ^7.3.0
+  pin_code_fields: ^7.4.0
   flutter_awesome_select: ^6.1.2-beta
   jiffy: ^5.0.0
   webview_flutter: ^3.0.0

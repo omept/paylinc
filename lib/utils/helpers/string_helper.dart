@@ -15,3 +15,8 @@ double toDouble(dynamic val) {
     return 0;
   }
 }
+
+String reverseString(String input) {
+  var chars = input.runes.toList();
+  return String.fromCharCodes(chars.reversed);
+}

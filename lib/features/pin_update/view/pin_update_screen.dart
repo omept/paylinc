@@ -436,7 +436,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
@@ -485,7 +484,6 @@ class _NewTransferPinInputState extends State<_NewTransferPinInput> {
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
@@ -534,7 +532,6 @@ class _CNewTransferPinInputState extends State<_CNewTransferPinInput> {
         animationType: AnimationType.fade,
         animationDuration: Duration(milliseconds: 300),
         errorAnimationController: errorController,
-        keyboardType: TextInputType.number,
         controller: textEditingController,
         onChanged: (value) {
           if (canBeInteger(value) && (value.isNotEmpty)) {

@@ -263,6 +263,30 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                         ),
                       )
                     : Container(),
+                if (_currentPage == _numPages - 1)
+                  Container(
+                    child: Align(
+                      alignment: FractionalOffset.bottomRight,
+                      child: TextButton(
+                        onPressed: () {
+                          controller.submitRequestMoney();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Send',
+                              style: TextStyle(
+                                color: themeContext.colorScheme.onBackground,
+                                fontSize: 22.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
               ],
             )
           ],
@@ -299,7 +323,7 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
         ),
         Padding(
             padding: const EdgeInsets.all(kSpacing),
-            child: SmartSelect<String>.single(
+            child: Obx(() => SmartSelect<String>.single(
                 modalType: S2ModalType.bottomSheet,
                 tileBuilder: (context, state) {
                   return S2Tile<dynamic>(
@@ -313,8 +337,9 @@ class _RequestMoneyFlowState extends State<RequestMoneyFlow> {
                 },
                 title: 'My Wallet',
                 selectedValue: c.selectedWalletValue,
-                choiceItems: c.walletOptions,
-                onChange: (state) => c.updateSelectedWallet(state.value))),
+                // ignore: invalid_use_of_protected_member
+                choiceItems: c.walletOptions.value,
+                onChange: (state) => c.updateSelectedWallet(state.value)))),
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
@@ -992,7 +1017,6 @@ class _AmountInputState extends State<_AmountInput> {
       children: <Widget>[
         Obx(() {
           return TextFormField(
-            keyboardType: TextInputType.number,
             initialValue: controller.amount.value,
             onChanged: (amount) {
               if (_debounce?.isActive ?? false) _debounce?.cancel();
@@ -1072,16 +1096,14 @@ class _TransferPinInputState extends State<_TransferPinInput> {
     return PinCodeTextField(
       appContext: context,
       length: 6,
-      obscureText: true,
-      animationType: AnimationType.fade,
+      obscureText: false,      animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
-          controller.updateOtp(value);
           setState(() {
+            controller.updateOtp(value);
             textEditingController.text = value;
           });
         } else {
@@ -1089,9 +1111,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
         }
       },
       beforeTextPaste: (text) => canBeInteger(text ?? ''),
-      onCompleted: (value) {
-        controller.submitRequestMoney();
-      },
     );
   }
 }

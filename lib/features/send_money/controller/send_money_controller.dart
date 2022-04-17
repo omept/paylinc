@@ -129,7 +129,7 @@ class SendMoneyController extends GetxController {
 
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
-      var res = await walletsApi.sendMoney({
+      var data = {
         "country_id":
             authController.user.value.country?.countryId.toString() ?? '',
         'paytag': reviewSend.value.sender?.paytag ?? '',
@@ -137,7 +137,8 @@ class SendMoneyController extends GetxController {
         'amount': amount.value,
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
-      });
+      };
+      var res = await walletsApi.sendMoney(data);
 
       if (res.status == true) {
         Snackbar.successSnackBar('Successful', res.message ?? '');

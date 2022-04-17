@@ -237,6 +237,30 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                         ),
                       )
                     : Container(),
+                if (_currentPage == _numPages - 1)
+                  Container(
+                    child: Align(
+                      alignment: FractionalOffset.bottomRight,
+                      child: TextButton(
+                        onPressed: () {
+                          controller.submitSendMoney();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Send',
+                              style: TextStyle(
+                                color: themeContext.colorScheme.onBackground,
+                                fontSize: 22.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
               ],
             )
           ],
@@ -616,7 +640,6 @@ class _AmountInputState extends State<_AmountInput> {
       children: <Widget>[
         Obx(() {
           return TextFormField(
-            keyboardType: TextInputType.number,
             initialValue: controller.amount.value,
             onChanged: (amount) {
               if (_debounce?.isActive ?? false) _debounce?.cancel();
@@ -700,7 +723,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      keyboardType: TextInputType.number,
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
@@ -713,9 +735,6 @@ class _TransferPinInputState extends State<_TransferPinInput> {
         }
       },
       beforeTextPaste: (text) => canBeInteger(text ?? ''),
-      onCompleted: (value) {
-        controller.submitSendMoney();
-      },
     );
   }
 }
