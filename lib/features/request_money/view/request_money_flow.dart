@@ -1096,15 +1096,14 @@ class _TransferPinInputState extends State<_TransferPinInput> {
     return PinCodeTextField(
       appContext: context,
       length: 6,
-      obscureText: false,      animationType: AnimationType.fade,
+      obscureText: true,
+      animationType: AnimationType.fade,
       animationDuration: Duration(milliseconds: 300),
       errorAnimationController: errorController,
-      controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
           setState(() {
             controller.updateOtp(value);
-            textEditingController.text = value;
           });
         } else {
           errorController.add(ErrorAnimationType.shake);

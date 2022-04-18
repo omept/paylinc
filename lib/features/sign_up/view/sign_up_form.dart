@@ -234,9 +234,8 @@ class _TransferPinInputState extends State<TransferPinInput> {
             if (!canBeInteger(value) && (value.isNotEmpty)) {
               errorController.add(ErrorAnimationType.shake);
             }
-            context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
             setState(() {
-              textEditingController.text = value;
+              context.read<SignUpBloc>().add(SignUpTransferPinChanged(value));
             });
           },
           beforeTextPaste: (text) => true,

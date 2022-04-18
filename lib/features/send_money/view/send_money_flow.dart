@@ -726,9 +726,8 @@ class _TransferPinInputState extends State<_TransferPinInput> {
       controller: textEditingController,
       onChanged: (value) {
         if (canBeInteger(value) && (value.isNotEmpty)) {
-          controller.updateOtp(value);
           setState(() {
-            textEditingController.text = value;
+            controller.updateOtp(value);
           });
         } else {
           errorController.add(ErrorAnimationType.shake);

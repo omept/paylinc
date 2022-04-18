@@ -106,7 +106,7 @@ class RequestMoneyController extends GetxController {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.preRequestMoney({
-        'paytag': sender.value,
+        "paytag": sender.value,
         "country_id":
             authController.user.value.country?.countryId.toString() ?? '',
         'wallet_paytag': selectedWalletValue,
