@@ -38,12 +38,12 @@ Free Flutter Escrow Frontend Application Template
 
 ## Image Demo
 
-![Home screen](https://omept.com/paylinc-screenshots/Screenshot4.png "Home screen")
-![Wallet screen](https://omept.com/paylinc-screenshots/Screenshot5.png "Wallet screen")
-![Alerts screen](https://omept.com/paylinc-screenshots/Screenshot6.png "Alerts screen")
-![Transaction screen](https://omept.com/paylinc-screenshots/Screenshot2.png "Transaction screen")
-![Settings screen](https://omept.com/paylinc-screenshots/Screenshot7.png "Settings screen")
-![Lock screen](https://omept.com/paylinc-screenshots/Screenshot3.png "Lock screen")
+![Home screen](https://omept.com/paylinc-screenshots/4Screenshot.png "Home screen")
+![Wallet screen](https://omept.com/paylinc-screenshots/5Screenshot.png "Wallet screen")
+![Alerts screen](https://omept.com/paylinc-screenshots/6Screenshot.png "Alerts screen")
+![Transaction screen](https://omept.com/paylinc-screenshots/2Screenshot.png "Transaction screen")
+![Settings screen](https://omept.com/paylinc-screenshots/7Screenshot.png "Settings screen")
+![Lock screen](https://omept.com/paylinc-screenshots/3Screenshot.png "Lock screen")
 
 
 ❤️ Made with Love ❤️
