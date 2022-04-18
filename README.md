@@ -1,13 +1,6 @@
 # Free Flutter Escrow Application
-![Home screen](https://omept.com/paylinc-screenshots/Screenshot4.png "Home screen")
-![Wallet screen](https://omept.com/paylinc-screenshots/Screenshot5.png "Wallet screen")
-![Alerts screen](https://omept.com/paylinc-screenshots/Screenshot6.png "Alerts screen")
-![Transaction screen](https://omept.com/paylinc-screenshots/Screenshot2.png "Transaction screen")
-![Settings screen](https://omept.com/paylinc-screenshots/Screenshot7.png "Settings screen")
 
-![Lock screen](https://omept.com/paylinc-screenshots/Screenshot3.png "Lock screen")
-
-This project is a flutter Escrow Frontend Application Template with the following features:
+A flutter Escrow Frontend Application Template with the following features:
 
 - Send Money
 - Request Money
@@ -35,13 +28,26 @@ Goal
 
 My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your mobile application delopment.
 
-❤️ Made with Love ❤️
 
 ## Video Demo
 
 Free Flutter Escrow Frontend Application Template
 
 <https://youtu.be/vbRv68kFsyo>
+
+
+## Image Demo
+
+![Home screen](https://omept.com/paylinc-screenshots/Screenshot4.png "Home screen")
+![Wallet screen](https://omept.com/paylinc-screenshots/Screenshot5.png "Wallet screen")
+![Alerts screen](https://omept.com/paylinc-screenshots/Screenshot6.png "Alerts screen")
+![Transaction screen](https://omept.com/paylinc-screenshots/Screenshot2.png "Transaction screen")
+![Settings screen](https://omept.com/paylinc-screenshots/Screenshot7.png "Settings screen")
+![Lock screen](https://omept.com/paylinc-screenshots/Screenshot3.png "Lock screen")
+
+
+❤️ Made with Love ❤️
+
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
