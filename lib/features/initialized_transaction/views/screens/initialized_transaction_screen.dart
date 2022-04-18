@@ -572,7 +572,7 @@ class _TransactionActivityAction extends StatelessWidget {
     int intlzdTrnsctnSts =
         initializedTransaction.value.initializedTransactionStatus ?? -1;
     switch (intlzdTrnsctnSts) {
-      case TransactionStatus.pending: // STATUS_PENDING
+      // case TransactionStatus.pending: // STATUS_PENDING
       case TransactionStatus.requested: // STATUS_REQUESTED
         res = acceptAndDeclineOpts(initializedTransaction, ctrl, themeDt);
         break;

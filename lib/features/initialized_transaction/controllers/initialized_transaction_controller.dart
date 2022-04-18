@@ -147,6 +147,7 @@ class InitializedTransactionController extends GetxController {
 
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "transaction accept");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to accept");
     }
@@ -168,6 +169,7 @@ class InitializedTransactionController extends GetxController {
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "Transaction declined");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to decline");
     }
@@ -196,6 +198,7 @@ class InitializedTransactionController extends GetxController {
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "Transaction terminated");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to terminate");
     }
@@ -232,6 +235,7 @@ class InitializedTransactionController extends GetxController {
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "Confirmation processed");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to confirm");
     }
@@ -255,6 +259,7 @@ class InitializedTransactionController extends GetxController {
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "Marked as conflict.");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to mark as conflict.");
     }
@@ -278,6 +283,7 @@ class InitializedTransactionController extends GetxController {
       // clear the transaction status of the loaded transaction
       clearTransactionStatus();
       Snackbar.successSnackBar("Success", "Marked as completed.");
+      updatePage(clearStatus: true);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to mark as completed.");
     }
