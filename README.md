@@ -11,7 +11,7 @@ A flutter Escrow Frontend Application Template with the following features:
 - Transactions Management
 - Security Management
 
- Technology Stack
+ ## Technology Stack
 
 This application utilizes
 
@@ -24,7 +24,7 @@ This application utilizes
 
 Feedbacks are welcomed. (create issues on github 🙏🏽)
 
-Goal
+## Goal
 
 My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your mobile application delopment.
 
