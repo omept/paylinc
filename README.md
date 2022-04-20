@@ -1,4 +1,4 @@
-# Free Flutter Escrow Application
+# Free Flutter Fintech Application
 
 A flutter Fintech Frontend Application with the following features:
 
