@@ -1,6 +1,6 @@
-# Free Flutter Escrow Application
+# Free Flutter Fintech Application
 
-A flutter Escrow Frontend Application Template with the following features:
+A flutter Fintech Frontend Application with the following features:
 
 - Send Money
 - Request Money
@@ -11,7 +11,7 @@ A flutter Escrow Frontend Application Template with the following features:
 - Transactions Management
 - Security Management
 
- Technology Stack
+ ## Technology Stack
 
 This application utilizes
 
@@ -20,13 +20,13 @@ This application utilizes
 - Bloc and
 - Flutter widgets from pub.dev
 
-(The app's backend is built with Laravel).
+(The backend is built with Laravel).
 
 Feedbacks are welcomed. (create issues on github 🙏🏽)
 
-Goal
+## Goal
 
-My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your mobile application delopment.
+My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your fintech mobile application delopments.
 
 
 ## Video Demo
