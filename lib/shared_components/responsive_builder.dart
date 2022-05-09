@@ -43,7 +43,7 @@ class ResponsiveBuilder extends StatelessWidget {
           context: Get.context!,
           builder: (context) => AlertDialog(
             title: Text('Are you sure?'),
-            content: Text('Do you want to exit an App'),
+            content: Text('Tap yes to exit the app'),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Get.back(),

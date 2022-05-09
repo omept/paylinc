@@ -346,12 +346,12 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Vendor Wallet",
+                  "Vendor Wallet Paytag",
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Enter the name of the vendor wallet to create. You\'ll use this for recieving funds.',
+                  'Enter the name of the vendor wallet paytag to create. You\'ll use this for recieving money.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],
