@@ -1,5 +1,7 @@
 library shared_components;
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paylinc/constants/app_constants.dart';
