@@ -174,7 +174,7 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                               Obx(() {
                                 return TextButton(
                                   child: controller
-                                          .status.isSubmissionInProgress
+                                          .status.value.isSubmissionInProgress
                                       ? Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child:
@@ -196,7 +196,8 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                                           ],
                                         ),
                                   onPressed: () {
-                                    if (controller.status.isSubmissionSuccess) {
+                                    if (controller
+                                        .status.value.isSubmissionSuccess) {
                                       _pageController.nextPage(
                                         duration: Duration(milliseconds: 500),
                                         curve: Curves.ease,
@@ -241,24 +242,29 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                   Container(
                     child: Align(
                       alignment: FractionalOffset.bottomRight,
-                      child: TextButton(
-                        onPressed: () {
-                          controller.submitSendMoney();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              'Send',
-                              style: TextStyle(
-                                color: themeContext.colorScheme.onBackground,
-                                fontSize: 22.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: TextButton(onPressed: () {
+                        controller.submitSendMoney();
+                      }, child: Obx(() {
+                        return controller.status.value.isSubmissionInProgress
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: const CircularProgressIndicator(),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    'Send',
+                                    style: TextStyle(
+                                      color:
+                                          themeContext.colorScheme.onBackground,
+                                      fontSize: 22.0,
+                                    ),
+                                  ),
+                                ],
+                              );
+                      })),
                     ),
                   )
               ],
@@ -425,7 +431,7 @@ class _SendMoneyFlowState extends State<SendMoneyFlow> {
                       style: kTitleStyle,
                     ),
                     SizedBox(height: 15.0),
-                    !c.status.isSubmissionSuccess
+                    !c.status.value.isSubmissionSuccess
                         ? Expanded(
                             child: Container(
                             height: 300,
@@ -641,6 +647,8 @@ class _AmountInputState extends State<_AmountInput> {
         Obx(() {
           return TextFormField(
             initialValue: controller.amount.value,
+            inputFormatters: [ThousandsSeparatorInputFormatter()],
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             onChanged: (amount) {
               if (_debounce?.isActive ?? false) _debounce?.cancel();
               _debounce = Timer(const Duration(milliseconds: 500), () {
