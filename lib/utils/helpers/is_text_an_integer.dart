@@ -2,7 +2,7 @@ part of app_helpers;
 
 bool canBeInteger(String value) {
   try {
-    int.parse(value);
+    int.parse(value.replaceAll(",", ""));
     return true;
   } catch (e) {
     return false;
@@ -11,7 +11,7 @@ bool canBeInteger(String value) {
 
 bool canBeDouble(String value) {
   try {
-    double.parse(value);
+    double.parse(value.replaceAll(",", ""));
     return true;
   } catch (e) {
     return false;

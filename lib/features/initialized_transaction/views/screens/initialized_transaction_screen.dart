@@ -1,6 +1,7 @@
 library initialized_transaction;
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
@@ -417,22 +418,26 @@ class _TransactionActivityAction extends StatelessWidget {
                   initializedTransaction.value.initializedTransactionStatus !=
                       null;
               return showInfo
-                  ? Row(
+                  ? Column(
                       children: [
-                        Text(
-                          "Long press  ",
-                          style: TextStyle(
-                              color: themeDt.textTheme.caption?.color),
+                        Row(
+                          children: [
+                            Text(
+                              "Long press  ",
+                              style: TextStyle(
+                                  color: themeDt.textTheme.caption?.color),
+                            ),
+                            Icon(EvaIcons.infoOutline,
+                                size: 12.5,
+                                color: themeDt.textTheme.caption?.color),
+                          ],
                         ),
-                        Icon(EvaIcons.infoOutline,
-                            size: 12.5,
-                            color: themeDt.textTheme.caption?.color),
+                        statusOptions(initializedTransaction, ctrl, themeDt)
                       ],
                     )
                   : Container();
             }),
           ),
-          statusOptions(initializedTransaction, ctrl, themeDt)
         ],
       ),
     ));
@@ -572,7 +577,6 @@ class _TransactionActivityAction extends StatelessWidget {
     int intlzdTrnsctnSts =
         initializedTransaction.value.initializedTransactionStatus ?? -1;
     switch (intlzdTrnsctnSts) {
-      // case TransactionStatus.pending: // STATUS_PENDING
       case TransactionStatus.requested: // STATUS_REQUESTED
         res = acceptAndDeclineOpts(initializedTransaction, ctrl, themeDt);
         break;

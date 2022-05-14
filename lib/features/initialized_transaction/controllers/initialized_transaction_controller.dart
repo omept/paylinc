@@ -93,7 +93,7 @@ class InitializedTransactionController extends GetxController {
 
   void _badPageRedrct() {
     Snackbar.errSnackBar("Bad Page", "met an invalid page");
-    Get.offNamed(Routes.dashboard);
+    Get.offAllNamed(Routes.dashboard);
   }
 
   Future<String?> validateB64UrlStr(String? b64UrlStr) async {
@@ -146,8 +146,8 @@ class InitializedTransactionController extends GetxController {
       }
 
       clearTransactionStatus();
-      Snackbar.successSnackBar("Success", "transaction accept");
-      updatePage(clearStatus: true);
+      Snackbar.successSnackBar("Success", "transaction accepted.");
+      updatePage(clearStatus: false);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to accept");
     }

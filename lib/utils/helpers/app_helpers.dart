@@ -11,6 +11,7 @@ import 'package:paylinc/utils/services/local_storage_services.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:paylinc/constants/app_constants.dart';
+import 'package:flutter/services.dart';
 
 part 'string_helper.dart';
 part 'snackbar.dart';
@@ -19,6 +20,7 @@ part 'b64_encoder.dart';
 part 'date_time_display.dart';
 part 'get_profile.dart';
 part 'is_text_an_integer.dart';
+part 'thousand_separator_formatter.dart';
 
 extension IntHumanFormat on int {
   String intHumanFormat() {
