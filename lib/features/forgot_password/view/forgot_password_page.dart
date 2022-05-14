@@ -97,9 +97,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   const SizedBox(height: kSpacing * 2),
                   const Padding(padding: EdgeInsets.all(12)),
                   Text('Forgot Password'),
-                  const Padding(padding: EdgeInsets.all(12)),
-                  const Padding(padding: EdgeInsets.all(12)),
-                  const Padding(padding: EdgeInsets.all(12)),
+                  const Padding(padding: EdgeInsets.all(12 * 3)),
                   _EmailInput(),
                   const Padding(padding: EdgeInsets.all(12)),
                   Padding(
@@ -134,6 +132,7 @@ class _FPFButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
+      // buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
