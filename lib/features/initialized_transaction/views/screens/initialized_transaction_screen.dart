@@ -1,7 +1,6 @@
 library initialized_transaction;
 
 import 'dart:convert';
-import 'dart:developer';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
