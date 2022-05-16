@@ -1,6 +1,7 @@
 library initialized_transactions;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -195,10 +196,29 @@ class InitializedTransactionsScreen
                 tooltip: "menu",
               ),
             ),
-          const Expanded(
-              child: Header(
-            todayText: TodayText(message: "Initiailized Transactions"),
-          )),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Header(
+                  todayText: TodayText(message: "Initiailized Transactions"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Obx(() {
+                    return controller.isRefreshing.value
+                        ? CircularProgressIndicator()
+                        : IconButton(
+                            onPressed: () =>
+                                controller.updateInitializedTransactions(),
+                            icon: const Icon(EvaIcons.refresh),
+                            tooltip: "refresh",
+                          );
+                  }),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

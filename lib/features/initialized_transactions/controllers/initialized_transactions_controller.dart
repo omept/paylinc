@@ -7,6 +7,7 @@ class InitializedTransactionsController extends GetxController {
   var walletTransactionsList = <InitializedTransaction?>[].obs;
   var paymentTransactionsList = <InitializedTransaction?>[].obs;
   var userTransactionsResponse = InitializedTransactionsResponse().obs;
+  var isRefreshing = false.obs;
 
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
@@ -17,8 +18,7 @@ class InitializedTransactionsController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // set alerts
-    // retrieve alerts from storage
+    // retrieve cached entries from storage
     InitializedTransactionsResponse? _usrITRs =
         await localStorageServices.getInitializedTransactionsResponse();
     paymentTransactionsList.value =
@@ -26,11 +26,12 @@ class InitializedTransactionsController extends GetxController {
     walletTransactionsList.value =
         _usrITRs?.incomingInitializedTransactions ?? [];
 
-    updateAlerts();
+    updateInitializedTransactions();
   }
 
-  void updateAlerts() async {
+  void updateInitializedTransactions() async {
     try {
+      isRefreshing.value = true;
       var api = InitializedTransactionsApi();
       ResponseModel res = await api.getInitializedTransactions();
       if (res.status == true) {
@@ -50,6 +51,7 @@ class InitializedTransactionsController extends GetxController {
       Snackbar.errSnackBar(
           'Could not fetch your transactions', RestApiServices.errMessage);
     }
+    isRefreshing.value = false;
   }
 
   void viewInititalizedTransaction(
