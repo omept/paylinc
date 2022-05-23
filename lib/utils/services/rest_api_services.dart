@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:get/get.dart';
@@ -102,7 +103,8 @@ class RestApiServices {
     var uri = Uri.parse('$apiBaseUrl$url');
     var response =
         await http.post(uri, body: jsonEncode(data), headers: headers);
-
+    // log(response.body);
+    // log(jsonEncode(data));
     return responseHandler(response);
   }
 

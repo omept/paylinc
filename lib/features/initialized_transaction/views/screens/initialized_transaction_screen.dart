@@ -137,10 +137,8 @@ class InitializedTransactionScreen
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: kSpacing / 2,
-                        ),
                         InkWell(
                           onTap: () {
                             String prvRoute = Get.previousRoute;
@@ -156,7 +154,7 @@ class InitializedTransactionScreen
                             }
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.only(left: 10.0),
                             child: Icon(
                               Icons.arrow_back,
                               color: themeCtx.colorScheme.onBackground,
@@ -164,6 +162,18 @@ class InitializedTransactionScreen
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: Obx(() {
+                            return controller.isRefreshing.value
+                                ? CircularProgressIndicator()
+                                : IconButton(
+                                    onPressed: () => controller.refreshPage(),
+                                    icon: Icon(EvaIcons.refresh),
+                                    tooltip: "refresh",
+                                  );
+                          }),
+                        )
                       ],
                     ),
                     Padding(
@@ -576,6 +586,7 @@ class _TransactionActivityAction extends StatelessWidget {
     int intlzdTrnsctnSts =
         initializedTransaction.value.initializedTransactionStatus ?? -1;
     switch (intlzdTrnsctnSts) {
+      case TransactionStatus.pending: // STATUS_SEND_MONEY
       case TransactionStatus.requested: // STATUS_REQUESTED
         res = acceptAndDeclineOpts(initializedTransaction, ctrl, themeDt);
         break;

@@ -341,89 +341,92 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
   }
 
   Widget _transactionAmountPage(ThemeData themeContext, TransferController c) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          height: 350.0,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: kSpacing),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Amount",
-                  style: kTitleStyle,
-                ),
-                SizedBox(height: 15.0),
-                Text(
-                  'Enter the amount you want to transfer.',
-                  style: kSubtitleStyle(themeContext),
-                ),
-                SizedBox(height: 35.0),
-                Text(
-                  'Transfer settings :',
-                  style: kSubtitleStyle(themeContext),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Obx(() {
-                    return SmartSelect<TransferOrigin>.single(
-                        modalType: S2ModalType.bottomSheet,
-                        tileBuilder: (context, state) {
-                          return S2Tile<dynamic>(
-                            title: state.titleWidget,
-                            value: Text(
-                              state.selected.toString(),
-                              style: kSelectionStyle(themeContext),
-                            ),
-                            onTap: state.showModal,
-                          );
-                        },
-                        title: 'origin',
-                        selectedValue: c.selectedTransferOrgn.value ??
-                            TransferOrigin.stash,
-                        // selectedValue: TransferOrigin.stash,
-                        choiceItems: c.transferOrigins,
-                        onChange: (state) => c.setTransferOrigin(state));
-                  }),
-                ),
-                Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Obx(() {
-                    if (c.walletOptions.isEmpty ||
-                        c.selectedTransferOrgn.value == TransferOrigin.stash) {
-                      return Container();
-                    }
-                    return SmartSelect<Wallet>.single(
-                        modalType: S2ModalType.bottomSheet,
-                        tileBuilder: (context, state) {
-                          return S2Tile<dynamic>(
-                            title: state.titleWidget,
-                            value: Text(state.selected.toString()),
-                            onTap: state.showModal,
-                          );
-                        },
-                        title: 'wallet',
-                        selectedValue: c.defaultWallet.value ?? Wallet(),
-                        choiceItems: c.walletOptions,
-                        onChange: (state) {});
-                  }),
-                  // Container()
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            height: 350.0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: kSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Amount",
+                    style: kTitleStyle,
+                  ),
+                  SizedBox(height: 15.0),
+                  Text(
+                    'Enter the amount you want to transfer.',
+                    style: kSubtitleStyle(themeContext),
+                  ),
+                  SizedBox(height: 35.0),
+                  Text(
+                    'Transfer settings :',
+                    style: kSubtitleStyle(themeContext),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Obx(() {
+                      return SmartSelect<TransferOrigin>.single(
+                          modalType: S2ModalType.bottomSheet,
+                          tileBuilder: (context, state) {
+                            return S2Tile<dynamic>(
+                              title: state.titleWidget,
+                              value: Text(
+                                state.selected.toString(),
+                                style: kSelectionStyle(themeContext),
+                              ),
+                              onTap: state.showModal,
+                            );
+                          },
+                          title: 'origin',
+                          selectedValue: c.selectedTransferOrgn.value ??
+                              TransferOrigin.stash,
+                          // selectedValue: TransferOrigin.stash,
+                          choiceItems: c.transferOrigins,
+                          onChange: (state) => c.setTransferOrigin(state));
+                    }),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Obx(() {
+                      if (c.walletOptions.isEmpty ||
+                          c.selectedTransferOrgn.value ==
+                              TransferOrigin.stash) {
+                        return Container();
+                      }
+                      return SmartSelect<Wallet>.single(
+                          modalType: S2ModalType.bottomSheet,
+                          tileBuilder: (context, state) {
+                            return S2Tile<dynamic>(
+                              title: state.titleWidget,
+                              value: Text(state.selected.toString()),
+                              onTap: state.showModal,
+                            );
+                          },
+                          title: 'wallet',
+                          selectedValue: c.defaultWallet.value ?? Wallet(),
+                          choiceItems: c.walletOptions,
+                          onChange: (state) {});
+                    }),
+                    // Container()
+                  ),
+                ],
+              ),
             ),
+            // ),
           ),
-          // ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(kSpacing),
-          child: _AmountInput(),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Padding(
+            padding: const EdgeInsets.all(kSpacing),
+            child: _AmountInput(),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
     );
   }
 
@@ -599,7 +602,8 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                                     textDirection: TextDirection.rtl,
                                     children: [
                                       Obx(() => Text(
-                                          (c.amount.value +
+                                          (toInt(c.amount.value
+                                                      .replaceAll(",", "")) +
                                                   c.transferCharge.value)
                                               .intHumanFormat(),
                                           style: TextStyle(fontSize: 20))),
@@ -705,10 +709,10 @@ class _AmountInput extends StatefulWidget {
 class _AmountInputState extends State<_AmountInput> {
   Timer? _debounce;
   TransferController controller = Get.find<TransferController>();
+  ThemeData themeData = Theme.of(Get.context!);
 
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
     return Stack(children: [
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -716,6 +720,7 @@ class _AmountInputState extends State<_AmountInput> {
         children: <Widget>[
           Obx(() {
             return TextFormField(
+              inputFormatters: [ThousandsSeparatorInputFormatter()],
               key: Key(controller.amount.value.toString()),
               initialValue: controller.amount.value.toString(),
               autofocus: true,
@@ -728,8 +733,10 @@ class _AmountInputState extends State<_AmountInput> {
               decoration: InputDecoration(
                 labelText: 'Amount',
                 errorStyle: TextStyle(color: kDangerColor),
-                errorText:
-                    controller.amount.value <= 0 ? 'invalid amount' : null,
+                errorText: controller.amount.value.isEmpty ||
+                        !canBeInteger(controller.amount.value)
+                    ? 'invalid amount'
+                    : null,
               ),
             );
           })
@@ -787,7 +794,7 @@ class _BankAccountInput extends StatelessWidget {
               labelText: 'Account Number',
               errorStyle: TextStyle(color: kDangerColor),
               errorText: controller.acctNumber.isEmpty
-                  ? 'invalid acount number'
+                  ? 'invalid account number'
                   : null,
             ),
           );
@@ -919,8 +926,8 @@ class _RecipientBankListItem extends StatelessWidget {
 
 class _RecipientBankDescription extends StatelessWidget {
   final acctNameStyle = TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.w600,
+    fontSize: 15.0,
+    fontWeight: FontWeight.w500,
   );
   final UserBank uBank;
 
@@ -936,7 +943,10 @@ class _RecipientBankDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-            Text(uBank.accountName ?? "", style: acctNameStyle),
+            Text(uBank.accountName ?? "",
+                style: acctNameStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis),
           ],
         ),
         Expanded(

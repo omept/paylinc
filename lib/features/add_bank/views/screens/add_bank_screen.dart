@@ -296,7 +296,7 @@ class _BankAccountInput extends StatelessWidget {
               labelText: 'Account Number',
               errorStyle: TextStyle(color: kDangerColor),
               errorText: controller.acctNumber.isEmpty
-                  ? 'invalid acount number'
+                  ? 'invalid account number'
                   : null,
             ),
           );

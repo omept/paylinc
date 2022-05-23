@@ -140,12 +140,14 @@ class SendMoneyController extends GetxController {
       var res = await walletsApi.sendMoney(data);
 
       if (res.status == true) {
-        Snackbar.successSnackBar('Successful', res.message ?? '');
+        Snackbar.successSnackBar(
+            'Successful', 'Transfer initiated and waiting acceptance.');
         status.value = FormzStatus.submissionSuccess;
         Get.offNamed(Routes.dashboard);
       } else {
         Snackbar.errSnackBar(
             'Failed', res.message ?? RestApiServices.errMessage);
+        status.value = FormzStatus.submissionFailure;
       }
     } on Exception catch (_) {
       rWalletPaytagUsageMessage.value = "network problem";

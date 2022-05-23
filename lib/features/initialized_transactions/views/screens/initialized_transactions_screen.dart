@@ -1,7 +1,6 @@
 library initialized_transactions;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:formz/formz.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/features/user_alerts/views/screens/user_alerts_screen.dart';
 import 'package:paylinc/constants/app_constants.dart';
@@ -211,7 +210,7 @@ class InitializedTransactionsScreen
                         : IconButton(
                             onPressed: () =>
                                 controller.updateInitializedTransactions(),
-                            icon: const Icon(EvaIcons.refresh),
+                            icon: Icon(EvaIcons.refresh),
                             tooltip: "refresh",
                           );
                   }),

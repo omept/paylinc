@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
-import 'package:paylinc/features/onboarding/view/components/carousel.dart';
 import 'package:paylinc/features/onboarding/view/components/education_section.dart';
 import 'package:paylinc/features/onboarding/view/components/footer.dart';
 import 'package:paylinc/features/onboarding/view/components/ios_app_ad.dart';
@@ -113,11 +112,6 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-              carouselSidePadding, 0, carouselSidePadding, 0),
-          child: Carousel(),
         ),
         SizedBox(
           height: kSpacing,
