@@ -3,7 +3,7 @@ library add_bank;
 import 'dart:async';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter_awesome_select/flutter_awesome_select.dart';
+import 'package:awesome_select/awesome_select.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 
@@ -191,7 +191,11 @@ class AddBankScreen extends GetView<AddBankController> {
                         title: 'Select Bank',
                         selectedValue: controller.selectedBank.value,
                         choiceItems: controller.bankOptions,
-                        onChange: (state) => controller.selectBank(state));
+                        onChange: (state) {
+                          if (state.value != null) {
+                            controller.selectBank(state.value!);
+                          }
+                        });
                   }),
                 ),
                 SizedBox(height: 15.0),
@@ -271,7 +275,6 @@ class _BankAccountInput extends StatelessWidget {
 
   _BankAccountInput({
     Key? key,
-    this.debounce,
   }) : super(key: key);
   AddBankController controller = Get.find<AddBankController>();
 

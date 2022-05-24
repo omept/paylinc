@@ -387,7 +387,11 @@ class _TransferMoneyFlowState extends State<TransferMoneyFlow> {
                               TransferOrigin.stash,
                           // selectedValue: TransferOrigin.stash,
                           choiceItems: c.transferOrigins,
-                          onChange: (state) => c.setTransferOrigin(state));
+                          onChange: (state) {
+                            if (state.value != null) {
+                              c.setTransferOrigin(state.value!);
+                            }
+                          });
                     }),
                   ),
                   Divider(),
@@ -769,7 +773,6 @@ class _BankAccountInput extends StatelessWidget {
 
   _BankAccountInput({
     Key? key,
-    this.debounce,
   }) : super(key: key);
   TransferController controller = Get.find<TransferController>();
 

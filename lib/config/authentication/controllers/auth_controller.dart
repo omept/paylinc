@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
@@ -30,6 +31,9 @@ class AuthController extends GetxController {
   var bankTransferCharge = 0.obs;
   var enableBiometric = false.obs;
   var lockedAtRoute = Routes.dashboard;
+  var requestPushNotifPermission = false;
+  var oneSignalInitialized = false;
+  var oneSignalUserId = "";
 
   bool get isAppLocked => appLocked.value;
 
@@ -190,5 +194,34 @@ class AuthController extends GetxController {
 
   currentAuthenticationState() async {
     return await authenticationRepository.currentAuthenticationState();
+  }
+
+  Future<void> initOnesignal() async {
+    if (requestPushNotifPermission == false) {
+      requestPushNotifPermission = true;
+      await OneSignal.shared.setAppId("");
+
+      // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt.
+      var accepted = await OneSignal.shared
+          .promptUserForPushNotificationPermission(fallbackToSettings: true);
+      print("Accepted permission: $accepted");
+    }
+
+    if (oneSignalInitialized == false && requestPushNotifPermission) {
+      oneSignalInitialized = true;
+
+      /// Get the Onesignal userId and update that into the firebase.
+      /// So, that it can be used to send Notifications to users later.̥
+      final status = await OneSignal.shared.getDeviceState();
+      oneSignalUserId = status?.userId ?? '';
+      print("oneSignalUserId : $oneSignalUserId");
+
+      OneSignal.shared.setNotificationWillShowInForegroundHandler(
+          (OSNotificationReceivedEvent event) {
+        // Will be called whenever a notification is received in foreground
+        // Display Notification, pass null param for not displaying the notification
+        event.complete(event.notification);
+      });
+    }
   }
 }

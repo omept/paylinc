@@ -108,9 +108,9 @@ class TransferController extends GetxController {
     }
   }
 
-  setTransferOrigin(S2SingleSelected<TransferOrigin> state) {
-    selectedTransferOrgn.value = state.value;
-    if (state.value == TransferOrigin.wallet) {
+  setTransferOrigin(TransferOrigin state) {
+    selectedTransferOrgn.value = state;
+    if (state == TransferOrigin.wallet) {
       selectedWallet.value = defaultWallet.value;
     }
   }

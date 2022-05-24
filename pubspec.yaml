@@ -36,11 +36,11 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   path_provider: ^2.0.3
-  get: ^4.5.1
+  get: ^4.6.5
   percent_indicator: ^3.4.0
   responsive_framework: ^0.1.5
   pin_code_fields: ^7.4.0
-  flutter_awesome_select: ^6.1.2-beta
+  awesome_select: ^5.2.0
   jiffy: ^5.0.0
   webview_flutter: ^3.0.0
   http: ^0.13.4
