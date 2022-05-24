@@ -199,7 +199,7 @@ class AuthController extends GetxController {
   Future<void> initOnesignal() async {
     if (requestPushNotifPermission == false) {
       requestPushNotifPermission = true;
-      await OneSignal.shared.setAppId("");
+      await OneSignal.shared.setAppId("b3735298-9356-469a-9356-423f5afd524d");
 
       // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt.
       var accepted = await OneSignal.shared

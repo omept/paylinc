@@ -14,6 +14,13 @@ class DashboardController extends GetxController {
     authController.fetUserFromToken();
   }
 
+  @override
+  void onReady() async {
+    super.onReady();
+    Future.delayed(
+        Duration(seconds: 3), () async => await authController.initOnesignal());
+  }
+
   void openDrawer() {
     if (scaffoldKey.currentState != null) {
       scaffoldKey.currentState!.openDrawer();
