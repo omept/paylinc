@@ -418,6 +418,15 @@ class _WalletTransactionListItem extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         child: InkWell(
           onTap: () {
+            if (vWC.walletTransactionsList[selectedIndex]
+                        ?.initializedTransactionId ==
+                    null ||
+                vWC.walletTransactionsList[selectedIndex]
+                        ?.initializedTransactionId ==
+                    0) {
+              Snackbar.infoSnackBar("Log entry is not from a transaction.");
+              return;
+            }
             vWC.viewInititalizedTransaction(
                 selectedIndex: selectedIndex,
                 selectedType: AlertTagType.wallets,

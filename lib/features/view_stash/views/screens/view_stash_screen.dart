@@ -429,7 +429,9 @@ class _StashTransactionDescription extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          "@${wallet ?? ""}",
+                          wallet != null && (wallet?.isNotEmpty == true)
+                              ? "@${wallet ?? ""}"
+                              : "",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
