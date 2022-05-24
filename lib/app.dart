@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:paylinc/config/authentication/bloc/authentication_bloc.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/config/themes/app_theme.dart';
@@ -30,6 +31,22 @@ class Paylinc extends StatelessWidget {
     // Auth Controller
     Get.put(AuthController(authenticationRepository: authenticationRepository));
 
+    //Remove this method to stop OneSignal Debugging
+    // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    OneSignal.shared.setAppId("YOUR-ONESIGNAL-APP-ID");
+
+    // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
+
+    OneSignal.shared.setNotificationWillShowInForegroundHandler(
+        (OSNotificationReceivedEvent event) {
+      // Will be called whenever a notification is received in foreground
+      // Display Notification, pass null param for not displaying the notification
+      event.complete(event.notification);
+    });
     // add Blocs
     return MultiRepositoryProvider(
         providers: [
