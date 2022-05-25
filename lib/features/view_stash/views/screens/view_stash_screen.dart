@@ -327,30 +327,27 @@ class _StashTransactionListItem extends StatelessWidget {
       child: Card(
         elevation: 1.0,
         margin: const EdgeInsets.all(0),
-        child: InkWell(
-          onTap: () {},
-          child: SizedBox(
-            height: 84.0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
-                    child: _StashTransactionDescription(
-                      transactionAmount: transactionAmount,
-                      transactionAction: transactionAction,
-                      wallet: wallet,
-                      bank: bank,
-                      accountNumber: accountNumber,
-                      accountName: accountName,
-                      transactionCurrency: transactionCurrency,
-                      createdAt: createdAt,
-                    ),
+        child: SizedBox(
+          height: 84.0,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0, 8.0, 2.0, 2.0),
+                  child: _StashTransactionDescription(
+                    transactionAmount: transactionAmount,
+                    transactionAction: transactionAction,
+                    wallet: wallet,
+                    bank: bank,
+                    accountNumber: accountNumber,
+                    accountName: accountName,
+                    transactionCurrency: transactionCurrency,
+                    createdAt: createdAt,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -419,7 +416,7 @@ class _StashTransactionDescription extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Row(
+              Column(
                 children: [
                   bank != null
                       ? Text(
@@ -432,7 +429,9 @@ class _StashTransactionDescription extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          "@${wallet ?? ""}",
+                          wallet != null && (wallet?.isNotEmpty == true)
+                              ? "@${wallet ?? ""}"
+                              : "",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

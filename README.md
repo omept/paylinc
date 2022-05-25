@@ -11,7 +11,7 @@ A flutter Fintech Frontend Application with the following features:
 - Transactions Management
 - Security Management
 
- ## Technology Stack
+## Technology Stack
 
 This application utilizes
 
@@ -19,15 +19,6 @@ This application utilizes
 - Hive
 - Bloc and
 - Flutter widgets from pub.dev
-
-(The backend is built with Laravel).
-
-Feedbacks are welcomed. (create issues on github 🙏🏽)
-
-## Goal
-
-My intention is to allow people build and scaffold apps quickly. This template can act as a guide to your fintech mobile application delopments.
-
 
 ## Video Demo
 
@@ -49,6 +40,4 @@ Free Flutter Escrow Frontend Application Template
 ❤️ Made with Love ❤️
 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+CC0-1.0 License

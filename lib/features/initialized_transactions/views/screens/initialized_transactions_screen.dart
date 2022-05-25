@@ -195,10 +195,29 @@ class InitializedTransactionsScreen
                 tooltip: "menu",
               ),
             ),
-          const Expanded(
-              child: Header(
-            todayText: TodayText(message: "Initiailized Transactions"),
-          )),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Header(
+                  todayText: TodayText(message: "Initiailized Transactions"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Obx(() {
+                    return controller.isRefreshing.value
+                        ? CircularProgressIndicator()
+                        : IconButton(
+                            onPressed: () =>
+                                controller.updateInitializedTransactions(),
+                            icon: Icon(EvaIcons.refresh),
+                            tooltip: "refresh",
+                          );
+                  }),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

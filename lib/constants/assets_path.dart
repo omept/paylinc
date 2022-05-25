@@ -15,17 +15,7 @@ class ImageAnimationPath {
 class ImageRasterPath {
   static const _folderPath = "assets/images/raster";
   static const avatar1 = "$_folderPath/avatar-1.png";
-  static const avatar2 = "$_folderPath/avatar-2.png";
-  static const avatar3 = "$_folderPath/avatar-3.png";
-  static const avatar4 = "$_folderPath/avatar-4.png";
-  static const avatar5 = "$_folderPath/avatar-5.png";
-  static const avatar6 = "$_folderPath/avatar-6.png";
-  static const avatar7 = "$_folderPath/avatar-7.png";
-  static const avatar8 = "$_folderPath/avatar-8.png";
   static const logo1 = "$_folderPath/logo-1.png";
-  static const logo2 = "$_folderPath/logo-2.png";
-  static const logo3 = "$_folderPath/logo-3.png";
-  static const logo4 = "$_folderPath/logo-4.png";
 }
 
 class ImageVectorPath {

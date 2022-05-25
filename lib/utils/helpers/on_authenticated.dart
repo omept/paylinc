@@ -30,6 +30,9 @@ Future<User?> onAuthenticated(ResponseModel loginRes,
     if ((_user.userId is int) && (_user.userId! > 0)) {
       authenticationRepository.setLoggedIn();
     }
+
+    authController.updateUserOnsignalId();
+
     return _user;
   } catch (e) {
     return User();

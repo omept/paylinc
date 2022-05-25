@@ -624,14 +624,14 @@ class AlertTagHelper {
       {required String title, AlertTagType tag = AlertTagType.payment}) {
     Map<String?, Map<String, String>?> paymentAlertTagMap = {
       'REQUEST MONEY': {
-        'message': 'New  requested  charge',
+        'message': 'NEW REQUESTED CHARGE',
         'next_action': 'Click to view more details',
       }
     };
 
     Map<String?, Map<String, String>?> walletAlertTagMap = {
       'SEND MONEY': {
-        'message': 'Incoming requested  wallet  payment',
+        'message': 'INCOMING REQUESTED WALLET PAYMENT',
         'next_action': 'Click to view more details',
       }
     };
