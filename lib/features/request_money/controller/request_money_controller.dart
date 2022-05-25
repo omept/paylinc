@@ -1,8 +1,7 @@
 part of request_money;
 
 class RequestMoneyController extends GetxController {
-  final Rx<FormzStatus> _status = FormzStatus.pure.obs;
-  FormzStatus get status => _status.value;
+  final Rx<FormzStatus> status = FormzStatus.pure.obs;
   AuthController authController = Get.find<AuthController>();
 
   static final defaultWalletChoice =
@@ -99,10 +98,10 @@ class RequestMoneyController extends GetxController {
           senderPaytagUsageMessage.value != "valid" ||
           sender.value.isEmpty ||
           selectedWalletValue.isEmpty) {
-        _status.value = FormzStatus.submissionInProgress;
+        status.value = FormzStatus.submissionInProgress;
         return;
       }
-      _status.value = FormzStatus.submissionInProgress;
+      status.value = FormzStatus.submissionInProgress;
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.preRequestMoney({
@@ -110,28 +109,28 @@ class RequestMoneyController extends GetxController {
         "country_id":
             authController.user.value.country?.countryId.toString() ?? '',
         'wallet_paytag': selectedWalletValue,
-        'amount': amount.value,
+        'amount': amount.value.replaceAll(",", ""),
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       });
       if (res.status == true) {
-        _status.value = FormzStatus.submissionSuccess;
+        status.value = FormzStatus.submissionSuccess;
         var resFormat = {'transaction': res.data!};
         reviewRequest.value = ReviewRequest.fromMap(resFormat['transaction']!);
       } else {
-        _status.value = FormzStatus.submissionFailure;
+        status.value = FormzStatus.submissionFailure;
         res.message?.trim().isEmpty;
         var errMs = res.message ?? '';
         Snackbar.errSnackBar('Could not load review', errMs);
       }
     } on Exception catch (_) {
-      _status.value = FormzStatus.submissionFailure;
+      status.value = FormzStatus.submissionFailure;
     }
   }
 
   Future<void> submitRequestMoney() async {
     try {
-      _status.value = FormzStatus.submissionInProgress;
+      status.value = FormzStatus.submissionInProgress;
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var data = {
@@ -139,14 +138,14 @@ class RequestMoneyController extends GetxController {
         "country_id":
             authController.user.value.country?.countryId.toString() ?? '',
         'wallet_paytag': selectedWalletValue,
-        'amount': amount.value,
+        'amount': amount.value.replaceAll(",", ""),
         'transfer_pin': transferPin.value,
         'purpose': purpose.value,
       };
       var res = await walletsApi.requestMoney(data);
       if (res.status == true) {
-        Snackbar.successSnackBar('Successful', res.message ?? '');
-        _status.value = FormzStatus.submissionSuccess;
+        Snackbar.successSnackBar('Successful', 'Request sent.');
+        status.value = FormzStatus.submissionSuccess;
         Get.offNamed(Routes.dashboard);
       } else {
         Snackbar.errSnackBar(
@@ -155,5 +154,6 @@ class RequestMoneyController extends GetxController {
     } on Exception catch (_) {
       senderPaytagUsageMessage.value = "network problem";
     }
+    status.value = FormzStatus.submissionInProgress;
   }
 }

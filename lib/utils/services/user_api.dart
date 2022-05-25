@@ -53,4 +53,8 @@ class UserApi extends RestApiServices {
   Future<ResponseModel> customerVerification() async {
     return makePost(url: "auth/user/request-account-verification");
   }
+
+  void updateUserProfile(Map<String, String> map) {
+    makePost(url: "auth/profile-update");
+  }
 }

@@ -6,26 +6,26 @@ final List<FooterItem> footerItems = [
   FooterItem(
     iconPath: "assets/images/raster/welcome/mappin.png",
     title: "ADDRESS",
-    text1: "999 Carter Street",
-    text2: "Sailor Springs, IL 64234",
+    text1: "9 Adebayo Adekoya Street",
+    text2: "Gbagada, Lagos Nigeria",
   ),
   FooterItem(
     iconPath: "assets/images/raster/welcome/phone.png",
     title: "PHONE",
-    text1: "+1 618-689-9604",
-    text2: "+1 781-689-9632",
+    text1: "+234-816-322-9099",
+    text2: "+234-817-931-9079",
   ),
   FooterItem(
     iconPath: "assets/images/raster/welcome/email.png",
     title: "EMAIL",
-    text1: "hello@example.com",
-    text2: "info@flutterpanda.com",
+    text1: "george.onwuasoanya@omept.com",
+    text2: "support@omept.com",
   ),
   FooterItem(
     iconPath: "assets/images/raster/welcome/whatsapp.png",
     title: "WHATSAPP",
-    text1: "+234 901-134-0095",
-    text2: "+234 901-134-0095",
+    text1: "+234-816-322-9099",
+    text2: "+234-817-931-9079",
   )
 ];
 
@@ -123,7 +123,7 @@ class Footer extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      "Copyright (c) 2021 Michele Harrington. All rights Reserved",
+                      "Copyright (c) Omept Technologies Nigeria Limited. All rights Reserved",
                       style: TextStyle(
                         color: themeContext.textTheme.caption?.color,
                       ),

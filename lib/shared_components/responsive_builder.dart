@@ -1,12 +1,14 @@
 part of shared_components;
 
 class ResponsiveBuilder extends StatelessWidget {
-  const ResponsiveBuilder({
+  ResponsiveBuilder({
     required this.mobileBuilder,
     required this.tabletBuilder,
     required this.desktopBuilder,
     Key? key,
   }) : super(key: key);
+
+  final ThemeData themeData = Theme.of(Get.context!);
 
   final Widget Function(
     BuildContext context,
@@ -33,18 +35,49 @@ class ResponsiveBuilder extends StatelessWidget {
   static bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1250;
 
+  Future<bool> _onWillPop() async {
+    if (!Platform.isAndroid) {
+      return false;
+    }
+    return (await showDialog(
+          context: Get.context!,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Tap yes to exit the app'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Get.back(),
+                child: Text('No',
+                    style:
+                        TextStyle(color: themeData.colorScheme.onBackground)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes',
+                    style:
+                        TextStyle(color: themeData.colorScheme.onBackground)),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth >= 1250) {
-          return desktopBuilder(context, constraints);
-        } else if (constraints.maxWidth >= 650) {
-          return tabletBuilder(context, constraints);
-        } else {
-          return mobileBuilder(context, constraints);
-        }
-      },
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth >= 1250) {
+            return desktopBuilder(context, constraints);
+          } else if (constraints.maxWidth >= 650) {
+            return tabletBuilder(context, constraints);
+          } else {
+            return mobileBuilder(context, constraints);
+          }
+        },
+      ),
     );
   }
 }

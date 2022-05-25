@@ -83,21 +83,20 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   List<AppLifecycleState> stateArr = [];
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     stateArr.add(state);
-
     switch (state) {
       case AppLifecycleState.inactive:
         _inactive(stateArr);
@@ -113,42 +112,41 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      navigatorKey: _navigatorKey,
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.unknown:
-                Get.offAllNamed(Routes.welcome);
-                break;
-              case AuthenticationStatus.signup:
-                Get.offAllNamed(Routes.signUp);
-                break;
-              case AuthenticationStatus.authenticated:
-                Get.offAllNamed(Routes.dashboard);
-                break;
-              case AuthenticationStatus.unauthenticated:
-                Get.offAllNamed(Routes.login);
-                break;
-              case AuthenticationStatus.forgotPassword:
-                Get.offAllNamed(Routes.forgotPassword);
-                break;
-              case AuthenticationStatus.validateOtp:
-                Get.offAllNamed(Routes.validateOtp);
-                break;
-              default:
-                break;
-            }
-          },
-          child: child,
-        );
-      },
-      theme: AppTheme.basic,
-      initialRoute: AppPages.initial,
-      getPages: AppPages.routes,
-      transitionDuration: Duration(milliseconds: 700),
-    );
+        navigatorKey: _navigatorKey,
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          return BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+              switch (state.status) {
+                case AuthenticationStatus.unknown:
+                  Get.offAllNamed(Routes.welcome);
+                  break;
+                case AuthenticationStatus.signup:
+                  Get.offAllNamed(Routes.signUp);
+                  break;
+                case AuthenticationStatus.authenticated:
+                  Get.offAllNamed(Routes.dashboard);
+                  break;
+                case AuthenticationStatus.unauthenticated:
+                  Get.offAllNamed(Routes.login);
+                  break;
+                case AuthenticationStatus.forgotPassword:
+                  Get.offAllNamed(Routes.forgotPassword);
+                  break;
+                case AuthenticationStatus.validateOtp:
+                  Get.offAllNamed(Routes.validateOtp);
+                  break;
+                default:
+                  break;
+              }
+            },
+            child: child,
+          );
+        },
+        theme: AppTheme.basic,
+        initialRoute: AppPages.initial,
+        getPages: AppPages.routes,
+        transitionDuration: Duration(milliseconds: 700));
   }
 
   void _inactive(List<AppLifecycleState> stateArr) {

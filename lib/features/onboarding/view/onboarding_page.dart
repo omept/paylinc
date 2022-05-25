@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
-import 'package:paylinc/features/onboarding/view/components/carousel.dart';
-import 'package:paylinc/features/onboarding/view/components/education_section.dart';
 import 'package:paylinc/features/onboarding/view/components/footer.dart';
 import 'package:paylinc/features/onboarding/view/components/ios_app_ad.dart';
-import 'package:paylinc/features/onboarding/view/components/sponsors.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -114,11 +111,6 @@ class OnboardingPage extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(
-              carouselSidePadding, 0, carouselSidePadding, 0),
-          child: Carousel(),
-        ),
         SizedBox(
           height: kSpacing,
         ),
@@ -132,19 +124,12 @@ class OnboardingPage extends StatelessWidget {
               SizedBox(
                 height: kSpacing * 3,
               ),
-              // WebsiteAd(),
-              SizedBox(
-                height: kSpacing * 2,
-              ),
-              IosAppAd(),
               SizedBox(
                 height: kSpacing * 3,
               ),
-              EducationSection(),
               SizedBox(
                 height: kSpacing * 2,
               ),
-              Sponsors(),
               SizedBox(
                 height: kSpacing * 2,
               ),
@@ -210,7 +195,7 @@ class _MobileOnboardingGetStartedButton extends StatelessWidget {
   }
 }
 
-class _MobileOnboardingSkipButton extends StatelessWidget {
+class _MobileOnboardingLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OnboardingBloc, OnboardingState>(
@@ -218,7 +203,7 @@ class _MobileOnboardingSkipButton extends StatelessWidget {
       builder: (context, state) {
         return TextButton(
           child: Text(
-            'Skip',
+            'Login',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
               fontSize: 15.0,
@@ -309,7 +294,7 @@ class _MobileOnBoarding extends StatefulWidget {
 }
 
 class _MobileOnBoardingState extends State<_MobileOnBoarding> {
-  final int _numPages = 3;
+  final int _numPages = 2;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -359,7 +344,7 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerRight,
-                child: _MobileOnboardingSkipButton(),
+                child: _MobileOnboardingLoginButton(),
               ),
               Expanded(
                 child: Container(
@@ -373,8 +358,7 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
                     },
                     children: <Widget>[
                       _pageOneOnboarding(),
-                      _pageOneOnboarding(),
-                      _pageOneOnboarding(),
+                      _pageTwoOnboarding()
                     ],
                   ),
                 ),
@@ -467,7 +451,39 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  '0 Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+                  'Easy escrow payment for your business from the comfort of your phone.',
+                  style: kSubtitleStyle,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Center _pageTwoOnboarding() {
+    return Center(
+      child: Container(
+        height: 410.0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: kSpacing),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Image(
+                    image: AssetImage(
+                      'assets/images/raster/onboarding2.png',
+                    ),
+                    height: 300.0,
+                    width: 300.0,
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'A reliable, fast and secure way to confirm payments when service is rendered.',
                   style: kSubtitleStyle,
                 ),
               ],

@@ -32,8 +32,8 @@ class AddBankController extends GetxController {
     checkAccountName();
   }
 
-  void selectBank(S2SingleSelected<Bank> bank) {
-    selectedBank.value = bank.value;
+  void selectBank(Bank bank) {
+    selectedBank.value = bank;
     checkAccountName();
   }
 

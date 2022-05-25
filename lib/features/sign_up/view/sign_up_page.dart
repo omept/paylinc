@@ -422,7 +422,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          height: 120.0,
+          height: 150.0,
           child: Padding(
             padding: EdgeInsets.all(kSpacing),
             child: Column(
@@ -434,7 +434,7 @@ class _MobileSignUpState extends State<MobileSignUp> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'choose a one time paytag for yourself.',
+                  'Choose a one-time paytag for yourself. You\'ll use your paytag to make direct payments.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],

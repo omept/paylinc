@@ -3,7 +3,7 @@ library create_wallet;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_awesome_select/flutter_awesome_select.dart';
+import 'package:awesome_select/awesome_select.dart';
 import 'package:get/get.dart';
 import 'package:formz/formz.dart';
 import 'package:paylinc/config/authentication/controllers/auth_controller.dart';
@@ -346,12 +346,12 @@ class _CreateWalletFlowState extends State<CreateWalletFlow> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Vendor Wallet",
+                  "Vendor Wallet Paytag",
                   style: kTitleStyle,
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Enter the name of the vendor wallet to create. You\'ll use this for recieving funds.',
+                  'Enter the name of the vendor wallet paytag to create. You\'ll use this for recieving money.',
                   style: kSubtitleStyle(themeContext),
                 ),
               ],

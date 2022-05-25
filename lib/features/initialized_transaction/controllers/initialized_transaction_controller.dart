@@ -10,6 +10,7 @@ class InitializedTransactionController extends GetxController {
   var initTrznId = 0.obs;
   var activityLogs = TransactionaActivityLogs().obs;
   var pageStatus = FormzStatus.pure.obs;
+  var isRefreshing = false.obs;
 
   final acceptOrDelineable = <int>[
     TransactionStatus.pending,
@@ -93,7 +94,7 @@ class InitializedTransactionController extends GetxController {
 
   void _badPageRedrct() {
     Snackbar.errSnackBar("Bad Page", "met an invalid page");
-    Get.offNamed(Routes.dashboard);
+    Get.offAllNamed(Routes.dashboard);
   }
 
   Future<String?> validateB64UrlStr(String? b64UrlStr) async {
@@ -107,7 +108,7 @@ class InitializedTransactionController extends GetxController {
     return b64UrlStr;
   }
 
-  void updatePage({bool clearStatus = false}) async {
+  Future<void> updatePage({bool clearStatus = false}) async {
     try {
       InitializedTransactionsApi intTrznzApi =
           InitializedTransactionsApi.withAuthRepository(
@@ -146,8 +147,8 @@ class InitializedTransactionController extends GetxController {
       }
 
       clearTransactionStatus();
-      Snackbar.successSnackBar("Success", "transaction accept");
-      updatePage(clearStatus: true);
+      Snackbar.successSnackBar("Success", "transaction accepted.");
+      updatePage(clearStatus: false);
     } on Exception catch (_) {
       Snackbar.errSnackBar("Error", "Failed to accept");
     }
@@ -216,7 +217,7 @@ class InitializedTransactionController extends GetxController {
   }
 
   void confirmCompletTransaction(InitializedTransaction load) async {
-    if (load.initializedTransactionStatus != TransactionStatus.acceptedNoCard) {
+    if (load.initializedTransactionStatus != TransactionStatus.completed) {
       return;
     }
 
@@ -313,7 +314,10 @@ class InitializedTransactionController extends GetxController {
   }
 
   void requestTransactionMediation(InitializedTransaction value) async {
-    if (value.sender?.userId != authController.user.value.userId) return;
+    if (value.sender?.userId != authController.user.value.userId) {
+      Snackbar.infoSnackBar("You cannot request mediation.");
+      return;
+    }
 
     await Get.to(() => WebViewStack(
           initialUrl: value.transactionMediationUrl,
@@ -321,6 +325,12 @@ class InitializedTransactionController extends GetxController {
               "Checkout Error", "Could not load mediation url"),
         ));
     clearTransactionStatus();
+  }
+
+  void refreshPage() async {
+    isRefreshing.value = true;
+    await updatePage();
+    isRefreshing.value = false;
   }
 }
 

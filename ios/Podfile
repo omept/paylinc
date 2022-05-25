@@ -39,3 +39,8 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
+
+target 'OneSignalNotificationServiceExtension' do
+  use_frameworks!
+  pod 'OneSignalXCFramework', '>= 3.4.3', '< 4.0'
+end

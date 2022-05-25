@@ -17,12 +17,12 @@ class CreateWalletController extends GetxController {
   var paytag = ''.obs;
   updatePaytag(String val) async {
     paytag.value = val;
-    print(val);
+    // print(val);
     try {
       WalletsApi walletsApi = WalletsApi.withAuthRepository(
           authController.authenticationRepository);
       var res = await walletsApi.isWalletPaytagUsable({'wallet_paytag': val});
-      print(res.toString());
+      // print(res.toString());
       paytagUsageMessage.value = res.message?.toLowerCase() ?? "checking ...";
     } on Exception catch (_) {
       paytagUsageMessage.value = "network problem";

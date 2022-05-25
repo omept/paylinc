@@ -9,6 +9,7 @@ class User {
   String? profilePicUrl;
   String? email;
   String? paytag;
+  String? pushNotificationToken;
   int? stashBalance;
   bool? otpVerified;
   bool? customerVerified;
@@ -23,6 +24,7 @@ class User {
     this.profilePicUrl,
     this.email,
     this.paytag,
+    this.pushNotificationToken,
     this.stashBalance,
     this.otpVerified,
     this.customerVerified,
@@ -40,6 +42,7 @@ class User {
     String? profilePicUrl,
     String? email,
     String? paytag,
+    String? pushNotificationToken,
     int? stashBalance,
     bool? otpVerified,
     bool? customerVerified,
@@ -55,6 +58,8 @@ class User {
       profilePicUrl: profilePicUrl ?? this.profilePicUrl,
       email: email ?? this.email,
       paytag: paytag ?? this.paytag,
+      pushNotificationToken:
+          pushNotificationToken ?? this.pushNotificationToken,
       stashBalance: stashBalance ?? this.stashBalance,
       otpVerified: otpVerified ?? this.otpVerified,
       customerVerified: customerVerified ?? this.customerVerified,
@@ -73,6 +78,7 @@ class User {
       'profile_pic_url': profilePicUrl,
       'email': email,
       'paytag': paytag,
+      'push_notification_token': pushNotificationToken,
       'stash_balance': stashBalance,
       'otp_verified': otpVerified,
       'customer_verified': customerVerified,
@@ -91,6 +97,7 @@ class User {
       profilePicUrl: map['profile_pic_url'],
       email: map['email'],
       paytag: map['paytag'],
+      pushNotificationToken: map['push_notification_token'],
       stashBalance: toInt(map['stash_balance']),
       otpVerified: map['otp_verified'].toString() == "true",
       customerVerified: map['customer_verified'].toString() == "true",
@@ -118,12 +125,13 @@ class User {
       profilePicUrl: source?['profile_pic_url'],
       email: source?['email'],
       paytag: source?['paytag'],
+      pushNotificationToken: source?['push_notification_token'],
     );
   }
 
   @override
   String toString() {
-    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, userBanks: $userBanks, createdAt: $createdAt  password_updated_at: $passwordUpdatedAt )';
+    return 'User(userId: $userId, name: $name, profilePicUrl: $profilePicUrl, email: $email, paytag: $paytag, pushNotificationToken: $pushNotificationToken, stashBalance: $stashBalance, otpVerified: $otpVerified,  customerVerified: $customerVerified, country: $country, wallets: $wallets, userBanks: $userBanks, createdAt: $createdAt  password_updated_at: $passwordUpdatedAt )';
   }
 
   @override
@@ -136,6 +144,7 @@ class User {
         other.profilePicUrl == profilePicUrl &&
         other.email == email &&
         other.paytag == paytag &&
+        other.pushNotificationToken == pushNotificationToken &&
         other.stashBalance == stashBalance &&
         other.otpVerified == otpVerified &&
         other.customerVerified == customerVerified &&
@@ -152,6 +161,7 @@ class User {
         profilePicUrl.hashCode ^
         email.hashCode ^
         paytag.hashCode ^
+        pushNotificationToken.hashCode ^
         stashBalance.hashCode ^
         otpVerified.hashCode ^
         customerVerified.hashCode ^

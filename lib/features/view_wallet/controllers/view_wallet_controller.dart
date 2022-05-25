@@ -77,6 +77,7 @@ class ViewWalletController extends GetxController {
       });
 
       if (res.status == true) {
+        authController.selectedWallet.value.balance = 0;
         Snackbar.successSnackBar('Successful', res.message ?? '');
         pageStatus.value = FormzStatus.submissionSuccess;
       } else {
