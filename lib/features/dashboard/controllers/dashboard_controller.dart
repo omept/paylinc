@@ -18,7 +18,7 @@ class DashboardController extends GetxController {
   void onReady() async {
     super.onReady();
     Future.delayed(
-        Duration(seconds: 3), () async => await authController.initOnesignal());
+        Duration(seconds: 5), () async => await authController.initOnesignal());
   }
 
   void openDrawer() {

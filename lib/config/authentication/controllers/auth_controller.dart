@@ -202,9 +202,8 @@ class AuthController extends GetxController {
       await OneSignal.shared.setAppId("b3735298-9356-469a-9356-423f5afd524d");
 
       // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt.
-      var accepted = await OneSignal.shared
+      await OneSignal.shared
           .promptUserForPushNotificationPermission(fallbackToSettings: true);
-      print("Accepted permission: $accepted");
     }
 
     if (oneSignalInitialized == false && requestPushNotifPermission) {
@@ -214,13 +213,24 @@ class AuthController extends GetxController {
       /// So, that it can be used to send Notifications to users later.̥
       final status = await OneSignal.shared.getDeviceState();
       oneSignalUserId = status?.userId ?? '';
-      print("oneSignalUserId : $oneSignalUserId");
 
       OneSignal.shared.setNotificationWillShowInForegroundHandler(
           (OSNotificationReceivedEvent event) {
         // Will be called whenever a notification is received in foreground
         // Display Notification, pass null param for not displaying the notification
         event.complete(event.notification);
+      });
+      updateUserOnsignalId();
+    }
+  }
+
+  void updateUserOnsignalId() async {
+    var usrPushToken = user.value.pushNotificationToken ?? '';
+    if (oneSignalUserId.isNotEmpty && usrPushToken.isEmpty) {
+      var api = UserApi.withAuthRepository(authenticationRepository);
+      api.updateUserProfile({
+        'token': token.value,
+        'push_notification_token': oneSignalUserId,
       });
     }
   }
