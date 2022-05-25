@@ -198,7 +198,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> initOnesignal() async {
-    if (!Platform.isIOS || !Platform.isAndroid) {
+    if (!Platform.isIOS && !Platform.isAndroid) {
+      print("wahala");
       return;
     }
     if (requestPushNotifPermission == false) {
