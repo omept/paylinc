@@ -9,6 +9,7 @@ import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 import 'package:paylinc/utils/utils.dart';
 import 'package:user_repository/user_repository.dart';
+import 'dart:io';
 
 class AuthController extends GetxController {
   AuthController({
@@ -197,6 +198,9 @@ class AuthController extends GetxController {
   }
 
   Future<void> initOnesignal() async {
+    if (!Platform.isIOS || !Platform.isAndroid) {
+      return;
+    }
     if (requestPushNotifPermission == false) {
       requestPushNotifPermission = true;
       await OneSignal.shared.setAppId("b3735298-9356-469a-9356-423f5afd524d");

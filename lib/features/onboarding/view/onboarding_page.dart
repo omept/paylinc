@@ -4,10 +4,8 @@ import 'package:get/get.dart';
 import 'package:paylinc/config/routes/app_pages.dart';
 import 'package:paylinc/constants/app_constants.dart';
 import 'package:paylinc/features/onboarding/onboarding.dart';
-import 'package:paylinc/features/onboarding/view/components/education_section.dart';
 import 'package:paylinc/features/onboarding/view/components/footer.dart';
 import 'package:paylinc/features/onboarding/view/components/ios_app_ad.dart';
-import 'package:paylinc/features/onboarding/view/components/sponsors.dart';
 import 'package:paylinc/shared_components/shared_components.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -126,19 +124,12 @@ class OnboardingPage extends StatelessWidget {
               SizedBox(
                 height: kSpacing * 3,
               ),
-              // WebsiteAd(),
-              SizedBox(
-                height: kSpacing * 2,
-              ),
-              IosAppAd(),
               SizedBox(
                 height: kSpacing * 3,
               ),
-              EducationSection(),
               SizedBox(
                 height: kSpacing * 2,
               ),
-              Sponsors(),
               SizedBox(
                 height: kSpacing * 2,
               ),

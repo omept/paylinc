@@ -22,7 +22,7 @@ class IosAppAd extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "IOS APP",
+                  "iOS & Android App",
                   style: TextStyle(
                     color: themeContext.primaryColor,
                     fontWeight: FontWeight.w900,
@@ -33,7 +33,7 @@ class IosAppAd extends StatelessWidget {
                   height: 15.0,
                 ),
                 Text(
-                  "UNIVERSAL\nSMART HOME APP",
+                  "Paylinc Escrow Fintech Application by Omept",
                   style: TextStyle(
                     color: themeContext.colorScheme.onBackground,
                     fontWeight: FontWeight.w900,
@@ -45,7 +45,7 @@ class IosAppAd extends StatelessWidget {
                   height: 10.0,
                 ),
                 Text(
-                  "This is a random text about the project, I should have used the regular lorem ipsum text, but I am too lazy to search for that. This should be long enough",
+                  "An escrow is the use of a third party, which holds an asset or funds before they are transferred from one party to another.  Paylinc is an escrow that enables you pay for goods and services in a secure and easy way.",
                   style: TextStyle(
                     color: themeContext.textTheme.caption?.color,
                     height: 1.5,
@@ -55,36 +55,36 @@ class IosAppAd extends StatelessWidget {
                 SizedBox(
                   height: 25.0,
                 ),
-                Row(
-                  children: [
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(
-                            color: themeContext.primaryColor,
-                          ),
-                        ),
-                        height: 48.0,
-                        padding: EdgeInsets.symmetric(horizontal: 28.0),
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Center(
-                            child: Text(
-                              "NEXT APP",
-                              style: TextStyle(
-                                color: themeContext.primaryColor,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                // Row(
+                //   children: [
+                //     MouseRegion(
+                //       cursor: SystemMouseCursors.click,
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(8.0),
+                //           border: Border.all(
+                //             color: themeContext.primaryColor,
+                //           ),
+                //         ),
+                //         height: 48.0,
+                //         padding: EdgeInsets.symmetric(horizontal: 28.0),
+                //         child: TextButton(
+                //           onPressed: () {},
+                //           child: Center(
+                //             child: Text(
+                //               "NEXT APP",
+                //               style: TextStyle(
+                //                 color: themeContext.primaryColor,
+                //                 fontSize: 13.0,
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // )
               ],
             ),
           )
