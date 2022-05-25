@@ -451,7 +451,7 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Easy access to my business at the comfort of your phone.',
+                  'Easy escrow payment for your business from the comfort of your phone.',
                   style: kSubtitleStyle,
                 ),
               ],
@@ -483,7 +483,7 @@ class _MobileOnBoardingState extends State<_MobileOnBoarding> {
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  'Dedicated to giving you an experience that puts you first.',
+                  'A reliable, fast and secure way to confirm payments when service is rendered.',
                   style: kSubtitleStyle,
                 ),
               ],
