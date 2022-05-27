@@ -40,4 +40,4 @@ Free Flutter Escrow Frontend Application Template
 ❤️ Made with Love ❤️
 
 
-CC0-1.0 License
+MIT License
