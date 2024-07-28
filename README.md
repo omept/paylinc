@@ -1,6 +1,21 @@
-# Free Flutter Fintech Application
+# Flutter Fintech Application
 
-A flutter Fintech Frontend Application with the following features:
+
+----------------------------------------------------------------------------------------------------------------
+NB:
+Yapdoof was built off of this repo and has more features. You can use this codebase to get a feel of the
+app's source code structure. 
+
+Features missing in this repo:
+- Teams
+- Wallet Management
+- In-app Wallet Shop Access
+- In-app Wallet Shop Management
+----------------------------------------------------------------------------------------------------------------
+
+
+
+A Flutter Fintech Frontend Application with the following features:
 
 - Send Money
 - Request Money
