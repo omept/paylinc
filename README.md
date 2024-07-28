@@ -7,7 +7,8 @@ Yapdoof was built off of this repo and has more features. You can use this codeb
 app's source code structure. 
 
 Features missing in this repo:
-- Teams
+- Wallet Teams
+- Team member Order Management
 - Wallet Management
 - In-app Wallet Shop Access
 - In-app Wallet Shop Management
